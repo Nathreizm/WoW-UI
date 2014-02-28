@@ -1,0 +1,10 @@
+
+ToTDB = {
+	["profileKeys"] = {
+		["Nathreizm - Cho'gall"] = "Default",
+	},
+	["profiles"] = {
+		["Default"] = {
+		},
+	},
+}

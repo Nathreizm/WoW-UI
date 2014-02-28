@@ -1,0 +1,468 @@
+
+RecountPerCharDB = {
+	["version"] = "1.3",
+	["combatants"] = {
+		["Life"] = {
+			["GUID"] = "0x03800000050956E5",
+			["type"] = "Ungrouped",
+			["GuardianReverseGUIDs"] = {
+				["Worg Pup"] = {
+					["LatestGuardian"] = 0,
+					["GUIDs"] = {
+						[0] = "0xF13028130016211D",
+					},
+				},
+			},
+			["Owner"] = false,
+			["enClass"] = "UNGROUPED",
+			["Name"] = "Life",
+			["Pet"] = {
+				"Worg Pup <Life>", -- [1]
+			},
+			["Fights"] = {
+			},
+			["level"] = 1,
+			["UnitLockout"] = 1318293512,
+			["LastFightIn"] = 0,
+		},
+		["Mana Tide Totem <Chickenpatty>"] = {
+			["GUID"] = "0xF13028E30016160D",
+			["LastEventHealth"] = {
+				"???", -- [1]
+			},
+			["LastEventType"] = {
+				"MISC", -- [1]
+			},
+			["TimeWindows"] = {
+				["DeathCount"] = {
+					1, -- [1]
+				},
+			},
+			["enClass"] = "PET",
+			["level"] = 1,
+			["LastFightIn"] = 0,
+			["type"] = "Pet",
+			["DeathLogs"] = {
+				{
+					["MessageTimes"] = {
+						0, -- [1]
+					},
+					["MessageIncoming"] = {
+						true, -- [1]
+					},
+					["Messages"] = {
+						"Mana Tide Totem <Chickenpatty> dies.", -- [1]
+					},
+					["EventNum"] = {
+						0, -- [1]
+					},
+					["DeathAt"] = 1318292294,
+					["HealthNum"] = {
+						0, -- [1]
+					},
+					["Health"] = {
+						"???", -- [1]
+					},
+					["MessageType"] = {
+						"MISC", -- [1]
+					},
+				}, -- [1]
+			},
+			["Owner"] = "Chickenpatty",
+			["NextEventNum"] = 2,
+			["LastEventHealthNum"] = {
+				0, -- [1]
+			},
+			["LastEvents"] = {
+				"Mana Tide Totem <Chickenpatty> dies.", -- [1]
+			},
+			["Name"] = "Mana Tide Totem",
+			["TimeLast"] = {
+				["OVERALL"] = 1318292292,
+				["DeathCount"] = 1318292292,
+			},
+			["LastEventIncoming"] = {
+				true, -- [1]
+			},
+			["LastEventTimes"] = {
+				20476.51, -- [1]
+			},
+			["UnitLockout"] = 1318292292,
+			["Fights"] = {
+				["CurrentFightData"] = {
+					["DeathCount"] = 1,
+				},
+				["OverallData"] = {
+					["DeathCount"] = 1,
+				},
+			},
+		},
+		["Flametongue Totem <Chickenpatty>"] = {
+			["GUID"] = "0xF130173E001616EE",
+			["LastEventHealth"] = {
+				"???", -- [1]
+			},
+			["LastEventType"] = {
+				"MISC", -- [1]
+			},
+			["TimeWindows"] = {
+				["DeathCount"] = {
+					1, -- [1]
+				},
+			},
+			["enClass"] = "PET",
+			["level"] = 1,
+			["LastFightIn"] = 0,
+			["type"] = "Pet",
+			["DeathLogs"] = {
+				{
+					["MessageTimes"] = {
+						0, -- [1]
+					},
+					["MessageIncoming"] = {
+						true, -- [1]
+					},
+					["Messages"] = {
+						"Flametongue Totem <Chickenpatty> dies.", -- [1]
+					},
+					["EventNum"] = {
+						0, -- [1]
+					},
+					["DeathAt"] = 1318292614,
+					["HealthNum"] = {
+						0, -- [1]
+					},
+					["Health"] = {
+						"???", -- [1]
+					},
+					["MessageType"] = {
+						"MISC", -- [1]
+					},
+				}, -- [1]
+			},
+			["Owner"] = "Chickenpatty",
+			["NextEventNum"] = 2,
+			["LastEventHealthNum"] = {
+				0, -- [1]
+			},
+			["LastEvents"] = {
+				"Flametongue Totem <Chickenpatty> dies.", -- [1]
+			},
+			["Name"] = "Flametongue Totem",
+			["TimeLast"] = {
+				["OVERALL"] = 1318292612,
+				["DeathCount"] = 1318292612,
+			},
+			["LastEventIncoming"] = {
+				true, -- [1]
+			},
+			["LastEventTimes"] = {
+				20797.164, -- [1]
+			},
+			["UnitLockout"] = 1318292612,
+			["Fights"] = {
+				["CurrentFightData"] = {
+					["DeathCount"] = 1,
+				},
+				["OverallData"] = {
+					["DeathCount"] = 1,
+				},
+			},
+		},
+		["Dariyah"] = {
+			["GUID"] = "0x038000000221F577",
+			["type"] = "Ungrouped",
+			["GuardianReverseGUIDs"] = {
+				["JeanBaptiste"] = {
+					["LatestGuardian"] = 0,
+					["GUIDs"] = {
+						[0] = "0xF140AC6AA8007ED7",
+					},
+				},
+			},
+			["Owner"] = false,
+			["enClass"] = "UNGROUPED",
+			["Name"] = "Dariyah",
+			["Pet"] = {
+				"JeanBaptiste <Dariyah>", -- [1]
+			},
+			["Fights"] = {
+			},
+			["level"] = 1,
+			["UnitLockout"] = 1318292673,
+			["LastFightIn"] = 0,
+		},
+		["Stoneskin Totem <Chickenpatty>"] = {
+			["GUID"] = "0xF13016F1001616EF",
+			["LastEventHealth"] = {
+				"???", -- [1]
+			},
+			["LastEventType"] = {
+				"MISC", -- [1]
+			},
+			["TimeWindows"] = {
+				["DeathCount"] = {
+					1, -- [1]
+				},
+			},
+			["enClass"] = "PET",
+			["level"] = 1,
+			["LastFightIn"] = 0,
+			["type"] = "Pet",
+			["DeathLogs"] = {
+				{
+					["MessageTimes"] = {
+						0, -- [1]
+					},
+					["MessageIncoming"] = {
+						true, -- [1]
+					},
+					["Messages"] = {
+						"Stoneskin Totem <Chickenpatty> dies.", -- [1]
+					},
+					["EventNum"] = {
+						0, -- [1]
+					},
+					["DeathAt"] = 1318292614,
+					["HealthNum"] = {
+						0, -- [1]
+					},
+					["Health"] = {
+						"???", -- [1]
+					},
+					["MessageType"] = {
+						"MISC", -- [1]
+					},
+				}, -- [1]
+			},
+			["Owner"] = "Chickenpatty",
+			["NextEventNum"] = 2,
+			["LastEventHealthNum"] = {
+				0, -- [1]
+			},
+			["LastEvents"] = {
+				"Stoneskin Totem <Chickenpatty> dies.", -- [1]
+			},
+			["Name"] = "Stoneskin Totem",
+			["TimeLast"] = {
+				["OVERALL"] = 1318292612,
+				["DeathCount"] = 1318292612,
+			},
+			["LastEventIncoming"] = {
+				true, -- [1]
+			},
+			["LastEventTimes"] = {
+				20797.164, -- [1]
+			},
+			["UnitLockout"] = 1318292612,
+			["Fights"] = {
+				["CurrentFightData"] = {
+					["DeathCount"] = 1,
+				},
+				["OverallData"] = {
+					["DeathCount"] = 1,
+				},
+			},
+		},
+		["Mana Spring Totem <Chickenpatty>"] = {
+			["GUID"] = "0xF1300DF5001616F0",
+			["LastEventHealth"] = {
+				"???", -- [1]
+			},
+			["LastEventType"] = {
+				"MISC", -- [1]
+			},
+			["TimeWindows"] = {
+				["DeathCount"] = {
+					1, -- [1]
+				},
+			},
+			["enClass"] = "PET",
+			["level"] = 1,
+			["LastFightIn"] = 0,
+			["type"] = "Pet",
+			["DeathLogs"] = {
+				{
+					["MessageTimes"] = {
+						0, -- [1]
+					},
+					["MessageIncoming"] = {
+						true, -- [1]
+					},
+					["Messages"] = {
+						"Mana Spring Totem <Chickenpatty> dies.", -- [1]
+					},
+					["EventNum"] = {
+						0, -- [1]
+					},
+					["DeathAt"] = 1318292614,
+					["HealthNum"] = {
+						0, -- [1]
+					},
+					["Health"] = {
+						"???", -- [1]
+					},
+					["MessageType"] = {
+						"MISC", -- [1]
+					},
+				}, -- [1]
+			},
+			["Owner"] = "Chickenpatty",
+			["NextEventNum"] = 2,
+			["LastEventHealthNum"] = {
+				0, -- [1]
+			},
+			["LastEvents"] = {
+				"Mana Spring Totem <Chickenpatty> dies.", -- [1]
+			},
+			["Name"] = "Mana Spring Totem",
+			["TimeLast"] = {
+				["OVERALL"] = 1318292612,
+				["DeathCount"] = 1318292612,
+			},
+			["LastEventIncoming"] = {
+				true, -- [1]
+			},
+			["LastEventTimes"] = {
+				20797.164, -- [1]
+			},
+			["UnitLockout"] = 1318292612,
+			["Fights"] = {
+				["CurrentFightData"] = {
+					["DeathCount"] = 1,
+				},
+				["OverallData"] = {
+					["DeathCount"] = 1,
+				},
+			},
+		},
+		["Chickenpatty"] = {
+			["GUID"] = "0x03800000015A8B23",
+			["type"] = "Ungrouped",
+			["GuardianReverseGUIDs"] = {
+				["Flametongue Totem"] = {
+					["LatestGuardian"] = 0,
+					["GUIDs"] = {
+						[0] = "0xF130173E001616EE",
+					},
+				},
+				["Wrath of Air Totem"] = {
+					["LatestGuardian"] = 0,
+					["GUIDs"] = {
+						[0] = "0xF1303C57001616F1",
+					},
+				},
+				["Mana Spring Totem"] = {
+					["LatestGuardian"] = 0,
+					["GUIDs"] = {
+						[0] = "0xF1300DF5001616F0",
+					},
+				},
+				["Mana Tide Totem"] = {
+					["LatestGuardian"] = 0,
+					["GUIDs"] = {
+						[0] = "0xF13028E30016160D",
+					},
+				},
+				["Stoneskin Totem"] = {
+					["LatestGuardian"] = 0,
+					["GUIDs"] = {
+						[0] = "0xF13016F1001616EF",
+					},
+				},
+			},
+			["Owner"] = false,
+			["enClass"] = "UNGROUPED",
+			["Name"] = "Chickenpatty",
+			["Pet"] = {
+				"Mana Tide Totem <Chickenpatty>", -- [1]
+				"Flametongue Totem <Chickenpatty>", -- [2]
+				"Stoneskin Totem <Chickenpatty>", -- [3]
+				"Mana Spring Totem <Chickenpatty>", -- [4]
+				"Wrath of Air Totem <Chickenpatty>", -- [5]
+			},
+			["Fights"] = {
+			},
+			["level"] = 1,
+			["UnitLockout"] = 1318292274,
+			["LastFightIn"] = 0,
+		},
+		["Wrath of Air Totem <Chickenpatty>"] = {
+			["GUID"] = "0xF1303C57001616F1",
+			["LastEventHealth"] = {
+				"???", -- [1]
+			},
+			["LastEventType"] = {
+				"MISC", -- [1]
+			},
+			["TimeWindows"] = {
+				["DeathCount"] = {
+					1, -- [1]
+				},
+			},
+			["enClass"] = "PET",
+			["level"] = 1,
+			["LastFightIn"] = 0,
+			["type"] = "Pet",
+			["DeathLogs"] = {
+				{
+					["MessageTimes"] = {
+						0, -- [1]
+					},
+					["MessageIncoming"] = {
+						true, -- [1]
+					},
+					["Messages"] = {
+						"Wrath of Air Totem <Chickenpatty> dies.", -- [1]
+					},
+					["EventNum"] = {
+						0, -- [1]
+					},
+					["DeathAt"] = 1318292614,
+					["HealthNum"] = {
+						0, -- [1]
+					},
+					["Health"] = {
+						"???", -- [1]
+					},
+					["MessageType"] = {
+						"MISC", -- [1]
+					},
+				}, -- [1]
+			},
+			["Owner"] = "Chickenpatty",
+			["NextEventNum"] = 2,
+			["LastEventHealthNum"] = {
+				0, -- [1]
+			},
+			["LastEvents"] = {
+				"Wrath of Air Totem <Chickenpatty> dies.", -- [1]
+			},
+			["Name"] = "Wrath of Air Totem",
+			["TimeLast"] = {
+				["OVERALL"] = 1318292612,
+				["DeathCount"] = 1318292612,
+			},
+			["LastEventIncoming"] = {
+				true, -- [1]
+			},
+			["LastEventTimes"] = {
+				20797.164, -- [1]
+			},
+			["UnitLockout"] = 1318292612,
+			["Fights"] = {
+				["CurrentFightData"] = {
+					["DeathCount"] = 1,
+				},
+				["OverallData"] = {
+					["DeathCount"] = 1,
+				},
+			},
+		},
+	},
+	["FightNum"] = 0,
+	["CombatTimes"] = {
+	},
+	["FoughtWho"] = {
+	},
+}

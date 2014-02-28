@@ -1,0 +1,23 @@
+## Interface: 50400
+## Title: PetTracker
+## Notes: Tracking pets in and out of combat since 2012.
+## Author: Jaliborc (João Cardoso)
+
+## SavedVariables: PetTracker_Tutorial, PetTracker_Sets
+## SavedVariablesPerCharacter: PetTracker_State
+## X-Category: Battle Pets
+## OptionalDeps: WoWUnit
+
+Libs\Libs.xml
+Localization\Include.xml
+
+PetTracker.lua
+
+Core\Include.xml
+Core\Tests\Include.xml
+
+Map\Include.xml
+Combat\Include.xml
+Tracking\Include.xml
+
+Features\Include.xml

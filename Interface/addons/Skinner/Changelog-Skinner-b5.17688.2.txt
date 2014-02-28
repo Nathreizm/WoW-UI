@@ -1,0 +1,16 @@
+tag b5.17688.2
+8227cd721ff48aa231f7e9b178c8af4dc33bd04d
+Jncl <jncl@mac.com>
+2014-02-07 14:34:19 +0000
+
+Tagging as b5.17688.2
+
+
+--------------------
+
+Jncl:
+	- ToDo.txt
+	- Updated Change_History.txt
+	- Bugfix for FriendsFramePendingButton skin
+	- Bugfix when Enumerating frames
+	- Updated ArkDewdrop & EnhancedColourPicker skins

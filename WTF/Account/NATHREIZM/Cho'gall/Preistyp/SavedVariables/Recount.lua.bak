@@ -1,0 +1,186 @@
+
+RecountPerCharDB = {
+	["version"] = "1.3",
+	["combatants"] = {
+		["Preistyp"] = {
+			["GUID"] = "0x040000000637584D",
+			["LastEventHealth"] = {
+				"103 (100%)", -- [1]
+			},
+			["LastEventType"] = {
+				"DAMAGE", -- [1]
+			},
+			["TimeWindows"] = {
+				["Damage"] = {
+					51, -- [1]
+				},
+				["TimeDamage"] = {
+					3.5, -- [1]
+				},
+				["ActiveTime"] = {
+					3.5, -- [1]
+				},
+			},
+			["enClass"] = "PRIEST",
+			["unit"] = "Preistyp",
+			["level"] = 1,
+			["LastFightIn"] = 0,
+			["type"] = "Self",
+			["TimeLast"] = {
+				["Damage"] = 1364776493,
+				["OVERALL"] = 1364776493,
+				["TimeDamage"] = 1364776493,
+				["ActiveTime"] = 1364776493,
+			},
+			["Owner"] = false,
+			["LastAbility"] = 189256.512,
+			["NextEventNum"] = 2,
+			["LastEventHealthNum"] = {
+				100, -- [1]
+			},
+			["LastEvents"] = {
+				"Preistyp Smite Mouse Hit -51 (Holy)", -- [1]
+			},
+			["Name"] = "Preistyp",
+			["LastEventIncoming"] = {
+				false, -- [1]
+			},
+			["LastEventTimes"] = {
+				189256.512, -- [1]
+			},
+			["Fights"] = {
+				["CurrentFightData"] = {
+					["TimeSpent"] = {
+						["Mouse"] = {
+							["Details"] = {
+								["Smite"] = {
+									["count"] = 0,
+								},
+							},
+							["amount"] = 0,
+						},
+					},
+					["ElementDone"] = {
+						["Holy"] = 0,
+					},
+					["ElementHitsDone"] = {
+						["Holy"] = {
+							["Details"] = {
+								["Hit"] = {
+									["count"] = 0,
+								},
+							},
+							["amount"] = 0,
+						},
+					},
+					["DamagedWho"] = {
+						["Mouse"] = {
+							["Details"] = {
+								["Smite"] = {
+									["count"] = 0,
+								},
+							},
+							["amount"] = 0,
+						},
+					},
+					["TimeDamage"] = 0,
+					["TimeDamaging"] = {
+						["Mouse"] = {
+							["Details"] = {
+								["Smite"] = {
+									["count"] = 0,
+								},
+							},
+							["amount"] = 0,
+						},
+					},
+					["Attacks"] = {
+						["Smite"] = {
+							["Details"] = {
+								["Hit"] = {
+									["max"] = 0,
+									["min"] = 0,
+									["count"] = 0,
+									["amount"] = 0,
+								},
+							},
+							["count"] = 0,
+							["amount"] = 0,
+						},
+					},
+					["ActiveTime"] = 0,
+					["Damage"] = 0,
+				},
+				["OverallData"] = {
+					["TimeSpent"] = {
+						["Mouse"] = {
+							["Details"] = {
+								["Smite"] = {
+									["count"] = 3.5,
+								},
+							},
+							["amount"] = 3.5,
+						},
+					},
+					["ElementDone"] = {
+						["Holy"] = 51,
+					},
+					["ElementHitsDone"] = {
+						["Holy"] = {
+							["Details"] = {
+								["Hit"] = {
+									["count"] = 1,
+								},
+							},
+							["amount"] = 1,
+						},
+					},
+					["DamagedWho"] = {
+						["Mouse"] = {
+							["Details"] = {
+								["Smite"] = {
+									["count"] = 51,
+								},
+							},
+							["amount"] = 51,
+						},
+					},
+					["TimeDamage"] = 3.5,
+					["TimeDamaging"] = {
+						["Mouse"] = {
+							["Details"] = {
+								["Smite"] = {
+									["count"] = 3.5,
+								},
+							},
+							["amount"] = 3.5,
+						},
+					},
+					["Attacks"] = {
+						["Smite"] = {
+							["Details"] = {
+								["Hit"] = {
+									["max"] = 51,
+									["min"] = 51,
+									["count"] = 1,
+									["amount"] = 51,
+								},
+							},
+							["count"] = 1,
+							["amount"] = 51,
+						},
+					},
+					["ActiveTime"] = 3.5,
+					["Damage"] = 51,
+				},
+			},
+			["UnitLockout"] = 1364776493,
+			["LastActive"] = 1364776493,
+		},
+	},
+	["FightNum"] = 0,
+	["CombatTimes"] = {
+	},
+	["FoughtWho"] = {
+	},
+}

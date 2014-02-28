@@ -1,0 +1,17 @@
+
+Postal3DB = {
+	["global"] = {
+		["BlackBook"] = {
+			["alts"] = {
+				"Swazyee|Bonechewer|Horde|90|ROGUE", -- [1]
+			},
+		},
+	},
+	["profileKeys"] = {
+		["Swazyee - Bonechewer"] = "Swazyee - Bonechewer",
+	},
+	["profiles"] = {
+		["Swazyee - Bonechewer"] = {
+		},
+	},
+}

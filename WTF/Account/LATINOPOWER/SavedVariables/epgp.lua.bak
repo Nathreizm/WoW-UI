@@ -1,0 +1,36 @@
+
+EPGP_DB = {
+	["namespaces"] = {
+		["boss"] = {
+		},
+		["loot"] = {
+		},
+		["warnings"] = {
+		},
+		["whisper"] = {
+		},
+		["log"] = {
+		},
+		["gptooltip"] = {
+		},
+		["announce"] = {
+		},
+	},
+	["profileKeys"] = {
+		["Swazyee - Bonechewer"] = "Red Dragon Society",
+	},
+	["global"] = {
+		["last_version"] = "5.9.16",
+		["last_tier"] = 504,
+	},
+	["profiles"] = {
+		["Swazyee - Bonechewer"] = {
+			["decay_p"] = 10,
+			["outsiders"] = 0,
+		},
+		["Red Dragon Society"] = {
+			["decay_p"] = 10,
+			["outsiders"] = 0,
+		},
+	},
+}

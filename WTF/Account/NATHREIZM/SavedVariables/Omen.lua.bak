@@ -1,0 +1,12 @@
+
+Omen3DB = {
+	["profileKeys"] = {
+		["Nathreizm - Rexxar"] = "Nathreizm - Rexxar",
+	},
+	["profiles"] = {
+		["Nathreizm - Rexxar"] = {
+			["PositionY"] = 484.4999700805827,
+			["PositionX"] = 615.4999661825101,
+		},
+	},
+}

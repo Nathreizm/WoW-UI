@@ -1,0 +1,30 @@
+
+RecountDB = {
+	["profileKeys"] = {
+		["Aranda - Rexxar"] = "Aranda - Rexxar",
+	},
+	["profiles"] = {
+		["Aranda - Rexxar"] = {
+			["GraphWindowY"] = 0,
+			["MainWindow"] = {
+				["Position"] = {
+					["y"] = -191.0001107189407,
+					["x"] = 328.9999314075988,
+					["w"] = 140.0000806969426,
+					["h"] = 200.0000027354896,
+				},
+			},
+			["Colors"] = {
+				["Bar"] = {
+					["Bar Text"] = {
+						["a"] = 1,
+					},
+				},
+			},
+			["DetailWindowY"] = 0,
+			["DetailWindowX"] = 0,
+			["GraphWindowX"] = 0,
+			["CurDataSet"] = "OverallData",
+		},
+	},
+}

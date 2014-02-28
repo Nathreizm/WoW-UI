@@ -1,0 +1,14 @@
+XPerl_TeamSpeak: disabled
+XPerl_Options: enabled
+ShadowedUnitFrames: disabled
+XPerl_PlayerBuffs: enabled
+XPerl_Party: disabled
+XPerl_PlayerPet: disabled
+XPerl_RaidFrames: disabled
+ElkBuffBars: disabled
+TidyPlates: disabled
+Mapster: enabled
+BigWigs: disabled
+GridStatusRaidDebuff: enabled
+!Swatter: disabled
+SlideBar: disabled

@@ -1,0 +1,37 @@
+## Interface: 50400
+## Title: TrickOrTreat
+## Notes: Tricks of the Trade Tracker
+## Author: tuxedobob, originally by falconindy, intial 4.0 fixes and ongoing support by sp00n
+## Revision: 2.5.7
+## SavedVariables: ToTDB
+## X-LoadOn-Class: Rogue
+## X-Curse-Packaged-Version: 2.5.7
+## X-Curse-Project-Name: Trick Or Treat
+## X-Curse-Project-ID: trick or treat
+## X-Curse-Repository-ID: wow/trick-or-treat/mainline
+
+## OptionalDependencies: Ace3
+## LoadManagers: AddonLoader
+
+
+libs\LibStub.lua
+libs\CallbackHandler-1.0.lua
+libs\LibDataBroker-1.1.lua
+
+#@no-lib-strip@ 
+libs\AceAddon-3.0\AceAddon-3.0.xml
+libs\AceConsole-3.0\AceConsole-3.0.xml
+libs\AceEvent-3.0\AceEvent-3.0.xml
+libs\AceGUI-3.0\AceGUI-3.0.xml
+libs\LibSharedMedia-3.0\lib.xml
+libs\AceGUI-3.0-SharedMediaWidgets\widget.xml
+libs\LibSink-2.0\lib.xml
+libs\AceConfig-3.0\AceConfig-3.0.xml
+libs\AceDB-3.0\AceDB-3.0.xml
+libs\AceDBOptions-3.0\AceDBOptions-3.0.xml
+#@end-no-lib-strip@
+
+
+core.lua
+options.lua
+ldb.lua

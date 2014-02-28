@@ -1,0 +1,5 @@
+XPerl_TeamSpeak: disabled
+XPerl_Options: enabled
+Skinner: disabled
+Grid: enabled
+Quartz: enabled

@@ -1,0 +1,17 @@
+
+Postal3DB = {
+	["global"] = {
+		["BlackBook"] = {
+			["alts"] = {
+				"Nathreizm|Rexxar|Horde|85|ROGUE", -- [1]
+			},
+		},
+	},
+	["profileKeys"] = {
+		["Nathreizm - Rexxar"] = "Nathreizm - Rexxar",
+	},
+	["profiles"] = {
+		["Nathreizm - Rexxar"] = {
+		},
+	},
+}

@@ -1,0 +1,4 @@
+XPerl_TeamSpeak: disabled
+BigWigs: disabled
+BigWigs_Core: enabled
+BigWigs_Options: enabled

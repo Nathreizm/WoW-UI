@@ -1,0 +1,47 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+	<EditBox name="PetTrackerMapFilter" parent="WorldMapFrame" inherits="SearchBoxTemplate">
+		<Size x="148" y="20"/>
+		<Scripts>
+			<OnEditFocusGained>
+				if self:GetText() == self.DefaultText then
+					self:SetText(SEARCH)
+				end
+
+				self.Suggestions:Show()
+				SerachBoxTemplate_OnEditFocusGained(self)
+			</OnEditFocusGained>
+			<OnEditFocusLost>
+				SearchBoxTemplate_OnEditFocusLost(self)
+
+				if self:GetText() == SEARCH then
+					self:SetText(self.DefaultText)
+				end
+
+				self.Suggestions:Hide()
+			</OnEditFocusLost>
+		</Scripts>
+		<Frames>
+			<Frame parentKey='Suggestions' name="$parentSuggestions" inherits="GameTooltipTemplate">
+				<Size x="125" y="82"/>
+				<Anchors>
+					<Anchor point="TOP" relativePoint="BOTTOM" />
+				</Anchors>
+			</Frame>
+		</Frames>
+	</EditBox>
+
+	<Button name="PetTrackerSuggestionButton" inherits="UIDropDownMenuButtonTemplate" virtual="true">
+		<Scripts>
+			<OnLoad>
+				local name = self:GetName()
+				_G[name .. "Check"]:Hide()
+				_G[name .. "UnCheck"]:Hide()
+			</OnLoad>
+			<OnClick>
+				PetTrackerMapFilter:SetText(self:GetText())
+				PetTrackerMapFilter:ClearFocus()
+			</OnClick>
+		</Scripts>
+	</Button>
+</Ui>

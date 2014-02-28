@@ -1,0 +1,106 @@
+
+RecountPerCharDB = {
+	["version"] = "1.3",
+	["combatants"] = {
+		["Scrotitcleez"] = {
+			["GUID"] = "0x04000000065317CD",
+			["type"] = "Ungrouped",
+			["GuardianReverseGUIDs"] = {
+				["Psyfiend"] = {
+					["LatestGuardian"] = 0,
+					["GUIDs"] = {
+						[0] = "0xF130E7360024CDB5",
+					},
+				},
+			},
+			["Owner"] = false,
+			["enClass"] = "UNGROUPED",
+			["Name"] = "Scrotitcleez",
+			["Pet"] = {
+				"Psyfiend <Scrotitcleez>", -- [1]
+			},
+			["Fights"] = {
+			},
+			["level"] = 1,
+			["UnitLockout"] = 1382387973,
+			["LastFightIn"] = 0,
+		},
+		["Psyfiend <Scrotitcleez>"] = {
+			["GUID"] = "0xF130E7360024CDB5",
+			["LastEventHealth"] = {
+				"???", -- [1]
+			},
+			["LastEventType"] = {
+				"MISC", -- [1]
+			},
+			["TimeWindows"] = {
+				["DeathCount"] = {
+					1, -- [1]
+				},
+			},
+			["enClass"] = "PET",
+			["level"] = 1,
+			["LastFightIn"] = 0,
+			["type"] = "Pet",
+			["DeathLogs"] = {
+				{
+					["MessageTimes"] = {
+						0, -- [1]
+					},
+					["MessageIncoming"] = {
+						true, -- [1]
+					},
+					["Messages"] = {
+						"Psyfiend <Scrotitcleez> dies.", -- [1]
+					},
+					["EventNum"] = {
+						0, -- [1]
+					},
+					["DeathAt"] = 1382387985,
+					["HealthNum"] = {
+						0, -- [1]
+					},
+					["Health"] = {
+						"???", -- [1]
+					},
+					["MessageType"] = {
+						"MISC", -- [1]
+					},
+				}, -- [1]
+			},
+			["Owner"] = "Scrotitcleez",
+			["NextEventNum"] = 2,
+			["LastEventHealthNum"] = {
+				0, -- [1]
+			},
+			["LastEvents"] = {
+				"Psyfiend <Scrotitcleez> dies.", -- [1]
+			},
+			["Name"] = "Psyfiend",
+			["TimeLast"] = {
+				["OVERALL"] = 1382387983,
+				["DeathCount"] = 1382387983,
+			},
+			["LastEventIncoming"] = {
+				true, -- [1]
+			},
+			["LastEventTimes"] = {
+				514005.513, -- [1]
+			},
+			["UnitLockout"] = 1382387983,
+			["Fights"] = {
+				["CurrentFightData"] = {
+					["DeathCount"] = 1,
+				},
+				["OverallData"] = {
+					["DeathCount"] = 1,
+				},
+			},
+		},
+	},
+	["FightNum"] = 0,
+	["CombatTimes"] = {
+	},
+	["FoughtWho"] = {
+	},
+}

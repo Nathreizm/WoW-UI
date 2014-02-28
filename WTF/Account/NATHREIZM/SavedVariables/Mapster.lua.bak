@@ -1,0 +1,20 @@
+
+MapsterDB = {
+	["namespaces"] = {
+		["GroupIcons"] = {
+		},
+		["Coords"] = {
+		},
+		["FogClear"] = {
+		},
+		["BattleMap"] = {
+		},
+	},
+	["profileKeys"] = {
+		["Nathreizm - Rexxar"] = "Default",
+	},
+	["profiles"] = {
+		["Default"] = {
+		},
+	},
+}

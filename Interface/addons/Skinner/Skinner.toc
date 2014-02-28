@@ -1,0 +1,99 @@
+﻿## Interface: 50400
+## Title: Skinner
+## Notes: Changes the look of the default UI
+## Notes-esES: Cambia el aspecto del UI predeterminado
+## Notes-zhCN: 更改默认用户界面的视觉样式。
+## Notes-zhTW: 更改預設用戶介面的視覺樣式。
+## Author: Jncl
+## Version: b5.17688.2
+## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibBetterBlizzOptions-1.0
+## DefaultState: Enabled
+## LoadOnDemand: 0
+## SavedVariables: SkinnerDB
+#
+# LibStub & Callback Handler
+## X-Curse-Packaged-Version: b5.17688.2
+## X-Curse-Project-Name: Skinner
+## X-Curse-Project-ID: skinner
+## X-Curse-Repository-ID: wow/skinner/mainline
+libs\LibStub\LibStub.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+#
+# LDB Libraries
+libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
+#
+#@no-lib-strip@
+#Ace3 Libraries
+libs\AceAddon-3.0\AceAddon-3.0.xml
+libs\AceConsole-3.0\AceConsole-3.0.xml
+libs\AceEvent-3.0\AceEvent-3.0.xml
+libs\AceHook-3.0\AceHook-3.0.xml
+libs\AceTimer-3.0\AceTimer-3.0.xml
+libs\AceDB-3.0\AceDB-3.0.xml
+libs\AceDBOptions-3.0\AceDBOptions-3.0.xml
+libs\AceLocale-3.0\AceLocale-3.0.xml
+libs\AceGUI-3.0\AceGUI-3.0.xml
+libs\AceConfig-3.0\AceConfig-3.0.xml
+#Other Libraries
+# LSM must be loaded before SMW
+libs\LibSharedMedia-3.0\lib.xml
+libs\AceGUI-3.0-SharedMediaWidgets\widget.xml
+libs\LibBetterBlizzOptions-1.0\lib.xml
+#@end-no-lib-strip@
+#
+# Locale files
+# enUS MUST be loaded first as default, this is due to changes in AceLocale, 26.01.2011
+locales\Locale_enUS.lua
+locales\Locale_deDE.lua
+locales\Locale_frFR.lua
+locales\Locale_koKR.lua
+locales\Locale_zhCN.lua
+locales\Locale_zhTW.lua
+# added additional files, 11.11.13
+locales\Locale_esES.lua
+locales\Locale_esMX.lua
+locales\Locale_itIT.lua
+locales\Locale_ptBR.lua
+locales\Locale_ruRU.lua
+#
+# Main files
+UtilFuncs.lua
+Skinner.lua
+Options.lua
+#
+# AddonFrames
+# Controls the skinning of the Blizzard frames and the Addon frames
+AddonFrames.lua
+#
+# These individual lua files skin the default frames as follows;
+#
+# NPCFrames
+# inc. ArenaRegistrar, AuctionUI, Bank, BarberShopUI, BlackMarketUI, Gossip, GuildRegistrar, ItemAlterationUI,  ItemUpgradeUI, Merchant, Petition, PetStable, Quest, QuestInfo, ReforgingUI, SideDressUpFrame, Tabard, Taxi, TrainerUI, VoidStorageUI
+NPCFrames.lua
+#
+# PlayerFrames
+# inc. AchievementUI, ArchaeologyUI, Buffs, CastingBar, Character (inc. Pet, Reputation, Token), CompactFrames, ContainerFrames, DressUp, EncounterJournal, EquipmentFlyout, Friends (inc. Who, Chat, Raid), GhostFrame, GlyphUI, GuildControlUI, GuildUI, GuildInvite, InspectUI, ItemSocketingUI, LookingForGuildUI, Loot (inc. MissingLoot, GroupLoot ...), LootHistory, MirrorTimers, OverrideActionBar, PetJournal, PVP, QuestLog, RaidUI, ReadyCheck, RolePollPopup, ScrollOfResurrection, SpellBook, SpellFlyout, StackSplit, TalentUI, Trade, TradeSkillUI, Watch (Quests & Achievements)
+PlayerFrames.lua
+#
+# UIFrames
+# inc. AlertFrames, AutoComplete, BattlefieldMinimap, BindingUI, BNFrames, Calendar, ChallengesUI, ChatConfig, ChatEditBox, ChatFrames, ChatMenus, ChatTabs, ChatTemporaryWindow, CinematicFrame, CoinPickup, ColorPicker, DebugTools, DestinyFrame, DropDowns, GMChatUI, GMSurveyUI, GuildBankUI, Help (inc. Open Ticket, Ticket Status, KnowledgeBase), ItemText, LevelUpDisplay, LFDFrame, LFGFrame, LFRFrame, MacroUI, Mail, MainMenuBar (inc. StanceBar, PossessBar, PetActionBar, ShamanTotems, ActionButtons, MultiBarButtons, VehicleLeaveButton, ExtraActionButton, PlayerPowerBarAlt), Menu (inc. Video, Sound & Voice, Mac Options, Interface), Minimap, MinimapButtons, ModelFrames, MovePad, MovieProgress, Nameplates, PetBattleUI, PVEFrame, RaidFrame, ScriptErrors, StaticPopups, StoreUI, TimeManager, Tooltips, Tutorial, WorldMap, WorldState
+UIFrames.lua
+#
+# Modules
+#
+# UnitFrames
+# inc. ArenaFrames, CompactFrames (inc. Party, Raid Unit, Raid Group), FocusFrame, PartyFrames (inc. Party Members Pets), PetFrame, PlayerFrame (inc. RuneFrame, TotemFrame, ComboFrame, ShardBar, PowerBar, EclipseBar), TargetFrame, TargetofFocusFrame, TargetofTargetFrame
+modules\UnitFrames.lua
+#
+# UIButtons & ButtonBorders
+modules\UIButtons.lua
+#
+# these modules add additional features
+modules\ViewPort.lua
+modules\TopFrame.lua
+modules\MiddleFrames.lua
+modules\BottomFrame.lua
+#
+# Addon skins
+skins.xml

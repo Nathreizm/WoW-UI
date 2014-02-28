@@ -1,0 +1,774 @@
+
+RecountPerCharDB = {
+	["version"] = "1.3",
+	["combatants"] = {
+		["Aranda"] = {
+			["GUID"] = "0x0380000002A13EF3",
+			["LastEventHealth"] = {
+				"141531 (100%)", -- [1]
+				"134356 (94%)", -- [2]
+				"134356 (94%)", -- [3]
+				"134356 (94%)", -- [4]
+				"134356 (94%)", -- [5]
+				"134356 (94%)", -- [6]
+				"119961 (84%)", -- [7]
+				"115890 (81%)", -- [8]
+				"115890 (81%)", -- [9]
+				"115890 (81%)", -- [10]
+				"115890 (81%)", -- [11]
+				"115890 (81%)", -- [12]
+				"115890 (81%)", -- [13]
+				"115890 (81%)", -- [14]
+				"104749 (74%)", -- [15]
+				"104749 (74%)", -- [16]
+				"96359 (68%)", -- [17]
+				"91174 (64%)", -- [18]
+				"91174 (64%)", -- [19]
+				"128640 (90%)", -- [20]
+			},
+			["LastAttackedBy"] = "Blackwyrm Cultist",
+			["LastEventType"] = {
+				"DAMAGE", -- [1]
+				"DAMAGE", -- [2]
+				"DAMAGE", -- [3]
+				"DAMAGE", -- [4]
+				"DAMAGE", -- [5]
+				"DAMAGE", -- [6]
+				"DAMAGE", -- [7]
+				"DAMAGE", -- [8]
+				"DAMAGE", -- [9]
+				"DAMAGE", -- [10]
+				"DAMAGE", -- [11]
+				"DAMAGE", -- [12]
+				"DAMAGE", -- [13]
+				"DAMAGE", -- [14]
+				"DAMAGE", -- [15]
+				"DAMAGE", -- [16]
+				"DAMAGE", -- [17]
+				"DAMAGE", -- [18]
+				"DAMAGE", -- [19]
+				"DAMAGE", -- [20]
+			},
+			["TimeWindows"] = {
+				["DamageTaken"] = {
+					60523, -- [1]
+				},
+			},
+			["enClass"] = "ROGUE",
+			["unit"] = "Aranda",
+			["level"] = 85,
+			["LastDamageAbility"] = "Melee",
+			["LastFightIn"] = 1,
+			["LastEventNum"] = {
+				5.069560732277735, -- [1]
+				2.344362719121606, -- [2]
+				2.374038196578841, -- [3]
+				2.884173785248462, -- [4]
+				nil, -- [5]
+				2.568341918025026, -- [6]
+				2.876401636390614, -- [7]
+				3.045975793289103, -- [8]
+				2.275119938388056, -- [9]
+				2.5506779433481, -- [10]
+				2.749927577703825, -- [11]
+				3.178102323872508, -- [12]
+				nil, -- [13]
+				nil, -- [14]
+				0.782160798694279, -- [15]
+				2.881347549300153, -- [16]
+				1.600356105729487, -- [17]
+				2.612855134210879, -- [18]
+				0.782160798694279, -- [19]
+				2.187506623990504, -- [20]
+			},
+			["type"] = "Self",
+			["FightsSaved"] = 2,
+			["LastDamageTaken"] = 3096,
+			["Owner"] = false,
+			["TimeLast"] = {
+				["DamageTaken"] = 1331087775,
+				["OVERALL"] = 1331087775,
+			},
+			["NextEventNum"] = 21,
+			["LastEventHealthNum"] = {
+				100, -- [1]
+				94.93043926772226, -- [2]
+				94.93043926772226, -- [3]
+				94.93043926772226, -- [4]
+				94.93043926772226, -- [5]
+				94.93043926772226, -- [6]
+				84.75952264874833, -- [7]
+				81.88312101235772, -- [8]
+				81.88312101235772, -- [9]
+				81.88312101235772, -- [10]
+				81.88312101235772, -- [11]
+				81.88312101235772, -- [12]
+				81.88312101235772, -- [13]
+				81.88312101235772, -- [14]
+				74.01134733733245, -- [15]
+				74.01134733733245, -- [16]
+				68.08331743575613, -- [17]
+				64.41980908776169, -- [18]
+				64.41980908776169, -- [19]
+				90.89174809758993, -- [20]
+			},
+			["LastEvents"] = {
+				"Blackwyrm Bruiser Melee Aranda Crit -7175 (Physical)", -- [1]
+				"Blackwyrm Bruiser Melee Aranda Hit -3318 (Physical)", -- [2]
+				"Blackwyrm Mage Melee Aranda Hit -3360 (Physical)", -- [3]
+				"Blackwyrm Cultist Melee Aranda Hit -4082 (Physical)", -- [4]
+				"Blackwyrm Cultist Melee Aranda Parry", -- [5]
+				"Blackwyrm Mage Melee Aranda Hit -3635 (Physical)", -- [6]
+				"Blackwyrm Mage Melee Aranda Hit -4071 (Physical)", -- [7]
+				"Blackwyrm Bruiser Melee Aranda Hit -4311 (Physical)", -- [8]
+				"Blackwyrm Mage Melee Aranda Hit -3220 (Physical)", -- [9]
+				"Blackwyrm Mage Melee Aranda Hit -3610 (Physical)", -- [10]
+				"Blackwyrm Cultist Melee Aranda Hit -3892 (Physical)", -- [11]
+				"Blackwyrm Mage Melee Aranda Hit -4498 (Physical)", -- [12]
+				"Blackwyrm Mage Melee Aranda Dodge", -- [13]
+				"Blackwyrm Cultist Melee Aranda Dodge", -- [14]
+				"Summoned Construct Melee Aranda Hit -1107 (Physical)", -- [15]
+				"Blackwyrm Cultist Melee Aranda Hit -4078 (Physical)", -- [16]
+				"Summoned Construct Melee Aranda Crit -2265 (Physical)", -- [17]
+				"Blackwyrm Mage Melee Aranda Hit -3698 (Physical)", -- [18]
+				"Summoned Construct Melee Aranda Hit -1107 (Physical)", -- [19]
+				"Blackwyrm Cultist Melee Aranda Hit -3096 (Physical)", -- [20]
+			},
+			["Name"] = "Aranda",
+			["LastEventIncoming"] = {
+				true, -- [1]
+				true, -- [2]
+				true, -- [3]
+				true, -- [4]
+				true, -- [5]
+				true, -- [6]
+				true, -- [7]
+				true, -- [8]
+				true, -- [9]
+				true, -- [10]
+				true, -- [11]
+				true, -- [12]
+				true, -- [13]
+				true, -- [14]
+				true, -- [15]
+				true, -- [16]
+				true, -- [17]
+				true, -- [18]
+				true, -- [19]
+				true, -- [20]
+			},
+			["LastEventTimes"] = {
+				66625.783, -- [1]
+				66627.789, -- [2]
+				66628.00600000001, -- [3]
+				66628.00600000001, -- [4]
+				66628.00600000001, -- [5]
+				66628.00600000001, -- [6]
+				66629.192, -- [7]
+				66629.76, -- [8]
+				66629.76, -- [9]
+				66629.99400000001, -- [10]
+				66630.228, -- [11]
+				66630.228, -- [12]
+				66630.395, -- [13]
+				66630.395, -- [14]
+				66630.595, -- [15]
+				66630.595, -- [16]
+				66631.03, -- [17]
+				66631.431, -- [18]
+				66631.431, -- [19]
+				66688.624, -- [20]
+			},
+			["Fights"] = {
+				["Fight2"] = {
+					["PartialResist"] = {
+						["Melee"] = {
+							["Details"] = {
+								["No Resist"] = {
+									["max"] = 0,
+									["min"] = 0,
+									["count"] = 19,
+									["amount"] = 0,
+								},
+							},
+							["count"] = 19,
+							["amount"] = 0,
+						},
+					},
+					["PartialAbsorb"] = {
+						["Melee"] = {
+							["Details"] = {
+								["No Absorb"] = {
+									["max"] = 0,
+									["min"] = 0,
+									["count"] = 19,
+									["amount"] = 0,
+								},
+							},
+							["count"] = 19,
+							["amount"] = 0,
+						},
+					},
+					["WhoDamaged"] = {
+						["Blackwyrm Mage"] = {
+							["Details"] = {
+								["Melee"] = {
+									["count"] = 26092,
+								},
+							},
+							["amount"] = 26092,
+						},
+						["Blackwyrm Cultist"] = {
+							["Details"] = {
+								["Melee"] = {
+									["count"] = 12052,
+								},
+							},
+							["amount"] = 12052,
+						},
+						["Summoned Construct"] = {
+							["Details"] = {
+								["Melee"] = {
+									["count"] = 4479,
+								},
+							},
+							["amount"] = 4479,
+						},
+						["Blackwyrm Bruiser"] = {
+							["Details"] = {
+								["Melee"] = {
+									["count"] = 14804,
+								},
+							},
+							["amount"] = 14804,
+						},
+					},
+					["ElementTaken"] = {
+						["Melee"] = 57427,
+					},
+					["DamageTaken"] = 57427,
+					["ElementHitsTaken"] = {
+						["Melee"] = {
+							["Details"] = {
+								["Dodge"] = {
+									["count"] = 2,
+								},
+								["Parry"] = {
+									["count"] = 1,
+								},
+								["Crit"] = {
+									["count"] = 2,
+								},
+								["Hit"] = {
+									["count"] = 14,
+								},
+							},
+							["amount"] = 19,
+						},
+					},
+				},
+				["CurrentFightData"] = {
+					["DOTs"] = {
+					},
+					["ElementDoneResist"] = {
+					},
+					["Ressed"] = 0,
+					["DamageTaken"] = 0,
+					["RageGainedFrom"] = {
+					},
+					["ElementHitsTaken"] = {
+					},
+					["DeathCount"] = 0,
+					["HOT_Time"] = 0,
+					["ElementHitsDone"] = {
+					},
+					["ElementTakenAbsorb"] = {
+					},
+					["ElementTaken"] = {
+					},
+					["DOT_Time"] = 0,
+					["Damage"] = 0,
+					["ElementTakenBlock"] = {
+					},
+					["TimeHeal"] = 0,
+					["RessedWho"] = {
+					},
+					["Dispels"] = 0,
+					["ElementTakenResist"] = {
+					},
+					["ElementDoneAbsorb"] = {
+					},
+					["FAttacks"] = {
+					},
+					["RunicPowerGainedFrom"] = {
+					},
+					["ElementDone"] = {
+					},
+					["PartialAbsorb"] = {
+					},
+					["DamagedWho"] = {
+					},
+					["PartialBlock"] = {
+					},
+					["WhoDamaged"] = {
+					},
+					["EnergyGainedFrom"] = {
+					},
+					["PartialResist"] = {
+					},
+					["CCBroken"] = {
+					},
+					["ElementDoneBlock"] = {
+					},
+					["TimeHealing"] = {
+					},
+					["OverHeals"] = {
+					},
+					["ManaGainedFrom"] = {
+					},
+					["RunicPowerGained"] = {
+					},
+					["CCBreak"] = 0,
+					["RageGained"] = {
+					},
+					["HealedWho"] = {
+					},
+					["EnergyGain"] = 0,
+					["ManaGained"] = {
+					},
+					["FDamage"] = 0,
+					["Interrupts"] = 0,
+					["Overhealing"] = 0,
+					["TimeSpent"] = {
+					},
+					["WhoDispelled"] = {
+					},
+					["InterruptData"] = {
+					},
+					["RunicPowerGain"] = 0,
+					["Heals"] = {
+					},
+					["WhoHealed"] = {
+					},
+					["EnergyGained"] = {
+					},
+					["ActiveTime"] = 0,
+					["Healing"] = 0,
+					["FDamagedWho"] = {
+					},
+					["Dispelled"] = 0,
+					["Attacks"] = {
+					},
+					["HealingTaken"] = 0,
+					["RageGain"] = 0,
+					["TimeDamage"] = 0,
+					["TimeDamaging"] = {
+					},
+					["ManaGain"] = 0,
+					["HOTs"] = {
+					},
+					["DispelledWho"] = {
+					},
+				},
+				["LastFightData"] = {
+					["DOTs"] = {
+					},
+					["ElementDoneResist"] = {
+					},
+					["Ressed"] = 0,
+					["DamageTaken"] = 3096,
+					["RageGainedFrom"] = {
+					},
+					["ElementHitsTaken"] = {
+						["Melee"] = {
+							["Details"] = {
+								["Hit"] = {
+									["count"] = 1,
+								},
+							},
+							["amount"] = 1,
+						},
+					},
+					["DeathCount"] = 0,
+					["HOT_Time"] = 0,
+					["ElementHitsDone"] = {
+					},
+					["ElementTakenAbsorb"] = {
+					},
+					["ElementTaken"] = {
+						["Melee"] = 3096,
+					},
+					["DOT_Time"] = 0,
+					["Damage"] = 0,
+					["ElementTakenBlock"] = {
+					},
+					["TimeHeal"] = 0,
+					["RessedWho"] = {
+					},
+					["Dispels"] = 0,
+					["ElementTakenResist"] = {
+					},
+					["ElementDoneAbsorb"] = {
+					},
+					["FAttacks"] = {
+					},
+					["RunicPowerGainedFrom"] = {
+					},
+					["ElementDone"] = {
+					},
+					["PartialAbsorb"] = {
+						["Melee"] = {
+							["Details"] = {
+								["No Absorb"] = {
+									["max"] = 0,
+									["min"] = 0,
+									["count"] = 1,
+									["amount"] = 0,
+								},
+							},
+							["count"] = 1,
+							["amount"] = 0,
+						},
+					},
+					["DamagedWho"] = {
+					},
+					["PartialBlock"] = {
+					},
+					["WhoDamaged"] = {
+						["Blackwyrm Cultist"] = {
+							["Details"] = {
+								["Melee"] = {
+									["count"] = 3096,
+								},
+							},
+							["amount"] = 3096,
+						},
+					},
+					["EnergyGainedFrom"] = {
+					},
+					["PartialResist"] = {
+						["Melee"] = {
+							["Details"] = {
+								["No Resist"] = {
+									["max"] = 0,
+									["min"] = 0,
+									["count"] = 1,
+									["amount"] = 0,
+								},
+							},
+							["count"] = 1,
+							["amount"] = 0,
+						},
+					},
+					["CCBroken"] = {
+					},
+					["ElementDoneBlock"] = {
+					},
+					["TimeHealing"] = {
+					},
+					["OverHeals"] = {
+					},
+					["ManaGainedFrom"] = {
+					},
+					["RunicPowerGained"] = {
+					},
+					["CCBreak"] = 0,
+					["RageGained"] = {
+					},
+					["HealedWho"] = {
+					},
+					["EnergyGain"] = 0,
+					["ManaGained"] = {
+					},
+					["FDamage"] = 0,
+					["Interrupts"] = 0,
+					["Overhealing"] = 0,
+					["TimeSpent"] = {
+					},
+					["WhoDispelled"] = {
+					},
+					["InterruptData"] = {
+					},
+					["RunicPowerGain"] = 0,
+					["Heals"] = {
+					},
+					["WhoHealed"] = {
+					},
+					["EnergyGained"] = {
+					},
+					["ActiveTime"] = 0,
+					["Healing"] = 0,
+					["FDamagedWho"] = {
+					},
+					["Dispelled"] = 0,
+					["Attacks"] = {
+					},
+					["HealingTaken"] = 0,
+					["RageGain"] = 0,
+					["TimeDamage"] = 0,
+					["TimeDamaging"] = {
+					},
+					["ManaGain"] = 0,
+					["HOTs"] = {
+					},
+					["DispelledWho"] = {
+					},
+				},
+				["Fight1"] = {
+					["DOTs"] = {
+					},
+					["ElementDoneResist"] = {
+					},
+					["Ressed"] = 0,
+					["DamageTaken"] = 3096,
+					["RageGainedFrom"] = {
+					},
+					["ElementHitsTaken"] = {
+						["Melee"] = {
+							["Details"] = {
+								["Hit"] = {
+									["count"] = 1,
+								},
+							},
+							["amount"] = 1,
+						},
+					},
+					["DeathCount"] = 0,
+					["HOT_Time"] = 0,
+					["ElementHitsDone"] = {
+					},
+					["ElementTakenAbsorb"] = {
+					},
+					["ElementTaken"] = {
+						["Melee"] = 3096,
+					},
+					["DOT_Time"] = 0,
+					["Damage"] = 0,
+					["ElementTakenBlock"] = {
+					},
+					["TimeHeal"] = 0,
+					["RessedWho"] = {
+					},
+					["Dispels"] = 0,
+					["ElementTakenResist"] = {
+					},
+					["ElementDoneAbsorb"] = {
+					},
+					["FAttacks"] = {
+					},
+					["RunicPowerGainedFrom"] = {
+					},
+					["ElementDone"] = {
+					},
+					["PartialAbsorb"] = {
+						["Melee"] = {
+							["Details"] = {
+								["No Absorb"] = {
+									["max"] = 0,
+									["min"] = 0,
+									["count"] = 1,
+									["amount"] = 0,
+								},
+							},
+							["count"] = 1,
+							["amount"] = 0,
+						},
+					},
+					["DamagedWho"] = {
+					},
+					["PartialBlock"] = {
+					},
+					["WhoDamaged"] = {
+						["Blackwyrm Cultist"] = {
+							["Details"] = {
+								["Melee"] = {
+									["count"] = 3096,
+								},
+							},
+							["amount"] = 3096,
+						},
+					},
+					["EnergyGainedFrom"] = {
+					},
+					["PartialResist"] = {
+						["Melee"] = {
+							["Details"] = {
+								["No Resist"] = {
+									["max"] = 0,
+									["min"] = 0,
+									["count"] = 1,
+									["amount"] = 0,
+								},
+							},
+							["count"] = 1,
+							["amount"] = 0,
+						},
+					},
+					["CCBroken"] = {
+					},
+					["ElementDoneBlock"] = {
+					},
+					["TimeHealing"] = {
+					},
+					["OverHeals"] = {
+					},
+					["ManaGainedFrom"] = {
+					},
+					["RunicPowerGained"] = {
+					},
+					["CCBreak"] = 0,
+					["RageGained"] = {
+					},
+					["HealedWho"] = {
+					},
+					["EnergyGain"] = 0,
+					["ManaGained"] = {
+					},
+					["FDamage"] = 0,
+					["Interrupts"] = 0,
+					["Overhealing"] = 0,
+					["TimeSpent"] = {
+					},
+					["WhoDispelled"] = {
+					},
+					["InterruptData"] = {
+					},
+					["RunicPowerGain"] = 0,
+					["Heals"] = {
+					},
+					["WhoHealed"] = {
+					},
+					["EnergyGained"] = {
+					},
+					["ActiveTime"] = 0,
+					["Healing"] = 0,
+					["FDamagedWho"] = {
+					},
+					["Dispelled"] = 0,
+					["Attacks"] = {
+					},
+					["HealingTaken"] = 0,
+					["RageGain"] = 0,
+					["TimeDamage"] = 0,
+					["TimeDamaging"] = {
+					},
+					["ManaGain"] = 0,
+					["HOTs"] = {
+					},
+					["DispelledWho"] = {
+					},
+				},
+				["OverallData"] = {
+					["PartialResist"] = {
+						["Melee"] = {
+							["Details"] = {
+								["No Resist"] = {
+									["max"] = 0,
+									["min"] = 0,
+									["count"] = 20,
+									["amount"] = 0,
+								},
+							},
+							["count"] = 20,
+							["amount"] = 0,
+						},
+					},
+					["PartialAbsorb"] = {
+						["Melee"] = {
+							["Details"] = {
+								["No Absorb"] = {
+									["max"] = 0,
+									["min"] = 0,
+									["count"] = 20,
+									["amount"] = 0,
+								},
+							},
+							["count"] = 20,
+							["amount"] = 0,
+						},
+					},
+					["WhoDamaged"] = {
+						["Blackwyrm Mage"] = {
+							["Details"] = {
+								["Melee"] = {
+									["count"] = 26092,
+								},
+							},
+							["amount"] = 26092,
+						},
+						["Blackwyrm Cultist"] = {
+							["Details"] = {
+								["Melee"] = {
+									["count"] = 15148,
+								},
+							},
+							["amount"] = 15148,
+						},
+						["Summoned Construct"] = {
+							["Details"] = {
+								["Melee"] = {
+									["count"] = 4479,
+								},
+							},
+							["amount"] = 4479,
+						},
+						["Blackwyrm Bruiser"] = {
+							["Details"] = {
+								["Melee"] = {
+									["count"] = 14804,
+								},
+							},
+							["amount"] = 14804,
+						},
+					},
+					["ElementTaken"] = {
+						["Melee"] = 60523,
+					},
+					["DamageTaken"] = 60523,
+					["ElementHitsTaken"] = {
+						["Melee"] = {
+							["Details"] = {
+								["Dodge"] = {
+									["count"] = 2,
+								},
+								["Parry"] = {
+									["count"] = 1,
+								},
+								["Crit"] = {
+									["count"] = 2,
+								},
+								["Hit"] = {
+									["count"] = 15,
+								},
+							},
+							["amount"] = 20,
+						},
+					},
+				},
+			},
+			["UnitLockout"] = 1331087712,
+			["LastActive"] = 1331087775,
+		},
+	},
+	["FightNum"] = 2,
+	["CombatTimes"] = {
+		{
+			1331087712, -- [1]
+			1331087719, -- [2]
+			"21:35:13", -- [3]
+			"21:35:19", -- [4]
+			"Blackwyrm Bruiser", -- [5]
+		}, -- [1]
+		{
+			1331087775, -- [1]
+			1331087779, -- [2]
+			"21:36:16", -- [3]
+			"21:36:19", -- [4]
+			"Blackwyrm Cultist", -- [5]
+		}, -- [2]
+	},
+	["FoughtWho"] = {
+		"Blackwyrm Cultist 21:36:16-21:36:19", -- [1]
+		"Blackwyrm Bruiser 21:35:13-21:35:19", -- [2]
+	},
+}

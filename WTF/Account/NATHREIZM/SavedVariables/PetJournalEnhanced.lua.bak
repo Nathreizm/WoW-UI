@@ -1,0 +1,10 @@
+
+PetJournalEnhancedDB = {
+	["namespaces"] = {
+		["Sorting"] = {
+		},
+	},
+	["profileKeys"] = {
+		["Prettypretty - Rexxar"] = "Default",
+	},
+}

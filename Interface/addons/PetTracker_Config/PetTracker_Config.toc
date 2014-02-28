@@ -1,0 +1,14 @@
+## Interface: 50400
+## Title: PetTracker Config
+## Notes: Load on demand options and tutorial.
+## Author: Jaliborc (João Cardoso)
+
+## Dependencies: PetTracker
+## X-Category: Battle Pets
+## LoadOnDemand: 1
+
+..\PetTracker\Libs\CustomTutorials-2.1\CustomTutorials-2.1.lua
+..\PetTracker\Libs\Sushi-3.0\Sushi-3.0.xml
+
+Tutorial.lua
+Menus.lua

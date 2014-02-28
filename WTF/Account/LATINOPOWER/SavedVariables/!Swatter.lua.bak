@@ -1,0 +1,18 @@
+
+SwatterData = {
+	["enabled"] = true,
+	["warning"] = true,
+	["combat"] = false,
+	["errors"] = {
+		{
+			["message"] = "...ingBuster\\libs\\LibStatLogic-1.2\\LibStatLogic-1.2.lua:6524: attempt to call global 'GetPrimaryTalentTree' (a nil value)",
+			["count"] = 2,
+			["addons"] = "  Swatter, v4.4.0 (<%codename%>)\n  ACP, v3.4.4 \n  AtlasLootLoader, vv7.07.00\n  Babylonian, v5.1.DEV.332(/embedded)\n  BadBoy, v12.042\n  BagBrother, v\n  Bagnon, v5.4.2\n  Bartender4, v4.5.13\n  BGSpy, v1.2.6\n  BigWigs, v4.360\n  Configator, v5.1.DEV.344(/embedded)\n  DBMCore, v\n  epgp, v5.9.16\n  epgplootmaster, v0.6.34\n  epgplootmasterml, v0.6.34\n  Gatherer, v4.4.0\n  GatherMate2, v1.27\n  Grid, v5.3.0.1621\n  GridStatusRaidDebuff, v5.41\n  Mapster, v1.5.5\n  Omen, v3.1.8\n  OmniCC, v5.4.0\n  Postal, v3.5.1\n  Quartz, v3.1.3\n  RatingBuster, v1.6.7\n  Recount, v\n  SatrinaBuffFrame, v3.2\n  SexyMap, v2.4.9\n  ShadowedUnitFrames, vv3.8.10\n  Skinner, vb5.17539.1\n  SlideBar, v4.4.0 (<%codename%>)\n  TidyPlates, v6.12.3\n  TidyPlatesGraphite, v\n  TidyPlatesGrey, v\n  TidyPlatesNeon, v\n  TidyPlatesQuatre, v\n  TidyPlatesHub, v\n  TidyPlatesWidgets, v\n  TrickOrTreat, v\n  WeakAuras, v1.4.7.10\n  XPerl, v3.7.3\n  XPerlArcaneBar, v\n  XPerlOptions, v\n  XPerlParty, v\n  XPerlPartyPet, v\n  XPerlPlayer, v\n  XPerlPlayerBuffs, v\n  XPerlPlayerPet, v\n  XPerlRaidAdmin, v\n  XPerlRaidFrames, v\n  XPerlRaidHelper, v\n  XPerlRaidPets, v\n  XPerlTarget, v\n  XPerlTargetTarget, v\n  YorsahjAutomaticRaidwarnings, v1.2f\n  BlizRuntimeLib_enUS v5.4.0.50400 <us>\n  (ck=4c6)\n",
+			["locals"] = "(*temporary) = nil\n(*temporary) = \"attempt to call global 'GetPrimaryTalentTree' (a nil value)\"\nArmorSpecActive = nil\npairs = <function> defined =[C]:-1\nWatchInventoryID = <table> {\n 1 = 1\n 2 = 3\n 3 = 5\n 4 = 9\n 5 = 10\n 6 = 6\n 7 = 7\n 8 = 8\n}\nGetInventoryItemID = <function> defined =[C]:-1\nselect = <function> defined =[C]:-1\nGetItemInfo = <function> defined @Interface\\AddOns\\RatingBuster\\libs\\LibStatLogic-1.2\\LibStatLogic-1.2.lua:5874\nplayerArmorType = \"Leather\"\n",
+			["timestamp"] = "2013-09-17 17:17:34",
+			["context"] = "Global",
+			["stack"] = "...ingBuster\\libs\\LibStatLogic-1.2\\LibStatLogic-1.2.lua:6524: in function <...ingBuster\\libs\\LibStatLogic-1.2\\LibStatLogic-1.2.lua:6516>\n...ingBuster\\libs\\LibStatLogic-1.2\\LibStatLogic-1.2.lua:6530: in function <...ingBuster\\libs\\LibStatLogic-1.2\\LibStatLogic-1.2.lua:6527>\n",
+		}, -- [1]
+	},
+	["autoshow"] = true,
+}

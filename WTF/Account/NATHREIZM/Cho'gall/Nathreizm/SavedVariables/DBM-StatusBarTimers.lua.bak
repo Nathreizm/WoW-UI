@@ -1,0 +1,27 @@
+
+DBT_PersistentOptions = {
+	["DBM"] = {
+		["FontSize"] = 10,
+		["HugeTimerY"] = 5.000748634338379,
+		["HugeBarXOffset"] = 0,
+		["Scale"] = 0.8999999761581421,
+		["StartColorR"] = 1,
+		["HugeWidth"] = 200,
+		["TimerX"] = -333.0011596679688,
+		["Texture"] = "Interface\\TargetingFrame\\UI-StatusBar",
+		["TimerPoint"] = "TOPRIGHT",
+		["StartColorG"] = 0.7019607843137254,
+		["HugeBarYOffset"] = 0,
+		["HugeScale"] = 1.049999952316284,
+		["EndColorR"] = 1,
+		["Width"] = 183,
+		["HugeTimerPoint"] = "CENTER",
+		["BarYOffset"] = 0,
+		["HugeTimerX"] = 337.9991149902344,
+		["TimerY"] = -94.49972534179688,
+		["StartColorB"] = 0,
+		["EndColorG"] = 0,
+		["BarXOffset"] = 0,
+		["EndColorB"] = 0,
+	},
+}

@@ -1,0 +1,10 @@
+
+EPGPLootMaster = {
+	["profileKeys"] = {
+		["Nathreizm - Cho'gall"] = "Nathreizm - Cho'gall",
+	},
+	["profiles"] = {
+		["Nathreizm - Cho'gall"] = {
+		},
+	},
+}

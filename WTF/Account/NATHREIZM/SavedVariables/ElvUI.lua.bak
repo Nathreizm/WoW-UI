@@ -1,0 +1,28 @@
+
+ElvDB = {
+	["profileKeys"] = {
+		["Nathreizm - Cho'gall"] = "Nathreizm - Cho'gall",
+	},
+	["gold"] = {
+		["Cho'gall"] = {
+			["Nathreizm"] = 644587122,
+		},
+	},
+	["namespaces"] = {
+		["LibDualSpec-1.0"] = {
+		},
+	},
+	["profiles"] = {
+		["Nathreizm - Cho'gall"] = {
+		},
+	},
+}
+ElvPrivateDB = {
+	["profileKeys"] = {
+		["Nathreizm - Cho'gall"] = "Nathreizm - Cho'gall",
+	},
+	["profiles"] = {
+		["Nathreizm - Cho'gall"] = {
+		},
+	},
+}

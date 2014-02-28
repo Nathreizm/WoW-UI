@@ -1,0 +1,107 @@
+
+DBM_SavedOptions = {
+	["SpecialWarningFontSize"] = 50,
+	["ArrowPosX"] = 0,
+	["HPFramePoint"] = "RIGHT",
+	["UseMasterVolume"] = true,
+	["StatusEnabled"] = true,
+	["InfoFrameX"] = -310.7599845198645,
+	["RangeFrameX"] = 264.0000071122729,
+	["WarningColors"] = {
+		{
+			["b"] = 0.9411764705882353,
+			["g"] = 0.8,
+			["r"] = 0.4117647058823529,
+		}, -- [1]
+		{
+			["b"] = 0,
+			["g"] = 0.9490196078431372,
+			["r"] = 0.9490196078431372,
+		}, -- [2]
+		{
+			["b"] = 0,
+			["g"] = 0.5019607843137255,
+			["r"] = 1,
+		}, -- [3]
+		{
+			["b"] = 0.1019607843137255,
+			["g"] = 0.1019607843137255,
+			["r"] = 1,
+		}, -- [4]
+	},
+	["AlwaysShowSpeedKillTimer"] = true,
+	["RangeFrameY"] = -87.00010579505944,
+	["EnableModels"] = true,
+	["ArrowPoint"] = "TOP",
+	["ModelSoundValue"] = "Short",
+	["DontSendBossAnnounces"] = false,
+	["InfoFramePoint"] = "RIGHT",
+	["RangeFrameRadarPoint"] = "RIGHT",
+	["SpecialWarningY"] = 75,
+	["RangeFrameUpdates"] = "Average",
+	["SpecialWarningPoint"] = "CENTER",
+	["RaidWarningSound"] = "Sound\\Doodad\\BellTollNightElf.wav",
+	["SpecialWarningX"] = 0,
+	["RaidWarningPosition"] = {
+		["Y"] = -185,
+		["X"] = 0,
+		["Point"] = "TOP",
+	},
+	["HealthFrameWidth"] = 200,
+	["WarningIconLeft"] = true,
+	["RangeFrameSound1"] = "none",
+	["HPFrameY"] = -19.99987553522418,
+	["ShowMinimapButton"] = true,
+	["SettingsMessageShown"] = true,
+	["ShowWarningsInChat"] = true,
+	["DontSetIcons"] = false,
+	["BigBrotherAnnounceToRaid"] = false,
+	["CountdownVoice"] = "Corsica",
+	["InfoFrameY"] = -124.0000489652635,
+	["ShowSpecialWarnings"] = true,
+	["AutoRespond"] = true,
+	["HealthFrameGrowUp"] = false,
+	["RangeFrameFrames"] = "radar",
+	["RangeFrameRadarX"] = -246.9176318784655,
+	["ShowBigBrotherOnCombatStart"] = false,
+	["InfoFrameShowSelf"] = false,
+	["SpecialWarningFont"] = "Fonts\\FRIZQT__.TTF",
+	["SpamBlockRaidWarning"] = true,
+	["ShowFakedRaidWarnings"] = false,
+	["LatencyThreshold"] = 200,
+	["BlockVersionUpdateNotice"] = false,
+	["DontShowBossAnnounces"] = false,
+	["RangeFramePoint"] = "CENTER",
+	["RangeFrameSound2"] = "none",
+	["ShowLHFrame"] = true,
+	["Enabled"] = true,
+	["HealthFrameLocked"] = false,
+	["RangeFrameRadarY"] = -132.0000998453696,
+	["DisableCinematics"] = false,
+	["HideBossEmoteFrame"] = false,
+	["DontSendBossWhispers"] = false,
+	["ArrowPosY"] = -150,
+	["HPFrameMaxEntries"] = 5,
+	["RangeFrameLocked"] = false,
+	["SpecialWarningFontColor"] = {
+		0, -- [1]
+		0, -- [2]
+		1, -- [3]
+	},
+	["AlwaysShowHealthFrame"] = false,
+	["HPFrameX"] = -272.9968528876273,
+	["SpecialWarningSound2"] = "Sound\\Creature\\AlgalonTheObserver\\UR_Algalon_BHole01.wav",
+	["SpamBlockBossWhispers"] = false,
+	["SpecialWarningSound"] = "Sound\\Spells\\PVPFlagTaken.wav",
+	["WarningIconRight"] = true,
+}
+DBT_SavedOptions = {
+	["DBM"] = {
+		["HugeTimerPoint"] = "CENTER",
+		["TimerPoint"] = "TOPRIGHT",
+		["TimerX"] = -223.0000166180992,
+		["HugeTimerX"] = 0,
+		["HugeTimerY"] = -120.0000016412938,
+		["TimerY"] = -260.0000123097031,
+	},
+}

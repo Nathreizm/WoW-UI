@@ -1,0 +1,3 @@
+
+BADBOY_POPUP = nil
+BADBOY_NOREPORT = nil

@@ -1,0 +1,67 @@
+------------------------------------------------------------------------
+r1186 | funkydude | 2013-12-05 00:57:22 +0000 (Thu, 05 Dec 2013) | 1 line
+Changed paths:
+   A /tags/v12.108 (from /trunk:1185)
+
+Tagging as v12.108
+------------------------------------------------------------------------
+r1185 | funkydude | 2013-12-05 00:47:33 +0000 (Thu, 05 Dec 2013) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+
+deDE update
+------------------------------------------------------------------------
+r1184 | funkydude | 2013-12-05 00:39:10 +0000 (Thu, 05 Dec 2013) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+anti-spam update
+------------------------------------------------------------------------
+r1183 | funkydude | 2013-11-28 01:35:42 +0000 (Thu, 28 Nov 2013) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+
+re-add the FRIEND_PENDING event for bnet invite scanning as the bnet client connection can happen after PLAYER_LOGIN for some users, instead of before.
+------------------------------------------------------------------------
+r1182 | funkydude | 2013-11-22 15:41:45 +0000 (Fri, 22 Nov 2013) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+
+move the spam filter toggle to player login.
+------------------------------------------------------------------------
+r1180 | funkydude | 2013-11-19 00:06:50 +0000 (Tue, 19 Nov 2013) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+anti-spam update
+------------------------------------------------------------------------
+r1179 | funkydude | 2013-11-18 03:33:09 +0000 (Mon, 18 Nov 2013) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+zhTW update
+------------------------------------------------------------------------
+r1178 | funkydude | 2013-11-17 18:05:44 +0000 (Sun, 17 Nov 2013) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+anti-spam update
+------------------------------------------------------------------------
+r1177 | funkydude | 2013-11-17 17:58:25 +0000 (Sun, 17 Nov 2013) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+anti-spam update
+------------------------------------------------------------------------
+r1175 | funkydude | 2013-11-13 03:04:45 +0000 (Wed, 13 Nov 2013) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+Fix scanning bnet invites as they arrive, anti-spam update.
+------------------------------------------------------------------------

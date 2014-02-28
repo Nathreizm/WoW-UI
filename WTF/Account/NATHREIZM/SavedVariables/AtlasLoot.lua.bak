@@ -1,0 +1,21 @@
+
+AtlasLootDB = {
+	["namespaces"] = {
+		["DefaultFrame"] = {
+		},
+		["AtlasLootPanel"] = {
+		},
+		["WishList"] = {
+		},
+		["Filter"] = {
+		},
+	},
+	["showWarning"] = true,
+	["profileKeys"] = {
+		["Nathreizm - Rexxar"] = "Nathreizm - Rexxar",
+	},
+	["profiles"] = {
+		["Nathreizm - Rexxar"] = {
+		},
+	},
+}

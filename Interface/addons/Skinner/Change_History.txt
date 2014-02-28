@@ -1,0 +1,2774 @@
+b5.17688.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Update BuildNo
+	Update ReputationBar positioning
+	Bugfix for Bugsack option drop downs
+	Updated ACP skin
+
+b5.17658.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated Build & Version number checks
+	Updated Region processing code
+	Bugfix for MovieFrame skin
+	Updated Quartz skin
+	Skinned Bartender4, RaidRoll
+
+b5.17614.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated epgp skin
+
+b5.17614.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated Version No & Release No checks & moved scan of UIParent's children
+	Added skins
+	- MovieFrame
+	- AuthChallengeUI (cannot be skinned)
+	Added Missing button borders
+
+b5.17538.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Added missing Locale files, esES, esMX, itIT, ptBR & ruRU
+	Updated Carbonite skin
+
+b5.17538.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for Button skinning
+	Updated TradeSkillMaster skin
+
+b5.17538.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated version number checks
+	Updated Cork, LibTradeSkillScan, Recount, TradeSkillMaster, XLoot, _NPCScan, oQueue & tektip skins
+
+	Added Callback processing for UIParent's Children
+
+b5.17399.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated version no
+	Add global indicator
+	Skin HealBot Minimap Button
+	Updated Ace3, Cork, HealBot, Recount, TradeSkillMaster & tektip skins
+
+b5.17539.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated UnitFrame alert textures code to prevent taint
+	Applied PTR changes to code
+
+b5.17271.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated PTR version number
+	Handle reskinning the same frame
+	Updated PVP skin
+	Updated ArchaeologyUI skin
+	Updated UnitFrames skins
+	Updated MiniMapButtons skin
+	Updated MiniMap skin
+	Bugfix for ReputationWatchBar position
+	Updated LFD skin
+	Updated HelpFrame skin
+	Updated CombatLogFrame skin
+	Updated ChatEditBox skin
+	Updated Recount skin
+	Skinned LibDialog & LibToast
+
+b5.17252.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated PTR version
+	Revert ToT frame move
+	UIButtons code tidy
+	Update LFD popup skin
+	Minimap Button skin updates
+	Bugfix for Jostle library and Minimap
+	Button skin updates
+	Skin GM Ticket button
+	Bugfix for text & icons appearing behind skin
+	Updates to CharacterFrame skin
+	ItemUpgradeUI skinning code moved from UIFrames to NPCFrames
+	PTR Changes
+
+b5.17227.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated UnitFrames to use a rectangular threat texture
+	Updated Button checking code
+	Updated Button skin code to use SecureButtonTemplate as required
+	Overcome Blizzard bug to show options panel correctly
+	Updated DestinyFrame, GuildBankPopup, HelpFrame, LFDQueueFrame, ExtraActionButton, MinimapButtons, Nameplates & GroupFinder skins
+	Updated GuildFinderRequestMembershipFrame skin
+	Updated PVPQueue & TalentFrame textures code
+	Updated AutoBag, Carbonite & oQueue skins
+	PTR changes
+	Skinned SilverDragon
+
+b5.17128.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Added checks for SexyMap to prevent Minimap skinning
+	Updated Prat3 & WIM skins
+
+b5.17128.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated Version Number check value
+	PTR 5.4.0 changes
+	Rearranged LootFrame skin code
+	Move AutoQuestPopup icon
+	Skin PVPFramePopup, PVPRoleCheckPopup & PVPReadyDialog
+	Bugfix for QueueStatusFrame and SexyMap
+	Updated skins which use updated Tooltip Template frame
+	Readjust PetBattleUI Background frame sizes
+	Bugfix for EncounterJournal
+	Updated VuhDo skin
+	Skinned PetBattleHUD
+
+b5.17055.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated EditBox skinning code
+	Updated LilSparky's Workshop skin
+
+b5.17055.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Version No. check changes
+	Bugfix for LoD add ons that aren't always ;)
+	Updated Livestock & Tukui skins
+
+b5.16992.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Renamed some debug helper commands
+	Updated BuyEmAll skin
+	Skinned PetTracker
+
+b5.16992.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	only declare variable when required
+	Bugfix for UIButtons skinning code
+	Updated Arena UnitFrames skin
+	Updated Ace3 & oRA3 skins
+
+b5.16992.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated UIButton check
+	Updated BonusRollFrame skin
+	Updated Dominos, HabeebIt & RaidAchievement skins
+
+b5.16992.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated version number check
+	Updated SorhaQuestLog skin
+
+b5.16983.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Code tidy
+	Updated PetBattleUI skin
+	Bugfix for ChatTab skin
+	Applied PTR specific code
+	Updated Ace3 & Mapster skins
+	Skinned PetBattleMaster & SorhaQuestLog
+
+b5.16965.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated PetJournal code
+	Added option to use ClassColours for Backdrop background
+	Updated Dominos & PetJournalEnhanced skins
+
+b5.16946.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated oRA3 skin
+
+b5.16946.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated version number check
+	Added option to not skin the ExtraActionBar
+	Added option to disable ChatTab fading
+	Align code
+	Display WatchFrame AutoQuest Popup icon background
+	Adjust button borders
+	PTR updates
+	Updated Bagnon & PetJournalEnhanced skins
+	Skinned Habeebit
+
+b5.16769.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Removed comment, added new debug commands
+	PTR 5.3.0 changes
+	Bugfix for Column Heading skinning
+	Updated AchievementUI skin
+	Updated UnitFrames skin
+	Updated LevelUpDisplay skin
+	Updated QuestChoiceFrame skin
+	Updated QuickMark skin
+	Skinned LUI
+
+b5.16709.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated version number checked
+	Use global names
+	Bugfix for PlayerFrame class bars
+	Bugfix for QuestChoiceFrame skin
+	Updated Tukui skin
+
+b5.16709.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated LFD skin
+	Bugfix for EncounterJournal skin
+	Skin WatchFrameScenarioFrame
+	Bugfix for QuestChoiceFrame
+	Bugfix for text searches
+	Updated CensusPlus & oQueue skins
+
+b5.16685.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated buildNo for checks, added button border to conversation button & check for already skinned buttons
+	Skinned CensusPlus
+
+b5.16656.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Applied PTR code
+	Skinned FlaresThatWork
+
+b5.16656.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	PTR updates: UnitFrames, WarGamesFrame, BonusValor
+
+b5.16656.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for PetJournal skin
+	Updated Baggins skin
+
+b5.16621.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for PetJournal skin
+	Updated Ace3, CollectMe & ZygorGuidesViewer skins
+
+b5.16591.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated DBM & XLoot skins
+	Updated SkinButton code
+	Updated MagicButton skin code
+	PTR 5.2 Changes
+
+b5.16357.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated UIButton skin
+	Updated Chatter, EnhancedStackSplit & ZygorGuidesViewer skins
+
+b5.16357.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated button & drop down skins
+	Updated UnitFrames skin
+	Updated Minimap & MinimapButtons skins, options
+	Updated BankItems, BattlePetCount, Pawn & XPerl skins
+	Skinned InboxMailBag, ProspectBar, RAQ & ZygorGuidesViewer
+
+b5.16357.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated Collectinator skin
+	Updated ItemUpgradeUI skin
+	Updated Patch check
+	Updated QuestInfo skin
+	Updated WhoFrame skin
+
+b5.16309.7
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated HealBot & PetBattleTeams skins
+
+b5.16309.6
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Correct comment
+	BugFix for ChatTemporaryWindow tabs
+	Enable/Disable button borders
+	Bugfix for debug message
+	Bugfix for NamePlates
+	Bugfix for PetJournal
+	Updated PetBattleTeams skin
+
+b5.16309.5
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Applied PTR changes to live
+
+b5.16309.4
+Jncl:
+	Updated .pkgmeta to correctly define findglobals
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for LootFrame
+	Bugfix for Bottom/Middle/Top frames
+	Updated Armory, FramesResized & Pawn skins
+	Skinned Wholly
+
+b5.16309.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for TalentUI skin
+
+b5.16309.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for ChatTemporaryWindow skin
+
+b5.16309.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Added code to help identify objects for skinning
+	Updated Button skinning code
+	Updated ChatTemporaryWindow skin
+	Updated CharacterFrames skin
+	Updated LootHistory skin
+	Updated TalentUI skin
+	Updated SideDressUpFrame skin
+	Updated ReforgingUI skin
+	Bugfix for AuctionUI
+	Bugfix for moveObject function
+	Bugfix for TalentUI/GlyphUI
+	Updated FishingBuddy, Pawn & ProfessionTabs skins
+	Skinned AuctionMaster & ItemDB
+
+b5.16231.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Removed redundant code
+	Updated LootFrame skinning code
+	Bugfixes
+	Updated Ace3, BetterInbox, Carbonite, GnomishVendorShrinker & Mapster skins
+	Skinned ProfessionsVault
+
+b5.16231.3
+Jncl:
+	Updated Change_History.txt
+	Bugfix for ChatTabs skin
+
+b5.16231.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for ChatTabs skin
+
+b5.16231.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Comment out debug code
+	Updated PetBattle Tooltip fade code
+	Update for ButtonBorders skinning
+	PTR changes
+	Updated ChatTab skin
+	Bugfixes for ButtonBorder skinning
+	More SkinButton & AddButtonBorder changes
+	Updated Carbonite, Examiner & PetBattleTeams skins
+	Updated codebase; locally localised variables, refactored string concatenations, skin frames & button borders now stored within parent objects & a myriad of other small changes
+	Changed ButtonBorder skin name from sb to sbb
+	Updated Ace3, AucAdvanced, BetterInbox, DBM, EnhancedStackSplit, FishingBuddy, GnomishVendorShrinker, HealBot, Mapster, Outfitter, PetJournalEnhanced, WIM, WoWPro & tekKonfig skins
+	Bugfix IOF skin
+	Reinstated Nameplates skinning code
+	Bugfix for Dropdown skinning code
+	Update PaperDoll Sidebar tabs skin & PetBattleUI skin
+	Update HelpFrameGM_Response frame skin
+	Update QuestInfo skin
+	Update ItemALterationUI skin
+	Use SetShown to control visibility of frames and buttons
+	Updated TOC Interface version number for PTR changes
+	Revert removal of print statement in debug code
+
+b5.16135.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated TOC to use project version (i.e. Tag)
+	Bugfix for text finding function
+	Tidy up UnitFrames skinning code
+	Remove redundant print statements
+	Remove redundant skin disabling code
+	Don't skin IOP objects managed by other skins
+	Bugfix for MicroButton button borders not being applied if Bartender4 is loaded
+	Updated BetterInbox, Outfitter & ReforgeLite skins
+
+b5.16135.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated isPatch check
+	Updates to MainMenuBar button border skin code, skinned PetBattlePrimaryUnitTooltip (again?)
+	FLightMapEnhanced skin update
+	UIButton skinning updates
+	Bugfix for Animation fadeout
+	Updated Scroll of Resurrection skin
+	Bugfix for Paperdoll Sidebars
+	Updated Bagnon, FarmIt2, FlightMapEnhanced, GroupCalendar5, Outfitter & _NPCScan skins
+
+b5.16057.6
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated comments and explicitly return nil
+	Updated PetBattleUI skin
+	Bugfix for BNToast skin
+	Updated XLoot skin
+	Updated ArkInventory, BattlePetCount, EnhancedStackSplit, PetBattleTeams & _DevPadGUI skins
+	Refactored String Text checks
+	Bugfix for AdiBags
+	Refactored ButtonBorder code
+	Updated many utility functions with extra checks & Bugfixes
+	Updated ChannelPullout skin
+	Bugfix for Transmogrify skin
+	Bugfixes for Ace3 & TradeSkillMaster skins
+	Skinned PetJournalEnhanced
+
+b5.16057.5
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Remove redundant button skinning code
+	Remove print statements
+	Updated MainMenuBar skin
+	Skin Tutorial buttons
+	Updated PetBattleUI skin
+	Updated PetJournal skin
+	Reworked handling of Fading Alert frames
+	Implemented DisableAll feature for Blizzard frames
+	Bugfix for TradeFrame skin
+	Updated FriendsFrame skin
+	Bugfix for PetBattle ActionButtons
+	Updated AckisRecipeList, Bagnon, Cork & oQueue skins
+	Skinned BattlePetCount, HaveWeMet & PetBattleTeams
+
+b5.16057.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for missing Debug function
+	Bugfix for button skinning code
+	Skinned QueueStatusFrame
+	Skinned oQueue
+
+b5.16057.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated Clique, PerlClassic & Spew skins
+	Comment update in toc file
+	Don't skin MainMenuBar if other action bar addons are loaded
+	Bugfix for CompactFrames & Tukui issue
+	Tidyup debug code
+	Disable UnitFrames if other unitframe addons are loaded
+	Bugfixes for button skinning code
+	Bugfix for OverrideActionBar
+	Obsoleted RockConfig
+
+b5.16057.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix in button skinning code
+
+b5.16057.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated TOC comments
+	Bugfix for debug helpers
+	Bugfixes for button skinning code
+	Skin UnitPowerBarAlt
+	Bugfix for Warlock UnitFrame skin
+	Bugfixes for ItemTextFrame, and IOF panels skins
+	Bugfixes for EncounterJournal, SpellBook and WatchFrame skins
+	Add another button to the loot frame as there is extra space
+	Bugfix for VoidStorage frame
+	Bugfix for some MoP frames not being skinned when loaded, defaults were wrong
+	Bugfix for GroupLoot and Loot History frames
+	Bugfix for column heading buttons
+	Fix for a complete mess of file attributes, now should be all ok, I hope
+	Updated skins
+	Ace3, AdiBags, ArkInventory, AucAdvanced, Auctionator, AutoBag
+	Bagnon
+	Dominos
+	LibDropdown, Livestock
+	PreformAVEnabler, ProfessionTabs
+	Recount
+	_DevPadGUI
+	Skinned CollectMe & Notes
+
+b5.16016.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Code tidy up
+	Updated GroupCalendar5 skin
+
+b5.16016.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Handle oddly named AddOns properly, code tidy up
+	Skin ChallengesFrame Leaderboard button
+	Bugfix for Gradient
+	Bugfix for SpellBook frame
+	Make MiddleFrames easier to see when first created
+	Bugfix to stop tab buttons being skinned twice
+	Updated skins:
+	Altoholic, CombustionHelper, DBM, LibQTip, MogIt, Outfitter, ProfessionTabs, Recount, Skada & UrbanAchiever
+	Skinned BulkMail2, FarmIt2 & LibDropdown
+
+b5.16016.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for Dungeon Finder issue
+	Bugfix for missing localisations
+
+b5.16016.1
+Jncl:
+	ToDo.txt
+	Beta changes
+	Disable Nameplates skinning
+	Updated embedded libraries
+	Applied all Beta changes as they are now live
+	MoP Beta changes for all new Frames and functions
+	Unchanged files that needed to be staged ??
+	Changes after "master" merge
+	Beta changes so far
+	ToDo.txt (15640)
+	Initial MoP Beta changes
+
+b4.15595.10
+Jncl:
+	ToDO.txt
+	Updated Change_History.txt
+	Comment out EventHandling code as it is no longer required
+	Updated BattlefieldMinimap code to allow a gloss effect a la Minimap
+	Updated oGlow skin
+	Updated XLoot skin
+
+b4.15595.9
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for UnitFrames module
+
+b4.15595.8
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Moved round2 function into UtilFuncs
+	Updated AdiBags, Fizzle & oGlow skins
+
+b4.15595.7
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated AdiBags, Fizzle & oGlow skins
+
+b4.15595.6
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Added ButtonBorders to Transmogrify and VoidStorage frames
+	Updated AdiBags skin
+	Skinned Fizzle & oGlow
+
+b4.15595.5
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+
+b4.15595.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Skin ChatFrame buttons, SkillBook Next/Prev buttons & CharacterFrame Expand button
+	Comment out debug message
+	Add delay before skinning Minimap buttons to allow for those created by other Addons
+	Skin QuestInfoSpellObjectiveFrame
+	Load GlyphUI skin when TalentUI loaded
+	Bugfix for ChatTabs
+	Updated AutoBag, Baggins (as reported by Decabah), BetterInbox, Quartz & ReforgeLite (as reported by Gershuun) skins
+
+b4.15595.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Code Tidyup
+	Updated HelpFrame skin
+	Updated the following skins for DropDown changes:
+	Outfitter, Overachiever
+	Pawn, Possessions, PowerAuras
+	QuestCompletist, QuestHistory
+	REFlex, RaidAchievement, ReforgeLite
+	Skillet
+	TooManyAddons
+	WIM, WeakAuras
+	XPerl
+	Skinned Reforgerade
+	Unobsoleted & Updated MrTrader_SkillWindow skin
+	Obsoleted NeatFreak, PartyBuilder, Toons & TotemCaddy skins
+
+b4.15595.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Code Tidyup
+	Bugfix for Warlock Pet UnitFrame level
+	Updated ARL & XLoot
+	Skinned PreformAVEnabler & X-UI library
+
+b4.15595.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated for 15595
+	Updated Buff skin
+	Skinned the MissingLoot frame
+	Updated XLoot skin
+	Skinned Smoker
+	Bugfix for MiniMapLFGFrame
+	Updated LFG Dungeon skin
+	Updated skins for dropdown changes
+	Updated drop down code etc, in the following skins:
+	_NPCScan
+	ACP, Accountant, Ace3, Acheron, AphesLootBrowser, Auctionator, Auctionsnatch, AutoBag
+	BaudBag, BetterInbox, BlackList, BossNotes
+	CFM, CLique, Configator
+	DBM
+	epgp, epgp_lootmaster
+	FeedMachine, FishingBuddy, FrierGeist_InstanceTime
+	G15Buttons, GnomeWorks, GuildBankSearch, GuildLaunchCT_RaidTracker
+	HandyNotes, HoloFriends
+	MogIt
+	Skinned AddonLoader & LibTradeSkillScan/LibTradeLinks
+	Obsoleted GearScore, GemHelper, GroupCalendar, GuildAds, GupCharacter, HealOrganizer, InventoryOnPar, ItemDB, LibSimpleOptions, LinksList, Ludwig, Luggage, Misdirectionhelper & MrTrader_SkillWindow skins
+	Obsoleted Cauldron, CurseRaidTracker, ElitistGroup, EveryQuest & ExtendedRaidInfo skins
+	Updated patch version number check
+	Updated UIButton code, set minimum height, align Help buttons with their highlight texture
+	Updated helper commands and made them debug only
+	Updated options code to correctly skin Calendar & TimeManager frames when selected
+	Updated UnitFrames code to position SpellBar text
+	Updated SkinTabs code to remove highlight texture positioning
+	Updated AchievementUI skin to determine if visible instead of shown
+	Updated ARL for scan button change
+	Updated Altoholic skin to add button borders
+
+b4.15354.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Make DropDown Buttons option default false
+
+b4.15354.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated options code
+	Updated VoidStorageUI code
+	Updated ScrollofResurrection code
+	UPdates for DropDown code changes
+	Updated BetterInbox skin
+	Skinned Megaphone
+
+b4.15211.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated UIButtons code
+	Updated TradeSkillMaster skin
+	Skinned AphesLootBrowser
+
+b4.15050.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated BetterInbox, DockingStation, PhoenixStyle & XLoot10 skins
+
+b4.15050.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated MerchantFrames skin
+	Updated AdiBags, AtlasLoot & FishingBuddy skins
+	Skinned ExtVendor
+
+b4.15050.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated CompactFrames code
+	Updated LookingForGuildUI code
+	Updated CastingBar code
+	Updated UnitFrames code
+	Updated AutoBag, Cork & _DevPadGUI skins
+
+b4.15050.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated patch checking code
+	Code tidyup
+	Show ChatTab icon
+	Adjust WorldMap slider width
+	Bugfix for ChatEditBox skin
+	Bugfix for RaidFames
+	Updated AutoBag, Cork, GnomishVendorShrinker & Tukui skins
+	Skinned G15Buttons & TrinketBar
+
+b4.15005.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for ReforgingUI
+	Removed Patch checking code
+	Skin Totem frame
+	Added classification icon to Focus frame
+	Move BattlefieldMinimap close button
+	Bugfix for ChatFrame editboxes
+	Adjust position of Combo Frame for elite/rare mobs
+	Make Chat Tabs less obtrusive when given a texture
+	Make Guild Recruitment Comment text more visible
+	Bugfix for missing Encounter Journal Search text & Icon
+	Standardised Slider Track widths
+	Updated & rationalised Tab skinning code
+	Updated AckisRecipeList, AtlasLoot & QuestCompletist skins
+	Update EncounterJournal side tab code
+	Update BattlefieldMinimap code
+	Skinned MogIt
+
+b4.14899.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Patch 4.3.0.14899 changes
+	Added Button skinning code for MerchantRepair/ConsolidatedBuffs
+	Code Tidyup
+	- Added missing options
+	- Rationalised Inset code
+	- Coloured text as required
+	- Fix CastingBar frame being moved/reset
+	- Removed Backdrops as required
+
+b4.14545.5
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Tidyup code
+	Bugfix for old option setting
+
+b4.14545.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Removed extraneous line
+	Added skin code for Ampere
+	Skin TemporaryChatFrame
+	Bugfix for ChatTabs
+	Updated AucAdvanced skin
+	Skinned _DevPadGUI
+
+b4.14545.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Allow Border widths in multiples of 1
+
+b4.14545.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated LookingForGuildUI code
+	Skinned Reforgenator
+
+b4.14545.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Removed/Updated patch code
+	Skinned WTFLatencyMeter
+
+b4.14480.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Move CastingBar text up
+	Updated AdiBags, Archy & Skada skins
+
+b4.14480.1/2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Added removeTexture function
+	Added more testing functions
+	Updated UIButton code
+	Bugfix for GuildRank dropdown position
+	Updated FlyoutButtonCustom, Skada, XLoot1.0 & xMerchant skins
+	Skinned QuestHelper2 & ReforgeLite
+
+b4.14333.5
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated Combuctor & CombustionHelper skins
+
+b4.14333.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated Combuctor skin
+	Skinned Glamour
+
+b4.14333.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated HealBot skin
+	Skinned CombustionHelper
+
+b4.14333.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for CompactFrames skin
+	Updated FishingBuddy skin
+
+b4.14333.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Removed Patch checking code
+	Updated Ludwig skin
+	Tidyup Minimap skin code
+	Bugfix for GMChatUI skin
+	Bugfix for MenuFrames skin
+	Updated HealBot (thanks to acirac)
+	Skinned VuhDo
+	Skinned ReagentMaker
+
+b4.14265.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated DBM skin
+
+b4.14265.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Minor Button skinning changes
+	Bugfix for Calendar Raid Total button
+	PTR Changes
+	Updated DBM & DockingStation skins
+	Skinned CoolLine
+
+b4.14199.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Skin Battleground/Arena Timer
+	Bugfix for WatchFrame skin
+	Various Blizzard Skin updates
+	PTR changes
+	Updated ArkDewdrop, AucAdvanced, BindPad, Configator, Panda, Scrap, Tukui, Violation & oRA3 skins
+	Skinned GuildMaster & Warden
+
+b4.14007.3
+Jncl:
+	ToDo.txt
+	Update Change_History.txt
+	Bugfix for Scrap Tab
+	Bugfix for Nameplates skin
+	Bugfix for ClassTrainer skin
+
+b4.14007.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Patch 4.1 tidyup
+	Bugfix for Nameplates skin
+	Bugfix for ClassTrainer skin
+	Updated Scrap & Tukui skins
+
+b4.14007.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated some utility functions
+	Removed Patch checking code
+	Updated Nameplates skin
+	Updated Ace3, Altoholic & Scrap skins
+	Skinned FlyoutButtonCustom & TradeSkillMaster
+
+b4.13914.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Patch bugfixes
+
+b4.13914.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix PaperDollFrame skin
+
+b4.13914.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Check for Patch rather than PTR
+
+b4.13914.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Use rounding function to find frames instead of ceil
+	Updated Ace3, ElvUI & MinimalArchaeology skins
+	Bugfix for Class Colouring
+	Unobsoleted BaudManifest
+	Skinned ReagentRestocker
+
+b4.13875.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	PTR changes
+	Updated ElvUI skin
+
+b4.13850.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated ElvUI skin
+	Skinned REFlex
+
+b4.13812.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Options changes
+	PVP Areana panel changes
+	Tab type changes
+	PTR changes
+	Skinned epgp_lootmaster
+
+b4.13707.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for PTR changes
+	Updated FlightMapEnhanced
+
+b4.13707.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	PTR changes
+	Updated FlightMapEnhanced & Tukui skins
+
+b4.13682.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	PTR 4.1 changes
+	Updated MagicButton skinning code
+	Updated AckisRecipeList, Archy, FlightMapEnhanced, MtTrader_SkillWindow & Tukui skins
+	Skinned ElvUI
+
+b4.13623.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Removed debug print statements
+	Updated AucAdvanced, PowerAuras, Quartz & Tukui skins
+	Skinned Scrap
+
+b4.13623.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated code to help in other skins
+	Updated TOC and Locale_enUs for AceLocale changes
+	Bugfix for GuildUI
+	Removed remaining Cata beta checks
+	Updated PowerAuras & Tukui skins
+	Skinned DeathNote, Fortress & WeakAuras
+	Updated Ace3 skin to support WeakAuras skin
+	Updated UIButtons skin to support WeakAuras skin
+
+b4.13561.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated Auctionator skin
+
+b4.13561.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for LoD AddOns
+	Added option to use Class Colours for Border colour
+	Updated BaudBag & QuestHistory skins
+
+b4.13329.6
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated AckisRecipeList, Archy, Armory, GnomeWorks, MinimalArchaeology, Panda, RicoMiniMap & Skillet skins
+	Renamed Button skin tablename
+	Skinned MinimapMapButton
+	Added new UIButton skin style
+	Skinned EnergyWatch (thanks to DavidTheMachine) & Squire2_Config
+
+b4.13329.5
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Remove spurious code
+	Another fix for Action Buttons borders
+	Updated UIButtons skin code
+	Updated ArchaeologyUI skin
+	Skinned Archy & CurseRaidTracker
+	Updated MinimalArchaeology skin
+
+b4.13329.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	BugFix for WatchFrame Popups
+	Skinned MinimalArchaeology
+	Updated GearScore & PhoenixStyle skins
+
+b4.13329.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated ChatEditBox skin code
+	Bugfix for taint caused by ButtonBorder skin code
+	Bugfix for PartyFrames skin code
+	Updated UIButton skin code
+	Updated InspectUI skin code
+	Updated IOF skin code
+	Updated EnhancedFlightMap, Examiner, HealBot, Outfitter & UrbanAchiever  (thanks to T0mate) skins
+	Skinned BossInfo, FlightMapEnhanced
+	Renamed QuestGuru skin to QuestGuru_Tracker
+	Unobsoleted HandyNotes (thanks to acirac)
+
+b4.13329.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated UnitFrames code
+	Updated QuestNPC & GuildNews Model frames
+	Updated Altoholic, BugSDack & MrTrader_SkillWindow skins
+	Skinned Cosplay, SnapShot & Vendomatic
+	Updated & renamed WoWPro skin
+
+b4.13329.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated BonusActionBar skin
+	Updated AtlasLoot & BugSack skins
+
+b4.13316.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	More Cata changes
+	Updated BugSack & EnchantrixBarker skins
+
+b4.13287.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated addSkinFrame code
+	Updated Combuctor, DoTimer, PowerAuras, QuestGuru & Tukui skins
+	Moved Bagnon_Forever code into new skin file
+	Updated Reforging skin
+	Updated UIButtons code
+
+b4.13287.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Better checks for different versions
+	Handle skin size changes better
+	Cata checks for tooltip skinning
+	Updated BonusActionBar skinning code
+	Updated UIButton skinning code
+	Updated VehicleMenuBar skin
+	BugFix for FeedbackUI skin
+	Updated AckisRecipeList, AtlasLoot, BugSack, QuestGuru & Tukui skins
+	Skinned QuestCompletist, ScrollMaster & PowerAurasButtons
+	Updated PowerAuras skin
+
+b4.13241.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix findFrame2 code
+	Updated AuctionProfitMaster skin
+	Updated and renamed Visor2_GUI skin
+
+b4.13241.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Changed all references to the Skinner object to aObj
+
+b4.13205.8
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated ColorPicker skin
+	Updated Armory skin
+	Skinned EnhancedColourPicker
+
+b4.13205.7
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated AuctionProfitMaster skin
+
+b4.13205.6
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated Ace3, Acheron & Prat-3.0 skins
+
+b4.13205.5
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated RaidAchievement skin
+
+b4.13205.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated TOC
+	Updated messages
+	Bugfix for CompactRaidFrames
+	Updated Acheron, AucAdvanced, GnomeWorks, TinyDPS, XLoot & tabDB skins
+	Skinned AuctionProfitMaster & XLoot1.0
+
+b4.13205.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	BugFix for reparenting textures
+	Updated AdiBags, AucAdvanced, AutoBag, QuestGuru, RaidAchievement, Tukui & Waterfall skins
+	Skinned SayGMOTD & TinyDPS
+
+b4.13205.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Tidy up code & comments
+	Bugfix for ToastFrame close button
+	Updated WorldStateScoreFrame xskin
+	Skinned ProfessionTabs
+	Updated ArkDewdrop, AucAdvanced, GuildBankSearch, Panda & Vendorizer skins
+
+b4.13205.1
+Jncl:
+	ToDo.txt
+	Removed Debug messages
+	Standardise Hooking code
+	Skinned FB_OutfitDisplay & FB_Tracking plugins
+	Updated Change_History.txt
+	Updated .gitignore
+
+b4.13164.9
+Jncl:
+	Updated .gitignore
+	Updated HealBot skin
+	Bugfix for WatchFrame errors
+	Bugfix for ChatTabs
+	Updated GuildUI skin
+	Updated Altoholic, FlightMap, MrTrader_SkillWindow, Quartz & UrbanAchiever skins
+	ToDo.txt
+	Updated Change_History.txt
+	Updated CompactRaidFrames skin
+	Made CompactFrames skin default false
+
+b4.13164.8
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated ToggleTabs code
+	Bugfix for ChatTabs skin
+	Updated MrTrader_SkillWindow & Quartz skins
+
+b4.13164.7
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Move BuffFrame when skinning Minimap
+	Bugfix for AlertFrames skin
+
+b4.13164.6
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Tidyup Tab code
+	Rationalise use of locals
+	Updated Minimap & MinimpaButtons code and options
+	Skinned RolePollPopup & CompactUnitFrames
+	Skinned AISeller & RaidComp
+	Updated Ace3, AucAdvanced, Chinchilla, InspectEquip, MrTrader_SkillWindow, RaidAchievement & TradeTab skins
+
+b4.13164.5
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Make GhostFrame appear in front of other frames
+	Skin tekKonfig objects when used
+	Added Minimap skin
+	Updated MinimapButtons skin
+	Updated AlertFrames skin
+	Updated UnitFrames code
+	RaidChecklist
+	Skinned RaidChecklist
+	Updated !Swatter, ArkInventory, Chinchilla, HealBot, Pawn, RicoMiniMap, Squeenix, tekKonfig skins
+
+b4.13164.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated Viewport code
+	Updated MinimapButtons skin
+	Updated FriendsFrame skin
+	Skinned PetsPlus
+	Update !Swatter, Altoholic, Outfitter, PerlClassic, PhoenixStyle & RaidAchievement skins
+
+b4.13164.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for TexturedTab sizes
+	Updated UIButtons code
+	Updated !Swatter, Grid, GupPet & PhoenixStyle skins
+
+b4.13164.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Skinned ArkDewdrop
+	Tidyup UIButtons code
+	Updated IOF panel skin
+	Updated skins
+	- AckisRecipeList, AdiBags, ArkInventory, Armory, AucAdvanced, CFM, Clique, Grid, PallyPower, QuestGuru, RaidAchievement, _NPCScan, beql, tekKonfig & tomQuest2
+	Bugfix (4.0.1) for MiddleFrames
+	Moved Tutorial Option
+	Updated UIButtons skin code
+	Updated TimeManager skin
+	Updated Tutorial skin
+	Updated TradeSkill skin
+	Beta change:
+	Updated AlertFrame skin for Guild Achievements
+	Updated HealBot skin (thanks to acirac)
+	Bugfix for KnowledgeBase button skinning
+	Updated all code and consolidated changes for Patch 4.0.1
+
+b4.13164.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	More Beta Changes
+	Added option to skin Item buttons
+	Updated !Swatter, AckisRecipeList & LibQTip skins
+	Added option to name MiddleFrames
+
+b4.13066.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated ArkInventory skin
+
+b4.13066.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated ArkInventory skin
+	Library Skins update
+	- Load them if loaded with LoD Addons
+	- Add to list of disabled skins in options
+	- Handle skins being loaded multiple times
+	Bugfix for InterfaceOptionsFrameAddonsScrollBar texture
+
+b4.12984.2
+Jncl:
+	ToDo.txt
+	Updated change_History.txt
+	Tidyup code
+	FeedbackUI changes
+	More Beta changes
+	Added option to keep Achievement textures
+
+b4.12984.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	More Beta/PTR changes
+	Improve Frame Enabling/Disabling code
+	Updated ArkInventory skin
+	Skinned FPSideBar, POMAssist & WowLua
+
+b4.12857.1
+Jncl:
+	Beta change
+	Merge branch 'Beta'
+	Beta changes
+	Updated Change_History.txt
+	Beta changes, Part 1
+
+b3.12340.16
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated GuildGreet & LazyAFK skins
+
+b3.12340.15
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	comment out debug message
+	Check for Tooltip StatusBar glazing
+	Added options to select texture for Inactive Tab & DropDowns
+	Skinned BossNotes, QuestHelper & xMerchant
+	Updated AckisRecipeList, GuildGreet & UrbanAchiever skins
+
+b3.12340.14
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for Textured Dropdowns
+	Bugfix for LoadManaged addons
+	Updated Ace3, AucAdvanced & LazyAFK skins
+
+b3.12340.13
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Removed redundant code
+	Updated BasicChatMods & LazyAFK skins
+
+b3.12340.12
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Changes for new Background Texture feature
+	Updated Ace3, FishingBuddy & GuildGreet skins
+
+b3.12340.11
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for tiling issues
+
+b3.12340.10
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Fix for Backdrop textures being stretched
+	Bugfix for LFD skinframe frame level being too low
+	Updated AucAdvanced skin to handle beta 5.9 version changes
+
+b3.12340.9
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for PendingInvites Frames
+
+b3.12340.8
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+
+b3.12340.7
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Allow frames to be reparented to a named parent
+	Skinned BattleNet Invites panel(s)
+	Added panel to allow skins to be Disabled
+	Added Minimal MiniMap buttons option
+	Updated Gradient code for Top/Bottom/MiddleFrames
+	Updated Ace3, AckisRecipeList, ArkInventory & ElitistGroup skins
+	Skinned !Swatter, Ara_Broker_Guild_Friends & Gobling
+
+b3.12340.6
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Skinned Arena Unit Frames
+	Updated AckisRecipeList, BasicChatMods & GnomeWorks skins
+
+b3.12340.5
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Skinned FriendsFriends frame
+	Updated Ace3 & GnomeWorks skins
+
+b3.12340.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated Ace3, AckisRecipeList and Prat3 skins
+	Bugfix for BNFrames error
+	Updated HealBot skin (thanks to acirac)
+
+b3.12340.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Misc changes
+	Bugfixes for frame whiteouts/level issues
+	Updated MiddleFrames
+	Updated Ace3, AckisRecipeList, BasicChatMods, Chatter & Prat3 skins
+
+b3.12340.2
+Jncl:
+	ToDo.txt
+	Updated AckisRecipeList skin
+	Updated Change_History.txt
+	Updated comment
+	Fix for BlizzardLoD frames issue
+	Frames with Tabs changes
+	Updated BattleNet skin
+	Fixed AlertFrame backgrounds
+	Added new ChatEditBox style (Borderless)
+	Updated FriendsFrame skin
+	Updated skins
+	- Armory, GearScore, NeonChat, Outfitter, Prat3 & XLoot
+	Skinned ExtendedRaidInfo, GuildGreet, LazyAFK, Misdirectionhelper & MuffinMOTD
+	Unobsoleted ItemRack
+
+b3.12340.1
+Jncl:
+	ToDo.txt
+	Added code to reset Colours & Gradient settings to default values
+	Removed Patch checking code
+	Bugfix for ChatTabs skin covering text & highlight
+	Updated Chatter, Prat-3.0 & Tukui skins
+	ToDo.txt
+	Updated Change_History.txt
+	Updated Ace3 skin
+	- capture Ace3GUI objects being created before skin is loaded and then skinning them
+	- stop ItemPimper from skinning itself
+	Updated fix for Blizzard LoD issue
+	Updated UnitFrames modules to show Threat indicator if Interface option selected
+	Removed debug msg from ARL skin
+	Unobsoleted Accountant skin
+
+b3.12213.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Misc UtilFunc changes
+	Bugfix for Blizzard LoD issue
+	Skinned GnomeWorks & RaidAchievement
+	Updated AckisRecipeList & XLoot skins
+
+b3.12166.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Patch 0.3.5 changes
+	Updated Ace3, AdiBags & Skillet skins
+
+b3.11723.9
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated alpha changes
+	Moved Utility functions into UtilFuncs.lua
+	Updated Ace3 & AucAdvanced skins
+	Skinned DragonCore
+
+b3.11723.8
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated code to return objects
+	Updated Backdrop option settings
+	Updated Frame Tab skinning code
+	Updated skins
+	- AtlasLoot, AucAdvanced, Grid, GroupCalendar5, GuildLaunchCT_RaidTracker, Hack, HealBot, XLoot
+	Skinned AdiBags, CloseUp
+	Unobsoleted FrierGeist_InstanceTime
+
+b3.11723.7
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Misc changes
+	Updated UIButtons module
+	- Use different minus character (Font issue)
+	Updated skins
+	- AckisRecipeList, ArkInventory & Skillet
+
+b3.11723.6
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Add ChatBar to skins.xml
+	Store ref to LDB object
+	UIButton change
+	Updated skins
+	- AtlasLoot, AucAdvanced, EnhancedStackSplit, HealBot, Quelevel & tomQuest2
+
+b3.11723.5
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Misc. changes
+	Updated WIM skin
+
+b3.11723.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Tidied up Skinner code
+	Skin IOF panel buttons
+	Added checks to WatchFrame and GearManager skins
+	Tidied up CharacterFrame1 code
+	Tidied up AddonFrames code
+	Updated skins
+	- Ace3, AutoPartyButtons, AzCastBarOptions, CFM, CalendarNotify, Cork, DockingStation, Enchantrix, EnhancedStackSplit,LibQTip, MSBTOptions, MakeRocketGoNow, Odyssey, WIM & tekBlocks
+	Tidied up UIButtons code
+	Updated WatchFrame options
+	Added HealBot skin (thanks to acirac)
+	Bugfixes for Top/Middle/Bottom frames & Viewport modules
+	Added frFr & deDE locale files
+
+b3.11723.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Added AlertFrames to CF1 list
+	Fix for StatusBar tiling issue
+	Updated AtlasLoot & Talented skins
+	Bugfix for IOP ScrollFrames
+	Bugfix in UIButtons module
+	Unobsoleted Possessions & Toons
+
+b3.11723.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Misc changes
+	Updated Altoholic, AtlasLoot & TipTac skins
+	Unobsoleted Violation
+
+b3.11723.1
+Jncl:
+	Updated skins to only load if Addon present
+	ToDo.txt
+	Reverted some excessive use of upvalue
+	Bugfix for mising Auctioneer CompactUI highlight
+	Skinned AutoPartyButtons, AzCastBarOptions, CFM, CalendarNotify & Odyssey
+	Updated ConcessionStand, EditingUI, EnhancedTradeSkills, HealOrganizer, HoloFriends & Tukui skins
+	Updates for UIButton changes
+	Obsoleted more skins
+	Other changes
+	Core file updates for UIButton changes
+	Skin updates for UIButton changes, part 1
+	Tidy up library contents
+	Obsoleted more skins
+	Disable Modules if not being used
+	Moved all UIButton code into a module
+	Changes for Modules, using db shorthand
+	Made ViewPort/Top/Middle/BottomFrames/UnitFrames code into modules
+	Make ViewPort code a module
+	Updated Change_History
+
+b2.11623.2
+Jncl:
+	ToDo.txt
+	Updated Change_History
+	Added isEnabledAddon function
+	Skinned Skada
+	Bugfixes for Tukui & oRA3
+
+b2.11623.1
+Jncl:
+	ToDo.txt
+	Updated Change_History
+	Added support for LSM global media changes
+	Added support for TukUI
+	Code changes for StatusBars and UI Buttons
+	Replaced several local tables with inline tables
+	Updated some skins
+	- Ace3, ATSW, AlleyMap, ArkInventory, Armory, BankItems, CallToArms, Cauldron, Hack, LauncherMenu, LibQTip, MSBTOptions, MakeRocketGoNow, Mapster, MobileVault, MrTrader_SkillWindow, PerlClassic, PlayerExpBar, PlusOneTable, Quartz, QuestGuru, Recount, ShadowDancer3, Skillet, TipTac, UrbanAchiever, WIM, XPerl, tekBlocks, tekDebug, tektip, tomQuest2
+	Obsoleted more skins
+	- BaudAuction, CBRippoff, DuckieBank, Healing Estimator, Jobber, Karma, MusicPlayer, NECB, ShieldLeft, SimpleMouseoverTarget, SuperInspect_UI
+
+b2.11599.1
+Jncl:
+	ToDo.txt
+	Updated Change_History
+	More Texture changes
+	Updated Armory, Hack & tekDebug skins
+	Skinned GearScore
+
+b2.11573.4
+Jncl:
+	ToDo.txt
+	Updated Change_History
+	Removed NameFrame texture on GroupLoot, Loot, Merchant, QuestInfo & Trade Frames
+	Changed SlotTexture as well
+	BugFix for AuctionUI errors
+	Updated BetterInbox & GnomishVendorShrinker skins
+	Skinned GupPet
+
+b2.11573.3
+Jncl:
+	ToDo.txt
+	Updated Change_History
+	Removed unnecessary table
+	Bugfix for GetBackdrop error
+	Updated slot textures on Merchant, Quest, Mail Frames and AuctionUI panels
+	Updated Ace3, AlleyMap, AucAdvanced, Mapster & oRA3 skins
+	Skinned GnomishVendorShrinker
+
+b2.11573.2
+Jncl:
+	Updated Change_History
+	Updated Top & Bottom frame max width to 2500
+
+b2.11573.1
+Jncl:
+	ToDo.txt
+	PTR 0.3.3.11573 changes
+	Skinned AuctionLite & RaidyCheck
+	Updated Change_History
+
+b2.11403.6
+Jncl:
+	ToDo.txt
+	Updated Change_History
+	Added Pet Level Text to Pet Frame and associated options
+	Updated oRA3 skin
+
+b2.11403.5
+Jncl:
+	ToDo.txt
+	Updated Change_History
+	Updated Button skin function
+	Updated UnitFrames (castbar shield texture)
+	Updated Quartz & tomQuest2 skins
+
+b2.11403.4
+Jncl:
+	ToDo.txt
+	Updated Change_History
+	Updated skinDropDown function
+	Updated ItemDB, Outfitter, Quartz, WIM & oRA3 skins
+
+b2.11403.3
+Jncl:
+	ToDo.txt
+	Updated Change_History
+	Rejigged startup and library checks
+	Load all skins using checkAndRun function(s)
+	BugFix for Outfitter
+	Updated Ace3, Cork, TokenUI, IOP & PetFrame skins
+	Removed references to removed skins
+	Obsoleted AuldLangSyne & aftt_extreme skins
+	Skinned GnomishAuctionShrinker
+
+b2.11403.2
+Jncl:
+	ToDo.txt
+	Updated Change_History
+	Updated ShowInfo & Print functions
+	Updated AlleyMap, Mapster & Outfitter
+	Added moveButtonText function
+	Added IntricateChatMods & MoveAnything skins
+
+b2.11403.1
+Jncl:
+	ToDo.txt
+	Updated Change_History
+	Updated WorldMap skin
+	Updated ElitistGroup
+	Skinned AlleyMap & BindPad
+	UIButton skin fixes for ARL & Collectinator
+	Updated Ace3, AckisRecipeList, AdvancedTradeSkillWindow, HealBot, Mapster, PassLoot & TourGuide
+	Skinned Collectinator & WoWPro
+
+b2.11159.5
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Removed local declarations
+	Updated Ace3, ArkInventory, AutoBag, Cauldron, FishingBuddy, LibQTip, QuestGuru, Waterfall, oRA3 & tomQuest2 skins
+	Skinned BasicChatMods & Producer
+
+b2.11159.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Minor UI changes
+	Skinned BasicScriptErrors frame and added option for it
+	Updated Ace3, AutoBag, Dewdrop, FramesResized, HealBot, LightHeaded, QuestGuru, RecipeBook, Skillet, oRA3 & tomQuest2 skins
+	Skinned DaemonMailAssist & Necrosis
+	Renamed SexyGroup to ElitistGroup
+	Updated ElitistGroup skin
+
+b2.11159.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Other fixes
+	Bugfix for MacroFrame
+	Updated QuestGuru, beql, oRA3 & tabDB skins
+	Bugfix for Ace3 skin
+	Changed RawHooks into nil functions
+	Skinned Auctionsnatch, EveryQuest, GupCharacter, QuickMark & SexyGroup
+
+b2.11159.2
+Jncl:
+	ToDo.txt
+	Changed way Blizzard frame tabs are handled
+	Bugfix for UnitFrames skinning
+	Updated Overachiever & UrbanAchiever skins
+	Updated Change_History.txt
+
+b2.11159.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated UIButtons
+	Changed WatchFrame default to false
+	UnitFrame tweaks
+	WorldMap & Mapster fixes
+	Updated AucAdvanced, Dominos, PhoenixStyle & tomQuest2 skins
+	Skinned Mapster, TooManyAddons, Vendorizer & Tabbed Dungeon Browser
+
+b2.10958.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Removed all Patch code
+	- Bugfix for AlertFrames
+	- Bugfix for moveable WorldMap
+	- Added option to change UnitFrame(s) opacity
+	Updated Ace3, HealBot, QuestGuru, Tablet & tomQuest2 skins
+	Skinned EggTimer
+
+b2.10958.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	PTR changes
+	Updated skinAllButtons function
+	PlayerFrame updates
+	Skinned BasicScriptErrors frame
+	PTR changes
+	Updated WorldMap tooltip skin
+	Bugfix for BattlefieldMinimap issue
+	Updated RaidUI skin
+	Skinned zfpoison
+	Updated xcalc skin
+	Updated AckisRecipeList, Altoholic, ArkInventory & AucAdvanced skins
+
+b2.10835.3
+Jncl:
+	ToDo.txt
+	Updated QuestFrame skin
+	Updated Change_History.txt
+
+b2.10835.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	UPdated TOC to add reference to LFRFrame
+	More UIButton changes
+	Bugfix for UnitFrame StatusBar positions (Blizz error)
+	Updated AckisRecipeList, AutoDecline, BugSack, HealBot, Skillet & tekKonfig skins
+
+b2.10835.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	PTR changes
+	Updated AckisRecipeList, BugSack, LibQTip, Waterfall & tomQuest2 skins
+	Skinned DailiesQuestTracker
+
+b2.10805.3
+Jncl:
+	Updated BugSack skin
+
+b2.10805.2
+Jncl:
+	Updated BugSack skin
+
+b2.10805.1
+Jncl:
+	ToDo.txt
+	Updated TOC number and comment
+	More PTR changes
+	BugFix for option changes
+	Added function to Adjust Widths
+	Skinned MrTrader_SkillWindow & PhoenixStyle
+	Updated ZOMGBuffs skin
+	Updated TwinValkyr_shieldmonitor skin
+	Updated MTLove skin
+	Updated Change_History.txt
+
+b2.10772.1
+Jncl:
+	ToDo.txt
+	UIButton change
+	Added new function
+	PTR 0.3.0.10722 changes
+	Updated Quelevel skin
+	UIButton updates
+	UnitFrame updates
+	Skinned Cauldron, HeadCount & TwinValkyr_shieldmonitor
+	Changes to QuestLog SV
+	Updated Change_History.txt
+
+b2.10505.6
+Jncl:
+	ToDo.txt
+	More UIButton changes
+	Obsoleted Prat skin
+	Skinned Highlight, Livestock, Mountiful, Prat3 & TinyPad
+	More UIButton changes:
+	- Updated Ace2, Ace3, ArkInventory, TipTac & Waterfall skins
+	- Updated RepBar skin
+	Updated MacroFrame skin
+	Handle InterfaceOption Panels which load OnShow
+	Better identification of buttons to skin
+	Skinned AnnouncIt, MacroBrokerGUI & PoMTracker
+	Commented out Debug statements:
+	- Updated Ace3, Armory, Bagnon, Carbonite, Combuctor, Dominos, Guild_Alliance, Luggage, MSBTOptions, MakeRocketGoNow, Overachiever, TradeTabs, _NPCScan & epgp skins
+	 Updated options
+	Make UnitFrame RareElite icon black
+	Updated HealBot skin (thanks to acirac)
+	Skinned PetListPlus & PlusOneTable
+	UIButton changes
+	- Updated ACP, Ace3, Altoholic, AucAdvanced, BankItems, BetterInbox, BugSack, Configator, EditingUI, EnhancedStackSplit, Hack, LightHeaded, Postal, Recount, Spew, TheCollector & Volumizer skins
+	- Updated Skinner & UIElements2
+	Replace nop with corresponding function
+	More UIButton changes
+	Make Target frame skin bigger
+	Bugfix for QuestLog minus/plus buttons
+	Updated Change_History.txt
+
+b2.10505.5
+Jncl:
+	Merge branch 'UIButtons'
+	Skin TutorialFrameOkayButton
+	Bugfix for tektip skin
+	UIButtons minus/plus changes
+	UnitFrame changes
+	Updated Change_History.txt
+	More UIButton changes
+
+b2.10505.4
+Jncl:
+	Bugfix for tektip
+	Updated Change_History.txt
+
+b2.10505.3
+Jncl:
+	Bugfix for Frame finding code
+	Updated HealtBot skin (thanks to acirac)
+	Updated Change_History.txt
+
+b2.10505.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Change UIButton option default to false
+	More UI Button changes
+	Remove spaces
+	Skin default UI buttons
+	Renamed BattleScore function to WorldState to match XML filename
+
+b2.10505.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Commented out Patch check
+	Updated UnitFrames
+	Updated CastingBar skin
+	Updated Quelevel skin
+	Updated oRA3 skin
+	Updated PassLoot skin
+	Updated AutoBag skin
+
+b2.10468.2
+Jncl:
+	Missed localisation
+
+b2.10468.1
+Jncl:
+	Updated Change_History.txt
+	ToDo.txt
+	Updated Change_History.txt
+	Updated Nameplates skin
+	Updated InspectUI skin
+	Updated TabardUI skin
+	Skinned UntiFrames
+	Skinned Auctionator
+	Updated PassLoot skin
+	Updated LibSimpleFrame skin
+	Updated EditingUI skin
+	Updated ArkInventory skin
+	Skinned LibSimpleFrame
+	Updated Quelevel skin
+	Updated LibQTip skin
+	Updated HealBot skin from acirac
+	Updated ArkInventory skin
+
+b2.10392.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated tomQuest2 skin
+	Updated Carbonite skin
+
+b2.10392.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Changed Layer for DropDown texture
+	Skinned Carbonite
+	Updated Atlas skin
+	Updated AtlasQuest skin
+
+b2.10392.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Changed default DropDown button position
+	Updated PaperDoll, Achievement & AuctionUI skins
+	Updated ZOMGBuffs skin
+	Updated WIM skin
+	Updated Skillet skin
+	Updated Quelevel skin
+	Updated FramesResized skin
+
+b2.10314.5
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Skinned NeatFreak & PartyBuilder
+	Updated DBM skin
+	Updated MSBTOptions skin
+	Updated Quartz skin
+	Updated RaidTracker skin
+	Updated Recount skin
+	Updated tekKonfig skin
+
+b2.10314.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated skinSlider code
+	Updated Eventtrace skin
+	Updated HealBot skin
+	- many thanks to acirac for the updated skin
+	Updated MacroBank skin
+	Updated FramesResized skin
+	Updated RaidInfo skin
+
+b2.10314.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Skinned BlackList
+	Updated Enchantrix skin
+	Updated oRA3 skin
+
+b2.10314.2
+Jncl:
+	Missed localisation
+
+b2.10314.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated GMSurveyUI skin
+	Removed tekKompare skin
+	Skinned RaidBuffStatus
+	Skinned Enchantrix
+	Updated _NPCScan skin
+	Updated LibExtraTip skin
+	Updated Panda skin
+	Skinned _NPCScan, BriefQuestComplete & ChatBar
+	Updated ShadowDancer3 skin
+	Updated Talented skin
+	Updated LibExtraTip skin
+	Updated ImprovedErrorFrame skin
+	Updated AucAdvanced skin
+	Updated MobMap skin
+	Fix height and texture of the Rested XP bar
+	Updated forum URL's in ReadMe.txt files
+	Updated ItemSocketing skin
+	Shield on Nameplate castbar now displays
+	Colour Quest honor text
+	Removed reference to LibQTipClick
+	Updated LibQTip skin
+	Consolidate PTR changes
+
+b2.10128.1
+Jncl:
+	ToDo.txt
+	Change_History.txt
+	Resized TimeManagerFrame
+	Reinstate Quest Text colouring code
+	Updated nQuestLog, Quel'evel & tomQuest2 skins
+	Skinned SmoothQuest
+
+b2.10116.1
+Jncl:
+	Renamed Change.history to Change_History.txt
+	Just a I decided to add a changelog I notice that the issue has been fixed
+	Updated changelog.txt
+	ToDo.txt
+	Added changelog entry to .pkgmeta
+	Added changelog text file
+	Updated usage of string functions
+	Changed way Quest Text is coloured
+	Resize TaxiFrame skin
+	Updated Dewdrop & Tablet skins
+	Updated tomQuest2 & LibQTip skins
+	Skinned Quel'evel
+	Updated Hack skin
+	Added Changelog.history
+	Updated ArkInventory skin
+	Updated AucAdvanced skin
+	ToDo.txt
+	Removed Debug message
+	Skinned Accomplishment
+
+b2.10083.1
+Jncl:
+	ToDo.txt
+	PTR 3.2.0 fixes
+	Use a NO-OP function instead of a RawHook
+	Fix OptDeps
+	Change colour of QuestTimerText
+	Skin Frame size changes
+	BugFix for Glyph Frame
+	Updated MoneyFrames for ColorBlindMode
+	Skinned Hack
+
+b2.9947.5
+Jncl:
+	Revert removal of LibStub & CallbackHandler
+	Updated .pkgmeta
+	Removed LibStub, CallbackHandler & LibBetterBlizzOptions from repo
+	ToDo.txt
+	Updated Character Frame skin list
+	Updated Tooltip skin & glazeStatusBar function
+	Updated LDB OnClick function
+	Changed OptDeps & no-lib-strip entries
+	Updated LibQTip skin
+	Updated Outfitter skin
+	Skinned the Guild Launch version of CT_RaidTracker
+
+b2.9947.4
+Jncl:
+	Updated initial checks
+	Updated Calendar skin
+	Bugfix for StaticPopups
+	Updated Configator skin
+	Updated Bagnon skin
+	Skinned GroupCalendar5
+	Skinned LauncherMenu
+
+b2.9947.3
+Jncl:
+	ToDo.txt
+	Updated XPerl skin
+
+b2.9947.2
+jncl:
+	Misc changes
+	Updated LilSparkysWorkshop skin
+	Updated Altoholic skin
+	Updated TipTac skin
+
+b2.9947.1
+jncl:
+	ToDo.txt
+	Updated CastingBar skin
+	Moved LibQTip skinning code into its own skin file
+	Updated XPerl skin
+
+b2.9901.6
+Jncl:
+	Removed Debug msg
+	ToDo.txt
+	Changed SecureHookScript to HookScript
+	Bugfix for DropDown check
+	Updated VehicleMenuBar skin
+	Updated TheCollector skin
+	Updated FishingBuddy skin
+	Updated Factionizer skin
+	Updated Tablet skin
+	Updated QuestGuru skin
+	Updated FramesResized skin
+	Updated Cartographer skin
+	Updated AckisRecipeList skin
+	Resurrected AutoProfitX
+
+b2.9901.5
+Jncl:
+	Remove old commented localizations
+	Changes to use WoWAce localization feature
+
+b2.9901.4
+Jncl:
+	ToDo.txt
+	Cosmetic skin changes
+	Updated AchievementAlert skin
+	Bugfix for LootFrame skin
+	Skinned EventEquip
+	Skinned DockingStation
+	Use default info for LDB
+	Updated tekKonfig skin
+	Updated Outfitter skin
+	Updated AucAdvanced skin
+
+b2.9901.3
+Jncl:
+	Merge branch 'master' of git@git.wowace.com:wow/skinner/mainline
+	Bugfixes
+	ToDo.txt
+	Updated LootFrame & PVPFrame skins
+	Updated AchievementAlert skin
+	Updated LightHeaded skin
+	Updated Combuctor skin
+	Updated QuestAgent skin
+	Updated IPopBar skin
+	Updated Examiner & TipTac skins
+	zhCN/zhTW update.
+	Tagging as b2.9901.2
+	zhCN/zhTW updated.
+	zhCN updated.
+
+b2.9901.1
+Jncl:
+	Cosmetic changes etc
+	Bugfix for WatchFrame
+	Added textures to resize buttons on WatchFrame
+	Updated DBM skin
+	Updated TipTac skin
+	Updated Combuctor skin
+	Updated several skins
+	- AckisRecipeList, CT_RaidTracker, LightHeaded, TradeJunkie, XPerl & tomQuest2
+	Skinned GearManager
+	Skinned Jobber
+
+b2.9835.6
+Jncl:
+	Updated ToDo.txt
+	Add option to remove textures to applySkin function
+	Updated DressUpFrame & MailFrame
+	Updated WoWEquip skin
+	Updated GuildBankSearch skin
+	Updated VehicleMenuBar skin
+	Updated WatchFrame a.k.a. TrackerFrame skin
+	Updated BattleScore skin
+	Added options to control the parts of the TrackerFrame to modify
+	Bugfixes for Calendar & InterfaceOptions
+	Bugfix for StatusBar texture updates
+	Updated tomQuest2 skin
+	Updated InstanceMaps skin
+	Updated Cartographer skin
+	Removed Cartographer_QuestInfo skin
+	Updated BetterBindingFrame skin
+	Updated Badapples skin
+	Updated QuestGuru skin
+	Bugfix
+	- Added metatable with weak keys to several tables
+	Bugfixes
+	- LibQTip issues
+	Updated DBM skin
+	Updated Locale files
+	koKr supplied by next96
+
+b2.9835.5
+Jncl:
+	Updated EnhancedStackSplit skin
+	Updated ToDo.txt
+
+b2.9835.4
+Jncl:
+	Updated ToDo.txt
+	Bugfixes
+	Updated sRaidFrames
+	Updated XPerl
+	Updated FramesResized_TalentUI
+	Updated AckisRecipeList
+	Skinned tomQuest2
+	Updated StackSplitFrame skin
+	- Made some functions local
+	Updated Outfitter skin
+	Added option to have fullscreen WorldMap
+	Updated QuestFrame skin
+	Updated epgp skin
+	Updated InventoryOnPar skin
+	Updated Examiner skin
+	Updated EnhancedStackSplit skin
+	Updated Chinchilla skin
+	Updated BetterInbox skin
+	Updated AuctionFilterPlus skin
+	Updated Altoholic skin
+	Updated AdvancedTradeSkillWindow skin
+	Ace3 skin - comment Debug
+
+b2.9835.3
+Jncl:
+	Bugfixes
+
+b2.9835.2
+Jncl:
+	Bugfix for handling changed Addons
+	Bugfix for handling changed Addons
+
+b2.9835.1
+Jncl:
+	Ignore .ackrc
+	Updated various skins
+	- Ace2, Ace3, AckisRecipeList, AucAdvanced, AutoProfit, Badapples, BetterBindingFrame, Configator, Examiner, Talented & oRA3
+	Removed DoubleWideTradeSkills & ExtendedQuestFrame
+	More code streamlining
+	Updated several skins
+	- AucAdvanced, Badapples, DoubleWideTradeSkills, LightHeaded, PerlClassic, QuestGuru, TourGuide, beql, oRA3
+	- Removed DoubleWide
+	Skinned BetterBindingFrame
+	Removed references to AutoProfitX & DoubleWide skins
+	More code streamlining
+	Added option for GMChatUI skinning
+	Updated UIElements2
+	- streamlined skinning code
+	Updated CF1, CF2 & NPCFrames
+	- more code tweaks
+	Updated UIElements1
+	- streamlined skinning code
+	Updated NPCFrames
+	- streamlined skinning code
+	Updated CharacterFrames2
+	- streamlined skinning code
+	Updated CharacterFrames1
+	- streamlined skinning code
+
+b1.9806.1
+Jncl:
+	Cosmetic changes to TalentUI & Social frames
+	Updated ToDo.txt
+	Updated TexturedTab skinning
+	Updated Social skin
+	Updated TalentUI skin
+	Skinned oRA3
+	Removed redundant code
+	Commented out debug messages
+	Updated VehicleMenuBar skin
+	Updated Talented skin
+	Updated GlyphUI skin
+	Updated GlyphUI skin
+	Skinned ExtendedQuestFrame
+	Updated Talented skin
+	Skinned Talented_SpecTabs
+	Updated epgp skin
+	Updated Altoholic skin
+	Updated GuildAds skin
+	Updated UrbanAchiever skin
+	Skinned WatchFrame
+	Bugfix for MainMenuBar issue
+	Skinned Volumizer
+	Updated GroupLoot & InspectUI skins
+	Updated AchievementUI skin
+	Updated WIM skin
+	Updated QuestGuru skin
+	Updated Ackis Recipe List skin
+	Updated Factionizer skin
+
+b1.9767.1
+Jncl:
+	Updated VehicleMenuBar skin
+	Patch changes
+	StatusBar changes
+	Bugfixes for PTR
+	PTR fixes
+
+b1.9551.5
+Jncl:
+	Updated Ace2 skin
+
+b1.9551.4
+Jncl:
+	Reinstated Armory and updated it
+	Updated TipTac skin
+	Updated Examiner, FishingBuddy & PallyPower skins
+	Updated Factionizer skin
+	Updated Reputation Frame skin
+	Bugfix for options
+	Skinned RicoMiniMap
+	Updated Dominos skin
+	Included LibStub, CallbackHandler, LibDataBroker, LibDBIcon & LibBetterBlizOptions files
+	Bugfixes
+
+b1.9551.3
+Jncl:
+	Updated AutoProfit skin
+	Obsoleted AutoProfitX skin
+	Bugfix for missing library
+	Skinned IPopBar
+	PTR 3.1.0 changes
+
+b1.9551.2
+jncl:
+	Skinned LilSparky's Workshop tooltip,
+	Updated PowerAuras skin
+
+	Skinned PowerAuras (partial)
+	Updated Altoholic & Panda skins
+	Moved Achievement Alert frames up
+	Updated many skins to stop polluting the Addons with Skinner variables
+	Obsoleted Assessment, Buffalo2, FuBar_PoisonReminderFu, GuildEventManager2, OptionHouse, SanityBags & SpecialTalentUI skins
+	Updated ArkInventory, UberQuest & tekKonfig skins
+	Obsoleted Armory & EveryQuest skins
+	Tidied up Debug/Print functions
+
+b1.9551.1
+jncl:
+	Skinned Acheron, LibExtraTip, tektip, TheCollector, TotemCaddy
+	Updated AucAdvanced & Recap skins
+	Obsoleted CharactersViewer
+
+b1.9506.3
+jncl:
+	Updated AtlasLoot, Panda & Squeenix skins
+	- Bugfix for InspectUI
+
+b1.9506.2
+jncl:
+	Skinned VendorSearch
+	Added more error checking code
+	- Updated Altoholic, ArkInventory, AucAdvanced & Squeenix skins
+	- Bugfixes for errors found by new checks
+
+b1.9506.1
+jncl:
+	Tidied up xpcall code
+	Skinner: Renamed Ash_DoTimer to DoTimer and updated it
+	- Updated Panda, tekKonfig & TradeTabs skins
+	- changed some functions in a lot of skins
+	- Bugfix for getChild/getRegion issue
+
+b1.9464.4
+jncl:
+	Skinner: Skin Configator frames if library is loaded
+	- Updated AucAdvanced & Gatherer skins
+	- Addon skins now loaded using xpcall
+
+b1.9464.3
+jncl:
+	Skinner: Bugfix for Overachiever skin
+
+b1.9464.2
+jncl:
+	Skinner: Skinner Gatherer
+	- Updated AucAdvanced skin
+	- Moved Configator code to its own skin
+
+b1.9464.1
+jncl:
+	Skinner: Skinned Overachiever
+	- Updated for patch 3.0.8
+
+b1.9183.27
+jncl:
+	Skinner: Options Panel minor changes
+	Skinner: Remove tab from .pkgmeta
+	Skinner: Skinned GuildBankSearch
+	Skinner: Skinned ChannelPulloutFrame
+	- Updated DBM, ItemDB & ShadowDancer3 skins
+	- Moved all libraries into libs subdir
+	- Moved all Locale files into locales subdir
+	-Bugfix for LibQTip Release Hook
+
+b1.9183.26
+Author: jncl <jncl@mac.com>
+Date:	Mon Jan 12 02:21:37 2009 +0000
+
+	Skinner: Bugfix for loading issue
+
+b1.9183.b25
+jncl:
+	Skinner: Bugfix for LibTooltip/LibQTip skinning code
+
+tb1.9183.24
+jncl:
+	Skinner: Updated Examiner & LightHeaded skins
+
+b1.9183.23
+jncl:
+	Skinner: Skinned RaidTracker
+	- Updated GroupCalendar & PassLoot skins
+	- Bugfix for CombatLog StatusBar error
+
+b1.9183.22
+jncl:
+	Skinner: Updated TradeTabs skin
+
+b1.9183.21
+jncl:
+	Skinner: Skinned CallToArms
+	Skinner: Updated epgp skin
+	- Updated Locale-zhCN (thanks to ananhaid)
+	- Move PlayerTalentFrame when SpellBook open
+
+b1.9183.19
+Jncl:
+	Skinner: Skinned Broker_Transport
+	- Added skin for the VehicleMenuBar
+	- Updated QuestLog text colours for Bonus Talent Points
+	- Updated AutoBag & QuestGuru skins
+
+b1.9183.18
+Jncl:
+	Skinner: Skinned OneBank3
+	- Updated ItemDB, OneBag3, Panda & ShadowDancer3 skins
+
+b1.9183.17
+Jncl:
+	Skinner: Skinner ShadowDancer3
+	- Updated ArkInventory skin
+	- Updated zhCN locale file
+
+b1.9183.16
+Jncl:
+	Skinner: Updated EnhancedFlightMap, GuildAds, Panda & Perl Classic skins
+	- BugFix for SpellBookFrame issue
+	Skinner: Skinned Pawn
+	- Updated ArkInventory, MinimapButtonFrame, Recap & XPerl skins
+	- Changed how Minimap buttons are skinned
+	- Bugfix for MacroPopupFrame when LargerMacroIconSelection is loaded
+
+b1.9183.15
+Jncl:
+	Skinner: Skinned HeadHunter
+	- Updated ArkInventory skin
+	Skinner:  Obsoleted AutoBarConfig & Trinity2 skins
+	- Updated Altoholic skin
+	- Fix SpellBook tab textures when Pet is out
+	- Update StatusBar colours as well as textures
+	- Move Chat Tab text and highlight
+	- Skinned new WorldMap dropdown
+	- Updated BattleMinimap skinning code
+	- Shrank MiniMapMailFrame
+	- Updated Options handling code
+
+b1.9183.14
+Jncl:
+	Skinner: Bugfixes for options
+	- Updated Assessment. Dewdrop, Lootlink, OptionHouse. SanityBags, Tablet, Violation, Waterfall & XRS skins
+	- Obsoleted AutoBarConfig & Trinity2 skins
+
+b1.9183.13
+Jncl:
+	Skinner: Added Profiles Option
+	- Bugfix for BottomFrame options
+	- Updated MakeRocketGoNow skin
+
+b1.9183.12
+Jncl:
+	Skinner: Bugfix for Library checks on startup
+
+b1.9183.11
+Jncl:
+	Skinner: Bugfixes for WIM & Baggins skins
+
+b1.9183.10
+Jncl:
+	Skinner: Remove Debug msg
+	- Handle GameTooltip Height Timer properly
+
+b1.9183.9
+Jncl:
+	Skinner: Bugfix for Nameplates Event/Timer issue
+
+b1.9183.8
+Jncl:
+	Skinner: Bugfix for tekBlocks skin
+	Skinner: Updated .pkgmeta to point to correct level in svn
+	- Updated Options layout
+	Skinner: Updated .pkgmeta, spelling
+	Skinner: Updated .pkgmeta, missing colons
+	Skinner: Updated to use Ace3 libraries
+	- Localisations separated by locale
+	-  Viewport & TMB frames separated
+	- Now uses Blizzard Interface Options Panel system
+	- Many skins updated for Ace3 changes
+	- WIM skin reversion now reverted
+	- MinimapTrackingButton icon should always be visible now
+
+b1.9183.7
+Jncl:
+	Skinner: Updated RockConfig skin
+	- Moved Micro buttons up
+
+b1.9183.6
+Jncl:
+	Skinner: Bugfix for LightHeaded sizing issue
+	- Bugfix for StatusBar Textures issue
+	- Bugfix for MiniMap Tracking Button
+
+b1.9183.5
+Jncl:
+	Skinner: Skinned InspectEquip & RandomPet30
+	- Reverted WIM skin to preWotLK version from Obsolete skins folder
+	- Updated LightHeaded & Panda skins
+	- Reverted StatusBar texture changes
+
+b1.9183.4
+Jncl:
+	Skinner: Skinned QuestAgent
+	- Updated Ackis Recipe List & tekBlocks skins
+	- Bugfix for overlapped SpellBookFrame tabs
+
+b1.9183.3
+Jncl:
+	Skinner: Skinned LibQTip
+
+b1.9183.2
+Jncl:
+	Skinner: Skinned Panda & LibTooltip
+	- Updated AucAdvanced & BankItems skins
+	- Changed StatusBar background to a texture
+
+b1.9183.1
+Jncl:
+	Skinner: Skinned MakeRocketGoNow
+	- Updated TourGuide skin
+	- Bugfix to StatusBar Textures not being updated correctly
+
+b1.9183.0
+Jncl:
+	Skinner: Bugfix for FramesResized errors
+	- Updated AucAdvanced, FramesResized, UrbanAchiever, BeanCounter, BtmScan & MobileFrames skins
+	- Removed all references to the CraftUI
+	- Updated AchievementUI
+	- Bugfix for StatusBar texture changes
+	- Moved MacroFrame when SpellBook displayed
+
+b1.9056.14
+Jncl:
+	Skinner: Bugfix for Achievement error
+	- Updated FramesResized & FramesResizedTalentUI (courtesy of next96)
+	- Updated koKR locales (courtesy of next96)
+
+b1.9056.13
+Jncl:
+	Skinner: Bugfix for TekKonfig error
+	- Updated tekBlocks skin
+	- removed obsoleted addon names from AddonFrames
+
+b1.9056.12
+Jncl:
+	Skinner: Obsoleted AucExtras & SpellBinder skins
+	- Skinned tekBlocks
+	- Updated OptionHouse, tekKonfig skins
+	- Added toggle for Achievement Watch skinning
+	Skinner: Skinned Analyst, Cartographer3, DoubleWideTradeSkills & LibSimpleOptions
+	- Updated HealBot skin (thanks to acirac who did the work)
+	Skinner: Updated Grid skin
+	- Added option to toggle the skin of the Achievement Alerts
+	Skinner: Updated Combuctor & tekKonfig skins
+	- Bugfix for ReadyCheck frame
+
+b1.9056.11
+Jncl:
+	Skinner: Bugfix for LDB error
+
+b1.9056.10
+Jncl:
+	Skinner: Updated Ace2, Omen, UrbanAchiever & ZOMGBuffs skins
+	Skinner: More library changes
+	- More error checking
+	- Added CallbackHandler-1.0, LibDBIcon-1.0 and LibStub libraries to root dir
+	- Removed them from embeds.xml
+	- Updated TOC to reference them
+	Skinner: Updated .pkgmeta, remove entries for LibDataBroker
+	- Added LibDataBroker-1.1.lua
+	Skinner: Updated embeds.xml & TOC for library placements
+	Skinner: Updated .pkgmeta ignore entry
+	Skinner: Skinned Achievement Alert Panel
+	- Updated .pkgmeta
+
+b1.9056.9
+Jncl:
+	Skinner: Fix library defs again...
+	- Skin Ace2 panels again
+	- Command line options are available again
+
+b1.9056.8
+Jncl:
+	Skinner: Fix library defs
+	Skinner: Updated BetterInbox & MacroBank skins
+	Skinner: Bugfix for ReadyFrame not being skinned
+	- Updated to use LDB instead of FuBar
+	- Auctioneer skin now Obsolete
+	- Bugfix for AddonLoader managed Addons
+	- Bugfix for missing frames when being disabled
+	- Removed additional WotLK checks
+
+b1.9056.7
+Jncl:
+	Skinner: Skinned Luggage, OneBag3, Spew, tekPad
+	- Updated EditingUI, Outfitter, TourGuide, WIM, Waterfall, tekDebug & tekErr skins
+	- Made OneBag, OneBank, WIM skins obsolete
+	Skinner: Skinned Achievement Watch Progress Bars
+	- Moved Companion Model Frame
+	- Updated Achievement Frame skin
+	Skinner: Skinned MacroBank, UrbanAchiever, tekDebug, tekErr
+	- Updated ACP skin
+
+b1.9056.6
+jncl:
+	Skinner: Bugfix for TicketStatusFrame
+
+b1.9056.5
+jncl:
+	Skinner: Added option to skin PVPFrame
+	- Bugfix for ChatFrames & Recount text being hidden
+	- Bugfix for ItemTextFrame text being wrong colour
+	- Skinned TicketStatusFrame child
+
+b1.9056.4
+Jncl:
+	Skinner: Bugfix for QuestTitles error
+	- Bugfix for ChatFrames skin covering text
+	- Removed all redundant pre 3.0.2 code
+	- Updated tekKonfig skin
+
+b1.9056.3
+Jncl:
+	Skinner: Bugfix, updated embeds.xml to point to LSM correctly
+
+b1.9056.2
+Jncl:
+	Skinner: Skinned AlphaMap
+	- Updated TOC to 30000
+	Skinner: Updated XPerl skin
+
+b1.9056.1
+Jncl:
+	Skinner: Load tekKonfig skin from Cork one
+	Skinner: Turn off debug messages
+	Skinner: Skinned tekKonfig
+	Skinner: Skinned Cork & HandyNotes
+	- Updated AtlasQuest, EnhancedStackSplit & Prat skins
+
+b1.9056.0
+Jncl:
+	Skinner: Bugfix for AchievementUI GameTooltip StatusBar skinning
+	Skinner: Skinned AchievmentUI, BarbershopUI, Calendar & FeedbackUI
+
+b1.9038.0
+Jncl:
+	Skinner: Added some 'Repository keyword substitutions' to TOC etc
+	Skinner: Updated for WotLK/PTR changes, includes:
+	- support for new frames ( TokenUI, GlyphUI)
+	- support for updated frames (PetPaperDollFrame, PVPFrame, SpellBookFrame, TalentUI, TradeSkillUI)
+	- support for changes to button text colour
+	- support for changed function signatures
+	- support for GameTooltip StatusBars
+	- support for Backpack Token info
+	- support for updated Game Menu option frames
+	- support for Nameplate changes
+	Skinner: Added .gitignore
+	- Updated version number in TOC
+	- UPdated embeds.xml to correctly reflect library names
+
+v0.1_Alpha
+Jncl:
+	Skinner: Updated .pkgmeta with corrected svn locations
+	Skinner: Updated .pkgmeta to remove leading slash from externals: entries
+	Skinner: First commit to Git Repo
+	-- includes bugfixes for PTR changes, and several other outstanding fixes

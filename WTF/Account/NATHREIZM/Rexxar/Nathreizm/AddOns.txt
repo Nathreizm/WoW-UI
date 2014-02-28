@@ -1,0 +1,10 @@
+XPerl_Options: enabled
+XPerl_TeamSpeak: disabled
+XPerl_Party: disabled
+XPerl_PartyPet: disabled
+XPerl_PlayerPet: disabled
+XPerl_RaidPets: disabled
+XPerl: enabled
+ShadowedUnitFrames: disabled
+Bartender4: enabled
+DBM-Core: enabled

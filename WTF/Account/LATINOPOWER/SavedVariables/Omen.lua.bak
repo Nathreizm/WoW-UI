@@ -1,0 +1,14 @@
+
+Omen3DB = {
+	["profileKeys"] = {
+		["Swazyee - Bonechewer"] = "Swazyee - Bonechewer",
+	},
+	["profiles"] = {
+		["Swazyee - Bonechewer"] = {
+			["PositionW"] = 200.0000152587891,
+			["PositionY"] = 212.0000762939453,
+			["Shown"] = true,
+			["PositionX"] = 410.5000610351563,
+		},
+	},
+}

@@ -1,0 +1,23 @@
+
+SwatterData = {
+	["enabled"] = true,
+	["autoshow"] = true,
+	["errors"] = {
+		{
+			["message"] = "Interface\\AddOns\\Skinner\\Skinner.lua:1587: attempt to index field 'Gradient' (a nil value)",
+			["count"] = 72,
+			["addons"] = "  Swatter, v3.2.4 (<%codename%>)\n  ACP, v3.3.16 \n  AtlasLootLoader, vv6.04.04\n  Babylonian, v5.1.DEV.312(/embedded)\n  BadBoy, vv6.532\n  Bagnon, v4.2.9\n  BagnonConfig, v\n  BagnonForever, v\n  BagnonTooltips, v\n  Bartender4, v4.4.19\n  Configator, v5.1.DEV.312(/embedded)\n  DBMCore, v\n  Gatherer, v3.2.4\n  GatherMate2, v1.15.2\n  Grid, v4.2.0.1442\n  Omen, v3.1.4\n  OmniCC, v4.2.3\n  OmniCCConfig, v\n  Postal, v3.4.10\n  Quartz, v3.0.7\n  RatingBuster, v\n  Recount, v\n  SexyMap, v\n  Skinner, vb4.14545.5\n  SlideBar, v3.2.4 (<%codename%>)\n  XPerl, v3.1.64\n  XPerlArcaneBar, v\n  XPerlOptions, v\n  XPerlParty, v\n  XPerlPartyPet, v\n  XPerlPlayer, v\n  XPerlPlayerBuffs, v\n  XPerlPlayerPet, v\n  XPerlRaidAdmin, v\n  XPerlRaidFrames, v\n  XPerlRaidHelper, v\n  XPerlRaidPets, v\n  XPerlTarget, v\n  XPerlTargetTarget, v\n  BlizRuntimeLib_enUS v4.2.2.40200 <us>\n  (ck=347)\n",
+			["timestamp"] = "2011-10-10 18:34:05",
+			["context"] = "Global",
+			["stack"] = "[C]: ?\nInterface\\AddOns\\Skinner\\Skinner.lua:1587: in function `skinTooltip'\nInterface\\AddOns\\Skinner\\UIElements1.lua:21: in function <Interface\\AddOns\\Skinner\\UIElements1.lua:20>\n...e\\AddOns\\Bartender4\\libs\\AceHook-3.0\\AceHook-3.0.lua:92: in function <...e\\AddOns\\Bartender4\\libs\\AceHook-3.0\\AceHook-3.0.lua:87>\n[C]: in function `OldGameTooltipSetText'\nInterface\\AddOns\\Gatherer\\Swag\\LibSwag.lua:408: in function `SetText'\n...nfig-3.0\\AceConfigDialog-3.0\\AceConfigDialog-3.0.lua:545: in function <...nfig-3.0\\AceConfigDialog-3.0\\AceConfigDialog-3.0.lua:529>\n(tail call): ?\n[C]: ?\n[string \"safecall Dispatcher[2]\"]:9: in function <[string \"safecall Dispatcher[2]\"]:5>\n(tail call): ?\n...dOns\\AtlasLoot_Loader\\Libs\\AceGUI-3.0\\AceGUI-3.0.lua:314: in function `Fire'\n...ader\\Libs\\AceGUI-3.0\\widgets\\AceGUIWidget-Button.lua:26: in function <...ader\\Libs\\AceGUI-3.0\\widgets\\AceGUIWidget-Button.lua:25>\n",
+		}, -- [1]
+		{
+			["message"] = "Interface\\AddOns\\Skinner\\Skinner.lua:622: attempt to index field 'Gradient' (a nil value)",
+			["count"] = 2,
+			["addons"] = "  Swatter, v3.2.4 (<%codename%>)\n  ACP, v3.3.16 \n  AtlasLootLoader, vv6.04.04\n  Babylonian, v5.1.DEV.312(/embedded)\n  BadBoy, vv6.532\n  Bagnon, v4.2.9\n  BagnonConfig, v\n  BagnonForever, v\n  BagnonTooltips, v\n  Bartender4, v4.4.19\n  Configator, v5.1.DEV.312(/embedded)\n  DBMCore, v\n  Gatherer, v3.2.4\n  GatherMate2, v1.15.2\n  Grid, v4.2.0.1442\n  Omen, v3.1.4\n  OmniCC, v4.2.3\n  OmniCCConfig, v\n  Postal, v3.4.10\n  Quartz, v3.0.7\n  RatingBuster, v\n  Recount, v\n  SexyMap, v\n  Skinner, vb4.14545.5\n  SlideBar, v3.2.4 (<%codename%>)\n  XPerl, v3.1.64\n  XPerlArcaneBar, v\n  XPerlOptions, v\n  XPerlParty, v\n  XPerlPartyPet, v\n  XPerlPlayer, v\n  XPerlPlayerBuffs, v\n  XPerlPlayerPet, v\n  XPerlRaidAdmin, v\n  XPerlRaidFrames, v\n  XPerlRaidHelper, v\n  XPerlRaidPets, v\n  XPerlTarget, v\n  XPerlTargetTarget, v\n  BlizRuntimeLib_enUS v4.2.2.40200 <us>\n  (ck=347)\n",
+			["timestamp"] = "2011-10-10 18:34:11",
+			["context"] = "Global",
+			["stack"] = "[C]: ?\nInterface\\AddOns\\Skinner\\Skinner.lua:622: in function `applyGradient'\nInterface\\AddOns\\Skinner\\Skinner.lua:763: in function <Interface\\AddOns\\Skinner\\Skinner.lua:703>\nInterface\\AddOns\\Skinner\\Skinner.lua:789: in function `applySkin'\nInterface\\AddOns\\Skinner\\Skinner.lua:561: in function <Interface\\AddOns\\Skinner\\Skinner.lua:491>\n(tail call): ?\nInterface\\AddOns\\Skinner\\UIElements2.lua:318: in function <Interface\\AddOns\\Skinner\\UIElements2.lua:312>\n(tail call): ?\n[C]: in function `InterfaceOptionsList_DisplayPanel'\nInterface\\FrameXML\\InterfaceOptionsFrame.lua:46: in function `InterfaceOptionsListButton_OnClick'\n[string \"*:OnClick\"]:2: in function <[string \"*:OnClick\"]:1>\n",
+		}, -- [2]
+	},
+}

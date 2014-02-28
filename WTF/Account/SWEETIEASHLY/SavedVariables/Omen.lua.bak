@@ -1,0 +1,12 @@
+
+Omen3DB = {
+	["profileKeys"] = {
+		["Aranda - Rexxar"] = "Aranda - Rexxar",
+	},
+	["profiles"] = {
+		["Aranda - Rexxar"] = {
+			["PositionY"] = 484.4999700805827,
+			["PositionX"] = 615.4999661825101,
+		},
+	},
+}

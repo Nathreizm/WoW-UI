@@ -1,0 +1,84 @@
+
+SexyMapDB = {
+	["profileKeys"] = {
+		["Nathreizm - Rexxar"] = "Nathreizm - Rexxar",
+	},
+	["namespaces"] = {
+		["Ping"] = {
+		},
+		["Coordinates"] = {
+		},
+		["Buttons"] = {
+			["profiles"] = {
+				["Nathreizm - Rexxar"] = {
+					["dragPositions"] = {
+						["MiniMapTrackingButton"] = 176.3588062453516,
+						["LibDBIcon10_Omen"] = -81.43094464702541,
+						["LibDBIcon10_AtlasLoot"] = 120.0333452882281,
+						["TimeManagerClockButton"] = 25.86633889402117,
+						["LibDBIcon10_Bartender4"] = 139.6355492264108,
+						["MiniMapLFGFrame"] = 224.9999986668979,
+						["MinimapZoomIn"] = -15.03783225854455,
+						["DBMMinimapButton"] = 257.957346490195,
+						["LibDBIcon10_Skinner"] = -67.9490122308037,
+						["LibDBIcon10_Grid"] = 75.17352069372291,
+						["XPerl_MinimapButton_Frame"] = 187.1249947866744,
+						["Gatherer_MinimapOptionsButton"] = 96.17022231270342,
+					},
+				},
+			},
+		},
+		["AutoZoom"] = {
+		},
+		["Shapes"] = {
+			["profiles"] = {
+				["Nathreizm - Rexxar"] = {
+					["shape"] = "SPELLS\\T_VFX_BORDER",
+				},
+			},
+		},
+		["Fader"] = {
+		},
+		["Movers"] = {
+		},
+		["Borders"] = {
+			["profiles"] = {
+				["Nathreizm - Rexxar"] = {
+					["shape"] = "Interface\\AddOns\\SexyMap\\shapes\\squareFuzzy",
+					["applyPreset"] = false,
+					["backdrop"] = {
+						["show"] = true,
+						["textureColor"] = {
+							["a"] = 1,
+							["b"] = 1,
+							["g"] = 1,
+							["r"] = 1,
+						},
+						["settings"] = {
+							["bgFile"] = "Interface\\AchievementFrame\\UI-Achievement-StatsBackground.blp",
+							["edgeFile"] = "Interface\\AchievementFrame\\UI-Achievement-WoodBorder.blp",
+							["edgeSize"] = 28,
+						},
+						["borderColor"] = {
+							["a"] = 1,
+							["b"] = 0.7254901960784314,
+							["g"] = 0.8627450980392157,
+							["r"] = 1,
+						},
+						["scale"] = 1.17,
+					},
+				},
+			},
+		},
+		["HudMap"] = {
+			["profiles"] = {
+				["Nathreizm - Rexxar"] = {
+					["setNewScale"] = true,
+					["scale"] = 1.4,
+				},
+			},
+		},
+		["ZoneText"] = {
+		},
+	},
+}

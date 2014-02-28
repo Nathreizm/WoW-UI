@@ -1,0 +1,14 @@
+XPerl_Options: enabled
+XPerl_TeamSpeak: disabled
+BGSpy: disabled
+ShadowedUnitFrames: disabled
+BigWigs: disabled
+SatrinaBuffFrame: disabled
+TidyPlates: disabled
+TidyPlatesHub: disabled
+TidyPlatesWidgets: disabled
+XPerl_Party: disabled
+XPerl_PartyPet: disabled
+XPerl_RaidPets: disabled
+XPerl_RaidFrames: disabled
+XPerl_RaidAdmin: disabled
