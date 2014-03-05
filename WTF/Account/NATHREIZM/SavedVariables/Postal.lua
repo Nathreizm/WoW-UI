@@ -1,5 +1,16 @@
 
 Postal3DB = {
+	["profileKeys"] = {
+		["Boomflower - Rexxar"] = "Boomflower - Rexxar",
+		["Arrier - Alexstrasza"] = "Arrier - Alexstrasza",
+		["Nathreizm - Rexxar"] = "Nathreizm - Rexxar",
+		["Littleboytoy - Rexxar"] = "Littleboytoy - Rexxar",
+		["Prettypretty - Rexxar"] = "Prettypretty - Rexxar",
+		["Nathreizm - Cho'gall"] = "Nathreizm - Cho'gall",
+		["Nathreizm - Arthas"] = "Nathreizm - Arthas",
+		["Littleboytoy - Cho'gall"] = "Littleboytoy - Cho'gall",
+		["Mithrios - Rexxar"] = "Mithrios - Rexxar",
+	},
 	["global"] = {
 		["BlackBook"] = {
 			["alts"] = {
@@ -23,17 +34,6 @@ Postal3DB = {
 				"Songandrargo|Kil'jaeden|Horde|1|WARRIOR", -- [18]
 			},
 		},
-	},
-	["profileKeys"] = {
-		["Boomflower - Rexxar"] = "Boomflower - Rexxar",
-		["Arrier - Alexstrasza"] = "Arrier - Alexstrasza",
-		["Nathreizm - Rexxar"] = "Nathreizm - Rexxar",
-		["Littleboytoy - Rexxar"] = "Littleboytoy - Rexxar",
-		["Prettypretty - Rexxar"] = "Prettypretty - Rexxar",
-		["Nathreizm - Cho'gall"] = "Nathreizm - Cho'gall",
-		["Nathreizm - Arthas"] = "Nathreizm - Arthas",
-		["Littleboytoy - Cho'gall"] = "Littleboytoy - Cho'gall",
-		["Mithrios - Rexxar"] = "Mithrios - Rexxar",
 	},
 	["profiles"] = {
 		["Boomflower - Rexxar"] = {
@@ -88,26 +88,26 @@ Postal3DB = {
 		["Nathreizm - Cho'gall"] = {
 			["BlackBook"] = {
 				["recent"] = {
-					"Myztryss|Cho'gall|Horde", -- [1]
-					"Littleboytoy|Cho'gall|Horde", -- [2]
-					"Surpderprise|Cho'gall|Horde", -- [3]
-					"Tydesin|Cho'gall|Horde", -- [4]
+					"Blôôdmonk|Cho'gall|Horde", -- [1]
+					"Calade|Cho'gall|Horde", -- [2]
+					"Littleboytoy|Cho'gall|Horde", -- [3]
+					"Myztryss|Cho'gall|Horde", -- [4]
 					"Calade-Cho'gall|Cho'gall|Horde", -- [5]
 					"Sleepykitty|Cho'gall|Horde", -- [6]
-					"Blôôdmonk|Cho'gall|Horde", -- [7]
-					"Hannable|Cho'gall|Horde", -- [8]
-					"Layonhooves-Cho'gall|Cho'gall|Horde", -- [9]
-					"Tydusin|Cho'gall|Horde", -- [10]
-					"Tydasan|Cho'gall|Horde", -- [11]
-					"Sleepykitty-Cho'gall|Cho'gall|Horde", -- [12]
-					"Starfruit-Cho'gall|Cho'gall|Horde", -- [13]
-					"Urtag|Cho'gall|Horde", -- [14]
-					"Marcuspimp|Cho'gall|Horde", -- [15]
-					"Flashover|Cho'gall|Horde", -- [16]
-					"Got|Cho'gall|Horde", -- [17]
-					"Soméone|Cho'gall|Horde", -- [18]
-					"Kadira|Cho'gall|Horde", -- [19]
-					"Starburst|Cho'gall|Horde", -- [20]
+					"Surpderprise|Cho'gall|Horde", -- [7]
+					"Tydesin|Cho'gall|Horde", -- [8]
+					"Hannable|Cho'gall|Horde", -- [9]
+					"Layonhooves-Cho'gall|Cho'gall|Horde", -- [10]
+					"Tydusin|Cho'gall|Horde", -- [11]
+					"Tydasan|Cho'gall|Horde", -- [12]
+					"Sleepykitty-Cho'gall|Cho'gall|Horde", -- [13]
+					"Starfruit-Cho'gall|Cho'gall|Horde", -- [14]
+					"Urtag|Cho'gall|Horde", -- [15]
+					"Marcuspimp|Cho'gall|Horde", -- [16]
+					"Flashover|Cho'gall|Horde", -- [17]
+					"Got|Cho'gall|Horde", -- [18]
+					"Soméone|Cho'gall|Horde", -- [19]
+					"Kadira|Cho'gall|Horde", -- [20]
 				},
 			},
 		},

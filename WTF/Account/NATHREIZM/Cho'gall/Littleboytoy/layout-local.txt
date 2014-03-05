@@ -13,3 +13,10 @@ X: -169
 Y: -152
 W: 32
 H: 32
+Frame: AtlasLootDefaultFrame
+FrameLevel: 38
+Anchor: LEFT
+X: 168
+Y: 64
+W: 921
+H: 601

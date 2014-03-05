@@ -94,3 +94,4 @@ BigWigs_Plugins: enabled
 BigWigs_SiegeOfOrgrimmar: enabled
 BigWigs_ThroneOfThunder: enabled
 ShadowedUF_Options: disabled
+TrickOrTreat: enabled

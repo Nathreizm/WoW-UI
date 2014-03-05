@@ -42,15 +42,15 @@ MapsterDB = {
 		["Nathtrain - Cho'gall"] = "Default",
 		["Demheals - Cho'gall"] = "Default",
 		["Littleboytoy - Cho'gall"] = "Default",
-		["Nathreizm - Perenolde"] = "Default",
-		["Songandrargo - Kil'jaeden"] = "Default",
-		["Prettypretty - Rexxar"] = "Default",
 		["Mithrios - Rexxar"] = "Default",
+		["Prettypretty - Rexxar"] = "Default",
+		["Songandrargo - Kil'jaeden"] = "Default",
+		["Nathreizm - Perenolde"] = "Default",
 	},
 	["profiles"] = {
-		["Rexxar"] = {
-		},
 		["WARRIOR"] = {
+		},
+		["Rexxar"] = {
 		},
 		["Default"] = {
 			["arrowScale"] = 0.8500000000000001,

@@ -30,11 +30,11 @@ RecountPerCharDB = {
 					["Messages"] = {
 						"Psyfiend <Scrotitcleez> dies.", -- [1]
 					},
-					["EventNum"] = {
+					["HealthNum"] = {
 						0, -- [1]
 					},
 					["DeathAt"] = 1382387985,
-					["HealthNum"] = {
+					["EventNum"] = {
 						0, -- [1]
 					},
 					["Health"] = {
@@ -46,8 +46,13 @@ RecountPerCharDB = {
 				}, -- [1]
 			},
 			["Owner"] = "Scrotitcleez",
-			["LastEventTimes"] = {
-				514005.513, -- [1]
+			["Fights"] = {
+				["CurrentFightData"] = {
+					["DeathCount"] = 1,
+				},
+				["OverallData"] = {
+					["DeathCount"] = 1,
+				},
 			},
 			["NextEventNum"] = 2,
 			["LastEventHealthNum"] = {
@@ -57,23 +62,18 @@ RecountPerCharDB = {
 				"Psyfiend <Scrotitcleez> dies.", -- [1]
 			},
 			["Name"] = "Psyfiend",
+			["UnitLockout"] = 1382387983,
+			["TimeLast"] = {
+				["DeathCount"] = 1382387983,
+				["OVERALL"] = 1382387983,
+			},
 			["LastEventIncoming"] = {
 				true, -- [1]
 			},
-			["TimeLast"] = {
-				["OVERALL"] = 1382387983,
-				["DeathCount"] = 1382387983,
+			["LastEventTimes"] = {
+				514005.513, -- [1]
 			},
-			["UnitLockout"] = 1382387983,
-			["Fights"] = {
-				["CurrentFightData"] = {
-					["DeathCount"] = 1,
-				},
-				["OverallData"] = {
-					["DeathCount"] = 1,
-				},
-			},
-			["LastAbility"] = 422482.408,
+			["LastAbility"] = 11045.372,
 		},
 		["Wild Mushroom <Starchilde>"] = {
 			["GUID"] = "0xF130BA210026E0AA",
@@ -103,11 +103,11 @@ RecountPerCharDB = {
 					["Messages"] = {
 						"Wild Mushroom <Starchilde> dies.", -- [1]
 					},
-					["HealthNum"] = {
+					["EventNum"] = {
 						0, -- [1]
 					},
 					["DeathAt"] = 1382414650,
-					["EventNum"] = {
+					["HealthNum"] = {
 						0, -- [1]
 					},
 					["Health"] = {
@@ -119,13 +119,8 @@ RecountPerCharDB = {
 				}, -- [1]
 			},
 			["Owner"] = "Starchilde",
-			["Fights"] = {
-				["CurrentFightData"] = {
-					["DeathCount"] = 1,
-				},
-				["OverallData"] = {
-					["DeathCount"] = 1,
-				},
+			["LastEventTimes"] = {
+				540669.5500000001, -- [1]
 			},
 			["NextEventNum"] = 2,
 			["LastEventHealthNum"] = {
@@ -135,18 +130,23 @@ RecountPerCharDB = {
 				"Wild Mushroom <Starchilde> dies.", -- [1]
 			},
 			["Name"] = "Wild Mushroom",
-			["UnitLockout"] = 1382414648,
-			["TimeLast"] = {
-				["DeathCount"] = 1382414648,
-				["OVERALL"] = 1382414648,
-			},
 			["LastEventIncoming"] = {
 				true, -- [1]
 			},
-			["LastEventTimes"] = {
-				540669.5500000001, -- [1]
+			["TimeLast"] = {
+				["OVERALL"] = 1382414648,
+				["DeathCount"] = 1382414648,
 			},
-			["LastAbility"] = 422482.408,
+			["UnitLockout"] = 1382414648,
+			["Fights"] = {
+				["CurrentFightData"] = {
+					["DeathCount"] = 1,
+				},
+				["OverallData"] = {
+					["DeathCount"] = 1,
+				},
+			},
+			["LastAbility"] = 11045.372,
 		},
 		["Scrotitcleez"] = {
 			["GUID"] = "0x04000000065317CD",
@@ -161,16 +161,16 @@ RecountPerCharDB = {
 			},
 			["Owner"] = false,
 			["enClass"] = "UNGROUPED",
-			["LastFightIn"] = 0,
+			["LastAbility"] = 11045.372,
 			["Name"] = "Scrotitcleez",
-			["Fights"] = {
-			},
+			["UnitLockout"] = 1382387973,
 			["Pet"] = {
 				"Psyfiend <Scrotitcleez>", -- [1]
 			},
 			["level"] = 1,
-			["UnitLockout"] = 1382387973,
-			["LastAbility"] = 422482.408,
+			["Fights"] = {
+			},
+			["LastFightIn"] = 0,
 		},
 		["Starchilde"] = {
 			["GUID"] = "0x04000000047ABDFF",
@@ -185,16 +185,16 @@ RecountPerCharDB = {
 			},
 			["Owner"] = false,
 			["enClass"] = "UNGROUPED",
-			["LastAbility"] = 422482.408,
+			["LastFightIn"] = 0,
 			["Name"] = "Starchilde",
-			["UnitLockout"] = 1382414643,
+			["Fights"] = {
+			},
 			["Pet"] = {
 				"Wild Mushroom <Starchilde>", -- [1]
 			},
 			["level"] = 1,
-			["Fights"] = {
-			},
-			["LastFightIn"] = 0,
+			["UnitLockout"] = 1382414643,
+			["LastAbility"] = 11045.372,
 		},
 	},
 	["FightNum"] = 0,

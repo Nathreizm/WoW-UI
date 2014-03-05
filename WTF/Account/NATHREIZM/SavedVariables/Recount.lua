@@ -16,10 +16,10 @@ RecountDB = {
 		["Nathtrain - Cho'gall"] = "Nathtrain - Cho'gall",
 		["Demheals - Cho'gall"] = "Demheals - Cho'gall",
 		["Littleboytoy - Cho'gall"] = "Littleboytoy - Cho'gall",
-		["Mithrios - Rexxar"] = "Mithrios - Rexxar",
-		["Songandrargo - Kil'jaeden"] = "Songandrargo - Kil'jaeden",
-		["Prettypretty - Rexxar"] = "Prettypretty - Rexxar",
 		["Nathreizm - Perenolde"] = "Nathreizm - Perenolde",
+		["Prettypretty - Rexxar"] = "Prettypretty - Rexxar",
+		["Songandrargo - Kil'jaeden"] = "Songandrargo - Kil'jaeden",
+		["Mithrios - Rexxar"] = "Mithrios - Rexxar",
 	},
 	["profiles"] = {
 		["Arrier - Alexstrasza"] = {
@@ -67,10 +67,10 @@ RecountDB = {
 				},
 			},
 			["DetailWindowY"] = 0,
-			["CurDataSet"] = "OverallData",
-			["GraphWindowX"] = 0,
-			["MainWindowVis"] = false,
 			["DetailWindowX"] = 0,
+			["MainWindowVis"] = false,
+			["GraphWindowX"] = 0,
+			["CurDataSet"] = "OverallData",
 		},
 		["Lavasham - Cho'gall"] = {
 			["GraphWindowY"] = 0,
@@ -90,10 +90,10 @@ RecountDB = {
 				},
 			},
 			["DetailWindowY"] = 0,
-			["DetailWindowX"] = 0,
-			["MainWindowVis"] = false,
-			["CurDataSet"] = "OverallData",
 			["GraphWindowX"] = 0,
+			["CurDataSet"] = "OverallData",
+			["MainWindowVis"] = false,
+			["DetailWindowX"] = 0,
 		},
 		["Littleboytoy - Rexxar"] = {
 			["GraphWindowY"] = 0,
@@ -126,10 +126,10 @@ RecountDB = {
 			["GraphWindowY"] = 0,
 			["MainWindow"] = {
 				["Position"] = {
-					["y"] = 101.0001220703125,
-					["h"] = 176.0001068115234,
+					["y"] = 76.000244140625,
+					["h"] = 176.0000915527344,
 					["w"] = 274.9999389648438,
-					["x"] = -657.5000190734863,
+					["x"] = -663.5000152587891,
 				},
 			},
 			["MaxFights"] = 25,
@@ -181,7 +181,7 @@ RecountDB = {
 					false, -- [8]
 				},
 			},
-			["CurDataSet"] = "LastFightData",
+			["CurDataSet"] = "Fight2",
 			["MainWindowWidth"] = 275.0000610351563,
 			["MainWindowHeight"] = 175.9999847412109,
 		},
@@ -203,10 +203,10 @@ RecountDB = {
 				},
 			},
 			["DetailWindowY"] = 0,
-			["DetailWindowX"] = 0,
-			["MainWindowVis"] = false,
-			["GraphWindowX"] = 0,
 			["CurDataSet"] = "OverallData",
+			["GraphWindowX"] = 0,
+			["MainWindowVis"] = false,
+			["DetailWindowX"] = 0,
 		},
 		["Nathreizm - Arthas"] = {
 			["GraphWindowY"] = 0,
@@ -259,9 +259,9 @@ RecountDB = {
 				},
 			},
 			["DetailWindowY"] = 0,
-			["GraphWindowX"] = 0,
-			["MainWindowWidth"] = 174.0000890401858,
 			["MainWindowHeight"] = 168.9999992477404,
+			["MainWindowWidth"] = 174.0000890401858,
+			["GraphWindowX"] = 0,
 		},
 		["Preistyp - Cho'gall"] = {
 			["GraphWindowY"] = 0,
@@ -281,10 +281,10 @@ RecountDB = {
 				},
 			},
 			["DetailWindowY"] = 0,
-			["GraphWindowX"] = 0,
-			["CurDataSet"] = "OverallData",
-			["MainWindowVis"] = false,
 			["DetailWindowX"] = 0,
+			["MainWindowVis"] = false,
+			["CurDataSet"] = "OverallData",
+			["GraphWindowX"] = 0,
 		},
 		["Magemagey - Cho'gall"] = {
 			["GraphWindowY"] = 0,
@@ -304,10 +304,10 @@ RecountDB = {
 				},
 			},
 			["DetailWindowY"] = 0,
-			["GraphWindowX"] = 0,
-			["CurDataSet"] = "OverallData",
-			["MainWindowVis"] = false,
 			["DetailWindowX"] = 0,
+			["MainWindowVis"] = false,
+			["CurDataSet"] = "OverallData",
+			["GraphWindowX"] = 0,
 		},
 		["Nathreizm - Aegwynn"] = {
 			["GraphWindowY"] = 0,
@@ -327,10 +327,10 @@ RecountDB = {
 				},
 			},
 			["DetailWindowY"] = 0,
-			["GraphWindowX"] = 0,
-			["CurDataSet"] = "OverallData",
-			["MainWindowVis"] = false,
 			["DetailWindowX"] = 0,
+			["MainWindowVis"] = false,
+			["CurDataSet"] = "OverallData",
+			["GraphWindowX"] = 0,
 		},
 		["Nathreizm - Rexxar"] = {
 			["GraphWindowY"] = 0,
@@ -357,10 +357,10 @@ RecountDB = {
 				},
 			},
 			["DetailWindowY"] = -41.99998044124951,
-			["MainWindowHeight"] = 172.000039117501,
-			["MainWindowWidth"] = 153.0002651373274,
-			["ReportLines"] = 3,
 			["GraphWindowX"] = 0,
+			["ReportLines"] = 3,
+			["MainWindowWidth"] = 153.0002651373274,
+			["MainWindowHeight"] = 172.000039117501,
 		},
 		["Nathtrain - Cho'gall"] = {
 			["GraphWindowY"] = 0,
@@ -407,10 +407,10 @@ RecountDB = {
 				},
 			},
 			["DetailWindowY"] = 0,
-			["DetailWindowX"] = 0,
-			["MainWindowVis"] = false,
-			["CurDataSet"] = "OverallData",
 			["GraphWindowX"] = 0,
+			["CurDataSet"] = "OverallData",
+			["MainWindowVis"] = false,
+			["DetailWindowX"] = 0,
 		},
 		["Littleboytoy - Cho'gall"] = {
 			["GraphWindowY"] = 0,
@@ -430,10 +430,94 @@ RecountDB = {
 				},
 			},
 			["DetailWindowY"] = 0,
+			["DetailWindowX"] = 0,
+			["MainWindowVis"] = false,
+			["CurDataSet"] = "OverallData",
+			["GraphWindowX"] = 0,
+		},
+		["Nathreizm - Perenolde"] = {
+			["GraphWindowY"] = 0,
+			["MainWindow"] = {
+				["Position"] = {
+					["y"] = -316.5000001709681,
+					["x"] = -651.5001820126379,
+					["w"] = 149.0000252348914,
+					["h"] = 172.0000041032344,
+				},
+			},
+			["DetailWindowX"] = 0,
+			["MaxFights"] = 25,
+			["LastInstanceName"] = "Dragon Soul",
+			["CurDataSet"] = "LastFightData",
+			["Colors"] = {
+				["Bar"] = {
+					["Bar Text"] = {
+						["a"] = 1,
+					},
+					["Total Bar"] = {
+						["a"] = 1,
+					},
+				},
+			},
+			["DetailWindowY"] = 0,
+			["MainWindowHeight"] = 171.9999865961011,
+			["MainWindowWidth"] = 148.9424442734612,
+			["ReportLines"] = 3,
+			["GraphWindowX"] = 0,
+		},
+		["Prettypretty - Rexxar"] = {
+			["GraphWindowY"] = 0,
+			["MainWindow"] = {
+				["Position"] = {
+					["y"] = -108.999755859375,
+					["h"] = 193.0000152587891,
+					["w"] = 208.0000152587891,
+					["x"] = -678.0000786781311,
+				},
+			},
+			["DetailWindowX"] = 0,
+			["MaxFights"] = 25,
+			["LastInstanceName"] = "Siege of Orgrimmar",
+			["GraphWindowX"] = 0,
+			["ReportLines"] = 5,
+			["CurDataSet"] = "LastFightData",
+			["Colors"] = {
+				["Bar"] = {
+					["Bar Text"] = {
+						["a"] = 1,
+					},
+					["Total Bar"] = {
+						["a"] = 1,
+					},
+				},
+			},
+			["DetailWindowY"] = 0,
+			["MainWindowVis"] = false,
+			["MainWindowMode"] = 6,
+			["MainWindowWidth"] = 208.0000762939453,
+			["MainWindowHeight"] = 193.0000305175781,
+		},
+		["Songandrargo - Kil'jaeden"] = {
+			["GraphWindowY"] = 0,
+			["MainWindow"] = {
+				["Position"] = {
+					["y"] = -79.00009868278653,
+					["x"] = 456.0000377497562,
+					["w"] = 140.0001157112092,
+					["h"] = 200.0000027354896,
+				},
+			},
+			["Colors"] = {
+				["Bar"] = {
+					["Bar Text"] = {
+						["a"] = 1,
+					},
+				},
+			},
+			["DetailWindowY"] = 0,
+			["DetailWindowX"] = 0,
 			["GraphWindowX"] = 0,
 			["CurDataSet"] = "OverallData",
-			["MainWindowVis"] = false,
-			["DetailWindowX"] = 0,
 		},
 		["Mithrios - Rexxar"] = {
 			["GraphWindowY"] = 0,
@@ -470,6 +554,7 @@ RecountDB = {
 					false, -- [8]
 				},
 			},
+			["MainWindowHeight"] = 192.0001068115234,
 			["CurDataSet"] = "LastFightData",
 			["Colors"] = {
 				["Bar"] = {
@@ -482,94 +567,10 @@ RecountDB = {
 				},
 			},
 			["DetailWindowY"] = -17,
-			["MainWindowHeight"] = 192.0001068115234,
 			["MainWindowWidth"] = 399.9999694824219,
-			["ReportLines"] = 5,
-			["GraphWindowX"] = 0,
-		},
-		["Songandrargo - Kil'jaeden"] = {
-			["GraphWindowY"] = 0,
-			["MainWindow"] = {
-				["Position"] = {
-					["y"] = -79.00009868278653,
-					["x"] = 456.0000377497562,
-					["w"] = 140.0001157112092,
-					["h"] = 200.0000027354896,
-				},
-			},
-			["Colors"] = {
-				["Bar"] = {
-					["Bar Text"] = {
-						["a"] = 1,
-					},
-				},
-			},
-			["DetailWindowY"] = 0,
-			["CurDataSet"] = "OverallData",
-			["GraphWindowX"] = 0,
-			["DetailWindowX"] = 0,
-		},
-		["Prettypretty - Rexxar"] = {
-			["GraphWindowY"] = 0,
-			["MainWindow"] = {
-				["Position"] = {
-					["y"] = -108.999755859375,
-					["h"] = 193.0000152587891,
-					["w"] = 208.0000152587891,
-					["x"] = -678.0000786781311,
-				},
-			},
-			["DetailWindowX"] = 0,
-			["MaxFights"] = 25,
-			["LastInstanceName"] = "Siege of Orgrimmar",
-			["MainWindowHeight"] = 193.0000305175781,
-			["MainWindowWidth"] = 208.0000762939453,
-			["CurDataSet"] = "LastFightData",
-			["Colors"] = {
-				["Bar"] = {
-					["Bar Text"] = {
-						["a"] = 1,
-					},
-					["Total Bar"] = {
-						["a"] = 1,
-					},
-				},
-			},
-			["GraphWindowX"] = 0,
-			["MainWindowMode"] = 6,
 			["MainWindowVis"] = false,
 			["ReportLines"] = 5,
-			["DetailWindowY"] = 0,
-		},
-		["Nathreizm - Perenolde"] = {
-			["GraphWindowY"] = 0,
-			["MainWindow"] = {
-				["Position"] = {
-					["y"] = -316.5000001709681,
-					["x"] = -651.5001820126379,
-					["w"] = 149.0000252348914,
-					["h"] = 172.0000041032344,
-				},
-			},
-			["DetailWindowX"] = 0,
-			["MaxFights"] = 25,
-			["LastInstanceName"] = "Dragon Soul",
-			["CurDataSet"] = "LastFightData",
-			["Colors"] = {
-				["Bar"] = {
-					["Bar Text"] = {
-						["a"] = 1,
-					},
-					["Total Bar"] = {
-						["a"] = 1,
-					},
-				},
-			},
-			["DetailWindowY"] = 0,
 			["GraphWindowX"] = 0,
-			["ReportLines"] = 3,
-			["MainWindowWidth"] = 148.9424442734612,
-			["MainWindowHeight"] = 171.9999865961011,
 		},
 	},
 }

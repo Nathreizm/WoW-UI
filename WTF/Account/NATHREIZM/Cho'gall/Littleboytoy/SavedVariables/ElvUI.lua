@@ -61,9 +61,9 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_BN_WHISPER_INFORM",
 		},
-		["1392753538.127"] = {
-			"and yea i cant seperate anything in my bags or the bank", -- [1]
-			"|Kf158|k0000000000000000|k", -- [2]
+		["1393259464.763"] = {
+			"i did mistress ", -- [1]
+			"|Kf157|k0000000000000000|k", -- [2]
 			"", -- [3]
 			"", -- [4]
 			"", -- [5]
@@ -72,9 +72,9 @@ ElvCharacterDB = {
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			100, -- [11]
+			73, -- [11]
 			false, -- [12]
-			158, -- [13]
+			157, -- [13]
 			false, -- [14]
 			false, -- [15]
 			[20] = "CHAT_MSG_BN_WHISPER_INFORM",
@@ -115,9 +115,9 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_BN_WHISPER",
 		},
-		["1393259464.763"] = {
-			"i did mistress ", -- [1]
-			"|Kf157|k0000000000000000|k", -- [2]
+		["1392753538.127"] = {
+			"and yea i cant seperate anything in my bags or the bank", -- [1]
+			"|Kf158|k0000000000000000|k", -- [2]
 			"", -- [3]
 			"", -- [4]
 			"", -- [5]
@@ -126,9 +126,9 @@ ElvCharacterDB = {
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			73, -- [11]
+			100, -- [11]
 			false, -- [12]
-			157, -- [13]
+			158, -- [13]
 			false, -- [14]
 			false, -- [15]
 			[20] = "CHAT_MSG_BN_WHISPER_INFORM",

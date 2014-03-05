@@ -1,3 +1,4 @@
 XPerl_TeamSpeak: disabled
 ShadowedUF_Options: disabled
 Quartz: enabled
+TrickOrTreat: enabled

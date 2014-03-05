@@ -11,7 +11,7 @@ Quartz3DB = {
 		},
 		["Pet"] = {
 			["profiles"] = {
-				["ROGUE"] = {
+				["Nathreizm - Cho'gall"] = {
 					["x"] = 700,
 				},
 				["Cho'gall"] = {
@@ -23,14 +23,16 @@ Quartz3DB = {
 					["y"] = 232.0000136774479,
 					["x"] = 815.000192783628,
 				},
-				["Nathreizm - Cho'gall"] = {
+				["ROGUE"] = {
 					["x"] = 700,
 				},
 			},
 		},
+		["EnemyCasts"] = {
+		},
 		["Player"] = {
 			["profiles"] = {
-				["ROGUE"] = {
+				["Nathreizm - Cho'gall"] = {
 					["x"] = 675,
 				},
 				["Cho'gall"] = {
@@ -41,18 +43,16 @@ Quartz3DB = {
 					["x"] = 326.957763671875,
 					["scale"] = 0.800000011920929,
 				},
-				["Nathreizm - Cho'gall"] = {
+				["ROGUE"] = {
 					["x"] = 675,
 				},
 			},
-		},
-		["EnemyCasts"] = {
 		},
 		["GCD"] = {
 		},
 		["Focus"] = {
 			["profiles"] = {
-				["ROGUE"] = {
+				["Nathreizm - Cho'gall"] = {
 					["x"] = 700,
 				},
 				["Cho'gall"] = {
@@ -65,14 +65,14 @@ Quartz3DB = {
 					["x"] = 260.0003967285156,
 					["texture"] = "Blizzard",
 				},
-				["Nathreizm - Cho'gall"] = {
+				["ROGUE"] = {
 					["x"] = 700,
 				},
 			},
 		},
 		["Target"] = {
 			["profiles"] = {
-				["ROGUE"] = {
+				["Nathreizm - Cho'gall"] = {
 					["x"] = 700,
 				},
 				["Cho'gall"] = {
@@ -85,14 +85,14 @@ Quartz3DB = {
 					["x"] = 492.9995727539063,
 					["texture"] = "Blizzard",
 				},
-				["Nathreizm - Cho'gall"] = {
+				["ROGUE"] = {
 					["x"] = 700,
 				},
 			},
 		},
-		["Mirror"] = {
-		},
 		["Range"] = {
+		},
+		["Mirror"] = {
 		},
 		["Latency"] = {
 		},
@@ -113,13 +113,13 @@ Quartz3DB = {
 		["Nathtrain - Cho'gall"] = "Default",
 		["Demheals - Cho'gall"] = "Default",
 		["Littleboytoy - Cho'gall"] = "Default",
-		["Nathreizm - Perenolde"] = "Default",
-		["Prettypretty - Rexxar"] = "Default",
-		["Songandrargo - Kil'jaeden"] = "Default",
 		["Mithrios - Rexxar"] = "Default",
+		["Songandrargo - Kil'jaeden"] = "Default",
+		["Prettypretty - Rexxar"] = "Default",
+		["Nathreizm - Perenolde"] = "Default",
 	},
 	["profiles"] = {
-		["ROGUE"] = {
+		["Nathreizm - Cho'gall"] = {
 		},
 		["Cho'gall"] = {
 			["bordercolor"] = {
@@ -140,7 +140,7 @@ Quartz3DB = {
 			},
 			["backgroundalpha"] = 0.9,
 		},
-		["Nathreizm - Cho'gall"] = {
+		["ROGUE"] = {
 		},
 	},
 }

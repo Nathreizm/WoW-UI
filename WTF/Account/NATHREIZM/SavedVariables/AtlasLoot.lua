@@ -19,8 +19,8 @@ AtlasLootDB = {
 						"LEFT", -- [1]
 						nil, -- [2]
 						"LEFT", -- [3]
-						165.5000915527344, -- [4]
-						70.99993133544922, -- [5]
+						167.5000610351563, -- [4]
+						63.99992370605469, -- [5]
 					},
 					["module"] = "AtlasLootMoP",
 				},
@@ -47,7 +47,6 @@ AtlasLootDB = {
 				},
 				["Nathreizm - Cho'gall"] = {
 					["instance"] = "SiegeofOrgrimmar",
-					["DefaultFrameLocked"] = true,
 					["NEWpoint"] = {
 						nil, -- [1]
 						nil, -- [2]
@@ -55,6 +54,7 @@ AtlasLootDB = {
 						-44.99984359741211, -- [4]
 						46.49968719482422, -- [5]
 					},
+					["DefaultFrameLocked"] = true,
 					["module"] = "AtlasLootMoP",
 				},
 				["Prettypretty - Rexxar"] = {
@@ -155,7 +155,7 @@ AtlasLootDB = {
 			["ShowThunderforged"] = true,
 			["ShowLootTablePrice"] = false,
 			["LastSearch"] = "blade of wiz",
-			["LootTableType"] = "25ManHeroic",
+			["LootTableType"] = "Heroic",
 			["QuickLooks"] = {
 				{
 					["module"] = "AtlasLootMoP",
