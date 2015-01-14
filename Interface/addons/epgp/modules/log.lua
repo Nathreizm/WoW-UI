@@ -20,6 +20,7 @@ local mod = EPGP:NewModule("log", "AceComm-3.0", "AceEvent-3.0")
 local L = LibStub:GetLibrary("AceLocale-3.0"):GetLocale("EPGP")
 local GS = LibStub("LibGuildStorage-1.2")
 local JSON = LibStub("LibJSON-1.0")
+local ItemUtils = LibStub("LibItemUtils-1.0")
 local deformat = LibStub("LibDeformat-3.0")
 
 local CallbackHandler = LibStub("CallbackHandler-1.0")
@@ -224,9 +225,9 @@ function mod:Export()
   for i, record in ipairs(self.db.profile.log) do
     local timestamp, kind, name, reason, amount = unpack(record)
     if kind == "GP" or kind == "BI" then
-      local id = tonumber(reason:match("item:(%d+)"))
-      if id then
-        table.insert(d.loot, {timestamp, name, id, amount})
+	  local itemString = reason:match("item[%-?%d:]+")
+      if itemString then
+        table.insert(d.loot, {timestamp, name, itemString, amount})
       end
     end
   end

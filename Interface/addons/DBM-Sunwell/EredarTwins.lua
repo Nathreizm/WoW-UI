@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Twins", "DBM-Sunwell")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 527 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 553 $"):sub(12, -3))
 mod:SetCreatureID(25165, 25166)
 mod:SetModelID(23334)
 mod:SetZone()
@@ -44,11 +44,9 @@ local timerNova				= mod:NewCastTimer(3.5, 45329)
 
 local berserkTimer			= mod:NewBerserkTimer(360)
 
-local soundConflag			= mod:NewSound(45333)
-
 mod:AddBoolOption("RangeFrame", true)
-mod:AddBoolOption("ConflagIcon", true)
-mod:AddBoolOption("NovaIcon", true)
+mod:AddBoolOption("ConflagIcon", false)
+mod:AddBoolOption("NovaIcon", false)
 
 function mod:OnCombatStart(delay)
 	berserkTimer:Start(-delay)
@@ -80,7 +78,7 @@ end
 
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
-function mod:SPELL_DAMAGE(_, _, _, _, _, _, _, _, spellId)
+function mod:SPELL_DAMAGE(_, _, _, _, _, destName, _, _, spellId)
 	if spellId == 45256 then
 		warnBlow:Show(destName)
 		timerBlowCD:Start()
@@ -119,7 +117,6 @@ function mod:CHAT_MSG_RAID_BOSS_EMOTE(msg, _, _, _, target)
 		timerConflagCD:Start()
 		if target == UnitName("player") then
 			specWarnConflag:Show()
-			soundConflag:Play()
 		end
 		if self.Options.ConflagIcon then
 			self:SetIcon(target, 8, 5)

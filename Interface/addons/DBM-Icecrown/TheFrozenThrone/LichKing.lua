@@ -1,14 +1,13 @@
 local mod	= DBM:NewMod("LichKing", "DBM-Icecrown", 5)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 130 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 178 $"):sub(12, -3))
 mod:SetCreatureID(36597)
 mod:SetEncounterID(1106)
 mod:DisableEEKillDetection()--EE fires at 10%
 mod:SetModelID(30721)
 mod:SetZone()
 mod:SetUsedIcons(2, 3, 4, 5, 6, 7, 8)
---mod:SetMinSyncRevision(4694)
 mod:SetMinSyncRevision(7)--Could break if someone is running out of date version with higher revision
 
 mod:RegisterCombat("combat")
@@ -24,7 +23,8 @@ mod:RegisterEventsInCombat(
 	"SPELL_AURA_APPLIED",
 	"SPELL_SUMMON",
 	"UNIT_HEALTH target focus mouseover",
-	"UNIT_AURA_UNFILTERED"
+	"UNIT_AURA_UNFILTERED",
+	"UNIT_DIED"
 )
 
 local isPAL = select(2, UnitClass("player")) == "PALADIN"
@@ -96,9 +96,6 @@ local countdownInfest		= mod:NewCountdown(22.5, 70541)
 local countdownShadowTrap	= mod:NewCountdown(15.5, 73539, nil, nil, nil, nil, true)
 local countdownDefile		= mod:NewCountdown(32.5, 72762, nil, nil, nil, nil, true)
 
-local soundDefile			= mod:NewSound(72762)
-local soundShadowTrap		= mod:NewSound(73539)
-
 mod:AddBoolOption("DefileIcon")
 mod:AddBoolOption("NecroticPlagueIcon")
 mod:AddBoolOption("RagingSpiritIcon", false)
@@ -112,8 +109,13 @@ local warnedValkyrGUIDs = {}
 local plagueHop = GetSpellInfo(70338)--Hop spellID only, not cast one.
 local plagueExpires = {}
 local lastPlague
+local numberOfPlayers = 1
 
 function mod:OnCombatStart(delay)
+	numberOfPlayers = DBM:GetNumRealGroupMembers()
+	if UnitExists("pet") then
+		numberOfPlayers = numberOfPlayers + 1
+	end
 	self.vb.phase = 0
 	self:NextPhase()
 	table.wipe(warnedValkyrGUIDs)
@@ -143,7 +145,6 @@ function mod:DefileTarget(targetname, uId)
 	if targetname == UnitName("player") then
 		specWarnDefileCast:Show()
 		yellDefile:Yell()
-		soundDefile:Play()
 	else
 		if uId then
 			local inRange = CheckInteractDistance(uId, 2)
@@ -163,15 +164,9 @@ function mod:TrapTarget(targetname, uId)
 	if targetname == UnitName("player") then
 		specWarnTrap:Show()
 		yellTrap:Yell()
-		soundDefile:Play()
 	else
 		if uId then
 			local inRange = CheckInteractDistance(uId, 2)
-			local x, y = GetPlayerMapPosition(uId)
-			if x == 0 and y == 0 then
-				SetMapToCurrentZone()
-				x, y = GetPlayerMapPosition(uId)
-			end
 			if inRange then
 				specWarnTrapNear:Show(targetname)
 			end
@@ -303,11 +298,11 @@ end
 function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 72143 then -- Shambling Horror enrage effect.
 		warnShamblingEnrage:Show(args.destName)
-		timerEnrageCD:Start()
+		timerEnrageCD:Start(args.sourceGUID)
 	elseif args.spellId == 72754 and args:IsPlayer() and self:AntiSpam(2, 1) then		-- Defile Damage
 		specWarnDefile:Show()
 	elseif args.spellId == 73650 and self:AntiSpam(3, 2) then		-- Restore Soul (Heroic)
-		timerHarvestSoulCD:Start(60)
+		timerHarvestSoulCD:Start(58)
 		timerVileSpirit:Start(10)--May be wrong too but we'll see, didn't have enough log for this one.
 	end
 end
@@ -358,7 +353,9 @@ do
 		if args.spellId == 69037 then -- Summon Val'kyr
 			if time() - lastValk > 15 then -- show the warning and timer just once for all three summon events
 				warnSummonValkyr:Show()
-				timerSummonValkyr:Start()
+				if numberOfPlayers > 1 then--It's still cast in solo raid, and they do come, we just don't care since they don't grab main threat target, so supress timer anyways.
+					timerSummonValkyr:Start()
+				end
 				lastValk = time()
 				scanValkyrTargets()
 				if self.Options.ValkyrIcon then
@@ -408,14 +405,18 @@ function mod:NextPhase()
 		warnShamblingSoon:Schedule(15)
 		timerShamblingHorror:Start(20)
 		timerDrudgeGhouls:Start(10)
-		timerNecroticPlagueCD:Start(27)
+		if numberOfPlayers > 1 then
+			timerNecroticPlagueCD:Start(27)
+		end
 		if self:IsDifficulty("heroic10", "heroic25") then
 			timerTrapCD:Start()
 			countdownShadowTrap:Start()
 		end
 	elseif self.vb.phase == 2 then
 		warnPhase2:Show()
-		timerSummonValkyr:Start(20)
+		if numberOfPlayers > 1 then
+			timerSummonValkyr:Start(20)
+		end
 		timerSoulreaperCD:Start(40)
 		timerDefileCD:Start(38)
 		countdownDefile:Start(38)
@@ -436,6 +437,13 @@ end
 function mod:CHAT_MSG_MONSTER_YELL(msg)
 	if msg == L.LKPull or msg:find(L.LKPull) then
 		self:SendSync("CombatStart")
+	end
+end
+
+function mod:UNIT_DIED(args)
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 37698 then--Shambling Horror
+		timerEnrageCD:Cancel(args.sourceGUID)
 	end
 end
 

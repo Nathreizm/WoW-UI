@@ -1,5 +1,5 @@
 --[[
-Copyright 2012-2013 João Cardoso
+Copyright 2012-2014 João Cardoso
 PetTracker is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -45,7 +45,6 @@ function Slot:OnCreate()
 	for i = 1, 6 do
 		self.Ability[i] = Ability(self)
 		self.Ability[i]:SetPoint('CENTER', -196 + i * 42, 20)
-		--self.Ability[i]:SetPoint('CENTER', -90 + i * 42, -10)
 	end
 
 	for i = 1, 3 do
@@ -58,7 +57,7 @@ end
 
 function Slot:Display(pet, target)
 	if pet then
-		local specie, icon, type = Journal:GetInfo(pet:GetSpecie())
+		local specie, icon, type = pet:GetInfo()
 		local r,g,b = Addon:GetQualityColor(pet:GetQuality())
 		local health, power, speed = pet:GetStats()
 		local name = pet:GetName()

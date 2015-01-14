@@ -1,0 +1,99 @@
+------------------------------------------------------------------------
+r291 | mackatack | 2014-12-17 09:54:24 +0000 (Wed, 17 Dec 2014) | 1 line
+Changed paths:
+   A /tags/0.6.64 (from /trunk:290)
+
+see prev commit
+------------------------------------------------------------------------
+r290 | mackatack | 2014-12-17 09:53:18 +0000 (Wed, 17 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/ml/lootmaster_ml.lua
+
+Prevent errors caused by debug messages
+------------------------------------------------------------------------
+r288 | mackatack | 2014-12-12 23:08:22 +0000 (Fri, 12 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/epgp_lootmaster.toc
+   M /trunk/ml/lootmaster_ml.lua
+
+added more debugging output for the monitor system troubles
+------------------------------------------------------------------------
+r286 | mackatack | 2014-12-12 13:58:31 +0000 (Fri, 12 Dec 2014) | 3 lines
+Changed paths:
+   M /trunk/lootmaster_core.lua
+   M /trunk/ml/lootmaster_ml.lua
+   M /trunk/ml/lootmaster_options.lua
+
+Extra attempt of disabling EPGP GP popup, preventing double GP registration
+Cleaned up Debug messages
+Convert nils to false when saving guildranks in voting and monitor options, perhaps this will fix the problems people are having
+------------------------------------------------------------------------
+r284 | mackatack | 2014-12-11 15:18:49 +0000 (Thu, 11 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/ml/lootmaster_ml.lua
+
+Only auto register with autolooting enabled
+------------------------------------------------------------------------
+r282 | mackatack | 2014-12-11 15:15:29 +0000 (Thu, 11 Dec 2014) | 3 lines
+Changed paths:
+   M /trunk/locale/enUS.lua
+   M /trunk/lootmaster_core.lua
+   M /trunk/lootmaster_player.lua
+   M /trunk/ml/lootmaster_ml.lua
+   M /trunk/ml/lootmaster_ml_ui.lua
+
+Introduction of average itemlevel display of candidates full gearset in monitors.
+Auto registration of loot in EPGPLootmaster when auto looting is enabled
+Small bugfix
+------------------------------------------------------------------------
+r281 | mackatack | 2014-12-11 12:13:37 +0000 (Thu, 11 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/ml/lootmaster_ml.lua
+
+Fixed iLevel diffs on monitors
+------------------------------------------------------------------------
+r280 | mackatack | 2014-12-11 12:10:22 +0000 (Thu, 11 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/locale/enUS.lua
+   M /trunk/ml/lootmaster_ml.lua
+   M /trunk/ml/lootmaster_options.lua
+
+Implemented auto voting
+------------------------------------------------------------------------
+r278 | mackatack | 2014-12-08 09:18:15 +0000 (Mon, 08 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/ml/lootmaster_ml.lua
+
+Changed idents of items in the lootmaster table to include the entire itemhyperlink without the localized name of the item to support multilingual raids. This enables items sharing the same itemID but different sockets or bonusID to be registered separately so raiders will receive individual popups for them
+------------------------------------------------------------------------
+r276 | mackatack | 2014-12-07 11:29:45 +0000 (Sun, 07 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/ml/lootmaster_ml.lua
+
+couple of extra checks for LootLinkToIdent
+------------------------------------------------------------------------
+r274 | mackatack | 2014-12-03 10:07:30 +0000 (Wed, 03 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/ml/lootmaster_ml.lua
+
+Some lootslots are already empty while looting because it's autolooted. Empty slots return nil itemlinks, LootLinkToIdent() should correctly handle nil itemlinks and just return nil.
+------------------------------------------------------------------------
+r272 | mackatack | 2014-12-02 17:36:18 +0000 (Tue, 02 Dec 2014) | 2 lines
+Changed paths:
+   M /trunk/lootmaster_core.lua
+   M /trunk/ml/lootmaster_ml.lua
+
+Fixed voting and monitoring system
+Fixed probable bug distributing heroic items
+------------------------------------------------------------------------
+r270 | mackatack | 2014-11-30 11:36:03 +0000 (Sun, 30 Nov 2014) | 4 lines
+Changed paths:
+   M /trunk/lootmaster_core.lua
+   M /trunk/ml/lootmaster_ml.lua
+   M /trunk/ml/lootmaster_ml_ui.lua
+
+- Always show all the buttons for every item in queue, dont have selected button
+- Support WoD drops of same itemID but different bonus ID
+- Disable EPGP GP popup automatically
+- TOC update
+------------------------------------------------------------------------

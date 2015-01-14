@@ -31,10 +31,10 @@ L["titan_pride"] = "티탄 + 교만: %s"
 
 
 	L.custom_off_titan_mark = "티탄의 선물 표시"
-	L.custom_off_titan_mark_desc = "티탄의 선물 걸린 플레이어를 파악하기 쉽게하기 위해, 티탄의 선물이 걸린 플레이어를 {rt1}{rt2}{rt3}{rt4}{rt5}{rt6}{rt7}{rt8} 마크로 표시합니다. 공격대장이거나 권한이 필요합니다."
+	L.custom_off_titan_mark_desc = "티탄의 선물 걸린 플레이어를 파악하기 쉽게하기 위해, 티탄의 선물이 걸린 플레이어를 {rt1}{rt2}{rt3}{rt4}{rt5}{rt6} 마크로 표시합니다. 공격대장이거나 권한이 필요합니다."
 
 	L.custom_off_fragment_mark = "타락한 조각 표시"
-	L.custom_off_fragment_mark_desc = "Mark the Corrupted Fragments with {rt8}{rt7}{rt6}, requires promoted or leader.\n|cFFFF0000Only 1 person in the raid should have this enabled to prevent marking conflicts.\nIn 25 player mode, this will conflict with the Gift of the Titans marker.|r"
+	L.custom_off_fragment_mark_desc = "Mark the Corrupted Fragments with {rt8}{rt7}, requires promoted or leader.\n|cFFFF0000Only 1 person in the raid should have this enabled to prevent marking conflicts.|r"
 end
 
 L = BigWigs:NewBossLocale("Galakras", "koKR")
@@ -46,6 +46,8 @@ L["north_tower"] = "북쪽 탑"
 L["north_tower_trigger"] = "북쪽 탑으로 통하는 문이 뚫렸습니다!"
 L["south_tower"] = "남쪽 탑"
 L["south_tower_trigger"] = "남쪽 탑으로 통하는 문이 뚫렸습니다!"
+L["start_trigger_alliance"] = "잘했다! 상륙 부대, 정렬! 보병대, 앞으로!"
+L["start_trigger_horde"] = "잘 했소. 선봉대가 성공적으로 착륙했군."
 L["tower_defender"] = "탑 수호자"
 L["towers"] = "탑"
 L["towers_desc"] = "탑에 진입이 가능해 질 때 경고"
@@ -89,6 +91,7 @@ if L then
 	L.adds_trigger_extra_wave = "전 코르크론, 내 명령을 따르라. 모두 죽여!"
 	L.extra_adds = "다음 병력"
 	L.final_wave = "마지막 병력!"
+	L.add_wave = "%s (%s): %s"
 
 	L.chain_heal_message = "당신의 주시 대상이 연쇄 치유를 시전합니다!"
 
@@ -107,6 +110,11 @@ L["enable_zone"] = "유물 보관실"
 L["start_trigger"] = "녹음되고 있는 건가? 응? 좋아. 고블린 티탄 제어 모듈 시동 중. 물러서라고."
 L["win_trigger"] = "시스템 초기화 중. 전원을 끄면 폭발할 수 있으니 주의하라고."
 
+
+	L.crates = "상자"
+	L.crates_desc = "종료까지 남은 대중소 상자에 대한 메세지"
+	L.full_power = "Full Power!"
+	L.power_left = "%d 남음! (%d/%d/%d)"
 end
 
 L = BigWigs:NewBossLocale("Thok the Bloodthirsty", "koKR")
@@ -130,7 +138,6 @@ L["item_magnet"] = "전자석"
 L["item_mines"] = "지뢰"
 L["item_missile"] = "미사일"
 L["laser_on_you"] = "레이저가 당신에게 꽂힙니다!"
-L["laser_say"] = "절단 레이저"
 L["overcharged_crawler_mine"] = "과충전된 거미 지뢰"
 L["saw_blade_near_you"] = "근처에 톱날이 날아옵니다!"
 L["saw_blade_near_you_desc"] = "공격대의 택틱이 뭉쳐서 하는 것이라면 스팸 메시지를 피하기 위해 이 옵션을 꺼주세요."
@@ -148,7 +155,7 @@ if L then
 	L.you_ate = "기생충을 먹었습니다!"
 	L.other_ate = "%s님이 %s기생충을 먹었습니다! (%d마리 남음)"
 	L.parasites_up = "%d 마리의 |4기생충:기생충들; 존재"
-	L.dance = "속사"
+	L.dance = "%s, 속사"
 	L.prey_message = "기생충을 드세요."
 	L.injection_over_soon = "주입이 곧 끝남! (%s)"
 
@@ -171,13 +178,12 @@ if L then
 L["bombardment"] = "폭격"
 L["bombardment_desc"] = "스톰윈드를 폭격하고, 지면에 불길의 흔적을 남깁니다. 폭격 동안에만 코르크론 강철의 별이 소환될 수 있습니다."
 L["chain_heal_bar"] = "주시: 연쇄 치유"
-L["chain_heal_desc"] = "아군 대상의 최대 생명력의 40%를 치유하고, 인접한 아군 대상에게 튕겨갑니다."
+L["chain_heal_desc"] = "{focus}아군 대상의 최대 생명력의 40%를 치유하고, 인접한 아군 대상에게 튕겨갑니다."
 L["chain_heal_message"] = "당신의 주시 대상이 연쇄 치유를 시전합니다"
 L["clump_check_desc"] = "폭격 동안 3초마다 플레이어들이 뭉쳐있는 지 확인합니다. 뭉쳐있는 것이 발견된다면 코르크론 강철의 별이 소환됩니다."
 L["clump_check_warning"] = "불안정한 강철의 별 생성"
 L["empowered_message"] = "%s 이(가) 강화되었습니다!"
 L["farseer_trigger"] = "선견자, 우리를 치료하라!"
-L["intermission"] = "내면 세계"
 L["ironstar_impact_desc"] = "강철의 별이 다른 쪽 벽에 충돌할 때를 위한 타이머 바를 생성합니다."
 L["ironstar_rolling"] = "강철의 별이 굴러갑니다!"
 L["manifest_rage"] = "명백한 분노"

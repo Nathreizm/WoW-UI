@@ -18,9 +18,7 @@ mod.engageId = 1622
 
 local towerAddTimer = nil
 local addsCounter = 0
--- marking
-local marksUsed
-local mobTbl
+local prevMarkedMob = nil
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -28,7 +26,10 @@ local mobTbl
 
 local L = mod:NewLocale("enUS", true)
 if L then
-	L.demolisher, L.demolisher_desc = EJ_GetSectionInfo(8533)
+	L.start_trigger_alliance = "Well done! Landing parties, form up! Footmen to the front!"
+	L.start_trigger_horde = "Well done. The first brigade has made landfall."
+
+	L.demolisher = -8533 -- Kor'kron Demolisher
 	L.demolisher_message = "Demolisher"
 	L.demolisher_icon = 125914
 
@@ -47,12 +48,12 @@ if L then
 	L.warlord_zaela = "Warlord Zaela"
 
 	L.drakes = "Proto-Drakes"
-	L.drakes_desc = select(2, EJ_GetSectionInfo(8586))
+	L.drakes_desc = -8586
 	L.drakes_icon = "ability_mount_drake_proto"
 
 	L.custom_off_shaman_marker = "Shaman marker"
-	L.custom_off_shaman_marker_desc = "To help interrupt assignments, mark the Dragonmaw Tidal Shamans with {rt1}{rt2}{rt3}{rt4}{rt5}, requires promoted or leader.\n|cFFFF0000Only 1 person in the raid should have this enabled to prevent marking conflicts.|r\n|cFFADFF2FTIP: If the raid has chosen you to turn this on, quickly mousing over the shamans is the fastest way to mark them.|r"
-	L.custom_off_shaman_marker_icon = 1
+	L.custom_off_shaman_marker_desc = "To help interrupt assignments, mark the Dragonmaw Tidal Shamans with {rt8}, requires promoted or leader.\n|cFFFF0000Only 1 person in the raid should have this enabled to prevent marking conflicts.|r\n|cFFADFF2FTIP: If the raid has chosen you to turn this on, quickly mousing over the shamans is the fastest way to mark them.|r"
+	L.custom_off_shaman_marker_icon = 8
 end
 L = mod:GetLocale()
 
@@ -66,7 +67,7 @@ function mod:GetOptions()
 		"adds", "drakes", "demolisher", 147328, 146765, 146757, -8489, 146899, -- Foot Soldiers
 		"custom_off_shaman_marker",
 		{147068, "ICON", "FLASH", "PROXIMITY"},-- Galakras
-		"stages", "bosskill",
+		"stages", {"warmup", "EMPHASIZE"}, "bosskill",
 	}, {
 		["towers"] = -8421, -- Ranking Officials
 		["adds"] = -8427, -- Foot Soldiers
@@ -77,20 +78,8 @@ function mod:GetOptions()
 end
 
 function mod:OnBossEnable()
-	if self.lastKill and (GetTime() - self.lastKill) < 120 then -- Temp for outdated users enabling us
-		self:ScheduleTimer("Disable", 5)
-		return
-	end
-
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
-	if self.db.profile.custom_off_shaman_marker then
-		-- Shaman marking, enabled here for trash
-		if not marksUsed then marksUsed, mobTbl = {}, {} end
-		self:RegisterEvent("UPDATE_MOUSEOVER_UNIT", "UNIT_TARGET")
-		self:RegisterEvent("UNIT_TARGET")
-		self:Death("ShamanDeath", 72367, 72958)
-	end
+	self:RegisterEvent("CHAT_MSG_MONSTER_SAY", "Warmup")
+	self:RegisterEvent("RAID_BOSS_WHISPER")
 
 	-- Foot Soldiers
 	self:Log("SPELL_CAST_START", "ChainHeal", 146757, 146728)
@@ -128,8 +117,16 @@ local function firstTowerAdd()
 	end
 end
 
+function mod:Warmup(_, msg)
+	if msg == L.start_trigger_alliance then -- 34.5
+		self:Bar("warmup", 34.5, COMBAT, "achievement_boss_galakras")
+	elseif msg == L.start_trigger_horde then -- 30.5
+		self:Bar("warmup", 30.5, COMBAT, "achievement_boss_galakras")
+	end
+end
+
 function mod:OnEngage()
-	if self:Heroic() then
+	if self:Mythic() then
 		self:Bar("towers", 6, L.tower_defender, 85214) -- random orc icon
 		self:ScheduleTimer(firstTowerAdd, 6)
 	else
@@ -140,19 +137,20 @@ function mod:OnEngage()
 	self:RegisterEvent("CHAT_MSG_MONSTER_YELL", "Adds")
 
 	if self.db.profile.custom_off_shaman_marker then
-		-- Shaman marking, also enabled here for people turning the feature on after the module is enabled
-		if not marksUsed then marksUsed, mobTbl = {}, {} end
-		wipe(marksUsed)
-		wipe(mobTbl)
+		prevMarkedMob = nil
 		self:RegisterEvent("UPDATE_MOUSEOVER_UNIT", "UNIT_TARGET")
 		self:RegisterEvent("UNIT_TARGET")
-		self:Death("ShamanDeath", 72367, 72958)
 	end
 end
 
 --------------------------------------------------------------------------------
 -- Event Handlers
 --
+
+function mod:RAID_BOSS_WHISPER(_, msg)
+	-- RAID_BOSS_WHISPER#Galakras is hit! Nice shot!#Anti-Air Turret#0#true
+	self:Message("stages", "Personal", nil, msg, "achievement_boss_galakras")
+end
 
 --Galakras
 function mod:FlamesOfGalakrondStacking(args)
@@ -224,13 +222,13 @@ function mod:SouthTower()
 	self:Message("towers", "Neutral", "Long", L.south_tower, L.towers_icon)
 	self:Bar("demolisher", 20, L.demolisher_message, L.demolisher_icon)
 
-	if self:Heroic() then
+	if self:Mythic() then
 		self:CancelTimer(towerAddTimer)
 		towerAddTimer = nil
 		self:Bar("towers", 35, L.tower_defender, 85214) -- random orc icon
 		self:ScheduleTimer(firstTowerAdd, 35)
 	else
-		self:Bar("towers", 150, L.north_tower, L.towers_icon) -- XXX verify
+		self:Bar("towers", 150, L.north_tower, L.towers_icon) -- Mythic one seems random
 	end
 end
 
@@ -239,7 +237,7 @@ function mod:NorthTower()
 	self:Message("towers", "Neutral", "Long", L.north_tower, L.towers_icon)
 	self:Bar("demolisher", 20, L.demolisher_message, L.demolisher_icon)
 
-	if self:Heroic() then
+	if self:Mythic() then
 		self:CancelTimer(towerAddTimer)
 		towerAddTimer = nil
 		self:StopBar(L.tower_defender)
@@ -284,7 +282,7 @@ function mod:Adds(_, _, unit, _, _, target)
 		elseif UnitIsPlayer(target) then
 			self:Message("adds", "Attention", "Info", CL.incoming:format(L.adds), L.adds_icon)
 			addsCounter = addsCounter + 1
-			if (addsCounter + 1) % 4  == 0 then
+			if (addsCounter + 1) % 4 == 0 then
 				self:DelayedMessage("drakes", 55, "Attention", CL.incoming:format(L.drakes), L.drakes_icon, "Info")
 				self:Bar("adds", 110, L.adds, L.adds_icon)
 			else
@@ -297,35 +295,12 @@ function mod:Adds(_, _, unit, _, _, target)
 	end
 end
 
--- marking
-do
-	local UnitGUID = UnitGUID
-	function mod:UNIT_TARGET(event, firedUnit)
-		local unit = firedUnit and firedUnit.."target" or "mouseover"
-		local guid = UnitGUID(unit)
-		if guid and not mobTbl[guid] then
-			local mobId = self:MobId(guid)
-			if mobId == 72367 or mobId == 72958 then
-				for i = 1, 5 do
-					if not marksUsed[i] then
-						marksUsed[i] = guid
-						mobTbl[guid] = true
-						SetRaidTarget(unit, i)
-						break
-					end
-				end
-			end
-		end
-	end
-
-	function mod:ShamanDeath(args)
-		mobTbl[args.destGUID] = nil
-		for i = 1, 5 do
-			if marksUsed[i] == args.destGUID then
-				marksUsed[i] = nil
-				break
-			end
-		end
+function mod:UNIT_TARGET(event, firedUnit)
+	local unit = firedUnit and firedUnit.."target" or "mouseover"
+	local guid = UnitGUID(unit)
+	if guid and guid ~= prevMarkedMob and self:MobId(guid) == 72958 then
+		prevMarkedMob = guid
+		SetRaidTarget(unit, 8)
 	end
 end
 

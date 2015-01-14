@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Shahraz", "DBM-BlackTemple")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 531 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 535 $"):sub(12, -3))
 mod:SetCreatureID(22947)
 mod:SetModelID(21252)
 mod:SetZone()
@@ -28,7 +28,7 @@ local specWarnFA		= mod:NewSpecialWarningYou(41001)
 
 local timerAura			= mod:NewTimer(15, "timerAura", 22599)
 
-mod:AddBoolOption("FAIcons", true)
+mod:AddBoolOption("FAIcons", false)
 
 local warnFATargets = {}
 local FAIcon = 8

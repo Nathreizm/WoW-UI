@@ -18,6 +18,8 @@ end
 
 local function GetPoint(obj)
 	local point, anchor, secondaryPoint, x, y = obj:GetPoint()
+
+
 	if not anchor then anchor = ElvUIParent end
 
 	return format('%s\031%s\031%s\031%d\031%d', point, anchor:GetName(), secondaryPoint, E:Round(x), E:Round(y))
@@ -138,7 +140,7 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag)
 		local LEFT = screenWidth / 3
 		local RIGHT = screenWidth * 2 / 3
 		local TOP = screenHeight / 2
-		
+
 		if y >= TOP then
 			point = "TOP"
 			y = -(screenHeight - self:GetTop())
@@ -157,14 +159,32 @@ local function CreateMover(parent, name, text, overlay, snapOffset, postdrag)
 			x = x - screenCenter
 		end
 		
+		
 		if self.positionOverride then
+			if(self.positionOverride == "TOPLEFT") then
+				x = self:GetLeft()
+				y = self:GetTop()
+			elseif(self.positionOverride == "TOPRIGHT") then
+				x = self:GetRight()
+				y = self:GetTop()
+			elseif(self.positionOverride == "BOTTOMLEFT") then
+				x = self:GetLeft()
+				y = self:GetBottom()
+			elseif(self.positionOverride == "BOTTOMRIGHT") then
+				x = self:GetRight()
+				y = self:GetBottom()
+			end
+
 			self.parent:ClearAllPoints()
 			self.parent:Point(self.positionOverride, self, self.positionOverride)
+
+			self:ClearAllPoints()
+			self:Point(self.positionOverride, E.UIParent, "BOTTOMLEFT", x, y)
+		else
+			self:ClearAllPoints()
+			self:Point(point, E.UIParent, point, x, y)
 		end
-		
-		self:ClearAllPoints()
-		self:Point(point, E.UIParent, point, x, y)
-		
+
 		E:SaveMoverPosition(name)
 
 		if ElvUIMoverNudgeWindow then

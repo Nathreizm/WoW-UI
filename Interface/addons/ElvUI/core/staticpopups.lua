@@ -5,6 +5,46 @@ local lower = string.lower
 E.PopupDialogs = {};
 E.StaticPopup_DisplayedFrames = {};
 
+E.PopupDialogs['ELVUI_UPDATE_AVAILABLE'] = {
+	text = L["ElvUI is five or more revisions out of date. You can download the newest version from www.tukui.org. Get premium membership and have ElvUI automatically updated with the Tukui Client!"],
+	hasEditBox = 1,
+	OnShow = function(self)
+		self.editBox:SetAutoFocus(false)
+		self.editBox.width = self.editBox:GetWidth()
+		self.editBox:SetWidth(220)
+		self.editBox:SetText("http://www.tukui.org/dl.php")
+		self.editBox:HighlightText()
+		ChatEdit_FocusActiveWindow();
+	end,	
+	OnHide = function(self)
+		self.editBox:SetWidth(self.editBox.width or 50)
+		self.editBox.width = nil
+	end,
+	hideOnEscape = 1,
+	button1 = OKAY,
+	OnAccept = E.noop,
+	EditBoxOnEnterPressed = function(self)
+		ChatEdit_FocusActiveWindow();
+		self:GetParent():Hide();
+	end,	
+	EditBoxOnEscapePressed = function(self)
+		ChatEdit_FocusActiveWindow();
+		self:GetParent():Hide();
+	end,	
+	EditBoxOnTextChanged = function(self)
+		if(self:GetText() ~= "http://www.tukui.org/dl.php") then
+			self:SetText("http://www.tukui.org/dl.php")
+		end
+		self:HighlightText()
+		self:ClearFocus()
+		ChatEdit_FocusActiveWindow();
+	end,
+	OnEditFocusGained = function(self)
+		self:HighlightText()
+	end,
+	showAlert = 1,
+}
+
 E.PopupDialogs['CLIENT_UPDATE_REQUEST'] = {
 	text = L["Detected that your ElvUI Config addon is out of date. This may be a result of your Tukui Client being out of date. Please visit our download page and update your Tukui Client, then reinstall ElvUI. Not having your ElvUI Config addon up to date will result in missing options."],
 	button1 = OKAY,
@@ -17,29 +57,6 @@ E.PopupDialogs['CLIQUE_ADVERT'] = {
 	button1 = YES,
 	OnAccept = E.noop,
 	showAlert = 1,
-}
-
-E.PopupDialogs["BAR6_CONFIRMATION"] = {
-	text = L["Enabling/Disabling Bar #6 will toggle a paging option from your main actionbar to prevent duplicating bars, are you sure you want to do this?"],
-	button1 = YES,
-	button2 = NO,
-	OnAccept = function(self)
-		if E.db.actionbar['bar6'].enabled ~= true then
-			E.db.actionbar['bar6'].enabled = true
-			E.ActionBars:UpdateBar1Paging()
-			E.ActionBars:PositionAndSizeBar('bar1')	
-			E.ActionBars:PositionAndSizeBar('bar6')	
-		else
-			E.db.actionbar['bar6'].enabled = false	
-			E.ActionBars:UpdateBar1Paging()
-			E.ActionBars:PositionAndSizeBar('bar1')	
-			E.ActionBars:PositionAndSizeBar('bar6')	
-		end
-	end,
-	OnCancel = E.noop,
-	timeout = 0,
-	whileDead = 1,
-	showAlert = 1,	
 }
 
 E.PopupDialogs["CONFIRM_LOSE_BINDING_CHANGES"] = {
@@ -231,8 +248,8 @@ E.PopupDialogs["RESETUI_CHECK"] = {
 	whileDead = 1,
 }
 
-E.PopupDialogs["APRIL_FOOLS"] = {
-	text = "ElvUI needs to perform database optimizations please be patient.",
+E.PopupDialogs["APRIL_FOOLS2013"] = {
+	text = L["ElvUI needs to perform database optimizations please be patient."],
 	button1 = OKAY,
 	OnAccept = function() 
 		if E.isMassiveShaking then
@@ -241,6 +258,32 @@ E.PopupDialogs["APRIL_FOOLS"] = {
 			E:BeginFoolsDayEvent() 
 			return true 
 		end
+	end,
+	timeout = 0,
+	whileDead = 1,	
+}
+
+E.PopupDialogs["APRIL_FOOLS"] = {
+	text = L["ElvUI needs to perform database optimizations please be patient."],
+	button1 = OKAY,
+	OnAccept = function() 
+		E:SetupAprilFools2014()
+	end,
+	timeout = 0,
+	whileDead = 1,	
+}
+
+E.PopupDialogs["APRIL_FOOLS_END"] = {
+	text = L["Do you enjoy the new ElvUI?"],
+	button1 = L["Yes, Keep Changes!"],
+	button2 = L["No, Revert Changes!"],
+	OnAccept = function() 
+		E.global.aprilFools = true;
+		E:Print(L["Type /aprilfools to revert to old settings."])
+	end,
+	OnCancel = function()
+		E.global.aprilFools = true;
+		E:RestoreAprilFools()
 	end,
 	timeout = 0,
 	whileDead = 1,	

@@ -1,4 +1,4 @@
-﻿if not(GetLocale() == "ruRU") then
+if not(GetLocale() == "ruRU") then
     return;
 end
 
@@ -46,39 +46,39 @@ L["Display Options 2/4 Text"] = [=[Индикации |cFFFFFFFFПолоса п�
 This option is only available if your display uses a trigger based on an aura, item, or spell.]=]
 L["Display Options: 4/4"] = "Опции индикации: 4/4"
 L["Display Options 4/4 Text"] = "Наконец, новый тип индикации |cFFFFFFFFМодель|r позволяет Вам использовать любую 3D-модель из файлов игры."
--- L["Dynamic Group Options: 2/4"] = ""
+L["Dynamic Group Options: 2/4"] = "Опции динамической группы: 2/4" -- Needs review
 -- L["Dynamic Group Options 2/4 Text"] = ""
--- L["Dynamic Group Options: 3/4"] = ""
+L["Dynamic Group Options: 3/4"] = "Опции динамической группы: 3/4" -- Needs review
 -- L["Dynamic Group Options 3/4 Text"] = ""
--- L["Dynamic Group Options: 4/4"] = ""
+L["Dynamic Group Options: 4/4"] = "Опции динамической группы: 4/4" -- Needs review
 -- L["Dynamic Group Options 4/4 Text"] = ""
--- L["Finished"] = ""
--- L["Full-scan Auras: 2/10"] = ""
--- L["Full-scan Auras 2/10 Text"] = ""
--- L["Full-scan Auras: 3/10"] = ""
+L["Finished"] = "Готовые" -- Needs review
+L["Full-scan Auras: 2/10"] = "Полное сканирование ауры: 2/10" -- Needs review
+L["Full-scan Auras 2/10 Text"] = "Во-первых, включить опцию Полное Сканирование." -- Needs review
+L["Full-scan Auras: 3/10"] = "Полное сканирование ауры: 3/10" -- Needs review
 -- L["Full-scan Auras 3/10 Text"] = ""
--- L["Full-scan Auras: 4/10"] = ""
+L["Full-scan Auras: 4/10"] = "Полное сканирование ауры: 4/10" -- Needs review
 -- L["Full-scan Auras 4/10 Text"] = ""
--- L["Full-scan Auras: 5/10"] = ""
+L["Full-scan Auras: 5/10"] = "Полное сканирование ауры: 5/10" -- Needs review
 -- L["Full-scan Auras 5/10 Text"] = ""
--- L["Group Auras 6/10"] = ""
+L["Group Auras 6/10"] = "Группа ауры: 6/10" -- Needs review
 -- L["Group Auras 6/10 Text"] = ""
--- L["Group Auras: 7/10"] = ""
+L["Group Auras: 7/10"] = "Группа ауры: 7/10" -- Needs review
 -- L["Group Auras 7/10 Text"] = ""
--- L["Group Auras: 8/10"] = ""
+L["Group Auras: 8/10"] = "Группа Ауры: 8/10" -- Needs review
 -- L["Group Auras 8/10 Text"] = ""
--- L["Home"] = ""
--- L["Multi-target Auras: 10/10"] = ""
+L["Home"] = "Домой" -- Needs review
+L["Multi-target Auras: 10/10"] = "Мульти-цель Ауры: 10/10" -- Needs review
 -- L["Multi-target Auras 10/10 Text"] = ""
 L["Multi-target Auras: 9/10"] = "Многоцелевые Эффекты: 9/10"
 -- L["Multi-target Auras 9/10 Text"] = ""
--- L["New in 1.4:"] = ""
+L["New in 1.4:"] = "Новое в 1.4:" -- Needs review
 L["New in 1.4 Desc:"] = "Новое в 1.4"
 L["New in 1.4 Desc Text"] = "Посмотреть новые функции WeakAuras 1.4"
 -- L["New in 1.4 Finnished Text"] = ""
 -- L["New in 1.4 Text1"] = ""
 -- L["New in 1.4 Text2"] = ""
--- L["Previous"] = ""
+L["Previous"] = "Предыдущий" -- Needs review
 L["Trigger Options: 1/4"] = "Опции Триггера: 1/4"
 -- L["Trigger Options 1/4 Text"] = ""
 L["Trigger Options: 2/4"] = "Опции Триггера: 2/4"

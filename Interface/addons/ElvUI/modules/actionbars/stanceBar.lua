@@ -2,6 +2,7 @@ local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, Private
 local AB = E:GetModule('ActionBars');
 
 local ceil = math.ceil;
+local lower = string.lower;
 
 local bar = CreateFrame('Frame', 'ElvUI_StanceBar', E.UIParent, 'SecureHandlerStateTemplate');
 
@@ -15,24 +16,30 @@ function AB:UPDATE_SHAPESHIFT_COOLDOWN()
 			CooldownFrame_SetTimer(cooldown, start, duration, enable);
 		end
 	end
+
+	self:StyleShapeShift("UPDATE_SHAPESHIFT_COOLDOWN")
 end
 
 function AB:StyleShapeShift(event)
 	local numForms = GetNumShapeshiftForms();
 	local texture, name, isActive, isCastable, _;
 	local buttonName, button, icon, cooldown;
-	local start, duration, enable;
 	local stance = GetShapeshiftForm();
+
 	for i = 1, NUM_STANCE_SLOTS do
 		buttonName = "ElvUI_StanceBarButton"..i;
 		button = _G[buttonName];
 		icon = _G[buttonName.."Icon"];
 		cooldown = _G[buttonName.."Cooldown"];
-		
+
 		if i <= numForms then
 			texture, name, isActive, isCastable = GetShapeshiftFormInfo(i);
 
-			if texture == "Interface\\Icons\\Spell_Nature_WispSplode" and self.db.stanceBar.style == 'darkenInactive' then
+			if not texture then
+				texture = "Interface\\Icons\\Spell_Nature_WispSplode"
+			end
+
+			if (type(texture) == "string" and (lower(texture) == "interface\\icons\\spell_nature_wispsplode" or lower(texture) == "interface\\icons\\ability_rogue_envelopingshadows")) and self.db.stanceBar.style == 'darkenInactive' then
 				_, _, texture = GetSpellInfo(name)
 			end
 			
@@ -48,13 +55,14 @@ function AB:StyleShapeShift(event)
 				StanceBarFrame.lastSelected = button:GetID();
 				if numForms == 1 then
 					button.checked:SetTexture(1, 1, 1, 0.5) 
-					button:SetChecked(1);
+					button:SetChecked(true);
 				else
+					button.checked:SetTexture(1, 1, 1, 0.5)
 					button:SetChecked(self.db.stanceBar.style ~= 'darkenInactive');
 				end
 			else
 				if numForms == 1 or stance == 0 then
-					button:SetChecked(0);
+					button:SetChecked(false);
 				else
 					button:SetChecked(self.db.stanceBar.style == 'darkenInactive');
 					button.checked:SetAlpha(1)
@@ -73,8 +81,6 @@ function AB:StyleShapeShift(event)
 			end
 		end
 	end
-	
-	--self:AdjustMaxStanceButtons()
 end
 
 function AB:PositionAndSizeBarShapeShift()
@@ -85,6 +91,10 @@ function AB:PositionAndSizeBarShapeShift()
 	local point = self.db['stanceBar'].point;
 	local widthMult = self.db['stanceBar'].widthMult;
 	local heightMult = self.db['stanceBar'].heightMult;
+	if bar.mover then
+		bar.mover.positionOverride = point;
+		E:UpdatePositionOverride(bar.mover:GetName())
+	end
 	bar.db = self.db['stanceBar']
 	bar.db.position = nil; --Depreciated
 	if bar.LastButton and numButtons > bar.LastButton then	
@@ -145,6 +155,8 @@ function AB:PositionAndSizeBarShapeShift()
 		
 		if self.db['stanceBar'].mouseover == true then
 			bar:SetAlpha(0);
+			button.cooldown:SetSwipeColor(0, 0, 0, 0)
+			button.cooldown:SetDrawBling(false)
 			if not self.hooks[bar] then
 				self:HookScript(bar, 'OnEnter', 'Bar_OnEnter');
 				self:HookScript(bar, 'OnLeave', 'Bar_OnLeave');	
@@ -156,6 +168,8 @@ function AB:PositionAndSizeBarShapeShift()
 			end
 		else
 			bar:SetAlpha(bar.db.alpha);
+			button.cooldown:SetSwipeColor(0, 0, 0, 1)
+			button.cooldown:SetDrawBling(true)
 			if self.hooks[bar] then
 				self:Unhook(bar, 'OnEnter');
 				self:Unhook(bar, 'OnLeave');
@@ -261,14 +275,14 @@ function AB:UpdateStanceBindings()
 	for i = 1, NUM_STANCE_SLOTS do
 		if self.db.hotkeytext then
 			_G["ElvUI_StanceBarButton"..i.."HotKey"]:Show()
-			local key = GetBindingKey("CLICK ElvUI_StanceBarButton"..i..":LeftButton")
-			_G["ElvUI_StanceBarButton"..i.."HotKey"]:SetText(key)	
+			_G["ElvUI_StanceBarButton"..i.."HotKey"]:SetText(GetBindingKey("CLICK ElvUI_StanceBarButton"..i..":LeftButton"))	
 			self:FixKeybindText(_G["ElvUI_StanceBarButton"..i])
 		else
 			_G["ElvUI_StanceBarButton"..i.."HotKey"]:Hide()
 		end		
 	end
 end
+
 
 function AB:CreateBarShapeShift()
 	bar:CreateBackdrop('Default');

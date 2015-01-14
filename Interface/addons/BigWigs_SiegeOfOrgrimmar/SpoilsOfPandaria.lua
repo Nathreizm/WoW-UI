@@ -1,9 +1,3 @@
---[[
-TODO:
-	look into doing :win without trigger that requires localization
-	could maybe hook into the world state timer, but I'm not sure if there is much point to work on a code just for that
-	could maybe pre warn for keg toss at least for one of the targets, but mob is not on boss frames, so a bit aids
-]]--
 
 --------------------------------------------------------------------------------
 -- Module Declaration
@@ -12,6 +6,7 @@ TODO:
 local mod, CL = BigWigs:NewBoss("Spoils of Pandaria", 953, 870)
 if not mod then return end
 mod:RegisterEnableMob(73152, 73720, 71512) -- Storeroom Guard ( trash guy ), Mogu Spoils, Mantid Spoils
+mod.engageId = 1594
 
 --------------------------------------------------------------------------------
 -- Locals
@@ -20,14 +15,16 @@ mod:RegisterEnableMob(73152, 73720, 71512) -- Storeroom Guard ( trash guy ), Mog
 local setToBlow = {}
 local sparkCounter = 0
 local bossUnitPowers = {}
+local massiveCrates = 2
+local stoutCrates = 6
+local prevEnrage = 0
 
 local function checkPlayerSide()
-	BigWigsLoader.SetMapToCurrentZone()
-	local cx, cy = GetPlayerMapPosition("player")
+	local cy, cx = UnitPosition("player")
 	if cy == 0 then return 0 end
 
-	-- simplified cross product: above (mantid) > 0 (colinear) > below (mogu)
-	return 0.04362700914 - (cx * 0.11017924547) + (cy * 0.04940152168)
+	-- simplified cross product: mantid > 0 > mogu
+	return -(-27.2 * (5134.9 + cx) + 17.5 * (-1618.5 + cy))
 end
 
 --------------------------------------------------------------------------------
@@ -36,10 +33,16 @@ end
 
 local L = mod:NewLocale("enUS", true)
 if L then
+	L.enable_zone = "Artifact Storage"
 	L.start_trigger = "Hey, we recording?"
 	L.win_trigger = "System resetting. Don't turn the power off, or the whole thing will probably explode."
 
-	L.enable_zone = "Artifact Storage"
+	L.crates = "Crates"
+	L.crates_desc = "Messages for how much power you still need and how many large/medium/small crates it will take."
+	L.crates_icon = 96362
+
+	L.full_power = "Full Power!"
+	L.power_left = "%d left! (%d/%d/%d)"
 end
 L = mod:GetLocale()
 
@@ -53,9 +56,9 @@ function mod:GetOptions()
 		145288, {145461, "TANK"}, {142947, "TANK"}, 142694, -- Mogu crate
 		{145987, "PROXIMITY", "FLASH"}, 145747, {145692, "TANK"}, 145715, {145786, "DISPEL"},-- Mantid crate
 		{146217, "FLASH"}, 146222, 146257, -- Crate of Panderan Relics
-		"proximity", {"warmup", "EMPHASIZE"}, "bosskill",
+		"proximity", {"crates", "TANK"}, {"warmup", "EMPHASIZE"}, "berserk", "bosskill",
 	}, {
-		[146815] = CL.heroic,
+		[146815] = "mythic",
 		[145288] = -8434, -- Mogu crate
 		[145987] = -8439, -- Mantid crate
 		[146217] = -8366, -- Crate of Panderan Relics
@@ -73,12 +76,11 @@ function mod:OnRegister() -- XXX check out replacing this with the chest id
 	end
 	f:SetScript("OnEvent", func)
 	f:RegisterEvent("ZONE_CHANGED_INDOORS")
+	f:RegisterEvent("ZONE_CHANGED_NEW_AREA") -- Summoned to the zone which doesn't fire ZONE_CHANGED_INDOORS
 	func()
 end
 
 function mod:OnBossEnable()
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
 	-- Crate of Panderan Relics
 	self:Log("SPELL_DAMAGE", "PathOfBlossoms", 146257)
 	self:Log("SPELL_CAST_START", "BreathOfFire", 146222)
@@ -102,7 +104,6 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_REMOVED", "SetToBlowRemoved", 145987)
 
 	self:Yell("Warmup", L.start_trigger)
-	self:Yell("Win", L.win_trigger)
 end
 
 function mod:Warmup()
@@ -110,33 +111,53 @@ function mod:Warmup()
 end
 
 function mod:OnEngage()
-	if self:Heroic() then
-		self:RegisterUnitEvent("UNIT_POWER_FREQUENT", nil, "boss1", "boss2")
-	end
-
 	sparkCounter = 0
+	prevEnrage = 0
+	massiveCrates = 2
+	stoutCrates = 6
 	wipe(setToBlow)
 	wipe(bossUnitPowers)
+	self:RegisterUnitEvent("UNIT_POWER_FREQUENT", nil, "boss1", "boss2")
+	self:RegisterEvent("UPDATE_WORLD_STATES")
 	self:OpenProximity("proximity", 3)
-	-- Sometimes there's a long delay between the last IEEU and IsEncounterInProgress being false so use this as a backup.
-	self:StopWipeCheck()
-	self:RegisterEvent("PLAYER_REGEN_ENABLED", "StartWipeCheck")
-	self:RegisterEvent("PLAYER_REGEN_DISABLED", "StopWipeCheck")
 end
 
 --------------------------------------------------------------------------------
 -- Event Handlers
 --
 
--- Heroic
-
 function mod:UNIT_POWER_FREQUENT(unit, powerType)
+	if powerType ~= "ALTERNATE" then return end
+
 	local power = UnitPower(unit, 10)
-	if powerType ~= "ALTERNATE" or power == 0 then return end -- == 0 might be needed when you change rooms
-	local playerSide, mobId = checkPlayerSide(), self:MobId(UnitGUID(unit))
+	if power == 0 then return end -- might be needed when you change rooms
+
+	local mobId = self:MobId(UnitGUID(unit))
 	if bossUnitPowers[mobId] == power then return end -- don't fire twice for the same value
+	local change = power - (bossUnitPowers[mobId] or 0)
 	bossUnitPowers[mobId] = power
-	if ((mobId == 71512 or mobId == 73721) and playerSide < 0) or ((mobId == 73720 or mobId == 73722) and playerSide > 0) then -- mantid spoils and you are on mogu side OR  mogu spoils and you are on mantid side
+
+	local playerSide = checkPlayerSide()
+	if ((mobId == 71512 or mobId == 73721) and playerSide > 0) or ((mobId == 73720 or mobId == 73722) and playerSide < 0) then -- mantid or mogu (side you're on)
+		-- guessimate how many crates of a type you need to open
+		if change > 13 then
+			massiveCrates = massiveCrates - 1
+		elseif change > 2 then
+			stoutCrates = stoutCrates - 1
+		end
+		if power == 50 then
+			self:Message("crates", "Important", "Long", L.full_power, L.crates_icon)
+			massiveCrates = 2
+			stoutCrates = 6
+		else
+			local remaining = 50 - power
+			local small = remaining
+			small = max(0, small - (massiveCrates * 14))
+			local medium = min(floor(small / 3), stoutCrates)
+			small = max(0, small - (medium * 3))
+			self:Message("crates", "Attention", nil, L.power_left:format(remaining, massiveCrates, medium, small), L.crates_icon)
+		end
+	elseif self:Mythic() then
 		self:Message(146815, "Important", "Alert", CL.incoming:format(self:SpellName(-8469))) -- Unstable Spark
 		if self:Damager() then
 			self:Flash(146815)
@@ -157,11 +178,17 @@ do
 	end
 end
 
-function mod:BreathOfFire(args) -- XXX no position check, could use :GetUnitIdByGUID, strip "target" and do a range check?
-	local debuffed = UnitDebuff("player", self:SpellName(146217)) -- Keg Toss
-	self:Message(args.spellId, "Attention", debuffed and "Long")
-	if debuffed then
-		self:Flash(146217) -- flash again
+function mod:BreathOfFire(args)
+	-- can be on both sides so check range on someone targeting him
+	local unit = self:GetUnitIdByGUID(args.sourceGUID)
+	local player = unit and unit:match("^(.-)target$") -- should always be a player or nil
+
+	if not player or self:Range(player) < 30 then
+		self:Message(args.spellId, "Attention")
+		if UnitDebuff("player", self:SpellName(146217)) then -- Keg Toss
+			self:PlaySound(args.spellId, "Long")
+			self:Flash(146217) -- flash again
+		end
 	end
 end
 
@@ -181,7 +208,7 @@ end
 
 do
 	local prev = 0
-	function mod:CrimsonReconstitutionHeal(args)
+	function mod:CrimsonReconstitutionHeal()
 		local t = GetTime()
 		if t-prev > 2 and checkPlayerSide() < 0 then
 			prev = t
@@ -203,14 +230,14 @@ function mod:MatterScramble(args)
 	end
 end
 
-function mod:SparkOfLife(args)
+function mod:SparkOfLife()
 	if checkPlayerSide() < 0 then
 		sparkCounter = sparkCounter + 1
-		self:Message(142694, "Attention", nil, CL.count:format(args.sourceName, sparkCounter))
+		self:Message(142694, "Attention", nil, CL.count:format(self:SpellName(-8380), sparkCounter))
 	end
 end
 
-function mod:SparkOfLifeDeath(args)
+function mod:SparkOfLifeDeath()
 	if checkPlayerSide() < 0 and sparkCounter > 0 then -- counting after side check to prevent straggling kills messing with counts on room transition
 		sparkCounter = sparkCounter - 1
 	end
@@ -303,6 +330,33 @@ do
 		else
 			setToBlow[#setToBlow+1] = args.destName
 			updateProximity(args.spellId)
+		end
+	end
+end
+
+function mod:UPDATE_WORLD_STATES()
+	-- NEW MISSION! I want you to blow up... THE OCEAN!
+	-- If it wasn't clear from this code, I don't trust this API at all.
+	-- Hardcoding the values and firing :Berserk on engage/room change seemed to end up with timers going out of sync.
+	-- Doing this without timer refreshing every 60 seconds also ended up with sync issues.
+	-- Repeatedly running through LFR to test various methods was also a delightful experience.
+	-- Pretty much, I hate it. The only positive from this is that we don't need to schedule the messages.
+	-- If this ever breaks in a future patch, $#!+.
+	local _, _, _, enrage = GetWorldStateUIInfo(6)
+	if enrage then
+		local remaining = enrage:match("%d+")
+		if remaining then
+			local timeRemaining = tonumber(remaining)
+			if timeRemaining and timeRemaining > 0 then
+				if timeRemaining > prevEnrage or timeRemaining % 60 == 0 then
+					self:Bar("berserk", timeRemaining+1, 26662) -- +1s to compensate for timer rounding.
+				end
+				-- It shouldn't fire the same value twice, but throttle for safety.
+				if timeRemaining ~= prevEnrage and (timeRemaining == 60 or timeRemaining == 30 or timeRemaining == 10 or timeRemaining == 5) then
+					self:Message("berserk", "Positive", nil, format(CL.custom_sec, self:SpellName(26662), timeRemaining), 26662)
+				end
+				prevEnrage = timeRemaining
+			end
 		end
 	end
 end

@@ -1,5 +1,5 @@
 --[[
-Copyright 2011-2013 João Cardoso
+Copyright 2011-2014 João Cardoso
 BagBrother is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -44,6 +44,7 @@ end
 
 function Brother:SetupCharacter()
 	local player = self.Player
+	player.faction = UnitFactionGroup('player') == 'Alliance'
 	player.class = select(2, UnitClass('player'))
 	player.race = select(2, UnitRace('player'))
 	player.sex = UnitSex('player')
@@ -68,6 +69,11 @@ function Brother:SetupEvents()
 
 	self:RegisterEvent('VOID_STORAGE_OPEN')
 	self:RegisterEvent('VOID_STORAGE_CLOSE')
+
+	self:RegisterEvent('GUILD_ROSTER_UPDATE')
+	self:RegisterEvent('GUILDBANKFRAME_OPENED')
+	self:RegisterEvent('GUILDBANKFRAME_CLOSED')
+	self:RegisterEvent('GUILDBANKBAGSLOTS_CHANGED')
 end
 
 function Brother:UpdateData()
@@ -76,6 +82,7 @@ function Brother:UpdateData()
 	end
 
 	self:UNIT_INVENTORY_CHANGED('player')
+	self:GUILD_ROSTER_UPDATE()
 	self:PLAYER_MONEY()
 end
 

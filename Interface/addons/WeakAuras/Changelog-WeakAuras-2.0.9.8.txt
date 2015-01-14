@@ -1,0 +1,63 @@
+tag 2.0.9.8
+27f3e74325961afd987b99c666825d4b5a9b0d59
+Benjamin Staneck <staneck@gmail.com>
+2014-12-31 08:52:12 +0100
+
+
+
+--------------------
+
+Benjamin Staneck:
+	- cleanup
+Infus:
+	- Fix cooldown not showing if show was triggerd by a secondary trigger
+	This seems to be caused by OmniCC. That is I can't reproduce the bug
+	without OmniCC enabled. Poking around OmniCC didn't produce any clue
+	on why it is buggy. Calling SetCooldown immediately prior to calling
+	show does though, fix the bug without apparently breaking the non
+	OmniCC case.
+	
+	Ticket: 210
+Mirrormn:
+	- Fixed a bug that would cause the WeakAurasOptions window to get stuck forever in a "minimized" mode under some circumstances.
+Benjamin Staneck:
+	- let the cache overwrite name<>icon mappings when there is a newer (higher id) icon for an old spell.
+Infus:
+	- Fix talent multi selection
+	The code trying to upgrade use_talent ensured that it was always true or
+	nil. That's actually not required and prevented the false state, which
+	is multi selection.
+Stew:
+	- yOffset still bugged for invisible auras
+Infus:
+	- Check if pet is alive for "Pet Active" trigger
+	After a pet dies UnitExists("pet") still returns true until the
+	pet vanishes. That's unlikely to be what anyone actually wants
+	out of that trigger.
+	- Fix ignore rune cd interaction with inverse
+	- Aurabar: Fix modify to correctly apply text/timer font changes
+Hendrik Leppkes:
+	- Fix type check
+	- Stop leaking "trigger" variable
+Benjamin Staneck:
+	- whitespace commit to get the packager going
+	- Changes SetTexCoord calls to work with Masque skins that do SetTexCoord calls themselves.
+	With this patch, WeakAuras' SetTexCoord calls use the Masque's skinned values as base values, which are then modified for the Zoom levels set in the WeakAuras options.
+brawne:
+	- make sure ItemEquip auras untrigger when item is unequipped
+Infus:
+	- Add misssing Blizzard Textures
+	Also rename the group from Catacylsm Alerts to Blizzard Alerts,
+	which is more accurate.
+Timmeh:
+	- Replace commented ButtonFacade support with working Masque support.
+Hendrik Leppkes:
+	- Add replacement functions for ActionButton_(Show|Hide)OverlayGlow to avoid taint caused by using them.
+	- Add a mechanism to override functions for scripts
+Infus:
+	- Fix renaming auras
+	- Aurabar: Fix vertical progress bars to not shrink, but crop textures
+	Ticket-Number: 169
+	- Pet battles: Actually listen to the events
+	Ticket-Number: 107
+	- DK: Fix ignore rune cd

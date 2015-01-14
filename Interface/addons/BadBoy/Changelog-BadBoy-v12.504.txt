@@ -1,0 +1,34 @@
+------------------------------------------------------------------------
+r1269 | funkydude | 2015-01-04 00:16:46 +0000 (Sun, 04 Jan 2015) | 1 line
+Changed paths:
+   A /tags/v12.504 (from /trunk:1268)
+
+Tagging as v12.504
+------------------------------------------------------------------------
+r1268 | funkydude | 2015-01-04 00:05:59 +0000 (Sun, 04 Jan 2015) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+anti-spam update
+------------------------------------------------------------------------
+r1267 | funkydude | 2014-12-14 09:40:09 +0000 (Sun, 14 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+anti-spam update
+------------------------------------------------------------------------
+r1266 | funkydude | 2014-12-08 02:43:10 +0000 (Mon, 08 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+   M /trunk/BadBoy.toc
+
+anti-spam update
+------------------------------------------------------------------------
+r1265 | funkydude | 2014-12-06 00:26:59 +0000 (Sat, 06 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/BadBoy.lua
+
+Remove garrison link filtering, bug now fixed.
+------------------------------------------------------------------------

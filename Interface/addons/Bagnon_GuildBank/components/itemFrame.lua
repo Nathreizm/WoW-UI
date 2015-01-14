@@ -14,7 +14,11 @@ function ItemFrame:UpdateEvents()
 	self:UnregisterAllMessages()
 
 	if self:IsVisible() then
-		self:RegisterEvent('GUILDBANKBAGSLOTS_CHANGED')
+		if self:IsCached() then
+			self:RegisterEvent('GET_ITEM_INFO_RECEIVED')
+		else
+			self:RegisterEvent('GUILDBANKBAGSLOTS_CHANGED')
+		end
 		
 		self:RegisterMessage('ITEM_FRAME_SPACING_UPDATE')
 		self:RegisterMessage('ITEM_FRAME_COLUMNS_UPDATE')
@@ -24,6 +28,7 @@ function ItemFrame:UpdateEvents()
 		self:RegisterMessage('ITEM_HIGHLIGHT_UPDATE', 'HandleGlobalItemEvent')
 		self:RegisterMessage('SHOW_EMPTY_ITEM_SLOT_TEXTURE_UPDATE', 'HandleGlobalItemEvent')
 		self:RegisterMessage('ITEM_SLOT_COLOR_ENABLED_UPDATE', 'HandleGlobalItemEvent')
+		self:RegisterMessage('GUILD_BANK_TAB_CHANGE', 'HandleGlobalItemEvent')
 	end
 end
 
@@ -32,44 +37,14 @@ function ItemFrame:OnEvent()
 end
 
 
---[[ Slot Management ]]--
-
---remove all unused item slots from the frame
---add all missing slots to the frame
---update all existing slots on the frame
---currently, all tabs have the same number of slots. So there is no need to request layouts
+--[[ Slots ]]--
 
 function ItemFrame:ReloadAllItemSlots()
-	local currentTab = self:GetCurrentTab()
 	for slot = 1, self:GetNumSlots() do
-		local itemSlot = self:GetItemSlot(slot)
-		if itemSlot then
-			itemSlot:SetSlot(currentTab, slot)
-		else
-			self:AddItemSlot(slot)
-		end
+		self.slots[slot] = self.slots[slot] or Bagnon.GuildItemSlot:New()
+		self.slots[slot]:Set(self, self:GetCurrentTab(), slot)
 	end
 end
-
---if an item is not assigned to the given slotIndex, then add an item
-function ItemFrame:AddItemSlot(slot)
-	if not self:GetItemSlot(slot) then
-		local itemSlot = self:NewItemSlot(slot)
-		self.itemSlots[slot] = itemSlot
-	end
-end
-
-function ItemFrame:NewItemSlot(slot)
-	return Bagnon.GuildItemSlot:New(self:GetCurrentTab(), slot, self:GetFrameID(), self)
-end
-
---returns the item slot assigned to the given slotIndex
-function ItemFrame:GetItemSlot(slot)
-	return self.itemSlots[slot]
-end
-
-
---[[ Properties ]]--
 
 function ItemFrame:GetNumSlots()
 	return 98

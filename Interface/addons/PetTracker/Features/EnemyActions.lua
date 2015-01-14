@@ -1,5 +1,5 @@
 --[[
-Copyright 2012-2013 João Cardoso
+Copyright 2012-2014 João Cardoso
 PetTracker is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -15,9 +15,11 @@ along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
 This file is part of PetTracker.
 --]]
 
-local _, Addon = ...
+local ADDON, Addon = ...
 local ActionBar = PetBattleFrame.BottomFrame
-local Actions = Addon:NewModule('EnemyActions', CreateFrame('CheckButton', nil, ActionBar))
+local Actions = Addon:NewModule('EnemyActions', CreateFrame('CheckButton', ADDON .. 'EnemyActions', ActionBar))
+Actions:SetPoint('BOTTOM', ActionBar, 'TOP', 0, 30)
+Actions:SetMovable(true)
 
 local Ability = Addon.AbilityAction
 local Pets = Addon.Battle
@@ -29,9 +31,13 @@ local Player = LE_BATTLE_PET_ALLY
 --[[ Startup ]]--
 
 function Actions:Startup()
-	self:SetPoint('BOTTOM', ActionBar, 'TOP')
-	self:SetSize(300, 100)
+	for i = 1, 6 do
+		self:CreateButton(i)
+	end
+
+	self:SetSize(175, 55)
 	self:SetScale(.8)
+	self:UpdateLock()
 	
 	self:RegisterEvent('PET_BATTLE_PET_CHANGED')
 	self:RegisterEvent('PET_BATTLE_PET_ROUND_PLAYBACK_COMPLETE')
@@ -40,10 +46,13 @@ function Actions:Startup()
 	self:SetHook('PetBattlePetSelectionFrame_Hide', self.Show)
 	self:SetHook('PetBattlePetSelectionFrame_Show', self.Hide)
 	self:SetScript('OnShow', self.Update)
-	
-	for i = 1, 6 do
-		self:CreateButton(i)
-	end
+end
+
+function Actions:AddOptions(panel)
+	panel:Create('CheckButton', 'UnlockActions'):SetCall('OnInput', function(_, value)
+		Addon.Sets.UnlockActions = value
+		self:UpdateLock()
+	end)
 end
 
 function Actions:SetHook(target, hook)
@@ -54,14 +63,17 @@ end
 
 function Actions:CreateButton(i)
 	local y = floor((i-1) / 3)
-	local x = (i-1) % 3 + 1
+	local x = (i-1) % 3
 
 	local button = Ability(self)
-	button:SetPoint('LEFT', (button:GetWidth() + 5) * x, y * button:GetHeight())
+	button:SetPoint('BOTTOMLEFT', (button:GetWidth() + 10) * x, y * button:GetHeight())
+	button:SetScript('OnDragStop', function() self:StopMovingOrSizing() end)
+	button:SetScript('OnDragStart', function() self:StartMoving() end)
 	button:SetHighlightTexture(nil)
 	button:SetPushedTexture(nil)
 	button:UnregisterAllEvents()
-	button:SetFrameLevel(5-y)
+	button:SetFrameLevel(8-y)
+	button:Enable()
 	
 	self[i] = button
 end
@@ -75,5 +87,11 @@ function Actions:Update()
 	
 	for i = 1, 6 do
 		self[i]:Display(enemy, i, target)
+	end
+end
+
+function Actions:UpdateLock()
+	for i = 1, 6 do
+		self[i]:RegisterForDrag(Addon.Sets.UnlockActions and 'LeftButton' or nil)
 	end
 end

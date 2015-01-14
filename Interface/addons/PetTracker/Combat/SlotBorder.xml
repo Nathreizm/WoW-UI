@@ -86,4 +86,49 @@
 			</OnLoad>
 		</Scripts>
 	</Frame>
+
+	<Frame name="PetTrackerTitledSlotBorder" inherits="PetTrackerSlotBorder" virtual="true">
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString parentKey="Text" inherits="GameFontNormal" justifyH="CENTER">
+					<Size x="0" y="40"/>
+					<Anchors>
+						<Anchor point="CENTER" relativePoint="TOP" relativeKey="$parent.Top" x="0" y="-4"/>
+					</Anchors>
+				</FontString>
+				<Texture parentKey="TextBG" file="Interface\PetBattles\_PetJournalHorizTile" horizTile="true">
+					<Size y="24"/>
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="LEFT" relativeKey="$parent.Text" x="-10" y="0"/>
+						<Anchor point="RIGHT" relativePoint="RIGHT" relativeKey="$parent.Text" x="10" y="0"/>
+					</Anchors>
+					<TexCoords left="0.00000000" right="1.00000000" top="0.23437500" bottom="0.42187500"/>	
+				</Texture>
+			</Layer>
+			<Layer level="OVERLAY" textureSubLevel="1">
+				<Texture parentKey="TextOver" file="Interface\PetBattles\_PetJournalHorizTile" horizTile="true">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" relativeKey="$parent.Text" x="0" y="0"/>
+						<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" relativeKey="$parent.Text" x="0" y="0"/>
+					</Anchors>
+					<TexCoords left="0.00000000" right="1.00000000" top="0.43750000" bottom="0.75000000"/>	
+				</Texture>
+
+				<Texture parentKey="TextLeft" file="Interface\PetBattles\PetJournal">
+					<Anchors>
+						<Anchor point="RIGHT" relativePoint="LEFT" relativeKey="$parent.TextOver" x="0" y="0"/>
+					</Anchors>
+					<Size x="40" y="40"/>	
+					<TexCoords left="0.23437500" right="0.31250000" top="0.06347656" bottom="0.10253906"/>	
+				</Texture>
+				<Texture parentKey="TextRight" file="Interface\PetBattles\PetJournal">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT" relativeKey="$parent.TextOver" x="0" y="0"/>
+					</Anchors>
+					<Size x="40" y="40"/>	
+					<TexCoords left="0.23437500" right="0.31250000" top="0.02246094" bottom="0.06152344"/>	
+				</Texture>
+			</Layer>
+		</Layers>
+	</Frame>
 </Ui>

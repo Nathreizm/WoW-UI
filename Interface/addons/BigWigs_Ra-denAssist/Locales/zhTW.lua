@@ -1,4 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("Ra-den Assist", "zhTW")
+local L = BigWigs:NewBossLocale("Ra-den Assist", "zhTW")
 if not L then return end
 
 L["allowed"] = "團隊成員已更新。" -- Needs review

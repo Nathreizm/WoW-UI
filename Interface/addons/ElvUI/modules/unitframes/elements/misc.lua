@@ -73,12 +73,6 @@ function UF:Construct_Combobar(frame)
 		CPoints[i].backdrop:SetParent(CPoints)
 	end
 	
-	CPoints[1]:SetStatusBarColor(0.69, 0.31, 0.31)		
-	CPoints[2]:SetStatusBarColor(0.69, 0.31, 0.31)
-	CPoints[3]:SetStatusBarColor(0.65, 0.63, 0.35)
-	CPoints[4]:SetStatusBarColor(0.65, 0.63, 0.35)
-	CPoints[5]:SetStatusBarColor(0.33, 0.59, 0.33)	
-
 	return CPoints
 end
 
@@ -281,9 +275,8 @@ end
 
 function UF:UpdateComboDisplay(event, unit)
 	if (unit == 'pet') then return end
-	local db = UF.player.db
 	local cpoints = self.CPoints
-	local cp = (UnitHasVehicleUI("player") or UnitHasVehicleUI("vehicle")) and GetComboPoints('vehicle', 'target') or GetComboPoints('player', 'target')
+	local cp = (UnitHasVehicleUI("player") or UnitHasVehicleUI("vehicle")) and UnitPower('vehicle', 4) or UnitPower('player', 4)
 
 	for i=1, MAX_COMBO_POINTS do
 		if(i <= cp) then
@@ -302,26 +295,33 @@ function UF:UpdateComboDisplay(event, unit)
 	local USE_PORTRAIT = db.portrait.enable
 	local USE_PORTRAIT_OVERLAY = db.portrait.overlay and USE_PORTRAIT
 	local PORTRAIT_WIDTH = db.portrait.width
-	
+	local PORTRAIT_OFFSET_Y = ((COMBOBAR_HEIGHT/2) + SPACING - BORDER)
+	local HEALTH_OFFSET_Y
+	local DETACHED = db.combobar.detachFromFrame
+
+	if not self.Portrait then
+		self.Portrait = db.portrait.style == '2D' and self.Portrait2D or self.Portrait3D
+	end
 
 	if USE_PORTRAIT_OVERLAY or not USE_PORTRAIT then
 		PORTRAIT_WIDTH = 0
 	end
 
-	if db.combobar.detachFromFrame then
-		COMBOBAR_HEIGHT = 0
-	end	
-	
+	if DETACHED then
+		PORTRAIT_OFFSET_Y = 0
+	end
+
 	if cpoints[1]:GetAlpha() == 1 or not db.combobar.autoHide then
 		cpoints:Show()
 		if USE_MINI_COMBOBAR then
-			self.Portrait.backdrop:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, -((COMBOBAR_HEIGHT/2) + SPACING - BORDER))
-			self.Health:Point("TOPRIGHT", self, "TOPRIGHT", -(BORDER+PORTRAIT_WIDTH), -(SPACING + (COMBOBAR_HEIGHT/2)))
+			HEALTH_OFFSET_Y = DETACHED and 0 or (SPACING + (COMBOBAR_HEIGHT/2))
+			self.Portrait.backdrop:SetPoint("TOPRIGHT", self, "TOPRIGHT", 0, -PORTRAIT_OFFSET_Y)
+			self.Health:Point("TOPRIGHT", self, "TOPRIGHT", -(BORDER+PORTRAIT_WIDTH), -HEALTH_OFFSET_Y)
 		else
+			HEALTH_OFFSET_Y = DETACHED and 0 or (SPACING + COMBOBAR_HEIGHT)
 			self.Portrait.backdrop:SetPoint("TOPRIGHT", self, "TOPRIGHT")
-			self.Health:Point("TOPRIGHT", self, "TOPRIGHT", -(BORDER+PORTRAIT_WIDTH), -(BORDER + SPACING + COMBOBAR_HEIGHT))
-		end		
-
+			self.Health:Point("TOPRIGHT", self, "TOPRIGHT", -(BORDER+PORTRAIT_WIDTH), -(BORDER + HEALTH_OFFSET_Y))
+		end
 	else
 		cpoints:Hide()
 		self.Portrait.backdrop:SetPoint("TOPRIGHT", self, "TOPRIGHT")
@@ -427,6 +427,7 @@ function UF:UpdateAuraWatch(frame, petOverride)
 				icon.missingAlpha = icon.onlyShowMissing and 1 or 0;
 				icon.textThreshold = buffs[i].textThreshold or -1
 				icon.displayText = buffs[i].displayText
+				icon.decimalThreshold = buffs[i].decimalThreshold
 				
 				icon:Width(db.size);
 				icon:Height(db.size);
@@ -454,9 +455,10 @@ function UF:UpdateAuraWatch(frame, petOverride)
 				end
 				
 				if not icon.cd then
-					icon.cd = CreateFrame("Cooldown", nil, icon)
+					icon.cd = CreateFrame("Cooldown", nil, icon, "CooldownFrameTemplate")
 					icon.cd:SetAllPoints(icon)
 					icon.cd:SetReverse(true)
+					icon.cd:SetHideCountdownNumbers(true)
 					icon.cd:SetFrameLevel(icon:GetFrameLevel())
 				end			
 

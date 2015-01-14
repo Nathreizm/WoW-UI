@@ -15,7 +15,11 @@ P['general'] = {
 	['autoAcceptInvite'] = false,
 	['bottomPanel'] = true,
 	['hideErrorFrame'] = true,
+	['objectiveFrameHeight'] = 480,
+	['bonusObjectivePosition'] = "LEFT",
 
+	['afk'] = true,
+	
 	["fontSize"] = 12,
 	["font"] = "ElvUI Font",
 
@@ -23,32 +27,67 @@ P['general'] = {
 	["backdropcolor"] = { r = 0.1,g = 0.1,b = 0.1 },
 	["backdropfadecolor"] = { r = .06,g = .06,b = .06, a = 0.8 },
 	["valuecolor"] = {r = 23/255,g = 132/255,b = 209/255},
-	
-	['mapAlpha'] = 1,
-	['tinyWorldMap'] = true,
-	
+
 	['minimap'] = {
 		['size'] = 176,
 		['locationText'] = 'MOUSEOVER',
+		['icons'] = {
+			['garrison'] = {
+				['scale'] = 0.8,
+				['position'] = "TOPLEFT",
+				['xOffset'] = 0,
+				['yOffset'] = 0,
+			},
+			['calendar'] = {
+				['scale'] = 1,
+				['position'] = "TOPRIGHT",
+				['xOffset'] = 0,
+				['yOffset'] = 0,
+			},
+			['mail'] = {
+				['scale'] = 1,
+				['position'] = "TOPRIGHT",
+				['xOffset'] = 3,
+				['yOffset'] = 4,
+			},
+			['lfgEye'] = {
+				['scale'] = 1,
+				['position'] = "BOTTOMRIGHT",
+				['xOffset'] = 3,
+				['yOffset'] = 0,
+			},
+			['difficulty'] = {
+				['scale'] = 1,
+				['position'] = "TOPLEFT",
+				['xOffset'] = 0,
+				['yOffset'] = 0,
+			},
+			['challengeMode'] = {
+				['scale'] = 1,
+				['position'] = "TOPLEFT",
+				['xOffset'] = 8,
+				['yOffset'] = -8,
+			},
+		}
 	},	
 	
 	['experience'] = {
 		['enable'] = true,
-		['width'] = 475,
-		['height'] = 10,
+		['width'] = 10,
+		['height'] = 180,
 		['textFormat'] = 'NONE',
 		['textSize'] = 11,
 		['mouseover'] = false,
-		['orientation'] = 'HORIZONTAL',
+		['orientation'] = 'VERTICAL',
 	},
 	['reputation'] = {
 		['enable'] = true,
-		['width'] = 475,
-		['height'] = 10,
+		['width'] = 10,
+		['height'] = 180,
 		['textFormat'] = 'NONE',
 		['textSize'] = 11,
 		['mouseover'] = false,
-		['orientation'] = 'HORIZONTAL',
+		['orientation'] = 'VERTICAL',
 	},
 	['threat'] = {
 		['enable'] = true,
@@ -61,7 +100,8 @@ P['general'] = {
 		['sortDirection'] = 'ASCENDING',
 		['size'] = 40,
 		['spacing'] = 4,
-	}
+	},
+	['kittys'] = false
 };
 
 --Bags
@@ -69,12 +109,16 @@ P['bags'] = {
     ['sortInverted'] = true,
 	['xOffset'] = 0,
 	['yOffset'] = 0,
+	['xOffsetBank'] = 0,
+	['yOffsetBank'] = 0,
 	['bagSize'] = 34,
 	['bankSize'] = 34,
 	['alignToChat'] = true,
 	['bagWidth'] = 350,
 	['bankWidth'] = 350,
 	['currencyFormat'] = 'ICON_TEXT',
+	['moneyFormat'] = 'SMART',
+	['moneyCoins'] = true,
 	['ignoreItems'] = '',
 	['bagBar'] = {
 		['growthDirection'] = 'VERTICAL',
@@ -92,10 +136,12 @@ P["nameplate"] = {
 	['fontSize'] = 7,
 	['fontOutline'] = 'MONOCHROMEOUTLINE',
 	["smallPlates"] = true,
-	["comboPoints"] = true,
+	["comboPoints"] = false,
 	['nonTargetAlpha'] = 0.6,
 	['combatHide'] = false,
 	['colorNameByValue'] =  true,
+	['showName'] = true,
+	['showLevel'] = true,
 	['targetIndicator'] = {
 		['enable'] = true,
 		['style'] = 'glow',
@@ -109,11 +155,19 @@ P["nameplate"] = {
 	['healthBar'] = {
 		['lowThreshold'] =  0.40,
 		['width'] = 108,
-		['height'] = 9,		
+		['height'] = 9,
+		['lowHPScale'] = {
+			['enable'] = false,
+			['width'] = 108,
+			['height'] = 9,
+			['toFront'] = true,
+			['changeColor'] = true,
+			['color'] = {r= 1, g = 0, b = 0},
+		},
 		['text'] = {
 			['enable'] = false,
 			['format'] = 'CURRENT',			
-		}		
+		}
 	},
 	['castBar'] = {
 		['height'] = 6,
@@ -177,9 +231,11 @@ P['auras'] = {
 		['enable'] = true,
 		['filter'] = true,
 		['durations'] = true,
+		['position'] = "RIGHT",
 		['font'] = 'ElvUI Pixel',
 		['fontSize'] = 10,
 		['fontOutline'] = 'MONOCHROMEOUTLINE',
+		['reverseStyle'] = false,
 	},
 	
 	['fadeThreshold'] = 5,
@@ -226,8 +282,11 @@ P['chat'] = {
 	['lfgIcons'] = true,
 	['timeStampFormat'] = 'NONE',
 	['keywords'] = '%MYNAME%, ElvUI',
+	['separateSizes'] = false,
 	['panelWidth'] = 412,
 	['panelHeight'] = 180,
+	['panelWidthRight'] = 412,
+	['panelHeightRight'] = 180,
 	['panelBackdropNameLeft'] = '',
 	['panelBackdropNameRight'] = '',
 	['panelBackdrop'] = 'SHOWBOTH',
@@ -248,9 +307,9 @@ P['datatexts'] = {
 	
 	['panels'] = {
 		['LeftChatDataPanel'] = {
-			['left'] = 'Armor',
+			['left'] = 'Talent/Loot Specialization',
 			['middle'] = 'Durability',
-			['right'] = 'Avoidance',
+			['right'] = 'Garrison',
 		},
 		['RightChatDataPanel'] = {
 			['left'] = 'System',
@@ -267,6 +326,8 @@ P['datatexts'] = {
 	['leftChatPanel'] = true,
 	['rightChatPanel'] = true,
 	['panelTransparency'] = false,
+	['goldFormat'] = 'BLIZZARD',
+	['goldCoins'] = false,
 }
 
 --Tooltip
@@ -276,7 +337,7 @@ P['tooltip'] = {
 	['playerTitles'] = true,
 	['guildRanks'] = true,
 	['inspectInfo'] = true,
-	['itemCount'] = true,
+	['itemCount'] = 'BAGS_ONLY',
 	['spellID'] = true,
 	['visibility'] = {
 		['unitFrames'] = 'NONE',
@@ -298,7 +359,7 @@ P['unitframe'] = {
 	['fontOutline'] = 'MONOCHROMEOUTLINE',
 	['OORAlpha'] = 0.35,
 	['debuffHighlighting'] = true,
-	["smartRaidFilter"] = true,
+	["smartRaidFilter"] = true, 
 	['targetOnMouseDown'] = false,
 	
 	['colors'] = {
@@ -343,6 +404,14 @@ P['unitframe'] = {
 			['absorbs'] = {r = 1, g = 1, b = 0, a = 0.25}
 		},
 		['classResources'] = {
+			['bgColor'] = {r = 0.1,g = 0.1,b = 0.1, a = 1},
+			['comboPoints'] = {
+				[1] = {r = 0.69, g = 0.31, b = 0.31},
+				[2] = {r = 0.69, g = 0.31, b = 0.31},
+				[3] = {r = 0.65, g = 0.63, b = 0.35},
+				[4] = {r = 0.65, g = 0.63, b = 0.35},
+				[5] = {r = 0.33, g = 0.59, b = 0.33},		
+			},
 			['DEATHKNIGHT'] = {
 				[1] = {r = 1, g = 0, b = 0},
 				[2] = {r = 0, g = 1, b = 0},
@@ -351,6 +420,13 @@ P['unitframe'] = {
 			},
 			['PALADIN'] = {r = 228/255,g = 225/255,b = 16/255},
 			['MAGE'] = {r = 0, g = 157/255, b = 255/255},
+			['ROGUE'] = {
+				[1] = {r = 0.69, g = 0.31, b = 0.31},
+				[2] = {r = 0.69, g = 0.31, b = 0.31},
+				[3] = {r = 0.65, g = 0.63, b = 0.35},
+				[4] = {r = 0.65, g = 0.63, b = 0.35},
+				[5] = {r = 0.33, g = 0.59, b = 0.33},				
+			},
 			['PRIEST'] = {r = 1, g = 1, b = 1},
 			['DRUID'] = {
 				[1] = {r = .30, g = .52, b = .90},
@@ -361,7 +437,8 @@ P['unitframe'] = {
 				[2] = {r = .47, g = .63, b = .35},
 				[3] = {r = .37, g = .63, b = .35},
 				[4] = {r = .27, g = .63, b = .33},
-				[5] = {r = .17, g = .63, b = .33},			
+				[5] = {r = .17, g = .63, b = .33},	
+				[6] = {r = 12/255, g = 145/255, b = 58/255}		
 			},
 			['WARLOCK'] = {
 				[1] = {r = 148/255, g = 130/255, b = 201/255},
@@ -481,6 +558,7 @@ P['unitframe'] = {
 				['enable'] = true,
 				['anchorPoint'] = 'ABOVE',
 				['attachTo'] = 'DEBUFFS',
+				['maxBars'] = 6,
 				['playerOnly'] = true,
 				['noConsolidated'] = true,
 				['useBlacklist'] = true,
@@ -513,7 +591,6 @@ P['unitframe'] = {
 			['threatStyle'] = 'GLOW',
 			['rangeCheck'] = true,
 			['healPrediction'] = true,
-			['smartAuraDisplay'] = 'DISABLED',
 			['middleClickFocus'] = true,
 			['health'] = {
 				['text_format'] = '[healthcolor][health:current-percent]',
@@ -606,6 +683,7 @@ P['unitframe'] = {
 				['enable'] = true,
 				['anchorPoint'] = 'ABOVE',
 				['attachTo'] = 'DEBUFFS',
+				['maxBars'] = 6,
 				['playerOnly'] = {friendly = true, enemy = true},
 				['useBlacklist'] = {friendly = true, enemy = true},
 				['useWhitelist'] = {friendly = false, enemy = false},
@@ -782,7 +860,6 @@ P['unitframe'] = {
 			['width'] = 190,
 			['height'] = 36,
 			['healPrediction'] = true,
-			['smartAuraDisplay'] = 'DISABLED',
 			['health'] = {
 				['text_format'] = '',
 				['position'] = 'RIGHT',
@@ -854,7 +931,8 @@ P['unitframe'] = {
 			['aurabar'] = {
 				['enable'] = false,
 				['anchorPoint'] = 'ABOVE',
-				['attachTo'] = 'FRAME',
+				['attachTo'] = 'DEBUFFS',
+				['maxBars'] = 3,
 				['playerOnly'] = {friendly = false, enemy = true},
 				['useBlacklist'] = {friendly = true, enemy = true},
 				['useWhitelist'] = {friendly = false, enemy = false},
@@ -1232,7 +1310,7 @@ P['unitframe'] = {
 				['bossAuras'] = {friendly = false, enemy = false},
 				['sizeOverride'] = 22,
 				['xOffset'] = 0,
-				['yOffset'] = 12
+				['yOffset'] = 12,
 			},
 			['debuffs'] = {
 				['enable'] = true,
@@ -1251,7 +1329,7 @@ P['unitframe'] = {
 				['bossAuras'] = {friendly = false, enemy = false},
 				['sizeOverride'] = 22,
 				['xOffset'] = 0,
-				['yOffset'] = -13,				
+				['yOffset'] = -13,
 			},	
 			['castbar'] = {
 				['enable'] = true,
@@ -1362,6 +1440,7 @@ P['unitframe'] = {
 			['roleIcon'] = {
 				['enable'] = true,
 				['position'] = 'CENTER',
+				['size'] = 15,
 			},		
 			['raidRoleIcons'] = {
 				['enable'] = true,
@@ -1374,6 +1453,12 @@ P['unitframe'] = {
 				['anchorPoint'] = 'TOPLEFT',
 				['xOffset'] = -1,
 				['yOffset'] = 0,
+				['name'] = {
+					['position'] = 'CENTER',
+					['text_format'] = '[namecolor][name:short]',
+					['yOffset'] = 0,				
+					['xOffset'] = 0,				
+				},
 			},
 			['targetsGroup'] = {
 				['enable'] = false,
@@ -1382,6 +1467,12 @@ P['unitframe'] = {
 				['anchorPoint'] = 'TOPLEFT',
 				['xOffset'] = -1,
 				['yOffset'] = 0,
+				['name'] = {
+					['position'] = 'CENTER',
+					['text_format'] = '[namecolor][name:short]',
+					['yOffset'] = 0,				
+					['xOffset'] = 0,				
+				},
 			},		
 			['raidicon'] = {
 				['enable'] = true,
@@ -1399,128 +1490,11 @@ P['unitframe'] = {
 				['outOfRange'] = true
 			},
 		},
-		['raid10'] = {
+		['raid'] = {
 			['enable'] = true,
 			['rangeCheck'] = true,
 			['threatStyle'] = 'GLOW',
-			['visibility'] = '[@raid6,noexists][@raid11,exists] hide;show',
-			['growthDirection'] = 'RIGHT_DOWN',
-			['horizontalSpacing'] = 3,
-			['verticalSpacing'] = 3,
-			['numGroups'] = 2,
-			['groupsPerRowCol'] = 1,
-			['groupBy'] = 'GROUP',
-			['sortDir'] = 'ASC',
-			["showPlayer"] = true,
-			['healPrediction'] = false,
-			['colorOverride'] = 'USE_DEFAULT',
-			['width'] = 80,
-			['height'] = 44,
-			['health'] = {
-				['text_format'] = '[healthcolor][health:deficit]',
-				['position'] = 'BOTTOM',
-				['orientation'] = 'HORIZONTAL',
-				['frequentUpdates'] = false,
-				['yOffset'] = 0,				
-				['xOffset'] = 0,				
-			},
-			['power'] = {
-				['enable'] = true,
-				['text_format'] = '',	
-				['width'] = 'fill',
-				['height'] = 7,
-				['offset'] = 0,
-				['position'] = 'BOTTOMRIGHT',
-				['hideonnpc'] = false,			
-				['yOffset'] = 0,				
-				['xOffset'] = 0,				
-			},			
-			['name'] = {
-				['position'] = 'TOP',
-				['text_format'] = '[namecolor][name:short]',
-				['yOffset'] = 0,				
-				['xOffset'] = 0,				
-			},
-			['buffs'] = {
-				['enable'] = false,
-				['perrow'] = 3,
-				['numrows'] = 1,
-				['attachTo'] = 'FRAME',
-				['anchorPoint'] = 'LEFT',					
-				['fontSize'] = 10,
-				['countFontSize'] = 10,
-				['clickThrough'] = false,
-				['playerOnly'] = true,
-				['noConsolidated'] = true,
-				['useBlacklist'] = true,
-				['useWhitelist'] = false,
-				['noDuration'] = true,
-				['onlyDispellable'] = false,
-				['bossAuras'] = true,
-				['useFilter'] = '',
-				['xOffset'] = 0,
-				['yOffset'] = 0,
-			},
-			['debuffs'] = {
-				['enable'] = false,
-				['perrow'] = 3,
-				['numrows'] = 1,
-				['attachTo'] = 'FRAME',
-				['anchorPoint'] = 'RIGHT',					
-				['fontSize'] = 10,
-				['countFontSize'] = 10,
-				['clickThrough'] = false,
-				['playerOnly'] = false,
-				['useBlacklist'] = true,
-				['useWhitelist'] = false,
-				['noDuration'] = false,
-				['onlyDispellable'] = false,
-				['bossAuras'] = true,
-				['useFilter'] = '',
-				['xOffset'] = 0,
-				['yOffset'] = 0,
-			},	
-			['buffIndicator'] = {
-				['enable'] = true,
-				['size'] = 8,
-				['fontSize'] = 10,
-			},
-			['rdebuffs'] = {
-				['enable'] = true,
-				['fontSize'] = 10,
-				['size'] = 26,
-				['xOffset'] = 0,
-				['yOffset'] = 2,
-			},
-			['roleIcon'] = {
-				['enable'] = true,
-				['position'] = 'BOTTOMRIGHT',
-			},		
-			['raidRoleIcons'] = {
-				['enable'] = true,
-				['position'] = 'TOPLEFT',
-			},	
-			['raidicon'] = {
-				['enable'] = true,
-				['size'] = 18,
-				['attachTo'] = 'TOP',
-				['xOffset'] = 0,
-				['yOffset'] = 10,
-			},		
-			['GPSArrow'] = {
-				['enable'] = true,
-				['size'] = 40,
-				['xOffset'] = 0,
-				['yOffset'] = 0,
-				['onMouseOver'] = true,
-				['outOfRange'] = true
-			},			
-		},			
-		['raid25'] = {
-			['enable'] = true,
-			['rangeCheck'] = true,
-			['threatStyle'] = 'GLOW',
-			['visibility'] = '[@raid11,noexists][@raid26,exists] hide;show',
+			['visibility'] = '[@raid6,noexists][@raid26,exists] hide;show',
 			['growthDirection'] = 'RIGHT_DOWN',
 			['horizontalSpacing'] = 3,
 			['verticalSpacing'] = 3,
@@ -1610,6 +1584,7 @@ P['unitframe'] = {
 			['roleIcon'] = {
 				['enable'] = true,
 				['position'] = 'BOTTOMRIGHT',
+				['size'] = 15,
 			},				
 			['raidRoleIcons'] = {
 				['enable'] = true,
@@ -1630,13 +1605,12 @@ P['unitframe'] = {
 				['onMouseOver'] = true,
 				['outOfRange'] = true
 			},			
-		},					
+		},
 		['raid40'] = {
 			['enable'] = true,
 			['rangeCheck'] = true,
 			['threatStyle'] = 'GLOW',
 			['visibility'] = '[@raid26,noexists] hide;show',
-			
 			['growthDirection'] = 'RIGHT_DOWN',
 			['horizontalSpacing'] = 3,
 			['verticalSpacing'] = 3,
@@ -1655,7 +1629,7 @@ P['unitframe'] = {
 				['orientation'] = 'HORIZONTAL',
 				['frequentUpdates'] = false,
 				['yOffset'] = 0,				
-				['xOffset'] = 0,				
+				['xOffset'] = 0,			
 			},
 			['power'] = {
 				['enable'] = false,
@@ -1721,6 +1695,7 @@ P['unitframe'] = {
 			['roleIcon'] = {
 				['enable'] = false,
 				['position'] = 'BOTTOMRIGHT',
+				['size'] = 15,
 			},		
 			['raidRoleIcons'] = {
 				['enable'] = true,
@@ -1746,7 +1721,7 @@ P['unitframe'] = {
 				['onMouseOver'] = true,
 				['outOfRange'] = true
 			},			
-		},	
+		},								
 		['raidpet'] = {
 			['enable'] = false,
 			['rangeCheck'] = true,
@@ -1920,7 +1895,8 @@ P["actionbar"] = {
 			["DRUID"] = "[bonusbar:1,nostealth] 7; [bonusbar:1,stealth] 8; [bonusbar:2] 8; [bonusbar:3] 9; [bonusbar:4] 10;",
 			["PRIEST"] = "[bonusbar:1] 7;",
 			["ROGUE"] = "[stance:1] 7;  [stance:2] 7; [stance:3] 7;", -- set to "[stance:1] 7; [stance:3] 10;" if you want a shadow dance bar
-			["MONK"] = "[bonusbar:1] 7; [bonusbar:2] 8; [bonusbar:3] 9;"
+			["MONK"] = "[bonusbar:1] 7; [bonusbar:2] 8; [bonusbar:3] 9;",
+			["WARRIOR"] = "[bonusbar:1] 7; [bonusbar:2] 8;"
 		},
 		['visibility'] = "[petbattle] hide; show",
 	},

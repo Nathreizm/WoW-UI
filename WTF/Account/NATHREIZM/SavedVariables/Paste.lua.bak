@@ -1,0 +1,11 @@
+
+PasteDB = {
+	["profileKeys"] = {
+		["Nathreizm - Arthas"] = "Nathreizm - Arthas",
+	},
+	["profiles"] = {
+		["Nathreizm - Arthas"] = {
+			["loaded"] = true,
+		},
+	},
+}

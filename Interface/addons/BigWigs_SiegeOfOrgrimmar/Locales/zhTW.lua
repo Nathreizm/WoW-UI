@@ -31,10 +31,10 @@ L["titan_pride"] = "泰坦+傲：%s"
 
 
 	L.custom_off_titan_mark = "泰坦之賜標記"
-	L.custom_off_titan_mark_desc = "將受到泰坦之賜的玩家使用{rt1}{rt2}{rt3}{rt4}{rt5}{rt6}{rt7}{rt8}標記，需要權限。\n|cFFFF0000團隊中只能有一個玩家啟用此選項以避免標記衝突。|r"
+	L.custom_off_titan_mark_desc = "將受到泰坦之賜的玩家使用{rt1}{rt2}{rt3}{rt4}{rt5}{rt6}標記，需要權限。\n|cFFFF0000團隊中只能有一個玩家啟用此選項以避免標記衝突。|r"
 
 	L.custom_off_fragment_mark = "Corrupted Fragment marker"
-	L.custom_off_fragment_mark_desc = "Mark the Corrupted Fragments with {rt8}{rt7}{rt6}, requires promoted or leader.\n|cFFFF0000Only 1 person in the raid should have this enabled to prevent marking conflicts.\nIn 25 player mode, this will conflict with the Gift of the Titans marker.|r"
+	L.custom_off_fragment_mark_desc = "Mark the Corrupted Fragments with {rt8}{rt7}, requires promoted or leader.\n|cFFFF0000Only 1 person in the raid should have this enabled to prevent marking conflicts.|r"
 end
 
 L = BigWigs:NewBossLocale("Galakras", "zhTW")
@@ -46,6 +46,8 @@ L["north_tower"] = "北塔"
 L["north_tower_trigger"] = "封鎖北塔的門已經遭到破壞!"
 L["south_tower"] = "南塔"
 L["south_tower_trigger"] = "封鎖南塔的門已經遭到破壞!"
+L["start_trigger_alliance"] = "做得好!登陸小隊，集合!步兵打前鋒!"
+L["start_trigger_horde"] = "很好，第一梯隊已經登陸。"
 L["tower_defender"] = "防空砲塔守護者"
 L["towers"] = "高塔"
 L["towers_desc"] = "當高塔被突破時發出警報"
@@ -89,6 +91,7 @@ if L then
 	L.adds_trigger_extra_wave = "所有科爾克隆...聽我號令...殺死他們!"
 	L.extra_adds = "額外增援部隊"
 	L.final_wave = "最後一波"
+	L.add_wave = "%s (%s): %s"
 
 	L.chain_heal_message = "你的專注目標正在施放治療鍊！"
 
@@ -107,6 +110,11 @@ L["enable_zone"] = "文物倉庫"
 L["start_trigger"] = "我們在錄音嗎?有嗎?好。哥布林-泰坦控制模組開始運作，請後退。"
 L["win_trigger"] = "系統重置中。請勿關閉電源，否則可能會爆炸。"
 
+
+	--L.crates = "Crates"
+	--L.crates_desc = "Messages for how much power you still need and how many large/medium/small crates it will take."
+	--L.full_power = "Full Power!"
+	--L.power_left = "%d left! (%d/%d/%d)"
 end
 
 L = BigWigs:NewBossLocale("Thok the Bloodthirsty", "zhTW")
@@ -130,7 +138,6 @@ L["item_magnet"] = "磁鐵"
 L["item_mines"] = "地雷"
 L["item_missile"] = "飛彈"
 L["laser_on_you"] = "雷射正在追＞你＜！"
-L["laser_say"] = "雷射正在追＞你＜"
 L["overcharged_crawler_mine"] = "超載的爬行者地雷"
 L["saw_blade_near_you"] = "投擲鋸刃在你附近（目標不是你）"
 L["saw_blade_near_you_desc"] = "如果你們的戰術是團隊集中站位，你該考慮把這項警告停用。"
@@ -148,7 +155,7 @@ if L then
 	L.you_ate = "You ate a Parasite (%d left)"
 	L.other_ate = "%s ate a %sParasite (%d left)"
 	L.parasites_up = "%d |4Parasite:Parasites; up"
-	L.dance = "跳舞"
+	L.dance = "%s, 跳舞"
 	L.prey_message = "Use Prey on parasite"
 	L.injection_over_soon = "注射即將結束: (%s)!"
 
@@ -174,13 +181,12 @@ if L then
 L["bombardment"] = "轟炸"
 L["bombardment_desc"] = "轟炸暴風城，地上會殘留火焰，轟炸期間可觸發鋼鐵之星。"
 L["chain_heal_bar"] = "專注：治療鏈"
-L["chain_heal_desc"] = "治療一個友方目標及附近友方目標40%生命值上限。"
+L["chain_heal_desc"] = "{focus}治療一個友方目標及附近友方目標40%生命值上限。"
 L["chain_heal_message"] = "你的專注目標正在施放治療鏈！"
 L["clump_check_desc"] = "每3秒檢查是否有玩家過於集中，集中會觸發鋼鐵之星。"
 L["clump_check_warning"] = "集中警報，鋼鐵之星觸發"
 L["empowered_message"] = ">%s< 強化腐化！"
 L["farseer_trigger"] = "先知們，治療我們的傷口!"
-L["intermission"] = "中場休息"
 L["ironstar_impact_desc"] = "鋼鏡之星衝擊的計時條"
 L["ironstar_rolling"] = "鋼鐵之星衝擊! "
 L["manifest_rage"] = "實體化的狂怒之煞"

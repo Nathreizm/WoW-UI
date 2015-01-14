@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: PetTracker Config
 ## Notes: Load on demand options and tutorial.
 ## Author: Jaliborc (João Cardoso)

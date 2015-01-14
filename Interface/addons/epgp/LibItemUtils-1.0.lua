@@ -49,6 +49,27 @@ function lib:ItemlinkToID(itemlink)
   return tonumber(itemID)
 end
 
+--- Returns the bonus IDs for an item
+--  @param item to get the bonus IDs from
+--  @returns a table of bonus IDs; empty table if none; nil if not an item.
+function lib:BonusIDs(item)
+  local _, itemLink, _, _, _, _, _, _, _ = GetItemInfo(item)
+  if not itemLink then return end
+
+  local itemString = string.match(itemLink, "item[%-?%d:]+")
+  if not itemString then return nil end
+  
+  local bonuses = {}
+    local tbl = { strsplit(":", itemString) }
+    for key, value in pairs(tbl) do
+       if key >= 14 then
+          table.insert(bonuses, tonumber(value))
+        end
+    end
+
+   return bonuses
+end
+
 -------------
 -- ITEM USAGE
 -------------
@@ -604,6 +625,14 @@ function lib:DebugTestItem(itemID)
   Debug("Classes that cannot use %s: %s", link, table.concat(t, ' '))
 
   Debug("IsBoP: %s, IsBoE: %s", tostring(self:IsBoP(itemID)), tostring(self:IsBoE(itemID)))
+end
+
+function lib:DebugTestBonus(item)
+  local bonuses = self:BonusIDs(item)
+  
+  for key, value in pairs(bonuses) do
+    Debug("%s: %s", tostring(key), tostring(value))
+  end
 end
 
 -- /script LibStub("LibItemUtils-1.0"):DebugTest()

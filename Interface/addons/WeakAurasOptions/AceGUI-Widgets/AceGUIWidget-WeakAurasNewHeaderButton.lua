@@ -1,4 +1,4 @@
-﻿local Type, Version = "WeakAurasNewHeaderButton", 20
+local Type, Version = "WeakAurasNewHeaderButton", 20
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 
@@ -58,17 +58,17 @@ local function Constructor()
     button:SetHeight(20);
     button:SetWidth(1000);
     button:SetDisabledFontObject("GameFontNormal");
-    
+
     local background = button:CreateTexture(nil, "BACKGROUND");
     button.background = background;
     background:SetTexture("Interface\\BUTTONS\\UI-Listbox-Highlight2.blp");
     background:SetBlendMode("ADD");
     background:SetVertexColor(0.5, 0.5, 0.5, 0.25);
     background:SetAllPoints(button);
-    
+
     button:SetScript("OnEnter", function() Show_Tooltip(button, button:GetText():sub(2), button.description or L["Add a new display"]) end);
     button:SetScript("OnLeave", Hide_Tooltip);
-    
+
     local widget = {
         frame = button,
         type = Type

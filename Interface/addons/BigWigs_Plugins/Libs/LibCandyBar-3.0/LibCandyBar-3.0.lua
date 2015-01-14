@@ -20,7 +20,7 @@ local CreateFrame, error, setmetatable, UIParent = CreateFrame, error, setmetata
 if not LibStub then error("LibCandyBar-3.0 requires LibStub.") end
 local cbh = LibStub:GetLibrary("CallbackHandler-1.0")
 if not cbh then error("LibCandyBar-3.0 requires CallbackHandler-1.0") end
-local lib, old = LibStub:NewLibrary("LibCandyBar-3.0", 80) -- Bump minor on changes
+local lib, old = LibStub:NewLibrary("LibCandyBar-3.0", 83) -- Bump minor on changes
 if not lib then return end
 lib.callbacks = lib.callbacks or cbh:New(lib)
 local cb = lib.callbacks
@@ -52,12 +52,15 @@ local function stopBar(bar)
 	if bar.data then wipe(bar.data) end
 	if bar.funcs then wipe(bar.funcs) end
 	bar.running = nil
+	bar.paused = nil
 	bar:Hide()
+	bar:SetParent(UIParent)
 end
 
-local tformat1 = "%d:%02d"
-local tformat2 = "%.1f"
-local tformat3 = "%.0f"
+local tformat1 = "%d:%02d:%02d"
+local tformat2 = "%d:%02d"
+local tformat3 = "%.1f"
+local tformat4 = "%.0f"
 local function barUpdate(updater)
 	local bar = updater.parent
 	local t = GetTime()
@@ -71,16 +74,17 @@ local function barUpdate(updater)
 
 		if time > 3599.9 then -- > 1 hour
 			local h = floor(time/3600)
-			local m = time - (h*3600)
-			bar.candyBarDuration:SetFormattedText(tformat1, h, m)
+			local m = floor((time - (h*3600))/60)
+			local s = (time - (m*60)) - (h*3600)
+			bar.candyBarDuration:SetFormattedText(tformat1, h, m, s)
 		elseif time > 59.9 then -- 1 minute to 1 hour
 			local m = floor(time/60)
 			local s = time - (m*60)
-			bar.candyBarDuration:SetFormattedText(tformat1, m, s)
+			bar.candyBarDuration:SetFormattedText(tformat2, m, s)
 		elseif time < 10 then -- 0 to 10 seconds
-			bar.candyBarDuration:SetFormattedText(tformat2, time)
-		else -- 10 seconds to one minute
 			bar.candyBarDuration:SetFormattedText(tformat3, time)
+		else -- 10 seconds to one minute
+			bar.candyBarDuration:SetFormattedText(tformat4, time)
 		end
 
 		if bar.funcs then
@@ -91,9 +95,10 @@ local function barUpdate(updater)
 	end
 end
 
-local tformat4 = "~%d:%02d"
-local tformat5 = "~%.1f"
-local tformat6 = "~%.0f"
+local atformat1 = "~%d:%02d:%02d"
+local atformat2 = "~%d:%02d"
+local atformat3 = "~%.1f"
+local atformat4 = "~%.0f"
 local function barUpdateApprox(updater)
 	local bar = updater.parent
 	local t = GetTime()
@@ -107,16 +112,17 @@ local function barUpdateApprox(updater)
 
 		if time > 3599.9 then -- > 1 hour
 			local h = floor(time/3600)
-			local m = time - (h*3600)
-			bar.candyBarDuration:SetFormattedText(tformat4, h, m)
+			local m = floor((time - (h*3600))/60)
+			local s = (time - (m*60)) - (h*3600)
+			bar.candyBarDuration:SetFormattedText(atformat1, h, m)
 		elseif time > 59.9 then -- 1 minute to 1 hour
 			local m = floor(time/60)
 			local s = time - (m*60)
-			bar.candyBarDuration:SetFormattedText(tformat4, m, s)
+			bar.candyBarDuration:SetFormattedText(atformat2, m, s)
 		elseif time < 10 then -- 0 to 10 seconds
-			bar.candyBarDuration:SetFormattedText(tformat5, time)
+			bar.candyBarDuration:SetFormattedText(atformat3, time)
 		else -- 10 seconds to one minute
-			bar.candyBarDuration:SetFormattedText(tformat6, time)
+			bar.candyBarDuration:SetFormattedText(atformat4, time)
 		end
 
 		if bar.funcs then
@@ -217,6 +223,21 @@ function barPrototype:Start()
 	self.updater:Play()
 	self:Show()
 end
+--- Pauses a running bar
+function barPrototype:Pause()
+	if not self.paused then
+		self.updater:Pause()
+		self.paused = true
+	end
+end
+--- Resumes a paused bar
+function barPrototype:Resume()
+	if self.paused then
+		self.exp = GetTime() + self.remaining
+		self.updater:Play()
+		self.paused = nil
+	end
+end
 --- Stops the bar.
 -- This will stop the bar, fire the LibCandyBar_Stop callback, and recycle the bar into the candybar pool.
 -- Note: make sure you remove all references to the bar in your addon upon receiving the LibCandyBar_Stop callback.
@@ -265,6 +286,14 @@ function lib:New(texture, width, height)
 		bg:SetAllPoints()
 		bar.candyBarBackground = bg
 
+		local backdrop = CreateFrame("Frame", nil, bar) -- Used by bar stylers for backdrops
+		backdrop:SetFrameLevel(0)
+		bar.candyBarBackdrop = backdrop
+
+		local iconBackdrop = CreateFrame("Frame", nil, bar) -- Used by bar stylers for backdrops
+		iconBackdrop:SetFrameLevel(0)
+		bar.candyBarIconFrameBackdrop = iconBackdrop
+
 		local duration = statusbar:CreateFontString(nil, "ARTWORK", GameFontHighlightSmallOutline)
 		duration:SetPoint("RIGHT", statusbar, "RIGHT", -2, 0)
 		bar.candyBarDuration = duration
@@ -280,20 +309,10 @@ function lib:New(texture, width, height)
 		local anim = updater:CreateAnimation()
 		anim:SetDuration(0.04)
 		bar.updater = updater
+		bar.repeater = anim
 	else
 		barCache[bar] = nil
 	end
-
-	-- Merge this into the above if statement at some point, stays here for upgrade reasons right now
-	if not bar.candyBarBackdrop then
-		bar.candyBarBackdrop = CreateFrame("Frame", nil, bar) -- Used by bar stylers for backdrops
-	end
-	bar.candyBarBackdrop:SetFrameLevel(0)
-	if not bar.candyBarIconFrameBackdrop then
-		bar.candyBarIconFrameBackdrop = CreateFrame("Frame", nil, bar) -- Used by bar stylers for backdrops
-		bar.candyBarIconFrameBackdrop:SetFrameLevel(0)
-	end
-	-- End merge
 
 	bar.candyBarBar:SetStatusBarTexture(texture)
 	bar.candyBarBackground:SetTexture(texture)

@@ -1,4 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("Ra-den Assist", "koKR")
+local L = BigWigs:NewBossLocale("Ra-den Assist", "koKR")
 if not L then return end
 
 -- L["allowed"] = "Raid members have been updated."

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Deathwhisper", "DBM-Icecrown", 1)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 127 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 142 $"):sub(12, -3))
 mod:SetCreatureID(36855)
 mod:SetEncounterID(1100)
 mod:SetModelID(30893)
@@ -50,8 +50,8 @@ local timerTouchInsignificance		= mod:NewTargetTimer(30, 71204, nil, mod:IsTank(
 
 local berserkTimer					= mod:NewBerserkTimer(600)
 
-mod:AddBoolOption("SetIconOnDominateMind", true)
-mod:AddBoolOption("SetIconOnDeformedFanatic", true)
+mod:AddBoolOption("SetIconOnDominateMind", false)
+mod:AddBoolOption("SetIconOnDeformedFanatic", false)
 mod:AddBoolOption("SetIconOnEmpoweredAdherent", false)
 mod:AddBoolOption("ShieldHealthFrame", true)
 

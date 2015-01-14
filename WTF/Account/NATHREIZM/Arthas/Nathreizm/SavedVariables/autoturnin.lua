@@ -1,0 +1,43 @@
+
+AutoTurnInCharacterDB = {
+	["completeonly"] = false,
+	["questlevel"] = true,
+	["greedifnothingfound"] = true,
+	["showrewardtext"] = true,
+	["watchlevel"] = true,
+	["weapon"] = {
+		["One-Handed Axes"] = true,
+		["Daggers"] = true,
+		["One-Handed Maces"] = true,
+		["One-Handed Swords"] = true,
+	},
+	["enabled"] = false,
+	["todarkmoon"] = true,
+	["autoequip"] = false,
+	["trivial"] = false,
+	["armor"] = {
+		["Leather"] = true,
+		["Jewelry"] = true,
+		["INVTYPE_CLOAK"] = true,
+	},
+	["darkmoonautostart"] = true,
+	["darkmoonteleport"] = true,
+	["togglekey"] = 4,
+	["debug"] = false,
+	["tournament"] = 2,
+	["version"] = "4.5.N",
+	["stat"] = {
+		["ITEM_MOD_AGILITY_SHORT"] = true,
+	},
+	["lootreward"] = 3,
+	["all"] = 2,
+	["questshare"] = false,
+	["secondary"] = {
+		["ITEM_MOD_HASTE_RATING_SHORT"] = true,
+		["ITEM_MOD_MASTERY_RATING_SHORT"] = true,
+		["ITEM_MOD_CR_LIFESTEAL_SHORT"] = true,
+		["ITEM_MOD_CR_MULTISTRIKE_SHORT"] = true,
+		["ITEM_MOD_CRIT_RATING_SHORT"] = true,
+		["ITEM_MOD_VERSATILITY"] = true,
+	},
+}

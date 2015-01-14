@@ -1,5 +1,5 @@
-## Interface: 50400
-## X-Curse-Packaged-Version: r11747-release
+## Interface: 60000
+## X-Curse-Packaged-Version: r12536-release
 ## X-Curse-Project-Name: BigWigs Bossmods
 ## X-Curse-Project-ID: big-wigs
 ## X-Curse-Repository-ID: wow/big-wigs/mainline
@@ -25,6 +25,6 @@
 ## X-Category: Raid
 ## X-BigWigs-LoadOn-ZoneId: 897
 
-locales.xml
 modules.xml
+locales.xml
 

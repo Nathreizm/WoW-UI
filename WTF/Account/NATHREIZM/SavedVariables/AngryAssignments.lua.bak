@@ -1,0 +1,29 @@
+
+AngryAssign_Pages = {
+}
+AngryAssign_State = {
+	["directionUp"] = true,
+	["locked"] = true,
+	["display"] = {
+		["y"] = -30.4999389648438,
+		["x"] = 259.999969482422,
+		["point"] = "TOPLEFT",
+		["scale"] = 1,
+		["hidden"] = false,
+	},
+	["tree"] = {
+		["groups"] = {
+		},
+		["scrollvalue"] = 0,
+		["treesizable"] = true,
+		["treewidth"] = 175,
+		["fullwidth"] = 666.000061035156,
+	},
+	["window"] = {
+	},
+}
+AngryAssign_Config = {
+	["scale"] = 1.2,
+	["highlight"] = "Smoke Bomb",
+	["fontHeight"] = 13,
+}

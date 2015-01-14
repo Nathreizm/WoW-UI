@@ -1,7 +1,8 @@
-﻿local WeakAuras = WeakAuras;
+local WeakAuras = WeakAuras;
 local L = WeakAuras.L;
 
 local LSM = LibStub("LibSharedMedia-3.0");
+local LBR = LibStub("LibBabble-Race-3.0"):GetLookupTable()
 
 WeakAuras.glow_action_types = {
   show = L["Show"],
@@ -40,7 +41,9 @@ WeakAuras.precision_types = {
   [0] = "12",
   [1] = "12.3",
   [2] = "12.34",
-  [3] = "12.345"
+  [3] = "12.345",
+  [4] = "Dynamic 12.3", -- will show 1 digit precision when time is lower than 3 seconds, hardcoded
+  [5] = "Dynamic 12.34", -- will show 2 digits precision when time is lower than 3 seconds, hardcoded
 };
 WeakAuras.sound_channel_types = {
   Master = L["Master"],
@@ -120,6 +123,23 @@ do
   WeakAuras.class_types[eClass] = WeakAuras.class_color_types[eClass]..L_C_N_M[eClass]..F_C_C_C
   end
 end
+
+WeakAuras.race_types = {
+  Pandaren = LBR["Pandaren"],
+  Worgen = LBR["Worgen"],
+  Draenei = LBR["Draenei"],
+  Dwarf = LBR["Dwarf"],
+  Gnome = LBR["Gnome"],
+  Human = LBR["Human"],
+  NightElf = LBR["Night Elf"],
+  Goblin = LBR["Goblin"],
+  BloodElf = LBR["Blood Elf"],
+  Orc = LBR["Orc"],
+  Tauren = LBR["Tauren"],
+  Troll = LBR["Troll"],
+  Undead = LBR["Undead"]
+}
+
 WeakAuras.form_types = {};
 local function update_forms()
   wipe(WeakAuras.form_types);
@@ -229,15 +249,21 @@ WeakAuras.inverse_point_types = {
   LEFT = "RIGHT",
   CENTER = "CENTER"
 };
+WeakAuras.spark_rotation_types = {
+    AUTO = L["Automatic Rotation"],
+    MANUAL = L["Manual Rotation"]
+}
+
 WeakAuras.containment_types = {
   OUTSIDE = L["Outside"],
   INSIDE = L["Inside"]
 };
 WeakAuras.font_flags = {
   None = L["None"],
-  MONOCHROME = L["Monochrome"],
   OUTLINE = L["Outline"],
-  THICKOUTLINE  = L["Thick Outline"]
+  THICKOUTLINE  = L["Thick Outline"],
+  ["MONOCHROME|OUTLINE"] = L["Monochrome Outline"],
+  ["MONOCHROME|THICKOUTLINE"] = L["Monochrome Thick Outline"],
 };
 WeakAuras.event_types = {};
 for name, prototype in pairs(WeakAuras.event_prototypes) do
@@ -364,8 +390,8 @@ local spec_frame = CreateFrame("frame");
 spec_frame:RegisterEvent("PLAYER_LOGIN")
 spec_frame:SetScript("OnEvent", update_specs);
 WeakAuras.talent_types = {}
-do
-  local numTalents, numTiers, numColumns = _G.MAX_NUM_TALENTS, _G.MAX_NUM_TALENT_TIERS, _G.NUM_TALENT_COLUMNS
+do  -- @patch 6.0 compatibility quick fix
+  local numTalents, numTiers, numColumns = _G.MAX_NUM_TALENTS or 21, _G.MAX_NUM_TALENT_TIERS or 7, _G.NUM_TALENT_COLUMNS or 3
   local talentId,tier,column = 1,1,1
   while talentId <= numTalents do
     while tier <= numTiers do
@@ -388,11 +414,17 @@ WeakAuras.totem_types = {
   [4] = L["Air"]
 };
 WeakAuras.texture_types = {
-  ["Cataclysm Alerts"] = {
+  ["Blizzard Alerts"] = {
     ["Textures\\SpellActivationOverlays\\Arcane_Missiles"] = "Arcane Missiles",
+    ["Textures\\SpellActivationOverlays\\Arcane_Missiles_1"] = "Arcane Missiles 1",
+    ["Textures\\SpellActivationOverlays\\Arcane_Missiles_2"] = "Arcane Missiles 2",
+    ["Textures\\SpellActivationOverlays\\Arcane_Missiles_3"] = "Arcane Missiles 3",
     ["Textures\\SpellActivationOverlays\\Art_of_War"] = "Art of War",
+    ["Textures\\SpellActivationOverlays\\Backlash_Green"] = "Backlash_Green",
+    ["Textures\\SpellActivationOverlays\\Bandits_Guile"] = "Bandits Guile",
     ["Textures\\SpellActivationOverlays\\Blood_Surge"] = "Blood Surge",
     ["Textures\\SpellActivationOverlays\\Brain_Freeze"] = "Brain Freeze",
+    ["Textures\\SpellActivationOverlays\\Echo_of_the_Elements"] = "Echo of the Elements",
     ["Textures\\SpellActivationOverlays\\Eclipse_Moon"] = "Eclipse Moon",
     ["Textures\\SpellActivationOverlays\\Eclipse_Sun"] = "Eclipse Sun",
     ["Textures\\SpellActivationOverlays\\Focus_Fire"] = "Focus Fire",
@@ -408,18 +440,30 @@ WeakAuras.texture_types = {
     ["Textures\\SpellActivationOverlays\\Grand_Crusader"] = "Grand Crusader",
     ["Textures\\SpellActivationOverlays\\Hot_Streak"] = "Hot Streak",
     ["Textures\\SpellActivationOverlays\\Imp_Empowerment"] = "Imp Empowerment",
+    ["Textures\\SpellActivationOverlays\\Imp_Empowerment_Green"] = "Imp Empowerment Green",
     ["Textures\\SpellActivationOverlays\\Impact"] = "Impact",
     ["Textures\\SpellActivationOverlays\\Lock_and_Load"] = "Lock and Load",
     ["Textures\\SpellActivationOverlays\\Maelstrom_Weapon"] = "Maelstrom Weapon",
+    ["Textures\\SpellActivationOverlays\\Maelstrom_Weapon_1"] = "Maelstrom Weapon 1",
+    ["Textures\\SpellActivationOverlays\\Maelstrom_Weapon_2"] = "Maelstrom Weapon 2",
+    ["Textures\\SpellActivationOverlays\\Maelstrom_Weapon_3"] = "Maelstrom Weapon 3",
+    ["Textures\\SpellActivationOverlays\\Maelstrom_Weapon_4"] = "Maelstrom Weapon 4",
     ["Textures\\SpellActivationOverlays\\Master_Marksman"] = "Master Marksman",
+    ["Textures\\SpellActivationOverlays\\Monk_BlackoutKick"] = "Monk Blackout Kick",
     ["Textures\\SpellActivationOverlays\\Natures_Grace"] = "Nature's Grace",
     ["Textures\\SpellActivationOverlays\\Nightfall"] = "Nightfall",
+    ["Textures\\SpellActivationOverlays\\Predatory_Swiftness"] = "Predatory Swiftness",
+    ["Textures\\SpellActivationOverlays\\Raging_Blow"] = "Raging Blow",
     ["Textures\\SpellActivationOverlays\\Rime"] = "Rime",
     ["Textures\\SpellActivationOverlays\\Slice_and_Dice"] = "Slice and Dice",
     ["Textures\\SpellActivationOverlays\\Sudden_Death"] = "Sudden Death",
     ["Textures\\SpellActivationOverlays\\Sudden_Doom"] = "Sudden Doom",
     ["Textures\\SpellActivationOverlays\\Surge_of_Light"] = "Surge of Light",
     ["Textures\\SpellActivationOverlays\\Sword_and_Board"] = "Sword and Board",
+    ["Textures\\SpellActivationOverlays\\Thrill_of_the_Hunt_1"] = "Thrill of the Hunt 1",
+    ["Textures\\SpellActivationOverlays\\Thrill_of_the_Hunt_2"] = "Thrill of the Hunt 2",
+    ["Textures\\SpellActivationOverlays\\Thrill_of_the_Hunt_3"] = "Thrill of the Hunt 3",
+    ["Textures\\SpellActivationOverlays\\Tooth_and_Claw"] = "Tooth and Claw",
     ["Textures\\SpellActivationOverlays\\Backlash"] = "Backslash",
     ["Textures\\SpellActivationOverlays\\Berserk"] = "Berserk",
     ["Textures\\SpellActivationOverlays\\Blood_Boil"] = "Blood Boil",
@@ -431,15 +475,20 @@ WeakAuras.texture_types = {
     ["Textures\\SpellActivationOverlays\\Hand_of_Light"] = "Hand of Light",
     ["Textures\\SpellActivationOverlays\\Killing_Machine"] = "Killing Machine",
     ["Textures\\SpellActivationOverlays\\Molten_Core"] = "Molten Core",
+    ["Textures\\SpellActivationOverlays\\Molten_Core_Green"] = "Molten Core Green",
     ["Textures\\SpellActivationOverlays\\Necropolis"] = "Necropolis",
     ["Textures\\SpellActivationOverlays\\Serendipity"] = "Serendipity",
     ["Textures\\SpellActivationOverlays\\Shooting_Stars"] = "Shooting Stars",
     ["Textures\\SpellActivationOverlays\\Dark_Tiger"] = "Dark Tiger",
     ["Textures\\SpellActivationOverlays\\Daybreak"] = "Daybreak",
     ["Textures\\SpellActivationOverlays\\Monk_Ox"] = "Monk Ox",
+    ["Textures\\SpellActivationOverlays\\Monk_Ox_2"] = "Monk Ox 2",
+    ["Textures\\SpellActivationOverlays\\Monk_Ox_3"] = "Monk Ox 3",
     ["Textures\\SpellActivationOverlays\\Monk_Serpent"] = "Monk Serpent",
     ["Textures\\SpellActivationOverlays\\Monk_Tiger"] = "Monk Tiger",
+    ["Textures\\SpellActivationOverlays\\Monk_TigerPalm"] = "Monk Tiger Palm",
     ["Textures\\SpellActivationOverlays\\Shadow_of_Death"] = "Shadow of Death",
+    ["Textures\\SpellActivationOverlays\\Shadow_Word_Insanity"] = "Shadow Word Insanity",
     ["Textures\\SpellActivationOverlays\\Surge_of_Darkness"] = "Surge of Darkness",
     ["Textures\\SpellActivationOverlays\\Ultimatum"] = "Ultimatum",
     ["Textures\\SpellActivationOverlays\\White_Tiger"] = "White Tiger",
@@ -657,7 +706,10 @@ WeakAuras.texture_types = {
     ["Interface\\AddOns\\WeakAuras\\Media\\Textures\\Square_Squirrel_Border"] = "Spiralled Square with Border",
     ["Interface\\AddOns\\WeakAuras\\Media\\Textures\\Square_White"] = "Square",
     ["Interface\\AddOns\\WeakAuras\\Media\\Textures\\Square_White_Border"] = "Square with Border"
-  }
+  },
+  ["Sparks"] = {
+    ["Interface\\CastingBar\\UI-CastingBar-Spark"] = "Blizzard Spark",
+  },
 };
 if(WeakAuras.PowerAurasPath ~= "") then
   WeakAuras.texture_types["PowerAuras Heads-Up"] = {
@@ -811,7 +863,9 @@ if(WeakAuras.PowerAurasPath ~= "") then
     [WeakAuras.PowerAurasPath.."Aura41"] = "Disorient",
     [WeakAuras.PowerAurasPath.."Aura42"] = "Dispell",
     [WeakAuras.PowerAurasPath.."Aura43"] = "Danger",
-    [WeakAuras.PowerAurasPath.."Aura44"] = "Buff"
+    [WeakAuras.PowerAurasPath.."Aura44"] = "Buff",
+    [WeakAuras.PowerAurasPath.."Aura44"] = "Buff",
+    ["Interface\\AddOns\\WeakAuras\\Media\\Textures\\interrupt"] = "Interrupt",
   };
 end
 --[=[
@@ -951,6 +1005,7 @@ WeakAuras.group_types = {
   scenario = L["Scenario"],
   party = L["5 Man Dungeon"],
   ten = L["10 Man Raid"],
+  twenty = L["20 Man Raid"],
   twentyfive = L["25 Man Raid"],
   fortyman = L["40 Man Raid"],
   flexible = L["Flex Raid"],
@@ -961,6 +1016,7 @@ WeakAuras.difficulty_types = {
   none = L["None"],
   normal = L["Normal"],
   heroic = L["Heroic"],
+  mythic = L["Mythic"],
   lfr = L["Looking for Raid"],
   challenge = L["Challenge"]
 };
@@ -1053,30 +1109,30 @@ WeakAuras.cast_types = {
   channel = L["Channel (Spell)"]
 };
 WeakAuras.sound_types = {
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\BatmanPunch.mp3"] = "Batman Punch",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\BikeHorn.mp3"] = "Bike Horn",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\BoxingArenaSound.mp3"] = "Boxing Arena Gong",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\Bleat.mp3"] = "Bleat",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\CartoonHop.mp3"] = "Cartoon Hop",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\CatMeow2.mp3"] = "Cat Meow",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\KittenMeow.mp3"] = "Kitten Meow",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\RobotBlip.mp3"] = "Robot Blip",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\SharpPunch.mp3"] = "Sharp Punch",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\WaterDrop.mp3"] = "Water Drop",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\AirHorn.mp3"] = "Air Horn",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\Applause.mp3"] = "Applause",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\BananaPeelSlip.mp3"] = "Banana Peel Slip",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\Blast.mp3"] = "Blast",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\CartoonVoiceBaritone.mp3"] = "Cartoon Voice Baritone",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\CartoonWalking.mp3"] = "Cartoon Walking",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\CowMooing.mp3"] = "Cow Mooing",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\RingingPhone.mp3"] = "Ringing Phone",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\RoaringLion.mp3"] = "Roaring Lion",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\Shotgun.mp3"] = "Shotgun",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\SquishFart.mp3"] = "Squish Fart",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\TempleBellHuge.mp3"] = "Temple Bell",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\Torch.mp3"] = "Torch",
-  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\WarningSiren.mp3"] = "Warning Siren",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\BatmanPunch.ogg"] = "Batman Punch",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\BikeHorn.ogg"] = "Bike Horn",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\BoxingArenaSound.ogg"] = "Boxing Arena Gong",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\Bleat.ogg"] = "Bleat",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\CartoonHop.ogg"] = "Cartoon Hop",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\CatMeow2.ogg"] = "Cat Meow",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\KittenMeow.ogg"] = "Kitten Meow",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\RobotBlip.ogg"] = "Robot Blip",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\SharpPunch.ogg"] = "Sharp Punch",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\WaterDrop.ogg"] = "Water Drop",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\AirHorn.ogg"] = "Air Horn",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\Applause.ogg"] = "Applause",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\BananaPeelSlip.ogg"] = "Banana Peel Slip",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\Blast.ogg"] = "Blast",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\CartoonVoiceBaritone.ogg"] = "Cartoon Voice Baritone",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\CartoonWalking.ogg"] = "Cartoon Walking",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\CowMooing.ogg"] = "Cow Mooing",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\RingingPhone.ogg"] = "Ringing Phone",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\RoaringLion.ogg"] = "Roaring Lion",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\Shotgun.ogg"] = "Shotgun",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\SquishFart.ogg"] = "Squish Fart",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\TempleBellHuge.ogg"] = "Temple Bell",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\Torch.ogg"] = "Torch",
+  ["Interface\\AddOns\\WeakAuras\\Media\\Sounds\\WarningSiren.ogg"] = "Warning Siren",
   [" custom"] = "Custom",
 };
 if(WeakAuras.PowerAurasSoundPath ~= "") then
@@ -1142,10 +1198,10 @@ WeakAuras.duration_types_no_choice = {
   seconds = L["Seconds"]
 };
 WeakAuras.gtfo_types = {
-	[1] = L["High Damage"],
-	[2] = L["Low Damage"],
-	[3] = L["Fail Alert"],
-	[4] = L["Friendly Fire"]
+    [1] = L["High Damage"],
+    [2] = L["Low Damage"],
+    [3] = L["Fail Alert"],
+    [4] = L["Friendly Fire"]
 };
 WeakAuras.pet_behavior_types = {
   passive = L["Passive"],

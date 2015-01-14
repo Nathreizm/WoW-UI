@@ -120,6 +120,14 @@ local generalOptions = {
 			values = prof_options4,
 			arg = "Archaeology"
 		},
+		showTimber = {
+			order = 7,
+			name = L["Show Timber Nodes"],
+			desc = L["Toggle showing timber nodes."],
+			type = "select",
+			values = prof_options3,
+			arg = "Logging"
+		},
 	},
 }
 
@@ -346,15 +354,14 @@ local minimapOptions = {
 }
 
 -- Setup some storage arrays by db to sort node names and zones alphabetically
-local withLvlFormat = "(%d) %s"
 local delocalizedZones = {}
 local denormalizedNames = {}
 local sortedFilter = setmetatable({}, {__index = function(t, k)
 	local new = {}
 	table.wipe(delocalizedZones)
 	if k == "zones" then
-		for index, zoneID in pairs(GatherMate.mapData:GetAllMapIDs()) do
-			local name = GatherMate.mapData:MapLocalize(zoneID)
+		for index, zoneID in pairs(GatherMate:GetAllMapIDs()) do
+			local name = GatherMate:MapLocalize(zoneID)
 			new[name] = name
 			delocalizedZones[name] = zoneID
 		end
@@ -365,18 +372,14 @@ local sortedFilter = setmetatable({}, {__index = function(t, k)
 			new[idx] = name
 			denormalizedNames[name] = name
 		end
-		local minSkill = GatherMate.nodeMinHarvest[k]
-		if minSkill then
+		local expansion = GatherMate.nodeExpansion[k]
+		if expansion then
 			-- We only end up creating one function per tracked type anyway
 			table.sort(new, function(a, b)
-				local mA, mB = minSkill[map[a]], minSkill[map[b]]
-				if mA == mB then return map[a] > map[b]
+				local mA, mB = expansion[map[a]], expansion[map[b]]
+				if not mA or not mB or mA == mB then return map[a] > map[b]
 				else return mA > mB end
 			end)
-			for i, v in next, new do
-				new[i] = withLvlFormat:format(minSkill[map[v]], v)
-				denormalizedNames[new[i]] = v
-			end
 		else
 			table.sort(new)
 		end
@@ -982,7 +985,8 @@ ImportHelper.expac_data = {
 	["TBC"] = L["The Burning Crusades"],
 	["WRATH"] = L["Wrath of the Lich King"],
 	["CATACLYSM"] = L["Cataclysm"],
-	["MISTS"] = L["Mists of Pandaria"]
+	["MISTS"] = L["Mists of Pandaria"],
+	["WOD"] = L["Warlords of Draenor"]
 }
 imported["GatherMate2_Data"] = false
 importOptions.args.GatherMateData = {
@@ -990,10 +994,11 @@ importOptions.args.GatherMateData = {
 	name = "GatherMate2Data", -- addon name to import from, don't localize
 	handler = ImportHelper,
 	disabled = function()
-		local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo("GatherMate2_Data")
+		local name, title, notes, loadable, reason, security, newVersion = GetAddOnInfo("GatherMate2_Data")
+		local enabled = GetAddOnEnableState(UnitName("player"), "GatherMate2_Data") > 0
 		-- disable if the addon is not enabled, or
 		-- disable if there is a reason why it can't be loaded ("MISSING" or "DISABLED")
-		return not enabled or (reason ~= nil)
+		return not enabled or (reason ~= nil and reason ~= "DEMAND_LOADED")
 	end,
 	args = {
 		desc = {
@@ -1107,189 +1112,6 @@ local faqOptions = {
 		},
 	},
 }
-local ConversionHelper = {}
-ConversionHelper.dbList = {}
-ConversionHelper.zoneList = {}
-ConversionHelper.importZones = {}
-ConversionHelper.importDBs = {}
-ConversionHelper.dbList["Fishing"] = L["Fishing"]
-ConversionHelper.dbList["Treasure"] = L["Treasure"]
-ConversionHelper.dbList["Herb Gathering"] = L["Herb Bushes"]
-ConversionHelper.dbList["Mining"] = L["Mineral Veins"]
-ConversionHelper.dbList["Extract Gas"] = L["Gas Clouds"]
-
-function ConversionHelper:DBSelectAll()
-	for k,v in pairs(self.dbList) do
-		self.importDBs[k]=true
-	end
-	Config:UpdateConfig()
-end
-
-function ConversionHelper:DBSelectNone()
-	for k,v in pairs(self.dbList) do
-		self.importDBs[k]=false
-	end
-	Config:UpdateConfig()
-end
-
-function ConversionHelper:ZoneSelectAll()
-	for k,v in pairs(self.zoneList) do
-		self.importZones[k]=true
-	end
-	Config:UpdateConfig()
-end
-
-function ConversionHelper:ZoneSelectNone()
-	for k,v in pairs(self.zoneList) do
-		self.importZones[k]=false
-	end
-	Config:UpdateConfig()
-end
-
-
-function ConversionHelper:PopulateZoneList()
-	local continentList = {GetMapContinents()}
-	for cID = 1, #continentList do
-		for zID, zname in ipairs({GetMapZones(cID)}) do
-			SetMapZoom(cID, zID)
-			local mapfile = GetMapInfo()
-			local lname = GatherMate.mapData:MapLocalize(mapfile)
-			ConversionHelper.zoneList[mapfile] = lname
-		end
-	end
-end
-
-function ConversionHelper:GetSelectedDB(info,k)
-	return self.importDBs[k]
-end
-function ConversionHelper:SetSelectedDB(info, k , state)
-	self.importDBs[k] = state
-end
-function ConversionHelper:GetSelectedZone(info,k)
-	return self.importZones[k]
-end
-function ConversionHelper:SetSelectedZone(info, k , state)
-	self.importZones[k] = state
-end
-
-function ConversionHelper:ConvertDatabase()
-	local GM1 = LibStub("AceAddon-3.0"):GetAddon("GatherMate")
-	for nodeType,nodeName in pairs(self.importDBs) do
-		for zone,zoneLocal in pairs(self.importZones) do
-			for coord, nodeID in GM1:GetNodesForZone(self.zoneList[zone], nodeType) do
-				-- We should decode the location here and add it to the new DB with default level of 0
-				local x,y = GM1:getXY(coord)
-				-- Now encoded it to the new format
-				local newcoord = GatherMate.mapData:EncodeLoc(x,y,0)
-				GatherMate:InjectNode(GatherMate.mapData:MapAreaId(zone), newcoord ,nodeType, nodeID)
-			end
-		end
-	end
-	print(L["GatherMate data has been imported."])
-end
-
-ConversionHelper:PopulateZoneList()
--- Legacy GatherMate Data
-
-importOptions.args.LegacyData = {
-	type = "group",
-	name = L["GatherMate Conversion"], -- addon name to import from, don't localize
-	handler = ConversionHelper,
-	disabled = function()
-		local name, title, notes, enabled, loadable, reason, security = GetAddOnInfo("GatherMate")
-		-- disable if the addon is not enabled, or
-		-- disable if there is a reason why it can't be loaded ("MISSING" or "DISABLED")
-		return not enabled or (reason ~= nil)
-	end,
-	args = {
-		desc = {
-			order = 0,
-			type = "description",
-			name = L["Conversion_Desc"],
-		},
-		dbSelection = {
-			order = 1,
-			type = "group",
-			name = "",
-			guiInline = true,
-			args = {
-				selectDBs = {
-					order = 1,
-					name = L["Select Databases"],
-					desc = L["Select Databases"],
-					type = "multiselect",
-					values = ConversionHelper.dbList,
-					get = "GetSelectedDB",
-					set = "SetSelectedDB",
-				},
-				select_all = {
-					order = 2,
-					name = L["Select All"],
-					desc = L["Select all databases"],
-					type = "execute",
-					func = "DBSelectAll",
-				},
-				select_none = {
-					order = 2,
-					name = L["Select None"],
-					desc = L["Clear database selections"],
-					type = "execute",
-					func = "DBSelectNone",
-				},
-			},
-		},
-		zoneSelection = {
-			order = 2,
-			type = "group",
-			name = "Select Zones",
-			guiInline = true,
-			args = {
-				zones = {
-					order = 1,
-					name = "",
-					desc = L["Select Zones"],
-					type = "multiselect",
-					values = ConversionHelper.zoneList,
-					get = "GetSelectedZone",
-					set = "SetSelectedZone",
-				},
-				select_all = {
-					order = 2,
-					name = L["Select All"],
-					desc = L["Select all zones"],
-					type = "execute",
-					func = "ZoneSelectAll",
-				},
-				select_none = {
-					order = 2,
-					name = L["Select None"],
-					desc = L["Clear zone selections"],
-					type = "execute",
-					func = "ZoneSelectNone",
-				},
-			},
-		},
-		conversionAction = {
-			order = 99,
-			type = "execute",
-			name = L["Convert Databses"],
-			desc = L["Conversion_Desc"],
-			func = "ConvertDatabase",
-			disabled = function()
-				local dbCount = 0
-				local zoneCount = 0
-				for k,v in pairs(ConversionHelper.importDBs) do
-					if v then dbCount = dbCount + 1 end
-				end
-				for k,v in pairs(ConversionHelper.importZones) do
-					if v then zoneCount = zoneCount + 1 end
-				end
-				return dbCount == 0 or zoneCount == 0
-			end
-		}
-	},
-}
-
 
 --[[
 	Initialize the Config System

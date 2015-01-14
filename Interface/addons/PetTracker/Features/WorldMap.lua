@@ -1,6 +1,24 @@
+--[[
+Copyright 2012-2014 João Cardoso
+PetTracker is distributed under the terms of the GNU General Public License (Version 3).
+As a special exception, the copyright holders of this addon do not give permission to
+redistribute and/or modify it.
+
+This addon is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with the addon. If not, see <http://www.gnu.org/licenses/gpl-3.0.txt>.
+
+This file is part of PetTracker.
+--]]
+
 local ADDON, Addon = ...
 local Journal, Tamer = Addon.Journal, Addon.Tamer
 local MapFrame, BlipParent = WorldMapDetailFrame, WorldMapButton
+local FilterButton = WorldMapFrame.UIElementsFrame.TrackingOptionsButton.Button
 
 local Map = Addon:NewModule('WorldMap', PetTrackerMapFilter)
 local Tooltip = Addon.MapTip(WorldMapFrame)
@@ -14,21 +32,60 @@ local SUGGESTIONS = {
 }
 
 
+--[[ Dropdown ]]--
+
+do
+	local function BlizzLine(drop, value, cvar, text, tip, visible)
+		if visible then
+			drop:AddLine {
+				text = text, value = value,
+				tooltipTitle = tip,
+				checked = GetCVarBool(cvar),
+				func = WorldMapTrackingOptionsDropDown_OnClick,
+				keepShownOnClick = 1,
+				isNotRadio = 1
+			}
+		end
+	end
+
+	local function CustomLine(drop, arg, text)
+		drop:AddLine {
+			text = text,
+			func = function() Map:Toggle(arg) end,
+			checked = Map:Active(arg),
+			keepShownOnClick = 1,
+			isNotRadio = 1
+		}
+	end
+
+	FilterButton:SetScript('OnClick', function(button)
+		SushiDropFrame:Toggle('TOPRIGHT', button:GetParent(), 'BOTTOM', 10, -15, true, function(drop)
+			BlizzLine(drop, 'quests', 'questPOI', SHOW_QUEST_OBJECTIVES_ON_MAP_TEXT, OPTION_TOOLTIP_SHOW_QUEST_OBJECTIVES_ON_MAP, 1)
+			BlizzLine(drop, 'bosses', 'showBosses', SHOW_BOSSES_ON_MAP_TEXT, OPTION_TOOLTIP_SHOW_BOSSES_ON_MAP, WorldMapFrame.hasBosses)
+			BlizzLine(drop, 'digsites', 'digSites', ARCHAEOLOGY_SHOW_DIG_SITES, OPTION_TOOLTIP_SHOW_DIG_SITES_ON_MAP, select(3, GetProfessions()))
+			BlizzLine(drop, 'tamers', 'showTamers', SHOW_BATTLE_PET_TAMERS_ON_MAP_TEXT, OPTION_TOOLTIP_SHOW_BATTLE_PET_TAMERS_ON_MAP, CanTrackBattlePets())
+			CustomLine(drop, 'Species', L.ShowPets)
+			CustomLine(drop, 'Stables', L.ShowStables)
+		end)
+	end)
+end
+
+
 --[[ Events ]]--
 
 function Map:Startup()
-	self:RegisterEvent('ZONE_CHANGED_NEW_AREA')
-	self:SetScript('OnTextChanged', self.FilterChanged)
-	self:SetScript('OnEvent', SetMapToCurrentZone)
-	self:SetScript('OnUpdate', self.UpdateTip)
-	self:SetScript('OnShow', self.UpdateBlips)
-	self:SetScript('OnHide', self.HideTip)
+	self:SetText(Addon.Sets.MapFilter or '')
+	self:SetPoint('RIGHT', FilterButton, 'LEFT', 0, 1)
+	self:SetFrameLevel(FilterButton:GetFrameLevel() - 1)
+	self.Instructions:SetText(L.FilterPets)
+	self.blips, self.tamers = {}, {}
 
-	self.DefaultText = L.FilterPets
-	self:SetText(Addon.Sets.MapFilter or L.FilterPets)
-	self:SetPoint('TOPRIGHT', BlipParent, -6, -6)
-	self:SetFrameLevel(self:GetFrameLevel() + 16)
-	self.blips = {}
+	self:RegisterEvent('ZONE_CHANGED_NEW_AREA')
+	self:SetScript('OnEvent', SetMapToCurrentZone)
+	self:SetScript('OnTextChanged', self.FilterChanged)
+	self:SetScript('OnShow', self.TrackingChanged)
+	self:SetScript('OnUpdate', self.UpdateTip)
+	self:SetScript('OnHide', self.HideTip)
 
 	for i, text in ipairs(SUGGESTIONS) do
 		local button = CreateFrame('Button', '$parentButton'..i, self.Suggestions, 'PetTrackerSuggestionButton')
@@ -40,55 +97,18 @@ function Map:Startup()
 			button:Disable()
 		end
 	end
-
-	local function BlizzLine(drop, value, cvar, text, tip, visible)
-		if visible then
-			drop:AddLine {
-				text = text, value = value,
-				tooltipTitle = tip,
-				checked = GetCVarBool(cvar),
-				func = WorldMapShowDropDown_OnClick,
-				keepShownOnClick = 1,
-				isNotRadio = 1
-			}
-		end
-	end
-
-	local function CustomLine(drop, arg, text)
-		drop:AddLine {
-			text = text,
-			func = function() self:Toggle(arg) end,
-			checked = self:Active(arg),
-			keepShownOnClick = 1,
-			isNotRadio = 1
-		}
-	end
-
-	WorldMapShowDropDownButton:SetScript('OnClick', function(button)
-		SushiDropFrame:Toggle('BOTTOM', button:GetParent(), 'TOP', 0, 7, function(drop)
-			BlizzLine(drop, 'quests', 'questPOI', SHOW_QUEST_OBJECTIVES_ON_MAP_TEXT, OPTION_TOOLTIP_SHOW_QUEST_OBJECTIVES_ON_MAP, 1)
-			BlizzLine(drop, 'bosses', 'showBosses', SHOW_BOSSES_ON_MAP_TEXT, OPTION_TOOLTIP_SHOW_BOSSES_ON_MAP, WorldMapFrame.hasBosses)
-			BlizzLine(drop, 'digsites', 'digSites', ARCHAEOLOGY_SHOW_DIG_SITES, OPTION_TOOLTIP_SHOW_DIG_SITES_ON_MAP, select(3, GetProfessions()))
-			BlizzLine(drop, 'tamers', 'showTamers', SHOW_BATTLE_PET_TAMERS_ON_MAP_TEXT, OPTION_TOOLTIP_SHOW_BATTLE_PET_TAMERS_ON_MAP, CanTrackBattlePets())
-			CustomLine(drop, 'Species', L.ShowPets)
-			CustomLine(drop, 'Stables', L.ShowStables)
-		end)
-	end)
 end
 
 function Map:TrackingChanged()
-	if self:GetParent():IsVisible() then 
+	if self:IsVisible() then
+		self:CacheTamers()
 		self:UpdateBlips()
 	end
 end
 
 function Map:FilterChanged()
-	local text = self:GetText()
-	if text == '' or text == self.DefaultText then
-		text = nil
-	end
-
-	Addon.Sets.MapFilter = text
+	Addon.Sets.MapFilter = self:GetText()
+	self.Instructions:SetShown(self:GetText() == '')
 	self:TrackingChanged()
 end
 
@@ -96,18 +116,23 @@ end
 --[[ Blips ]]--
 
 function Map:UpdateBlips()
-	local showSpecies = self:Active('Species')
-	self:SetAlpha(showSpecies and 1 or 0)
-	self:EnableMouse(showSpecies)
+	self:ColorTamers()
 	self:ResetBlips()
 
-	if showSpecies then
+	if self:Active('Species') then
 		self:ShowSpecies()
+	else
+		self:ShowFilter(false)
 	end
 
 	if self:Active('Stables') then
 		self:ShowStables()
 	end
+end
+
+function Map:ShowFilter(show)
+	self:SetAlpha(show and 1 or 0)
+	self:EnableMouse(show)
 end
 
 function Map:ShowSpecies()
@@ -119,11 +144,9 @@ function Map:ShowSpecies()
 			
 		if spots and Addon:Filter(specie, Addon.Sets.MapFilter) then
 			local icon = specie:GetTypeIcon()
-			local special = specie:IsSpecial()
 
 			for x, y in gmatch(spots, '(%w%w)(%w%w)') do 
 				local blip = Addon.SpecieBlip(BlipParent)
-				blip.border:SetShown(special)
 				blip.icon:SetTexture(icon)
 				blip.specie = specie
 
@@ -131,6 +154,8 @@ function Map:ShowSpecies()
 			end
 		end
 	end
+
+	self:ShowFilter(next(species))
 end
 
 function Map:ShowStables()
@@ -162,28 +187,53 @@ function Map:ResetBlips()
 end
 
 
---[[ Tooltip ]]--
+--[[ Tamers ]]--
 
-function Map:UpdateTip()
-	Tooltip:Anchor(BlipParent, 'ANCHOR_CURSOR')
-
-	for i, blip in ipairs(self.blips) do
-		if blip:IsMouseOver() then
-			local title, text = blip:GetTooltip()
-			
-			Tooltip:AddHeader(title)
-			Tooltip:AddLine(text, 1,1,1)
-		end
-	end
+function Map:CacheTamers()
+	wipe(self.tamers)
 
 	for i = 1, GetNumMapLandmarks() do
 		local frame = _G['WorldMapFramePOI' .. i]
+		if frame then
+			self.tamers[frame] = Tamer:At(select(10, GetMapLandmarkInfo(i)))
+			frame:SetScript('PreClick', self.ShowTamer)
+		end
+	end
+end
 
-		if frame and frame:IsMouseOver() then
-			local id = select(10, GetMapLandmarkInfo(i))
-			local tamer = Tamer:At(id)
-			
-			if tamer then
+function Map:ColorTamers()
+	for frame, tamer in pairs(self.tamers) do
+		frame.Texture:SetDesaturated(IsQuestFlaggedCompleted(tamer.quest))
+	end
+end
+
+function Map:ShowTamer()
+	local tamer = Map.tamers[self]
+	if tamer then
+		tamer:Display()
+	end
+end
+
+
+--[[ Tooltip ]]--
+
+function Map:UpdateTip()
+	if WorldMapTooltip:IsVisible() or GameTooltip:IsVisible() then
+		Tooltip:Hide()
+	else
+		Tooltip:Anchor(BlipParent, 'ANCHOR_CURSOR')
+
+		for i, blip in ipairs(self.blips) do
+			if blip:IsMouseOver() then
+				local title, text = blip:GetTooltip()
+				
+				Tooltip:AddHeader(title)
+				Tooltip:AddLine(text, 1,1,1)
+			end
+		end
+
+		for frame, tamer in pairs(self.tamers) do
+			if frame:IsMouseOver() then
 				Tooltip:AddHeader(frame.name)
 				Tooltip:AddLine(NORMAL_FONT_COLOR_CODE .. frame.description .. FONT_COLOR_CODE_CLOSE)
 
@@ -195,9 +245,9 @@ function Map:UpdateTip()
 				end
 			end
 		end
-	end
 
-	Tooltip:Display()
+		Tooltip:Display()
+	end
 end
 
 function Map:HideTip()

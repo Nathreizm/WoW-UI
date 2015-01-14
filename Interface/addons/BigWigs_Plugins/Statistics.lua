@@ -11,23 +11,26 @@ if not plugin then return end
 
 local L = LibStub("AceLocale-3.0"):GetLocale("Big Wigs: Plugins")
 local activeDurations = {}
-local difficultyTable = {false, false, "10", "25", "10h", "25h", "lfr", false, false, false, false, false, false, "flex"}
+local difficultyTable = {false, false, "10", "25", "10h", "25h", "lfr", false, false, false, false, false, false, "normal", "heroic", "mythic", "LFR"}
 
 --[[
-1."Normal"
-2."Heroic"
-3."10 Player"
-4."25 Player"
-5."10 Player (Heroic)"
-6."25 Player (Heroic)"
-7."Looking For Raid"
-8."Challenge Mode"
-9."40 Player"
-10.nil
-11."Heroic Scenario"
-12."Normal Scenario"
-13.nil
-14."Flexible"
+1. "Normal"
+2. "Heroic"
+3. "10 Player"
+4. "25 Player"
+5. "10 Player (Heroic)"
+6. "25 Player (Heroic)"
+7. "Looking For Raid"
+8. "Challenge Mode"
+9. "40 Player"
+10. nil
+11. "Heroic Scenario"
+12. "Normal Scenario"
+13. nil
+14. "Flexible" / "Normal Raid" (Warlords of Draenor)
+15. "Heroic Raid" (Warlords of Draenor)
+16. "Mythic Raid" (Warloads of Draenor)
+17. Flexible LFR
 http://wowpedia.org/API_GetDifficultyInfo
 ]]--
 
@@ -46,12 +49,10 @@ plugin.defaultDB = {
 	showBar = true,
 }
 
-local function checkDisabled() return not plugin.db.profile.enabled end
-plugin.subPanelOptions = {
-	key = "Big Wigs: Boss Statistics",
-	name = L.bossStatistics,
-	options = {
-		name = L.bossStatistics,
+do
+	local function checkDisabled() return not plugin.db.profile.enabled end
+	plugin.pluginOptions = {
+		name = LibStub("AceLocale-3.0"):GetLocale("Big Wigs").statistics,
 		type = "group",
 		childGroups = "tab",
 		get = function(i) return plugin.db.profile[i[#i]] end,
@@ -129,8 +130,8 @@ plugin.subPanelOptions = {
 				width = "full",
 			},
 		},
-	},
-}
+	}
+end
 
 -------------------------------------------------------------------------------
 -- Initialization
@@ -146,6 +147,7 @@ function plugin:OnPluginEnable()
 		self:RegisterMessage("BigWigs_OnBossWin")
 		self:RegisterMessage("BigWigs_OnBossWipe")
 		self:RegisterMessage("BigWigs_OnBossDisable")
+		self:RegisterMessage("BigWigs_OnBossReboot", "BigWigs_OnBossDisable")
 	end
 end
 
@@ -154,62 +156,68 @@ end
 --
 
 function plugin:BigWigs_OnBossEngage(event, module, diff)
-	if module.encounterId and module.zoneId and diff and difficultyTable[diff] and not module.worldBoss then -- Raid restricted for now
-		activeDurations[module.encounterId] = GetTime()
+	if module.journalId and module.zoneId and not module.worldBoss then -- Raid restricted for now
+		activeDurations[module.journalId] = GetTime()
 
-		local sDB = BigWigsStatisticsDB
-		if not sDB[module.zoneId] then sDB[module.zoneId] = {} end
-		if not sDB[module.zoneId][module.encounterId] then sDB[module.zoneId][module.encounterId] = {} end
-		sDB = sDB[module.zoneId][module.encounterId]
-		if not sDB[difficultyTable[diff]] then sDB[difficultyTable[diff]] = {} end
+		if diff and difficultyTable[diff] then
+			local sDB = BigWigsStatisticsDB
+			if not sDB[module.zoneId] then sDB[module.zoneId] = {} end
+			if not sDB[module.zoneId][module.journalId] then sDB[module.zoneId][module.journalId] = {} end
+			sDB = sDB[module.zoneId][module.journalId]
+			if not sDB[difficultyTable[diff]] then sDB[difficultyTable[diff]] = {} end
 
-		local best = sDB[difficultyTable[diff]].best
-		if self.db.profile.showBar and best then
-			self:SendMessage("BigWigs_StartBar", self, nil, L.bestTimeBar, best, "Interface\\Icons\\spell_holy_borrowedtime")
+			local best = sDB[difficultyTable[diff]].best
+			if self.db.profile.showBar and best then
+				self:SendMessage("BigWigs_StartBar", self, nil, L.bestTimeBar, best, "Interface\\Icons\\spell_holy_borrowedtime")
+			end
 		end
 	end
 end
 
 function plugin:BigWigs_OnBossWin(event, module)
-	if module.encounterId and activeDurations[module.encounterId] then
-		local elapsed = GetTime()-activeDurations[module.encounterId]
-		local sDB = BigWigsStatisticsDB[module.zoneId][module.encounterId][difficultyTable[module:Difficulty()]]
+	if module.journalId and activeDurations[module.journalId] then
+		local elapsed = GetTime()-activeDurations[module.journalId]
 
 		if self.db.profile.printKills then
 			BigWigs:ScheduleTimer("Print", 1, L.bossDefeatDurationPrint:format(module.displayName, SecondsToTime(elapsed)))
 		end
 
-		if self.db.profile.saveKills then
-			sDB.kills = sDB.kills and sDB.kills + 1 or 1
-		end
-
-		if self.db.profile.saveBestKill and (not sDB.best or elapsed < sDB.best) then
-			if self.db.profile.printNewBestKill and sDB.best then
-				BigWigs:ScheduleTimer("Print", 1.1, ("%s (-%s)"):format(L.newBestTime, SecondsToTime(sDB.best-elapsed)))
+		local diff = module:Difficulty()
+		if difficultyTable[diff] then
+			local sDB = BigWigsStatisticsDB[module.zoneId][module.journalId][difficultyTable[diff]]
+			if self.db.profile.saveKills then
+				sDB.kills = sDB.kills and sDB.kills + 1 or 1
 			end
-			sDB.best = elapsed
+
+			if self.db.profile.saveBestKill and (not sDB.best or elapsed < sDB.best) then
+				if self.db.profile.printNewBestKill and sDB.best then
+					BigWigs:ScheduleTimer("Print", 1.1, ("%s (-%s)"):format(L.newBestTime, SecondsToTime(sDB.best-elapsed)))
+				end
+				sDB.best = elapsed
+			end
 		end
 
-		activeDurations[module.encounterId] = nil
+		activeDurations[module.journalId] = nil
 	end
 end
 
 function plugin:BigWigs_OnBossWipe(event, module)
-	if module.encounterId and activeDurations[module.encounterId] then
-		local elapsed = GetTime()-activeDurations[module.encounterId]
+	if module.journalId and activeDurations[module.journalId] then
+		local elapsed = GetTime()-activeDurations[module.journalId]
 
 		if elapsed > 30 then -- Fight must last longer than 30 seconds to be an actual wipe worth noting
 			if self.db.profile.printWipes then
 				BigWigs:Print(L.bossWipeDurationPrint:format(module.displayName, SecondsToTime(elapsed)))
 			end
 
-			if self.db.profile.saveWipes then
-				local sDB = BigWigsStatisticsDB[module.zoneId][module.encounterId][difficultyTable[module:Difficulty()]]
+			local diff = module:Difficulty()
+			if difficultyTable[diff] and self.db.profile.saveWipes then
+				local sDB = BigWigsStatisticsDB[module.zoneId][module.journalId][difficultyTable[diff]]
 				sDB.wipes = sDB.wipes and sDB.wipes + 1 or 1
 			end
 		end
 
-		activeDurations[module.encounterId] = nil
+		activeDurations[module.journalId] = nil
 	end
 end
 

@@ -4,8 +4,8 @@
 
 local debug	= false
 
-LootMasterML	      = LibStub("AceAddon-3.0"):NewAddon("LootMasterML", "AceConsole-3.0", "AceComm-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceHook-3.0")
-local LootMaster    = LibStub("AceAddon-3.0"):GetAddon("EPGPLootMaster")
+LootMasterML		= LibStub("AceAddon-3.0"):NewAddon("LootMasterML", "AceConsole-3.0", "AceComm-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceHook-3.0", "AceSerializer-3.0")
+local LootMaster	= LibStub("AceAddon-3.0"):GetAddon("EPGPLootMaster")
 
 local L = LibStub("AceLocale-3.0"):GetLocale("EPGPLootmaster")
 local LibDialog = LibStub("LibDialog-1.0")
@@ -57,6 +57,9 @@ function LootMasterML:OnInitialize()
     -- Event Register
       -- Trap event when ML rightclicks master loot
     self:RegisterEvent("OPEN_MASTER_LOOT_LIST")
+    self:RegisterEvent("UPDATE_MASTER_LOOT_LIST")
+    self:RegisterEvent("LOOT_OPENED")
+    self:RegisterEvent("LOOT_CLOSED")
 
     -- Trap even when an items get looted
     self:RegisterEvent("CHAT_MSG_LOOT");
@@ -79,21 +82,6 @@ function LootMasterML:OnInitialize()
     -- Create table for the guildinfo cache.
     self.guildInfo = {}
 
-    -- Disable 'automatic loot tracking' popup in EPGP - Let EPGPLootmaster handle all the GP stuff.
-    if EPGP and CheckForGuildInfo and IsInGuild() then
-        CheckForGuildInfo(EPGP);
-        if EPGP.db then
-            EPGP.db.profile.auto_loot = false
-        end
-    end
-
-    -- Disable the GP Popup on the new EPGP versions
-    if EPGP and EPGP.GetModule then
-      local loot = EPGP:GetModule("loot")
-      if loot and loot.Disable then
-        loot:Disable()
-      end
-    end
 
 	-- Disable popup for headcount
 	local HeadCount = LibStub("AceAddon-3.0"):GetAddon("HeadCount2", true)
@@ -141,7 +129,7 @@ end
 
 function LootMasterML:OnEnable()
     -- Postpone the chathooks to make sure we're the last hooking these.
-    self:ScheduleTimer("PostEnable", 1)
+    self:ScheduleTimer("PostEnable", 5)
 
     if EPGP and EPGP.RegisterCallback then
         EPGP.RegisterCallback(self, "StandingsChanged", "OnStandingsChanged")
@@ -162,15 +150,37 @@ end
 
 function LootMasterML:PostEnable()
     -- Inbound Chat Hooking
-    ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER",		LootMasterML.ChatFrameFilter)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID",    	LootMasterML.ChatFrameFilter)
-	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL",		LootMasterML.ChatFrameFilter)
+    ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER",			LootMasterML.ChatFrameFilter)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID",    		LootMasterML.ChatFrameFilter)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER",		LootMasterML.ChatFrameFilter)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL",			LootMasterML.ChatFrameFilter)
+
+    LootMasterML:DisableEPGPPopup()
+end
+
+function LootMasterML:DisableEPGPPopup()
+    -- Disable 'automatic loot tracking' popup in EPGP - Let EPGPLootmaster handle all the GP stuff.
+    if EPGP and CheckForGuildInfo and IsInGuild() then
+        CheckForGuildInfo(EPGP);
+        if EPGP.db then
+            EPGP.db.profile.auto_loot = false
+        end
+    end
+
+    -- Disable the GP Popup on the new EPGP versions
+    if EPGP and EPGP.GetModule then
+        local loot = EPGP:GetModule("loot")
+        if loot and loot.Disable then
+            loot:Disable()
+        end
+    end
 end
 
 function LootMasterML:HandleEPGPCommand(command, message, sender, event)
 
-    local preventMonitorUpdate = false;
-    local preventMessageDisplay = false;
+    local preventMonitorUpdate = false
+    local preventMessageDisplay = false
+	sender = LootMaster.UnAmbiguate(sender)
 
     if command=='STANDBY' then
         -- dont handle this message, let EPGP handle it.
@@ -219,7 +229,7 @@ function LootMasterML:HandleEPGPCommand(command, message, sender, event)
 
         return true
     else
-        self:SendWhisperResponse( format(L['"%s" not understood. usage:'] .. ' /w %s !epgp need/greed/pass [itemlink]', command, UnitName('player')), sender );
+        self:SendWhisperResponse( format(L['"%s" not understood. usage:'] .. ' /w %s !epgp need/greed/pass [itemlink]', command, LootMaster.UnitName('player')), sender );
         self:Print( format(L['%s sent "%s %s"; not understood, returned usage list.'], sender or '', command or '', message or ''));
         return true;
     end
@@ -240,7 +250,7 @@ local numCommandPatterns = #commandPatterns
 function LootMasterML:ChatFrameFilter(...)
 
     local event = select(1, ...)
-    local sender = select(3, ...)
+    local sender = LootMaster.UnAmbiguate(select(3, ...))
     local msg = select(2, ...)
     local msgID = select(12, ...)
 
@@ -318,7 +328,7 @@ function LootMasterML:SendCommand(command, message, target)
         self:SendCommMessage("EPGPLootMasterC", format("%s:%s", tostring(command), tostring(message)), "GUILD", nil, "ALERT")
     else
         -- Don't use AceComm for messages to self, call function directly
-        if target==UnitName('player') then
+        if LootMaster.UnitIsUnit(target, 'player') then
             LootMaster.CommandReceived(LootMaster, "EPGPLootMasterC", format("%s:%s", tostring(command), tostring(message)), 'WHISPER', target)
         else
             self:SendCommMessage("EPGPLootMasterC", format("%s:%s", tostring(command), tostring(message)), "WHISPER", target, "ALERT")
@@ -407,6 +417,16 @@ function LootMasterML:SendMonitorMessageEx(prio, sendPromoted, sendSpecificRanks
 
     local msgType = tostring(select(1, ...))
 
+    if (sendSpecificRanks) then
+        self:Debug('send '..msgType..' to rankList: '.. self:Serialize(rankList))
+        local _, guildRankName, guildRank = GetGuildInfo('player')
+        if (rankList[guildRank+1]) then
+            self:Debug("Player matches rankList with rank " .. guildRank .. '+1 ' ..(guildRankName or 'nil'))
+        else
+            self:Debug("Player doesnt match rankList with rank " .. guildRank .. '+1 ' ..(guildRankName or 'nil'))
+        end
+    end
+
     local num = GetNumGroupMembers()
     if num>0 then
         -- we're in raid
@@ -416,13 +436,19 @@ function LootMasterML:SendMonitorMessageEx(prio, sendPromoted, sendSpecificRanks
 				local rName, rRank, _, _, _, _, _, rOnline, _, _, rIsML = GetRaidRosterInfo(raidIndex)
 				if rName and rOnline then
 					local sendMessage = sendPromoted and (rRank>0 or rIsML)
+                    if (sendMessage) then
+                        self:Debug('SendMonitorMessage('..rName..'): player is promoted in raid, sending monitor message ' .. msgType)
+                    end
 					-- Send to specific guildrank
 					if not sendMessage and UnitIsInMyGuild(rName) and sendSpecificRanks and type(rankList)=='table' then
-						local _, _, guildRank = GetGuildInfo(rName)
+						local _, guildRankName, guildRank = GetGuildInfo(rName)
 						sendMessage = rankList[guildRank+1]
+                        if (sendMessage) then
+                            self:Debug('SendMonitorMessage('..msgType..', '..rName..'): player in raid matched guildrank (rank '..guildRank..'+1 '..(guildRankName or 'nil')..'), sending monitor message')
+                        end
 					end
-					if sendMessage and rName~=UnitName('player') then
-						-- Player is online and not self and rank is assistant (1) or leader (2) or masterlooter
+					if sendMessage and not LootMaster.UnitIsUnit(rName,LootMaster.UnitName('player')) then
+						-- Player is online and not self and rank is assistant (1 or leader (2) or masterlooter
 						self:Debug('SendMonitorMessage('..rName..'): ' .. out, true)
 						self:SendCommMessage("EPGPLootMasterML", format("MONITOR:%s", out), "WHISPER", rName, prio)
 					end
@@ -441,13 +467,14 @@ function LootMasterML:SendMonitorMessageEx(prio, sendPromoted, sendSpecificRanks
 				for partyIndex=1, MAX_PARTY_MEMBERS do
 					if GetPartyMember(partyIndex) then
 						local unit = 'party' .. partyIndex
-						local unitName = UnitName(unit)
+						local unitName = LootMaster.UnitName(unit)
 						local unitOnline = UnitIsConnected(unit)
 						local unitInGuild = UnitIsInMyGuild(unit)
 						local _, _, guildRank = GetGuildInfo(unitName)
-						print(unit, unitName, unitOnline, unitInGuild, guildRank)
-						if unitName and guildRank and not UnitIsUnit(unitName,'player') and unitOnline and unitInGuild and type(rankList)=='table' and rankList[guildRank+1] then
+						--print(unit, unitName, unitOnline, unitInGuild, guildRank)
+						if unitName and guildRank and not LootMaster.UnitIsUnit(unitName,'player') and unitOnline and unitInGuild and type(rankList)=='table' and rankList[guildRank+1] then
 								-- Player is online and not self and guildrank is allowed guildrank
+                                self:Debug('SendMonitorMessage('..unitName..'): player in party matched guildrank, sending monitor message ' .. msgType)
 								self:Debug('SendMonitorMessage('..unitName..'): ' .. out, true)
 								self:SendCommMessage("EPGPLootMasterML", format("MONITOR:%s", out), "WHISPER", unitName, prio)
 							end
@@ -460,7 +487,7 @@ function LootMasterML:SendMonitorMessageEx(prio, sendPromoted, sendSpecificRanks
 			end
         else
             --we're not grouped, send message to self for debugging purposes.
-            self:SendCommMessage("EPGPLootMasterML", format("MONITOR:%s", out), "WHISPER", UnitName('player'), prio)
+            self:SendCommMessage("EPGPLootMasterML", format("MONITOR:%s", out), "WHISPER", LootMaster.UnitName('player'), prio)
             self:Debug('SendMonitorMessage(WHISPER->SELF): ' .. out, true)
         end
     end
@@ -474,6 +501,9 @@ function LootMasterML:CommandReceived(prefix, message, distribution, sender)
 	local _,_,command, message = string.find(message, "^([%a_]-):(.*)$")
 	command = strupper(command or '');
 	message = message or '';
+	sender = LootMaster.UnAmbiguate(sender)
+
+    self:Debug( format("LootMasterML:CommandReceived %s %s %s", sender or 'nil', command or 'nil', message or 'nil'))
 
 	local sendMonitorUpdate = (distribution == 'WHISPER')
 	local preventMonitorUpdate = not sendMonitorUpdate;
@@ -526,7 +556,12 @@ function LootMasterML:CommandReceived(prefix, message, distribution, sender)
 
 		-- A candidate just sent us his current gear. update the cache
         local _,_,itemID, iVersion, gear = string.find(message, "^([^\^]-)\^([^\^]-)\^(.*)$");
-        local item1, item2 = strsplit('$', gear)
+        local _,_,gear2,averageitemlevel = string.find(gear, "(.*)\^(.*)$");
+        if gear2 then
+            gear = gear2
+
+        end
+        local item1, item2, item3, item4, item5 = strsplit('$', gear)
 
         local loot = self:GetLoot( itemID )
 
@@ -540,14 +575,19 @@ function LootMasterML:CommandReceived(prefix, message, distribution, sender)
 
             self:SetCandidateData( loot.id, sender, 'currentitem', item1, true );
             self:SetCandidateData( loot.id, sender, 'currentitem2', item2, true );
+			self:SetCandidateData( loot.id, sender, 'currentitem3', item3, true );
+			self:SetCandidateData( loot.id, sender, 'currentitem4', item4, true );
+			self:SetCandidateData( loot.id, sender, 'currentitem5', item5, true );
             self:SetCandidateData( loot.id, sender, 'foundGear', true, true );
             self:SetCandidateData( loot.id, sender, 'version', iVersion, true );
+            self:SetCandidateData( loot.id, sender, 'averageitemlevel', tonumber(averageitemlevel) or '', true );
+
             self:SetCandidateResponse( loot.id, sender, LootMaster.RESPONSE.WAIT, preventMonitorUpdate );
             self:ReloadMLTableForLoot( loot.id )
 
             -- Fallback monitor updates for old clients - relay through the ml
             if sendMonitorUpdate and self:MonitorMessageRequired(itemID) then
-                self:SendMonitorMessage( 'CANDIDATEGEAR', loot.id, sender, item1, item2 )
+                self:SendMonitorMessage( 'CANDIDATEGEAR', loot.id, sender, item1, item2, item3, item4, item5 )
             end
         else
             self:Debug( format("%s responded GEAR for %s but loot or candidate not found (Already looted?)", sender or 'nil', itemID or 'nil'))
@@ -564,10 +604,10 @@ function LootMasterML:CommandReceived(prefix, message, distribution, sender)
 		local loot = self:GetLoot( itemID )
 
 		-- filter out duplicate votes to self...
-		if UnitIsUnit(sender, 'player') and prefix~=nil and loot.mayDistribute then return end
+		if LootMaster.UnitIsUnit(sender, 'player') and prefix~=nil and loot.mayDistribute then return end
 
 		-- You've voted, another vote is nolonger required
-		if UnitIsUnit(sender, 'player') then
+		if LootMaster.UnitIsUnit(sender, 'player') then
 			loot.voteRequired = false
 		end
 
@@ -598,16 +638,20 @@ function LootMasterML:CommandReceived(prefix, message, distribution, sender)
         if not LootMaster.db.profile.monitor then return end
 
         -- ignore our own monitor messages!
-        if sender == UnitName('player') then return end
+        if LootMaster.UnitIsUnit(sender, 'player') then return end
 
         local monArgs = self:ParseMonitorMessage(message)
         local monCmd = tremove(monArgs, 1)
 
+        self:Debug( format("MONITOR RECEIVED cmd:%s message: %s", monCmd or 'nil', message or 'nil'))
+
         if monCmd == 'ADDLOOT' then
 
-            local itemLink, itemName, itemID, gpvalue, ilevel, itemBind, itemRarity, itemTexture, itemEquipLoc, gpvalue2, quantity, classAutoPassList, hideResponses, numButtons, buttons = unpack(monArgs)
+            local itemLink, itemName, itemIdentifier, gpvalue, ilevel, itemBind, itemRarity, itemTexture, itemEquipLoc, gpvalue2, quantity, classAutoPassList, hideResponses, numButtons, buttons = unpack(monArgs)
 
             if not self.lootTable then self.lootTable={} end;
+
+            local itemID = itemIdentifier
 
             if self.lootTable[itemID] then
                 -- Is someone tinkering? the loot already exists. Return
@@ -665,6 +709,7 @@ function LootMasterML:CommandReceived(prefix, message, distribution, sender)
             self.lootTable[itemID] = {
                 ['link']	                    = itemLink,
                 ['name']	                    = itemName,
+                ['identifier']                  = itemIdentifier,
 
                 ['lootmaster']                  = sender,
 
@@ -672,7 +717,7 @@ function LootMasterML:CommandReceived(prefix, message, distribution, sender)
                 ['mayDistribute']               = false,
                 ['hideResponses']               = hideResponses,
 
-                ['id']                          = itemID,
+                ['id']                          = itemIdentifier,
                 ['itemID']                      = itemID,
                 ['itemid']                      = itemID,
 
@@ -820,7 +865,7 @@ function LootMasterML:CommandReceived(prefix, message, distribution, sender)
 
         elseif monCmd == 'CANDIDATEGEAR' then
 
-            local itemID, candidate, item1, item2 = unpack(monArgs)
+            local itemID, candidate, item1, item2, item3, item4, item5 = unpack(monArgs)
             local loot = self:GetLoot(itemID);
 
             if not loot or loot.mayDistribute or loot.lootmaster~=sender  then
@@ -835,6 +880,15 @@ function LootMasterML:CommandReceived(prefix, message, distribution, sender)
             end
             if item2 then
                 self:SetCandidateData( itemID, candidate, 'currentitem2', item2 );
+            end
+			if item3 then
+                self:SetCandidateData( itemID, candidate, 'currentitem3', item3 );
+            end
+			if item4 then
+                self:SetCandidateData( itemID, candidate, 'currentitem4', item4 );
+            end
+			if item5 then
+                self:SetCandidateData( itemID, candidate, 'currentitem5', item5 );
             end
 
             self:SetCandidateData( itemID, candidate, 'foundGear', true, true );
@@ -882,12 +936,12 @@ function LootMasterML:AskCandidateIfNeeded( link, candidate, allowBids )
 
         -- Sending to raid channel? Update all candidate statuses.
         for c, index in pairs(loot.candidates) do
-            if (UnitInRaid(c) or (UnitInParty(c) and GetNumSubgroupMembers()>0)) then
+            if (LootMaster.UnitInRaid(c) or (LootMaster.UnitInParty(c) and GetNumSubgroupMembers()>0)) then
                 self:SetCandidateResponse( loot.id, c, LootMaster.RESPONSE.INIT, true );
             end
         end
 
-    elseif candidate ~= UnitName('player') then
+    elseif not LootMaster.UnitIsUnit(candidate, 'player') then
 
 		if allowBids then
 			SendChatMessage( format(L['%splease whisper me !epgp need/greed/pass %s [GP bid]  (or use the popup if you have EPGPLootmaster installed)'], MsgPrefix or '', loot.link or ''), 'WHISPER', nil, candidate );
@@ -943,10 +997,28 @@ function LootMasterML:AskCandidateIfNeeded( link, candidate, allowBids )
 	self:ReloadMLTableForLoot( loot.id )
 end
 
+-- 20141208 changed idents to also include socket information and such.
+-- ItemIdent used to be [itemID].[bonusID], now it's the full item hyperlink
+-- with the uniqueID (position 8) reset to 0
+function LootMasterML:LootLinkToIdent(itemLink)
+  if not itemLink or itemLink == nil or itemLink == '' then return nil end
+  local _, _, hlink= strfind(itemLink, 'Hitem:([^\124]+)')
+  if not hlink or hlink == nil or hlink == '' then return nil end
+  local itemIdent = {strsplit(':', hlink)} -- split on ':'
+  itemIdent[8] = '0' -- set UniqueID to zero, because it might change during looting
+  itemIdent = strjoin('.', unpack(itemIdent)) -- join back on '.'
+  return itemIdent
+end
+
+function LootMaster:GetItemIDFromIdent(itemIdentifier)
+  local itemID, _ = strsplit('.', itemIdentifier)
+  return itemID
+end
+
 --[[
 	Add loot to masterloot cache. This is where candidate responses are stored, plus the rows for the scrollingtable
 ]]
-function LootMasterML:AddLoot( link, mayDistribute, quantity )
+function LootMasterML:AddLoot(link, mayDistribute, quantity)
 	if not link then return end
 	if not self.lootTable then self.lootTable={} end
 
@@ -956,27 +1028,41 @@ function LootMasterML:AddLoot( link, mayDistribute, quantity )
 
   if self.lootTable[link] then return link end
 
-	local itemName, itemLink, _, _, itemMinLevel, itemType, itemSubType, itemStackCount, _, itemTexture = GetItemInfo(link)
+  local itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = GetItemInfo(link)
 
+  -- Find the itemID and bonusID using regexp
   local _,_,itemID = strfind(itemLink, 'Hitem:(%d+)');
+  local _,_,bonusID= strfind(itemLink, 'Hitem:[^\124h]+:(%d+)\124h');
   if not itemID or not itemName then return end
 
   -- Fix patterns bug by removing the ':' from the itemname
   --itemLink = itemLink:gsub('%[.*%]', itemLink:match('%[.*%]'):gsub(':', ','))
   --itemName = itemName:gsub(':', ',')
 
-	if self.lootTable[itemID] then return itemID end
+  -- Warlords of Dreanor introduced multiple items sharing the same itemID but different itemLevels and added BonusID,
+  -- EPGPLootmaster will just check if an item with the same itemID and itemLevel exists, if not add the new loot
+  local itemIdentifier = self:LootLinkToIdent(itemLink)
+
+
+  if self.lootTable[itemIdentifier] then return itemIdentifier end
 
   local db = LootMaster.db.profile
 
-	-- Calc the EPGP values for this item
-	local gpvalue, gpvalue2, ilevel = GetGPValue(itemLink);
+  -- Calc the EPGP values for this item
+  local gpvalue, gpvalue2, _ = GetGPValue(itemLink)
+
+  -- If there's not itemEquipLoc it might be a token!
+  if not itemEquipLoc or itemEquipLoc=='' then
+	itemEquipLoc = LootMaster:GetTokenINVTYPE(itemID)
+  end
 
   -- Get the itemEquipLocation, rarity and level, and keep Tier Tokens in consideration.
-  local itemEquipLoc, itemRarity, itemLevel = GetCustomSlotInfo(link)
+  if not itemEquipLoc or itemEquipLoc=='' then
+	itemEquipLoc, itemRarity, itemLevel = GetCustomSlotInfo(link)
+  end
 
-	-- See if the item is BoP, BoE or BoU
-	local itemBind = LootMaster:GetItemBinding(itemLink)
+  -- See if the item is BoP, BoE or BoU
+  local itemBind = LootMaster:GetItemBinding(itemLink)
 
   -- Find what classes are eligible for the loot
   local itemClasses = LootMaster:GetItemAutoPassClasses(itemLink)
@@ -987,22 +1073,24 @@ function LootMasterML:AddLoot( link, mayDistribute, quantity )
       hideResponses = true
   end
 
-	self.lootTable[itemID] = {
+  self.lootTable[itemIdentifier] = {
     ['link']	          = itemLink,
     ['name']	          = itemName,
+    ['identifier']        = itemIdentifier,
 
     ['announced']       = true,
     ['mayDistribute']   = mayDistribute,
 
-    ['id']              = itemID,
+    ['id']              = itemIdentifier,
     ['itemID']          = itemID,
     ['itemid']          = itemID,
+    ['bonusID']         = bonusID,
     ['hideResponses']   = hideResponses,
 
     ['gpvalue']	        = gpvalue or 0,
     ['gpvalue2']	      = gpvalue2,
     ['gpvalue_manual']	= gpvalue or 0,
-    ['ilevel']	        = ilevel or 0,
+    ['ilevel']	        = itemLevel or 0,
     ['binding']	        = itemBind or '',
     ['quality']         = itemRarity or 0,
     ['quantity']        = quantity or 1,
@@ -1027,8 +1115,10 @@ function LootMasterML:AddLoot( link, mayDistribute, quantity )
     ['buttonsByResponse']   = {},
 
     ['numResponses']        = 0
-	}
-  local loot = self.lootTable[itemID]
+  }
+  local loot = self.lootTable[itemIdentifier]
+
+  self:Debug("Registered new item " .. itemLink)
 
   -- Add some backward compatibility for the new button system
   -- by using the fallback values used in the configuration panel
@@ -1080,12 +1170,12 @@ function LootMasterML:AddLoot( link, mayDistribute, quantity )
   end
 
   -- Are we lootmaster for this loot? Lets send out a monitor message about the added loot
-  if loot.mayDistribute and self:MonitorMessageRequired(itemID) then
+  if loot.mayDistribute and self:MonitorMessageRequired(itemIdentifier) then
       local hideResponsesInt = hideResponses and 1 or 0
-      self:SendMonitorMessage('ADDLOOT', itemLink, itemName, itemID, gpvalue or 0, ilevel or 0, itemBind or '', itemRarity or 0, itemTexture or '', itemEquipLoc or '', gpvalue2 or '', quantity or 1, itemClassesEncoded, hideResponsesInt, loot.numButtons or 0, buttonString or '', "PRIORITY_HIGH" )
+      self:SendMonitorMessage('ADDLOOT', itemLink, itemName, itemIdentifier, gpvalue or 0, itemLevel or 0, itemBind or '', itemRarity or 0, itemTexture or '', itemEquipLoc or '', gpvalue2 or '', quantity or 1, itemClassesEncoded, hideResponsesInt, loot.numButtons or 0, buttonString or '', "PRIORITY_HIGH" )
   end
 
-	return itemID
+  return itemIdentifier
 end
 
 function LootMasterML:RequestVotes( loot )
@@ -1118,7 +1208,7 @@ function LootMasterML:CastVote( link, candidate )
 	local loot = self:GetLoot(link)
     if not loot then return end
 	loot.voteRequired = false
-	LootMaster:SendCommand('VOTE', format('%s^%s', loot.id, candidate), loot.lootmaster or UnitName('player'))
+	LootMaster:SendCommand('VOTE', format('%s^%s', loot.id, candidate), loot.lootmaster or LootMaster.UnitName('player'))
 
 	self:ReloadMLTableForLoot( loot.id )
 
@@ -1145,19 +1235,24 @@ function LootMasterML:AnnounceLootAndRequestBids(loot, allowBids)
 	loot.allowBids = allowBids;
 
     -- Also send a text message and an addon message to the raid/party chat.
-    if UnitInRaid('player') then
+    if LootMaster.UnitInRaid('player') then
         -- we're in raid with master looter
         self:AskCandidateIfNeeded( loot.id, 'RAID', allowBids )
-    elseif UnitInParty('player') and GetNumSubgroupMembers()>0 then
+    elseif LootMaster.UnitInParty('player') and GetNumSubgroupMembers()>0 then
         --we're in party with master looter
         self:AskCandidateIfNeeded( loot.id, 'PARTY', allowBids )
     end
 
     -- Traverse the candidate list, see if there is anyone eligible for the loot, but not grouped anymore...
     for candidate, index in pairs(loot.candidates) do
-        if not UnitInRaid(candidate) and not (UnitInParty(candidate) and GetNumSubgroupMembers()>0) and tonumber(self:GetCandidateData( loot.id, candidate, 'response')) == LootMaster.RESPONSE.NOTANNOUNCED then
+        if not LootMaster.UnitInRaid(candidate) and not (LootMaster.UnitInParty(candidate) and GetNumSubgroupMembers()>0) and tonumber(self:GetCandidateData( loot.id, candidate, 'response')) == LootMaster.RESPONSE.NOTANNOUNCED then
             self:AskCandidateIfNeeded( loot.id, candidate, allowBids )
         end
+    end
+
+    if LootMaster.db.profile.votingEnableAuto then
+        -- Auto voting is enabled. So also request the votes
+        LootMasterML:RequestVotes(loot.id)
     end
 end
 
@@ -1171,11 +1266,11 @@ function LootMasterML:GetLoot( link )
 
     if self.lootTable[link] then return self.lootTable[link] end;
 
-    local _,_,itemID = strfind(link, 'Hitem:(%d+)');
-    if not itemID then self:Debug('getloot: !itemID: ' .. tostring(itemID)); return end;
-    if not self.lootTable[itemID] then self:Debug('getloot: !lootTable[itemID]: ' .. tostring(itemID)); return end;
+    local itemIdentifier = self:LootLinkToIdent(link)
+    if not itemIdentifier then self:Debug('getloot: !itemIdentifier: ' .. tostring(itemIdentifier)); return end;
+    if not self.lootTable[itemIdentifier] then self:Debug('getloot: !lootTable[itemIdentifier]: ' .. tostring(itemIdentifier)); return end;
 
-	return self.lootTable[itemID];
+	return self.lootTable[itemIdentifier];
 end
 
 --[[
@@ -1187,11 +1282,11 @@ function LootMasterML:GetLootID( link )
 
     if self.lootTable[link] then return link end;
 
-    local _,_,itemID = strfind(link, 'Hitem:(%d+)');
-    if not itemID then self:Debug('getlootid: !itemID: ' .. tostring(itemID)); return end;
-    if not self.lootTable[itemID] then self:Debug('getloot: !lootTable[itemID]: ' .. tostring(itemID)); return end;
+    local itemIdentifier = self:LootLinkToIdent(link)
+    if not itemIdentifier then self:Debug('getlootid: !itemIdentifier: ' .. tostring(itemIdentifier)); return end;
+    if not self.lootTable[itemIdentifier] then self:Debug('getloot: !lootTable[itemIdentifier]: ' .. tostring(itemIdentifier)); return end;
 
-	return itemID;
+	return itemIdentifier;
 end
 
 function LootMasterML:GetItemIDFromLink( link )
@@ -1208,8 +1303,9 @@ function LootMasterML:RemoveLoot( link )
 	if not link then return end;
 	if not self.lootTable then return end;
 
-    local loot = self:GetLoot(link);
-    local itemID = loot.id;
+    local loot = self:GetLoot(link)
+    if not loot then return end
+    local itemID = loot.id
 
     if not itemID or not self.lootTable[itemID] then
         return self:Debug(format('RemoveLoot: not found %s %s(%s)', link or 'nil', itemID or 'nil', type(itemID)))
@@ -1243,39 +1339,56 @@ function LootMasterML:RemoveLoot( link )
 end
 
 function LootMasterML:GetEPGP( player )
-    if not EPGP or not EPGP.GetEPGP then return nil, nil, nil, nil end;
-    local ret, ep, gp, alt = pcall(EPGP.GetEPGP, EPGP, player)
-    if not ret then return nil, nil, nil, nil end
+    if not EPGP or not EPGP.GetEPGP then return nil, nil, nil, nil, nil end
+
+	local sPlayer = player
+
+    local ret, ep, gp, alt = pcall(EPGP.GetEPGP, EPGP, sPlayer)
+	if not ret then return nil, nil, nil, nil, nil end
+
+	if gp==nil then
+		sPlayer = LootMaster.Ambiguate(player, "guild")
+		ret, ep, gp, alt = pcall(EPGP.GetEPGP, EPGP, sPlayer)
+	end
+	if gp==nil then
+		sPlayer = LootMaster.Ambiguate(player, "none")
+		ret, ep, gp, alt = pcall(EPGP.GetEPGP, EPGP, sPlayer)
+	end
+	if gp==nil then
+		sPlayer = LootMaster.StripServerName(player)
+		ret, ep, gp, alt = pcall(EPGP.GetEPGP, EPGP, sPlayer)
+	end
+
     local ret, minEP = pcall(EPGP.GetMinEP, EPGP)
     if not ret or not minEP then minEP=0 end
-	return ep, gp, alt, minEP
+
+	return ep, gp, alt, minEP, sPlayer
 end
 
 function LootMasterML:GetEP( player )
-    local ep, gp = self:GetEPGP( player );
+    local ep, gp = self:GetEPGP( player )
     if not ep then return -1 end;
     return ep or 0
 end
 
 function LootMasterML:GetMinEPMatch( player )
-    local ep, gp, alt, minEP = self:GetEPGP( player );
-    if not ep or not minEP then return 'n' end;
-
+    local ep, gp, alt, minEP = self:GetEPGP( player )
+    if not ep or not minEP then return 'n' end
     if ep>=minEP then return 'y' end
     return 'n';
 end
 
 function LootMasterML:GetGP( player )
-    local ep, gp = self:GetEPGP( player );
-    if not gp then return -1 end;
+    local ep, gp = self:GetEPGP( player )
+    if not gp then return -1 end
     return gp or 1
 end
 
 function LootMasterML:GetPR( player )
-    local ep, gp = self:GetEPGP( player );
-    if not gp or not ep then return -1 end;
-    if gp~=0 then return ep/gp end;
-    return 0;
+    local ep, gp = self:GetEPGP(player)
+    if not gp or not ep then return -1 end
+    if gp~=0 then return ep/gp end
+    return 0
 end
 
 function LootMasterML:GetVoteValue(candidate, itemID)
@@ -1325,7 +1438,9 @@ function LootMasterML:AddCandidate( loot, candidate )
 	if not candidate then return end
 	if not self.lootTable[itemID] then return end
 
-  local lootTbl = self.lootTable[itemID]
+	local lootTbl = self.lootTable[itemID]
+
+	candidate = LootMaster.UnAmbiguate(candidate)
 
 	-- Just return the itemname if the candidate already exists
 	if self.lootTable[itemID]['candidates'][candidate] then return itemID end;
@@ -1348,7 +1463,7 @@ function LootMasterML:AddCandidate( loot, candidate )
 
     -- No class found, try looking it up another way.
     if not candidateClass then
-        candidateClassLocalized, candidateClass = UnitClass(candidate);
+        candidateClassLocalized, candidateClass = UnitClass(LootMaster.Ambiguate(candidate,"none"));
         -- Update the reverse class lookup table
         if candidateClassLocalized and candidateClass then
             LootMaster:UpdateClassLocalizer(candidateClassLocalized, candidateClass)
@@ -1362,7 +1477,7 @@ function LootMasterML:AddCandidate( loot, candidate )
         initResponse = LootMaster.RESPONSE.AUTOPASS
 
         -- show the responses again if the player autopasses
-        if UnitName('player') == candidate then
+        if LootMaster.UnitIsUnit('player', candidate) then
             lootTbl.hideResponses = false
         end
     end
@@ -1388,6 +1503,7 @@ function LootMasterML:AddCandidate( loot, candidate )
           ["onenter"]    = addon.ShowCandidateCellPopup,
           ["onleave"]    = addon.HideGearCellPopup,
           ["color"]      = self.GetCandidateClassCellColor,
+		  ["userDraw"]   = addon.SetCandidateNameCellOwnerDraw,
           ["colorargs"]  = { self, candidate, itemID},
           ["onenterargs"]= { self, candidate, itemID },
           ["onleaveargs"]= { self, candidate, itemID }
@@ -1464,7 +1580,7 @@ function LootMasterML:AddCandidate( loot, candidate )
           ["userDraw"]   = self.EmptyCellOwnerDraw,
           ["args"]       = {self, candidate}},     -- spacer, actually used for sorting the minEP matches first.
 
-          {["name"]       = 'currentilevel',
+         --[[ {["name"]       = 'currentilevel',
           ["value"]      = '',
           ["args"]       = {self, candidate, itemID},
           ["onclick"]    = addon.OnGearInspectClick,
@@ -1487,6 +1603,7 @@ function LootMasterML:AddCandidate( loot, candidate )
           ["onleaveargs"]= { self,candidate,itemID },
           ["onclickargs"]= { self,candidate,itemID }
           },
+		  ]]--
 
           {["name"]       = 'currentitem',
           ["value"]      = '',
@@ -1496,7 +1613,8 @@ function LootMasterML:AddCandidate( loot, candidate )
           ["onclick"]    = addon.OnGearCellClick,
           ["onenterargs"]= { self,candidate,itemID,'currentitem' },
           ["onleaveargs"]= { self,candidate,itemID,'currentitem' },
-          ["onclickargs"]= { self,candidate,itemID,'currentitem' }
+          ["onclickargs"]= { self,candidate,itemID,'currentitem' },
+		   ["args"]       = {self,candidate,itemID,'currentitem', lootTbl.ilevel}
           },
 
           {["name"]       = 'currentitem2',
@@ -1507,8 +1625,54 @@ function LootMasterML:AddCandidate( loot, candidate )
           ["onclick"]    = addon.OnGearCellClick,
           ["onenterargs"]= { self,candidate,itemID,'currentitem2' },
           ["onleaveargs"]= { self,candidate,itemID,'currentitem2' },
-          ["onclickargs"]= { self,candidate,itemID,'currentitem2' }
+          ["onclickargs"]= { self,candidate,itemID,'currentitem2' },
+		   ["args"]       = {self,candidate,itemID,'currentitem2', lootTbl.ilevel}
           },
+
+		   {["name"]       = 'currentitem3',
+          ["value"]      = '',
+          ["userDraw"]   = addon.SetGearCellOwnerDraw,
+          ["onenter"]    = addon.ShowGearCellPopup,
+          ["onleave"]    = addon.HideGearCellPopup,
+          ["onclick"]    = addon.OnGearCellClick,
+          ["onenterargs"]= { self,candidate,itemID,'currentitem3' },
+          ["onleaveargs"]= { self,candidate,itemID,'currentitem3' },
+          ["onclickargs"]= { self,candidate,itemID,'currentitem3' },
+		   ["args"]       = {self,candidate,itemID,'currentitem3', lootTbl.ilevel}
+          },
+
+		   {["name"]       = 'currentitem4',
+          ["value"]      = '',
+          ["userDraw"]   = addon.SetGearCellOwnerDraw,
+          ["onenter"]    = addon.ShowGearCellPopup,
+          ["onleave"]    = addon.HideGearCellPopup,
+          ["onclick"]    = addon.OnGearCellClick,
+          ["onenterargs"]= { self,candidate,itemID,'currentitem4' },
+          ["onleaveargs"]= { self,candidate,itemID,'currentitem4' },
+          ["onclickargs"]= { self,candidate,itemID,'currentitem4' },
+		   ["args"]       = {self,candidate,itemID,'currentitem4', lootTbl.ilevel}
+          },
+
+		   {["name"]       = 'currentitem5',
+          ["value"]      = '',
+          ["userDraw"]   = addon.SetGearCellOwnerDraw,
+          ["onenter"]    = addon.ShowGearCellPopup,
+          ["onleave"]    = addon.HideGearCellPopup,
+          ["onclick"]    = addon.OnGearCellClick,
+          ["onenterargs"]= { self,candidate,itemID,'currentitem5' },
+          ["onleaveargs"]= { self,candidate,itemID,'currentitem5' },
+          ["onclickargs"]= { self,candidate,itemID,'currentitem5' },
+		   ["args"]       = {self,candidate,itemID,'currentitem5', lootTbl.ilevel}
+          },
+
+           {["name"]       = 'averageitemlevel',
+            ["value"]      = '',
+            ["onenter"]    = addon.ShowAverageItemlevelCellPopup,
+            ["onleave"]    = addon.HideInfoPopup,
+            ["onenterargs"]= { self,candidate,itemID,'averageitemlevel' },
+            ["onleaveargs"]= { self,candidate,itemID,'averageitemlevel' }
+          },
+
 
           {["value"]      = ' '},     -- spacer
       }
@@ -1533,6 +1697,7 @@ function LootMasterML:SendCandidateListToMonitors( itemID )
     local candidata = {}
 
     for candidate, cIndex in pairs(loot.candidates) do
+        self:Debug('SendCandidateListToMonitors building candidatelist ' .. candidate, true)
         local roll = self:GetCandidateData( itemID, candidate, 'roll' ) or 0
         --local response = tonumber(self:GetCandidateData( itemID, candidate, 'response' )) or LootMaster.RESPONSE.NOTANNOUNCED
         tinsert( candidata, candidate );
@@ -1562,6 +1727,8 @@ function LootMasterML:IsCandidate( loot, candidate )
 		or not self.lootTable[loot.id]
 		or not self.lootTable[loot.id]['candidates'] then return false end;
 
+	candidate = LootMaster.UnAmbiguate(candidate)
+
 	local rowID = self.lootTable[loot.id]['candidates'][candidate];
 	if not rowID then return false end;
 
@@ -1574,6 +1741,8 @@ end
 function LootMasterML:SetCandidateData( loot, candidate, name, value, preventMonitorUpdate )
 
     --self:Debug(format('SetCandidateData(loot(%s), candidate(%s), name(%s), value(%s), preventMonitorUpdate(%s))', tostring(loot), tostring(candidate), tostring(name), tostring(value), tostring(preventMonitorUpdate)), true);
+
+	candidate = LootMaster.UnAmbiguate(candidate)
 
 	local itemID = self:AddCandidate( loot, candidate );
 	if not itemID then return end;
@@ -1590,7 +1759,7 @@ function LootMasterML:SetCandidateData( loot, candidate, name, value, preventMon
     end
 
     -- After the user has made their selections, show the responses again.
-    if UnitName('player') == candidate and value > LootMaster.RESPONSE.TIMEOUT then
+    if LootMaster.UnitIsUnit('player', candidate) and value > LootMaster.RESPONSE.TIMEOUT then
       self.lootTable[itemID].hideResponses = false
     end
   end
@@ -1640,6 +1809,8 @@ function LootMasterML:SetCandidateData( loot, candidate, name, value, preventMon
 end
 
 function LootMasterML:SetCandidateResponse( link, candidate, response, preventMonitorUpdate )
+	candidate = LootMaster.UnAmbiguate(candidate)
+
     response = tonumber(response) or 0;
     local old = tonumber(self:GetCandidateData( link, candidate, 'response' ) or 0) or 0
 
@@ -1660,6 +1831,7 @@ function LootMasterML:SetCandidateResponse( link, candidate, response, preventMo
 end
 
 function LootMasterML:SetManualResponse(loot, candidate, response)
+	candidate = LootMaster.UnAmbiguate(candidate)
 
     loot = self:GetLoot(loot)
     if not loot then return end
@@ -1695,19 +1867,22 @@ function LootMasterML:InspectCandidate( loot, candidate )
     if not loot then return end;
 
     -- See if candidate if human controlled... you never know ;)
-    if not UnitPlayerControlled(candidate) then return end;
+    if not UnitPlayerControlled(LootMaster.Ambiguate(candidate,"none")) then return end;
     -- See if player is in inspection range.
-    if not CheckInteractDistance(candidate,1) then return end;
+    if not CheckInteractDistance(LootMaster.Ambiguate(candidate,"none"),1) then return end;
 
     -- inspect the candidate
-    NotifyInspect(candidate)
+    NotifyInspect(Ambiguate(candidate,"none"))
 
     -- Retrieve the itemlink, levels and gp value for the equipSlot.
     local gear = LootMaster:GetGearByINVTYPE(loot.equipLoc, candidate);
 
-    local item1, item2 = strsplit('$', gear)
+    local item1, item2, item3, item4, item5 = strsplit('$', gear)
     self:SetCandidateData( loot.id, candidate, 'currentitem', item1, true );
     self:SetCandidateData( loot.id, candidate, 'currentitem2', item2, true );
+	self:SetCandidateData( loot.id, candidate, 'currentitem3', item3, true );
+    self:SetCandidateData( loot.id, candidate, 'currentitem4', item4, true );
+	self:SetCandidateData( loot.id, candidate, 'currentitem5', item5, true );
     self:SetCandidateData( loot.id, candidate, 'foundGear', true, true );
 
     return true;
@@ -1717,6 +1892,7 @@ end
 	Retrieves some data in the candidate cache for the given loot
 ]]
 function LootMasterML:GetCandidateData( loot, candidate, name )
+	candidate = LootMaster.UnAmbiguate(candidate)
 
     if not loot then return end;
 	loot = self:GetLoot(loot)
@@ -1766,6 +1942,7 @@ function LootMasterML:GiveLootToCandidate( link, candidate, lootType, gp )
 	local candidateID = nil;
 	local slotID = nil;
 	local loot = self:GetLoot(link)
+	candidate = LootMaster.UnAmbiguate(candidate)
 
     if not loot or not loot.id then
         return self:Print( format(L["Could not send %s to %s, loot not found in cache"], tostring(link), tostring(candidate) ) )
@@ -1775,9 +1952,9 @@ function LootMasterML:GiveLootToCandidate( link, candidate, lootType, gp )
 	for sID = 1, GetNumLootItems() do
 		local sLink = GetLootSlotLink(sID);
 		if sLink ~= nil then
-			local sItemID = tostring(self:GetItemIDFromLink(sLink))
+			local sItemID = self:LootLinkToIdent(sLink)
 			local itemID = loot.id
-			if sItemID and sItemID==itemID then
+			if sItemID and sItemID ~= nil and sItemID==itemID then
 				slotID = sID
 			break
 			end
@@ -1790,7 +1967,7 @@ function LootMasterML:GiveLootToCandidate( link, candidate, lootType, gp )
 
 	-- Look for the candidateID
 	for cID = 1, 40 do
-		local cName = GetMasterLootCandidate(slotID, cID)
+		local cName = LootMaster.UnAmbiguate(GetMasterLootCandidate(slotID, cID))
 		if cName and cName==candidate then
 			candidateID = cID;
 			break
@@ -1818,15 +1995,16 @@ end
 function LootMasterML:OnMasterLooterChange(masterlooter)
     -- if master looter is nil, return
     if not masterlooter then return end;
+	masterlooter = LootMaster.UnAmbiguate(masterlooter)
 
     -- Is there really a new master looter?
-    if self.current_ml and self.current_ml==masterlooter then return end;
+    if self.current_ml and LootMaster.UnitIsUnit(self.current_ml, masterlooter) then return end
 
     -- cache the new ml
     self.current_ml = masterlooter;
 
     -- if player is not the current master looter, then just return.
-    if masterlooter~=UnitName('player') then return end;
+    if not LootMaster.UnitIsUnit(masterlooter, 'player') then return end
 
     -- Show a message here, based on the current settings
     if LootMaster.db.profile.use_epgplootmaster == 'enabled' then
@@ -1852,7 +2030,7 @@ function LootMasterML:CacheGuildInfo( event )
                 self.guildInfo[name] = {}
             end
 
-			local nameAmb = Ambiguate(name, "none")
+			local nameAmb = LootMaster.UnAmbiguate(name)
 			if not self.guildInfo[nameAmb] then
                 self.guildInfo[nameAmb] = {}
             end
@@ -1901,11 +2079,11 @@ end
 --[[ Used in FilterLootMessage(), just try each function and see if the 2nd return value is set
 ]]--
 local LootMessageFilters = {
-        function( lootMessage ) local l,c = LootMasterML:Deformat( lootMessage, LOOT_ITEM_SELF_MULTIPLE ); return UnitName("player"),l,c end,
-        function( lootMessage ) local l,c = LootMasterML:Deformat( lootMessage, LOOT_ITEM_PUSHED_SELF_MULTIPLE ); return UnitName("player"),l,c end,
+        function( lootMessage ) local l,c = LootMasterML:Deformat( lootMessage, LOOT_ITEM_SELF_MULTIPLE ); return LootMaster.UnitName("player"),l,c end,
+        function( lootMessage ) local l,c = LootMasterML:Deformat( lootMessage, LOOT_ITEM_PUSHED_SELF_MULTIPLE ); return LootMaster.UnitName("player"),l,c end,
         function( lootMessage ) return LootMasterML:Deformat( lootMessage, LOOT_ITEM_MULTIPLE ) end,
-        function( lootMessage ) return UnitName("player"), LootMasterML:Deformat( lootMessage, LOOT_ITEM_PUSHED_SELF ), 1 end,
-        function( lootMessage ) return UnitName("player"), LootMasterML:Deformat( lootMessage, LOOT_ITEM_SELF ), 1 end,
+        function( lootMessage ) return LootMaster.UnitName("player"), LootMasterML:Deformat( lootMessage, LOOT_ITEM_PUSHED_SELF ), 1 end,
+        function( lootMessage ) return LootMaster.UnitName("player"), LootMasterML:Deformat( lootMessage, LOOT_ITEM_SELF ), 1 end,
         function( lootMessage ) local p,l = LootMasterML:Deformat( lootMessage, LOOT_ITEM ); return p,l,1 end
 };
 
@@ -1935,10 +2113,10 @@ function LootMasterML:GROUP_UPDATE()
         self:OnMasterLooterChange(GetRaidRosterInfo(mlRaidID))
     elseif mlPartyID==0 then
         -- player is ml
-        self:OnMasterLooterChange(UnitName('player'))
+        self:OnMasterLooterChange(LootMaster.UnitName('player'))
     elseif mlPartyID then
         -- someone else in party is ml
-        self:OnMasterLooterChange(UnitName('party'..mlPartyID))
+        self:OnMasterLooterChange(LootMaster.UnitName('party'..mlPartyID))
     end
 end
 
@@ -1954,9 +2132,12 @@ function LootMasterML:CHAT_MSG_LOOT( event, message )
     self:Debug(format("%s looted %sx%s", sPlayer or 'nil', sLink or 'nil', iCount or 'nil' ));
 
     if not sPlayer or sPlayer=='' or not sLink or sLink=='' or not iCount or tonumber(iCount)>1 then
-        self:Debug("!player or !link or !iCount or iCount>1");
+        self:Debug("!player or !link or !iCount or iCount>1 in message (please report this) " .. (message or 'nil'));
         return
-    end;
+    end
+
+	-- We should UnAmbiguate after the standard sanity checks
+	sPlayer = LootMaster.UnAmbiguate(sPlayer)
 
     -- ok, someone looted something... lets see if we can find it in our cache
     local loot = self:GetLoot( sLink )
@@ -1973,7 +2154,8 @@ function LootMasterML:CHAT_MSG_LOOT( event, message )
 
     if lootType==LootMaster.LOOTTYPE.GP and lootGP~=0 then
         if CanEditOfficerNote() and EPGP and EPGP.IncGPBy then
-            EPGP.IncGPBy(EPGP, tostring(sPlayer) or 'nil', tostring(sLink) or 'nil', lootGP)
+			local _, _, _, _, epgpPlayer = LootMasterML:GetEPGP(tostring(sPlayer) or 'nil')
+            EPGP.IncGPBy(EPGP, epgpPlayer, tostring(sLink) or 'nil', lootGP)
         else
             self:Print( format(L["<ERROR> Could not increase GP in officernotes for %s %s (EPGP not installed or no rights?!)"], sPlayer or 'unknown player', sLink or 'unknown loot') )
         end
@@ -2003,7 +2185,31 @@ function LootMasterML:CHAT_MSG_LOOT( event, message )
     self:UpdateUI();
 
     self:Debug("CHAT_MSG_LOOT end");
+end
 
+-- If the loot popup is opened with autolooting enabled, just loot everything
+-- and have EPGPLootmaster register everything automagically
+function LootMasterML:LOOT_OPENED(event, autoloot)
+    self:Debug("LOOT_OPENED", event, autoloot)
+
+    if tostring(autoloot) ~= '1' then return end
+
+    local numLootSlots = GetNumLootItems()
+    for slot=1, numLootSlots do
+        local slotLink = GetLootSlotLink(slot)
+        if slotLink ~= nil then
+            LootFrame.selectedSlot = slot
+            LootSlot(slot)
+        end
+    end
+end
+
+function LootMasterML:LOOT_CLOSED()
+    self:Debug("LOOT_CLOSED")
+end
+
+function LootMasterML:UPDATE_MASTER_LOOT_LIST()
+    self:Debug("UPDATE_MASTER_LOOT_LIST")
 end
 
 --[[
@@ -2014,12 +2220,15 @@ end
 	gets opened more than one time)
 ]]
 function LootMasterML:OPEN_MASTER_LOOT_LIST()
+    self:Debug("OPEN_MASTER_LOOT_LIST")
 
     -- Check if EPGPLM needs to track the loot.
     if not self:TrackingEnabled() then return end;
 
 	-- Close the default confirm window
 	StaticPopup_Hide("CONFIRM_LOOT_DISTRIBUTION");
+
+    LootMasterML:DisableEPGPPopup()
 
 	--[[
 	-- Some values we probably need
@@ -2032,15 +2241,15 @@ function LootMasterML:OPEN_MASTER_LOOT_LIST()
 	-- local lootIcon, lootName, lootQuantity, rarity = GetLootSlotInfo(LootFrame.selectedSlot);
 	local _, lootName, lootQuantity, rarity = GetLootSlotInfo(LootFrame.selectedSlot);
 	local link = GetLootSlotLink(LootFrame.selectedSlot)
-    local itemID = self:GetItemIDFromLink(link)
+    local itemID = self:LootLinkToIdent(link)
 
     -- Traverse all lootslots and see how many of this item we have in total.
     local totalQuantity = 0
     local numLootSlots = GetNumLootItems();
     for slot=1, numLootSlots do
         local slotLink = GetLootSlotLink(slot);
-        local slotItemID = self:GetItemIDFromLink(slotLink)
-        if slotItemID and slotItemID==itemID then
+        local slotItemID = self:LootLinkToIdent(slotLink)
+        if slotItemID ~= nil and slotItemID and slotItemID==itemID then
 
             local _, _, slotQ, _ = GetLootSlotInfo(slot);
 
@@ -2095,6 +2304,7 @@ function LootMasterML:OPEN_MASTER_LOOT_LIST()
 	for candidateID = 1, 40 do repeat
 		local candidate = GetMasterLootCandidate(LootFrame.selectedSlot, candidateID)
 		if not candidate then break end;
+		candidate = LootMaster.UnAmbiguate(candidate)
 
 		if not self:IsCandidate( lootID, candidate ) then
 

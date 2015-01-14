@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(616, "DBM-Party-WotLK", 14, 280)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 112 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 158 $"):sub(12, -3))
 mod:SetCreatureID(36502)
 mod:SetEncounterID(831, 832)
 
@@ -24,7 +24,7 @@ local specwarnMirroredSoul		= mod:NewSpecialWarningReflect(69051)
 local specwarnWailingSouls		= mod:NewSpecialWarningSpell(68899, nil, nil, nil, 2)
 local specwarnPhantomBlast		= mod:NewSpecialWarningInterrupt(68982, false)
 
-mod:AddBoolOption("SetIconOnMirroredTarget", true)
+mod:AddBoolOption("SetIconOnMirroredTarget", false)
 
 function mod:SPELL_CAST_START(args)
 	if args.spellId == 68982 then						-- Phantom Blast
@@ -44,7 +44,7 @@ function mod:SPELL_AURA_APPLIED(args)
 	if args.spellId == 69051 and args:IsDestTypePlayer() then	-- Mirrored Soul
 		warnMirroredSoul:Show(args.destName)
 		timerMirroredSoul:Start(args.destName)
-		specwarnMirroredSoul:Show()
+		specwarnMirroredSoul:Show(args.sourceName)--if sourcename isn't good use L.name
 		if self.Options.SetIconOnMirroredTarget then 
 			self:SetIcon(args.destName, 8, 8) 
 		end 

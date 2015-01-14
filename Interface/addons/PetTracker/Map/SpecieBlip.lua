@@ -1,5 +1,5 @@
 --[[
-Copyright 2012-2013 João Cardoso
+Copyright 2012-2014 João Cardoso
 PetTracker is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -17,8 +17,6 @@ This file is part of PetTracker.
 
 local _, Addon = ...
 local Blip = Addon:NewClass(nil, 'SpecieBlip', nil, Addon.Blip)
-
-local InlineTexture = '|T%s:%d:%d:-2:0|t'
 local Journal = Addon.Journal
 
 
@@ -30,6 +28,7 @@ function Blip:OnCreate()
 	border:SetPoint('CENTER', .3, .3)
 	border:SetTexCoord(1, .5, 1, 0)
 	border:SetSize(28, 28)
+	border:Hide()
 
 	self.__super.OnCreate(self)
 	self.icon:SetTexCoord(0.79687500, 0.49218750, 0.50390625, 0.65625000)
@@ -44,8 +43,8 @@ end
 
 function Blip:GetTooltip()
 	local name, icon, _,_, source = self.specie:GetInfo()
-	local comments = self.specie:IsSpecial() and '|n|n|cff20ff20Uncommon Abilities|r' or ''
-	local title = InlineTexture:format(icon, 20, 20) .. name
+	local title = ('|T%s:%d:%d:-2:0|t'):format(icon, 20, 20) .. name
+	local owned = self.specie:GetOwnedText()
 	
-	return title, Addon:KeepShort(source) .. comments
+	return title, (owned and (owned .. '|n') or '') .. Addon:KeepShort(source)
 end

@@ -68,14 +68,14 @@ end
 function lib.BonusMessageReceiver(prefix, message, distribution, sender)
   local announce = (IsInRaid() and UnitIsGroupLeader("player"))
 
-  local command, rewardType, rewardLink, numCoins = strsplit("^", message)
+  local command, rewardType, rewardLink, numCoins, currencyID = strsplit("^", message)
   if rewardType == "item" then
-    EPGP:LogBonusLootRoll(sender, numCoins, rewardLink)
+    EPGP:LogBonusLootRoll(sender, numCoins, rewardLink, currencyID)
     if announce then
       EPGP.callbacks:Fire("CoinLootGood", sender, rewardLink, numCoins)
     end
   elseif rewardType == "money" then
-    EPGP:LogBonusLootRoll(sender, numCoins, nil)
+    EPGP:LogBonusLootRoll(sender, numCoins, nil, currencyID)
     if announce then
       EPGP.callbacks:Fire("CoinLootBad", sender, numCoins)
     end
@@ -83,9 +83,13 @@ function lib.BonusMessageReceiver(prefix, message, distribution, sender)
 end
 
 local function HandleBonusLootResult(rewardType, rewardLink, rewardQuantity)
-  local _, numCoins = GetCurrencyInfo(776) -- warforged seal, see http://www.wowhead.com/currencies
-  lib:SendCommMessage("EPGPBONUS", format("BONUS_LOOT_RESULT^%s^%s^%s", tostring(rewardType),
-					  tostring(rewardLink), tostring(numCoins - 1)), "RAID", nil, "ALERT")
+  local _, numCoins = GetCurrencyInfo(currentCurrencyID or 776)
+  lib:SendCommMessage("EPGPBONUS", format("BONUS_LOOT_RESULT^%s^%s^%s^%s",
+					  tostring(rewardType),
+					  tostring(rewardLink),
+					  tostring(numCoins),
+					  tostring(currentCurrencyID or 0)),
+		      "RAID", nil, "ALERT")
 end
 
 -- Just add items here; the itemLink has a unique id, so this will
@@ -254,8 +258,11 @@ frame:RegisterEvent("CHAT_MSG_LOOT")
 frame:RegisterEvent("LOOT_SLOT_CLEARED")
 frame:RegisterEvent("LOOT_OPENED")
 frame:RegisterEvent("BONUS_ROLL_RESULT")
+frame:RegisterEvent("SPELL_CONFIRMATION_PROMPT")
 lib:RegisterComm("EPGPBONUS", lib.BonusMessageReceiver)
 lib:RegisterComm("EPGPCORPSELOOT", CorpseLootReceiver)
+
+local currentCurrencyID = nil
 frame:SetScript("OnEvent",
                 function(self, event, ...)
                   if event == "CHAT_MSG_LOOT" then
@@ -266,6 +273,11 @@ frame:SetScript("OnEvent",
                     LOOT_SLOT_CLEARED(event, ...)
                   elseif event == "BONUS_ROLL_RESULT" then
                     HandleBonusLootResult(...)
+                  elseif event == "SPELL_CONFIRMATION_PROMPT" then
+		    local spellID, confirmType, text, duration, currencyID = ...;
+		    if confirmType == CONFIRMATION_PROMPT_BONUS_ROLL then
+		      currentCurrencyID = currencyID
+		    end
                   end
                 end)
 frame:Show()

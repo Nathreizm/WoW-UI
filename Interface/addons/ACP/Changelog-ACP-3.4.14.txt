@@ -1,0 +1,8 @@
+2014-10-18  sylvanaar  <sylvanaar@mindspring.com>
+
+[da48b8ca1c82] [3.4.14]
+* ACP.lua:
+
+Make all Enable/Disable settings apply to the current character only
+
+

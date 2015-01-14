@@ -1,4 +1,4 @@
-﻿local mod = LootMaster:NewModule("EPGPLootmaster_Options")
+local mod = LootMaster:NewModule("EPGPLootmaster_Options")
 
 local L = LibStub("AceLocale-3.0"):GetLocale("EPGPLootmaster")
 
@@ -246,7 +246,7 @@ function mod:OnEnable()
                                     added = true
                                 end
                                 if not loot then return self:Print(L['Unable to register loot.']) end
-                                ml:AddCandidate(loot.id, UnitName('player'))
+                                ml:AddCandidate(loot.id, LootMaster.UnitName('player'))
                                 ml:AnnounceLoot(loot.id)
                                 for i=1, LootMaster.db.profile.buttonNum do
                                   ml:AddCandidate(loot.id, 'Button ' .. i)
@@ -384,9 +384,9 @@ function mod:OnEnable()
                                             if num>0 then
                                                 -- we're in party
                                                 for i=1, num do
-                                                    names[UnitName('party'..i)] = UnitName('party'..i)
+                                                    names[LootMaster.UnitName('party'..i)] = LootMaster.UnitName('party'..i)
                                                 end
-                                                names[UnitName('player')] = UnitName('player')
+                                                names[LootMaster.UnitName('player')] = LootMaster.UnitName('player')
                                             else
                                                 -- Just show everyone in guild.
                                                 local num = GetNumGuildMembers(true);
@@ -423,10 +423,18 @@ function mod:OnEnable()
                                     width = 'full',
                                     name = L["Enable the voting system"],
                                 },
+                                votingEnableAuto = {
+                                    hidden = function(info) return not LootMaster.db.profile.voting end,
+                                    type = "toggle",
+                                    order = 3,
+                                    width = 'full',
+                                    name = L["Auto request votes for each item"],
+                                    desc = L["This will automatically ask for votes for each registered item (Auto announcing must also be enabled!)"],
+                                },
 								votingDisallowSelf = {
                                     hidden = function(info) return not LootMaster.db.profile.voting end,
 								    type = "toggle",
-                                    order = 2,
+                                    order = 4,
                                     width = 'full',
                                     name = L["Disallow voting for self"],
                                     desc = L["This will disallow players from voting on themselves"],
@@ -434,7 +442,7 @@ function mod:OnEnable()
 								votingSendAssistantOnly = {
                                     hidden = function(info) return not LootMaster.db.profile.voting end,
 								    type = "toggle",
-                                    order = 2,
+                                    order = 5,
                                     width = 'full',
                                     name = L["Only send to promoted players in raid"],
                                     desc = L["This will cause some overhead, since monitor messages will be sent one-by-one to players. Leave this disabled if you want everybody to be able to see the monitor. Disabling this option also makes the monitors respond faster."],
@@ -442,7 +450,7 @@ function mod:OnEnable()
 								votingSendGuildRank = {
 									hidden = function(info) return not LootMaster.db.profile.voting end,
                                     type = "toggle",
-                                    order = 3,
+                                    order = 6,
                                     width = 'full',
                                     name = L["Only send to specific guildranks"],
                                     desc = L["This will cause some overhead, since monitor messages will be sent one-by-one to players. Leave this disabled if you want everybody to be able to see the monitor. Disabling this option also makes the monitors respond faster."],
@@ -453,7 +461,7 @@ function mod:OnEnable()
 										return not LootMaster.db.profile.votingSendGuildRank
 									end,
 									type = "multiselect",
-									order = 4,
+									order = 7,
 									name = L["Only send to the following guildranks:"],
 									values = function()
 										local data = {}
@@ -471,6 +479,7 @@ function mod:OnEnable()
 										if type(LootMaster.db.profile[ i[#i] ])~='table' then
 											LootMaster.db.profile[ i[#i] ]={}
 										end
+                                        if value == nil then value=false end
 										LootMaster.db.profile[ i[#i] ][rankNum] = value
 									end
 								}
@@ -596,6 +605,7 @@ function mod:OnEnable()
 										if type(LootMaster.db.profile[i[#i]])~='table' then
 											LootMaster.db.profile[i[#i]]={}
 										end
+                                        if value == nil then value=false end
 										LootMaster.db.profile[i[#i]][rankNum] = value
 									end
 								},

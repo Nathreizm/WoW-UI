@@ -74,7 +74,7 @@ L:SetMiscLocalization{
 	YellAir				= "Gebt uns einen Moment, damit wir uns auf den Bau der Geschütze vorbereiten können.",
 	YellAir2			= "Feuer einstellen! Lasst uns diese Geschütze reparieren!",
 	YellGround			= "Beeilt Euch! Sie wird nicht lange am Boden bleiben!",
-	EmotePhase2			= "%%s ist dauerhaft an den Boden gebunden!"
+	EmotePhase2			= "ist dauerhaft an den Boden gebunden!"
 }
 
 ----------------------------
@@ -213,6 +213,7 @@ L:SetGeneralLocalization{
 }
 
 L:SetMiscLocalization{
+	Pull		= "Für Euer Eindringen werdet Ihr bezahlen!",
 	YellKill	= "Ich... bin von ihm befreit... endlich."
 }
 
@@ -389,7 +390,6 @@ L:SetWarningLocalization{
 	WarnBrainPortalSoon				= "Gehirnportale in 3 Sek",	
 	SpecWarnFervor					= "Saras Eifer auf dir!",
 	SpecWarnFervorCast				= "Saras Eifer wird auf dich gewirkt",
-	SpecWarnMaladyNear				= "Geisteskrankheit auf %s in deiner Nähe",
 	specWarnBrainPortalSoon			= "Gehirnportale bald"
 }
 
@@ -410,6 +410,5 @@ L:SetOptionLocalization{
 	WarningSqueeze					= "Schreie bei Quetschen auf dir",
 	NextPortal						= "Zeige Zeit bis nächste Gehirnportale",
 	ShowSaraHealth					= "Zeige Lebensanzeige für Sara in Phase 1 (muss anvisiert oder im Fokus mindestens eines Schlachtzugmitglieds sein)",
-	SpecWarnMaladyNear				= "Spezialwarnung, wenn jemand in deiner Nähe von $spell:63881 betroffen ist",
 	MaladyArrow						= "Zeige DBM-Pfeil, wenn $spell:63881 in deiner Nähe ist"
 }

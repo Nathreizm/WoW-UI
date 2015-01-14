@@ -33,9 +33,13 @@ SkinnerDB = {
 		},
 	},
 	["profileKeys"] = {
+		["Nathreizm - Thrall"] = "Default",
+		["Mithrios - Rexxar"] = "Default",
+		["Nathreizm - Drenden"] = "Default",
+		["Nathreizm - Azralon"] = "Default",
 		["Nathreizm - Arthas"] = "Default",
 		["Prettypretty - Rexxar"] = "Default",
-		["Mithrios - Rexxar"] = "Default",
+		["Nathreizm - Stormreaver"] = "Default",
 	},
 	["profiles"] = {
 		["Default"] = {

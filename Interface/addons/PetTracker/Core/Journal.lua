@@ -1,5 +1,5 @@
 --[[
-Copyright 2012-2013 João Cardoso
+Copyright 2012-2014 João Cardoso
 PetTracker is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -17,7 +17,6 @@ This file is part of PetTracker.
 
 local _, Addon = ...
 local Journal = Addon:NewModule('Journal')
-local Breeds = LibStub('LibPetBreedInfo-1.0')
 local Cache = LibStub('LibPetJournal-2.0')
 local Server = C_PetJournal
 local L = Addon.Locals
@@ -93,8 +92,6 @@ function Journal:GetOwnedText(specie)
 		
 		return collected
 	end
-	
-	return NORMAL_FONT_COLOR_CODE .. L.NoneCollected .. FONT_COLOR_CODE_CLOSE
 end
 
 function Journal:GetOwned(specie)
@@ -111,10 +108,6 @@ end
 
 --[[ Info ]]--
 
-function Journal:IsSpecial(specie)
-	return nil--PetTracker_Specials:find(specie)
-end
-
 function Journal:GetType(specie)
 	return select(3, self:GetInfo(specie))
 end
@@ -123,20 +116,10 @@ function Journal:GetSource(specie)
 	local source = select(5, self:GetInfo(specie))
 
 	for i = 1, Server.GetNumPetSources() do
-		local name = Addon:GetSourceName(i)
-		if source:find('^|c%w+' .. name) then
+		if source:find('^|c%w+' .. L['Source' .. i]) then
 			return i, name
 		end
 	end
-end
-
-function Journal:GetAvailableBreeds(specie)
-	local breeds =  NORMAL_FONT_COLOR_CODE .. L.AvailableBreeds .. FONT_COLOR_CODE_CLOSE
-	for _, breed in pairs(Breeds:GetAvailableBreeds(specie) or {}) do
-		breeds  = breeds .. ' ' .. Addon:GetBreedIcon(breed, .75)
-	end
-
-	return breeds
 end
 
 function Journal:GetAbility(specie, i)
@@ -154,6 +137,15 @@ end
 
 --[[ Display ]]--
 
+function Journal:GetAvailableBreeds(specie)
+	local breeds =  NORMAL_FONT_COLOR_CODE .. L.AvailableBreeds .. FONT_COLOR_CODE_CLOSE
+	for _, breed in pairs(Addon.Breeds[specie] or {}) do
+		breeds  = breeds .. ' ' .. Addon:GetBreedIcon(breed, .75)
+	end
+
+	return breeds
+end
+
 function Journal:GetTypeName(specie)
 	return Addon:GetTypeName(self:GetType(specie))
 end
@@ -170,7 +162,9 @@ end
 --[[ Stats ]]--
 
 function Journal:GetBreed(pet)
-	return Breeds:GetBreedByPetID(pet)
+	local specie, _, level = Server.GetPetInfoByPetID(pet)
+	local _, health, power, speed, quality = Server.GetPetStats(pet)
+	return Addon.Predict:Breed(specie, level, quality, health, power, speed)
 end
 
 function Journal:GetQuality(pet)
@@ -189,10 +183,10 @@ end
 --[[ Locations ]]--
 
 function Journal:GetSpeciesIn(zone)
-	return PetTracker_Species[zone] or {}
+	return Addon.Species[zone] or {}
 end
 
 function Journal:GetStablesIn(zone, level)
-	zone = PetTracker_Stables[zone]
+	zone = Addon.Stables[zone]
 	return zone and zone[level] or ''
 end

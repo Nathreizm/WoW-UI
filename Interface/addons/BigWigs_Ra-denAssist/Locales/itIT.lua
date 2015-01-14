@@ -1,4 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("Ra-den Assist", "itIT")
+local L = BigWigs:NewBossLocale("Ra-den Assist", "itIT")
 if not L then return end
 
 L["allowed"] = "I membri dell'Incursione sono stati aggiornati."

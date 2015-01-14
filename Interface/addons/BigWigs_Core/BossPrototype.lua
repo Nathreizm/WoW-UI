@@ -2,35 +2,49 @@
 -- Prototype
 --
 
-local AL = LibStub("AceLocale-3.0")
-local L = AL:GetLocale("Big Wigs: Common")
-local UnitExists, UnitAffectingCombat, GetSpellInfo, UnitGUID = UnitExists, UnitAffectingCombat, GetSpellInfo, UnitGUID
-local format, sub, band = string.format, string.sub, bit.band
+local L = LibStub("AceLocale-3.0"):GetLocale("Big Wigs: Common")
+local BW_L = LibStub("AceLocale-3.0"):GetLocale("Big Wigs")
+local UnitAffectingCombat, UnitIsPlayer, UnitGUID, UnitPosition, UnitDistanceSquared, UnitIsConnected = UnitAffectingCombat, UnitIsPlayer, UnitGUID, UnitPosition, UnitDistanceSquared, UnitIsConnected
+local EJ_GetSectionInfo, GetSpellInfo, GetSpellTexture = EJ_GetSectionInfo, GetSpellInfo, GetSpellTexture
+local format, sub, gsub, band = string.format, string.sub, string.gsub, bit.band
 local type, next, tonumber = type, next, tonumber
 local core = BigWigs
 local C = core.C
 local pName = UnitName("player")
+local hasVoice = GetAddOnEnableState(pName, "BigWigs_Voice") > 0
 local bossUtilityFrame = CreateFrame("Frame")
 local enabledModules = {}
 local allowedEvents = {}
-local difficulty = 3
+local difficulty = 0
 local UpdateDispelStatus = nil
-local UpdateMapData = nil
 local myGUID = nil
 local myRole = nil
-local updateData = function()
+local solo = false
+local updateData = function(module)
 	myGUID = UnitGUID("player")
 
 	local tree = GetSpecialization()
 	if tree then
 		myRole = GetSpecializationRole(tree)
+		if IsSpellKnown(152276) and UnitBuff("player", (GetSpellInfo(156291))) then -- Gladiator Stance
+			myRole = "DAMAGER"
+		end
 	end
 
 	local _, _, diff = GetInstanceInfo()
 	difficulty = diff
 
+	solo = true
+	local _, _, _, mapId = UnitPosition("player")
+	for unit in module:IterateGroup() do
+		local _, _, _, tarMapId = UnitPosition(unit)
+		if tarMapId == mapId and myGUID ~= UnitGUID(unit) and UnitIsConnected(unit) then
+			solo = false
+			break
+		end
+	end
+
 	UpdateDispelStatus()
-	UpdateMapData()
 end
 
 -------------------------------------------------------------------------------
@@ -49,10 +63,10 @@ local eventMap = setmetatable({}, metaMap)
 local unitEventMap = setmetatable({}, metaMap)
 local icons = setmetatable({}, {__index =
 	function(self, key)
-		local _, value
+		local value
 		if type(key) == "number" then
 			if key > 0 then
-				_, _, value = GetSpellInfo(key)
+				value = GetSpellTexture(key)
 				if not value then
 					core:Print(format("An invalid spell id (%d) is being used in a bar/message.", key))
 				end
@@ -92,10 +106,10 @@ local boss = {}
 core:GetModule("Bosses"):SetDefaultModulePrototype(boss)
 function boss:IsBossModule() return true end
 function boss:OnInitialize() core:RegisterBossModule(self) end
-function boss:OnEnable()
-	if debug then dbg(self, "OnEnable()") end
+function boss:OnEnable(isWipe)
+	if debug then dbg(self, isWipe and "OnEnable() via Wipe()" or "OnEnable()") end
 
-	updateData()
+	updateData(self)
 
 	-- Update enabled modules list
 	for i = #enabledModules, 1, -1 do
@@ -104,17 +118,24 @@ function boss:OnEnable()
 	end
 	enabledModules[#enabledModules+1] = self
 
+	if self.engageId then
+		self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckForEncounterEngage")
+		self:RegisterEvent("ENCOUNTER_END", "EncounterEnds")
+	end
+
 	if self.SetupOptions then self:SetupOptions() end
 	if type(self.OnBossEnable) == "function" then self:OnBossEnable() end
 
-	if IsEncounterInProgress() then
-		self:CheckBossStatus("NoEngage") -- Prevent engaging if enabling during a boss fight (after a DC)
+	if IsEncounterInProgress() and not isWipe then -- Safety. ENCOUNTER_END might fire whilst IsEncounterInProgress is still true and engage a module.
+		self:CheckForEncounterEngage("NoEngage") -- Prevent engaging if enabling during a boss fight (after a DC)
 	end
 
-	self:SendMessage("BigWigs_OnBossEnable", self)
+	if not isWipe then
+		self:SendMessage("BigWigs_OnBossEnable", self)
+	end
 end
-function boss:OnDisable()
-	if debug then dbg(self, "OnDisable()") end
+function boss:OnDisable(isWipe)
+	if debug then dbg(self, isWipe and "OnDisable() via Wipe()" or "OnDisable()") end
 	if type(self.OnBossDisable) == "function" then self:OnBossDisable() end
 
 	-- Update enabled modules list
@@ -154,7 +175,9 @@ function boss:OnDisable()
 	self.isWiping = nil
 	self.isEngaged = nil
 
-	self:SendMessage("BigWigs_OnBossDisable", self)
+	if not isWipe then
+		self:SendMessage("BigWigs_OnBossDisable", self)
+	end
 end
 function boss:GetOption(spellId)
 	return self.db.profile[spells[spellId]]
@@ -167,12 +190,22 @@ function boss:Reboot(isWipe)
 		-- Devs, in 99% of cases you'll want to use OnBossWipe
 		self:SendMessage("BigWigs_OnBossWipe", self)
 	end
-	self:Disable()
-	self:Enable()
+	self:OnDisable(isWipe)
+	self:CancelAllTimers()
+	self:OnEnable(isWipe)
 end
 
-function boss:NewLocale(locale, default) return AL:NewLocale(self.name, locale, default, "raw") end
-function boss:GetLocale(state) return AL:GetLocale(self.name, state) end
+-------------------------------------------------------------------------------
+-- Localization
+--
+
+function boss:GetLocale()
+	if not self.localization then
+		self.localization = {}
+	end
+	return self.localization
+end
+boss.NewLocale = boss.GetLocale
 
 -------------------------------------------------------------------------------
 -- Enable triggers
@@ -237,17 +270,20 @@ do
 	bossUtilityFrame:SetScript("OnEvent", function(_, _, _, event, _, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellId, spellName, _, extraSpellId, amount)
 		if allowedEvents[event] then
 			if event == "UNIT_DIED" then
-				local mobId = tonumber(sub(destGUID, 6, 10), 16)
-				for i = #enabledModules, 1, -1 do
-					local self = enabledModules[i]
-					local m = eventMap[self][event]
-					if m and m[mobId] then
-						local func = m[mobId]
-						args.mobId, args.destGUID, args.destName, args.destFlags, args.destRaidFlags = mobId, destGUID, destName, destFlags, args.destRaidFlags
-						if type(func) == "function" then
-							func(args)
-						else
-							self[func](self, args)
+				local _, _, _, _, _, id = strsplit("-", destGUID)
+				local mobId = tonumber(id)
+				if mobId then
+					for i = #enabledModules, 1, -1 do
+						local self = enabledModules[i]
+						local m = eventMap[self][event]
+						if m and m[mobId] then
+							local func = m[mobId]
+							args.mobId, args.destGUID, args.destName, args.destFlags, args.destRaidFlags = mobId, destGUID, destName, destFlags, args.destRaidFlags
+							if type(func) == "function" then
+								func(args)
+							else
+								self[func](self, args)
+							end
 						end
 					end
 				end
@@ -278,11 +314,13 @@ do
 		if not eventMap[self][event] then eventMap[self][event] = {} end
 		for i = 1, select("#", ...) do
 			local id = (select(i, ...))
-			if type(id) == "number" and not GetSpellInfo(id) then
-				core:Print(format(invalidId, self.moduleName, id, event))
-				return
+			if type(id) == "number" then
+				if not GetSpellInfo(id) then
+					core:Print(format(invalidId, self.moduleName, id, event))
+				else
+					eventMap[self][event][id] = func
+				end
 			end
-			eventMap[self][event][id] = func
 		end
 		allowedEvents[event] = true
 		bossUtilityFrame:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED")
@@ -381,15 +419,11 @@ do
 		end
 	end
 
-	function boss:CheckBossStatus(noEngage)
+	function boss:CheckForEncounterEngage(noEngage)
 		local hasBoss = UnitHealth("boss1") > 0 or UnitHealth("boss2") > 0 or UnitHealth("boss3") > 0 or UnitHealth("boss4") > 0 or UnitHealth("boss5") > 0
-		if not hasBoss and self.isEngaged then
-			if debug then dbg(self, ":CheckBossStatus wipeCheck scheduled.") end
-			self:ScheduleTimer(wipeCheck, 3, self)
-		elseif not self.isEngaged and hasBoss then
-			if debug then dbg(self, ":CheckBossStatus Engage called.") end
+		if not self.isEngaged and hasBoss then
 			local guid = UnitGUID("boss1") or UnitGUID("boss2") or UnitGUID("boss3") or UnitGUID("boss4") or UnitGUID("boss5")
-			local module = core:GetEnableMobs()[tonumber(sub(guid, 6, 10), 16)]
+			local module = core:GetEnableMobs()[self:MobId(guid)]
 			local modType = type(module)
 			if modType == "string" then
 				if module == self.moduleName then
@@ -407,29 +441,46 @@ do
 				if not self.isEngaged then self:Disable() end
 			end
 		end
+	end
+
+	function boss:CheckBossStatus()
+		local hasBoss = UnitHealth("boss1") > 0 or UnitHealth("boss2") > 0 or UnitHealth("boss3") > 0 or UnitHealth("boss4") > 0 or UnitHealth("boss5") > 0
+		if not hasBoss and self.isEngaged then
+			if debug then dbg(self, ":CheckBossStatus wipeCheck scheduled.") end
+			self:ScheduleTimer(wipeCheck, 4, self)
+		elseif not self.isEngaged and hasBoss then
+			if debug then dbg(self, ":CheckBossStatus Engage called.") end
+			self:CheckForEncounterEngage()
+		end
 		if debug then dbg(self, ":CheckBossStatus called with no result. Engaged = "..tostring(self.isEngaged).." hasBoss = "..tostring(hasBoss)) end
 	end
 end
 
 do
-	local t = nil
-	local function buildTable()
-		t = {
-			"boss1", "boss2", "boss3", "boss4", "boss5",
-			"target", "targettarget",
-			"focus", "focustarget",
-			"party1target", "party2target", "party3target", "party4target",
-			"mouseover", "mouseovertarget"
-		}
-		for i = 1, 25 do t[#t+1] = format("raid%dtarget", i) end
-		buildTable = nil
-	end
+	local unitTable = {
+		"boss1", "boss2", "boss3", "boss4", "boss5",
+		"target", "targettarget",
+		"mouseover", "mouseovertarget",
+		"focus", "focustarget",
+		"party1target", "party2target", "party3target", "party4target",
+		"raid1target", "raid2target", "raid3target", "raid4target", "raid5target",
+		"raid6target", "raid7target", "raid8target", "raid9target", "raid10target",
+		"raid11target", "raid12target", "raid13target", "raid14target", "raid15target",
+		"raid16target", "raid17target", "raid18target", "raid19target", "raid20target",
+		"raid21target", "raid22target", "raid23target", "raid24target", "raid25target",
+		"raid26target", "raid27target", "raid28target", "raid29target", "raid30target",
+		"raid31target", "raid32target", "raid33target", "raid34target", "raid35target",
+		"raid36target", "raid37target", "raid38target", "raid39target", "raid40target"
+	}
 	local function findTargetByGUID(id)
-		if not t then buildTable() end
-		for i, unit in next, t do
+		local isNumber = type(id) == "number"
+		for i, unit in next, unitTable do
 			local guid = UnitGUID(unit)
 			if guid and not UnitIsPlayer(unit) then
-				if type(id) == "number" then guid = tonumber(sub(guid, 6, 10), 16) end
+				if isNumber then
+					local _, _, _, _, _, id = strsplit("-", guid)
+					guid = tonumber(id)
+				end
 				if guid == id then return unit end
 			end
 		end
@@ -493,7 +544,7 @@ do
 		if debug then dbg(self, ":Engage") end
 
 		if not noEngage or noEngage ~= "NoEngage" then
-			updateData()
+			updateData(self)
 
 			if self.OnEngage then
 				self:OnEngage(difficulty)
@@ -503,15 +554,14 @@ do
 		end
 	end
 
-	function boss:Win(direct)
+	function boss:Win(args, direct)
 		if debug then dbg(self, ":Win") end
-		if direct or self.engageId then
-			self:Message("bosskill", "Positive", "Victory", AL:GetLocale("Big Wigs").defeated:format(self.displayName), false)
+		if direct then
+			self:Message("bosskill", "Positive", "Victory", BW_L.defeated:format(self.displayName), false)
 			self.lastKill = GetTime() -- Add the kill time for the enable check.
 			if self.OnWin then self:OnWin() end
 			self:SendMessage("BigWigs_OnBossWin", self)
 			self:Disable()
-			if not direct then self:Sync("Death", self.moduleName) end -- XXX temp backwards compat for non updaters
 		else
 			self:Sync("Death", self.moduleName)
 		end
@@ -553,7 +603,17 @@ do
 		if not self.scheduledScans then self.scheduledScans = {} self.scheduledScansCounter = {} end
 
 		self.scheduledScansCounter[func] = 0
-		self.scheduledScans[func] = self:ScheduleRepeatingTimer(bossScanner, 0.05, self, func, tankCheckExpiry, guid)
+		self.scheduledScans[func] = self:ScheduleRepeatingTimer(bossScanner, 0.05, self, func, solo and 0.1 or tankCheckExpiry, guid) -- Tiny allowance when solo
+	end
+end
+
+function boss:EncounterEnds(event, id, name, difficulty, size, status)
+	if self.engageId == id and self.enabledState then
+		if status == 1 then
+			self:Win(nil, true)
+		elseif status == 0 then
+			self:ScheduleTimer("Wipe", 6) -- XXX Delayed for now due to issues with certain encounters and using IEEU for engage. Can be removed if we swap to ENCOUNTER_START.
+		end
 	end
 end
 
@@ -566,15 +626,25 @@ function boss:Difficulty()
 end
 
 function boss:LFR()
-	return difficulty == 7
+	return difficulty == 7 or difficulty == 17
+end
+
+function boss:Normal()
+	return difficulty == 1 or difficulty == 3 or difficulty == 4 or difficulty == 14
 end
 
 function boss:Heroic()
-	return difficulty == 2 or difficulty == 5 or difficulty == 6
+	return difficulty == 2 or difficulty == 5 or difficulty == 6 or difficulty == 15
+end
+
+function boss:Mythic()
+	return difficulty == 16
 end
 
 function boss:MobId(guid)
-	return guid and tonumber(sub(guid, 6, 10), 16) or -1
+	if not guid then return 1 end
+	local _, _, _, _, _, id = strsplit("-", guid)
+	return tonumber(id) or 1
 end
 
 function boss:SpellName(spellId)
@@ -598,42 +668,48 @@ do
 	end
 end
 
-do
-	local SetMapToCurrentZone = BigWigsLoader.SetMapToCurrentZone
-	local GetPlayerMapPosition = GetPlayerMapPosition
-
-	local activeMap, mapWidth, mapHeight = nil, 0, 0
-
-	function UpdateMapData()
-		activeMap = nil
-		local mapName = GetMapInfo()
-		local mapData = core:GetPlugin("Proximity"):GetMapData()
-		if not mapData[mapName] then return end
-
-		local currentFloor = GetCurrentMapDungeonLevel()
-		if currentFloor == 0 then currentFloor = 1 end
-
-		local id = mapData[mapName][currentFloor]
-		if id then
-			activeMap = true
-			mapWidth, mapHeight = id[1], id[2]
-		end
-	end
-
-	function boss:Range(player, otherPlayer)
-		if not activeMap then return 200 end
-
-		SetMapToCurrentZone()
-		local tx, ty = GetPlayerMapPosition(player)
-		if tx == 0 and ty == 0 then return 200 end -- position is unknown or unit is invalid
-		local px, py = GetPlayerMapPosition(otherPlayer or "player")
-		if px == 0 and py == 0 then return 200 end
-
-		local dx = (tx - px) * mapWidth
-		local dy = (ty - py) * mapHeight
+function boss:Range(player, otherPlayer)
+	if not otherPlayer then
+		local distanceSquared = UnitDistanceSquared(player)
+		return distanceSquared == 0 and 200 or distanceSquared ^ 0.5
+	else
+		local ty, tx = UnitPosition(player)
+		local py, px = UnitPosition(otherPlayer)
+		local dx = tx - px
+		local dy = ty - py
 		local distance = (dx * dx + dy * dy) ^ 0.5
-
 		return distance
+	end
+end
+
+function boss:Solo()
+	return solo
+end
+
+-------------------------------------------------------------------------------
+-- Group checking
+--
+
+do
+	local raidList = { -- Not using a for loop because... REASONS. P.S. I love Torgue.
+		"raid1", "raid2", "raid3", "raid4", "raid5", "raid6", "raid7", "raid8", "raid9", "raid10",
+		"raid11", "raid12", "raid13", "raid14", "raid15", "raid16", "raid17", "raid18", "raid19", "raid20",
+		"raid21", "raid22", "raid23", "raid24", "raid25", "raid26", "raid27", "raid28", "raid29", "raid30",
+		"raid31", "raid32", "raid33", "raid34", "raid35", "raid36", "raid37", "raid38", "raid39", "raid40"
+	}
+	local partyList = {"player", "party1", "party2", "party3", "party4"}
+	local GetNumGroupMembers, IsInRaid = GetNumGroupMembers, IsInRaid
+	function boss:IterateGroup()
+		local num = GetNumGroupMembers() or 0
+		local i = 0
+		local size = num > 0 and num+1 or 2
+		local function iter(t)
+			i = i + 1
+			if i < size then
+				return t[i]
+			end
+		end
+		return iter, IsInRaid() and raidList or partyList
 	end
 end
 
@@ -664,7 +740,7 @@ function boss:Damager()
 	then
 		role = "RANGED"
 	elseif
-		class == "ROGUE" or (class == "WARRIOR" and tree ~= 3) or (class == "DEATHKNIGHT" and tree ~= 1) or
+		class == "ROGUE" or class == "WARRIOR" or (class == "DEATHKNIGHT" and tree ~= 1) or
 		(class == "PALADIN" and tree == 3) or (class == "DRUID" and tree == 2) or (class == "SHAMAN" and tree == 2) or
 		(class == "MONK" and tree == 3)
 	then
@@ -681,8 +757,8 @@ do
 			-- Tranq (Hunter), Soothe (Druid), Shiv (Rogue)
 			offDispel = offDispel .. "enrage,"
 		end
-		if IsSpellKnown(19801) or IsSpellKnown(32375) or IsSpellKnown(528) or IsSpellKnown(370) or IsSpellKnown(30449) or IsSpellKnown(110707) or IsSpellKnown(110802) then
-			-- Tranq (Hunter), Mass Dispel (Priest), Dispel Magic (Priest), Purge (Shaman), Spellsteal (Mage), Mass Dispel (Symbiosis), Purge (Symbiosis)
+		if IsSpellKnown(19801) or IsSpellKnown(32375) or IsSpellKnown(528) or IsSpellKnown(370) or IsSpellKnown(30449) then
+			-- Tranq (Hunter), Mass Dispel (Priest), Dispel Magic (Priest), Purge (Shaman), Spellsteal (Mage)
 			offDispel = offDispel .. "magic,"
 		end
 		if IsSpellKnown(527) or IsSpellKnown(77130) or (IsSpellKnown(115450) and IsSpellKnown(115451)) or (IsSpellKnown(4987) and IsSpellKnown(53551)) or IsSpellKnown(88423) then
@@ -704,7 +780,7 @@ do
 	end
 	function boss:Dispeller(dispelType, isOffensive, key)
 		if key then
-			if type(key) == "number" and key > 0 then key = spells[key] end
+			if type(key) == "number" and key > 0 then key = spells[key] end -- XXX temp 6.1 store as id
 			if band(self.db.profile[key], C.DISPEL) ~= C.DISPEL then return true end
 		end
 		if isOffensive then
@@ -767,7 +843,7 @@ do
 		if type(key) == "nil" then core:Print(format(nilKeyError, self.name)) return end
 		if type(flag) ~= "number" then core:Print(format(invalidFlagError, self.name, type(flag), tostring(flag))) return end
 		if silencedOptions[key] then return end
-		if type(key) == "number" and key > 0 then key = spells[key] end
+		if type(key) == "number" and key > 0 then key = spells[key] end -- XXX temp 6.1 store as id
 		if type(self.db) ~= "table" then core:Print(format(noDBError, self.name)) return end
 		if type(self.db.profile[key]) ~= "number" then
 			if not self.toggleDefaults[key] then
@@ -807,13 +883,17 @@ end
 
 -- PROXIMITY
 function boss:OpenProximity(key, range, player, isReverse)
-	if checkFlag(self, key, C.PROXIMITY) then
-		self:SendMessage("BigWigs_ShowProximity", self, range, key, player, isReverse)
+	if not solo and checkFlag(self, key, C.PROXIMITY) then
+		if type(key) == "number" then
+			self:SendMessage("BigWigs_ShowProximity", self, range, key, player, isReverse, spells[key], icons[key])
+		else
+			self:SendMessage("BigWigs_ShowProximity", self, range, key, player, isReverse)
+		end
 	end
 end
 
 function boss:CloseProximity(key)
-	if checkFlag(self, key or "proximity", C.PROXIMITY) then
+	if not solo and checkFlag(self, key or "proximity", C.PROXIMITY) then
 		self:SendMessage("BigWigs_HideProximity", self, key or "proximity")
 	end
 end
@@ -837,14 +917,22 @@ end
 function boss:Message(key, color, sound, text, icon)
 	if checkFlag(self, key, C.MESSAGE) then
 		local textType = type(text)
-		self:SendMessage("BigWigs_Message", self, key, textType == "string" and text or spells[text or key], color, sound, icon ~= false and icons[icon or textType == "number" and text or key])
+		self:SendMessage("BigWigs_Message", self, key, textType == "string" and text or spells[text or key], color, icon ~= false and icons[icon or textType == "number" and text or key])
+		if sound then
+			if hasVoice and checkFlag(self, key, C.VOICE) then
+				self:SendMessage("BigWigs_Voice", self, key, sound)
+			else
+				self:SendMessage("BigWigs_Sound", self, key, sound)
+			end
+		end
 	end
 end
 
 function boss:RangeMessage(key, color, sound, text, icon)
 	if not checkFlag(self, key, C.MESSAGE) then return end
 	local textType = type(text)
-	self:SendMessage("BigWigs_Message", self, key, format(L.near, textType == "string" and text or spells[text or key]), color == nil and "Personal" or color, sound == nil and "Alarm" or sound, icon ~= false and icons[icon or textType == "number" and text or key])
+	self:SendMessage("BigWigs_Message", self, key, format(L.near, textType == "string" and text or spells[text or key]), color == nil and "Personal" or color, icon ~= false and icons[icon or textType == "number" and text or key])
+	self:SendMessage("BigWigs_Sound", self, sound == nil and "Alarm" or sound)
 end
 
 do
@@ -855,7 +943,7 @@ do
 	local coloredNames = setmetatable({}, {__index =
 		function(self, key)
 			if key then
-				local shortKey = key:gsub("%-.+", "*") -- Replace server names with *
+				local shortKey = gsub(key, "%-.+", "*") -- Replace server names with *
 				local _, class = UnitClass(key)
 				if class then
 					local newKey = hexColors[class] .. shortKey .. "|r"
@@ -877,10 +965,25 @@ do
 		return setmetatable({}, mt)
 	end
 
+	function boss:ColorName(player)
+		return coloredNames[player]
+	end
+
 	function boss:StackMessage(key, player, stack, color, sound, text, icon)
 		if checkFlag(self, key, C.MESSAGE) then
 			local textType = type(text)
-			self:SendMessage("BigWigs_Message", self, key, format(L.stack, stack or 1, textType == "string" and text or spells[text or key], coloredNames[player]), color, sound, icon ~= false and icons[icon or textType == "number" and text or key])
+			if player == pName then
+				self:SendMessage("BigWigs_Message", self, key, format(L.stackyou, stack or 1, textType == "string" and text or spells[text or key]), "Personal", icon ~= false and icons[icon or textType == "number" and text or key])
+			else
+				self:SendMessage("BigWigs_Message", self, key, format(L.stack, stack or 1, textType == "string" and text or spells[text or key], coloredNames[player]), color, icon ~= false and icons[icon or textType == "number" and text or key])
+			end
+			if sound then
+				if hasVoice and checkFlag(self, key, C.VOICE) then
+					self:SendMessage("BigWigs_Voice", self, key, sound)
+				else
+					self:SendMessage("BigWigs_Sound", self, key, sound)
+				end
+			end
 		end
 	end
 
@@ -897,23 +1000,43 @@ do
 			else
 				if not checkFlag(self, key, C.MESSAGE) and not checkFlag(self, key, C.ME_ONLY) then wipe(player) return end
 			end
-			self:SendMessage("BigWigs_Message", self, key, format(L.other, msg, list), color, sound, texture)
+			self:SendMessage("BigWigs_Message", self, key, format(L.other, msg, list), color, texture)
+			if sound then
+				if hasVoice and checkFlag(self, key, C.VOICE) then
+					self:SendMessage("BigWigs_Voice", self, key, sound)
+				else
+					self:SendMessage("BigWigs_Sound", self, key, sound)
+				end
+			end
 			wipe(player)
 		else
 			if not player then
 				if checkFlag(self, key, C.MESSAGE) then
-					self:SendMessage("BigWigs_Message", self, key, format(L.other, msg, "???"), color == "Personal" and "Important" or color, alwaysPlaySound and sound, texture)
+					self:SendMessage("BigWigs_Message", self, key, format(L.other, msg, "???"), color == "Personal" and "Important" or color, texture)
+					if alwaysPlaySound then
+						self:SendMessage("BigWigs_Sound", self, key, sound)
+					end
 				end
 				return
 			end
-			if UnitIsUnit(player, "player") then
+			if player == pName then
 				if checkFlag(self, key, C.MESSAGE) or checkFlag(self, key, C.ME_ONLY) then
-					self:SendMessage("BigWigs_Message", self, key, format(L.you, msg), "Personal", sound, texture)
+					self:SendMessage("BigWigs_Message", self, key, format(L.you, msg), "Personal", texture)
+					if hasVoice and checkFlag(self, key, C.VOICE) then
+						self:SendMessage("BigWigs_Voice", self, key, sound, true)
+					else
+						self:SendMessage("BigWigs_Sound", self, key, sound)
+					end
 				end
 			else
 				if checkFlag(self, key, C.MESSAGE) and not checkFlag(self, key, C.ME_ONLY) then
 					-- Change color and remove sound (if not alwaysPlaySound) when warning about effects on other players
-					self:SendMessage("BigWigs_Message", self, key, format(L.other, msg, coloredNames[player]), color == "Personal" and "Important" or color, alwaysPlaySound and sound, texture)
+					self:SendMessage("BigWigs_Message", self, key, format(L.other, msg, coloredNames[player]), color == "Personal" and "Important" or color, texture)
+					if alwaysPlaySound and hasVoice and checkFlag(self, key, C.VOICE) then
+						self:SendMessage("BigWigs_Voice", self, key, sound)
+					elseif alwaysPlaySound then
+						self:SendMessage("BigWigs_Sound", self, key, sound)
+					end
 				end
 			end
 		end
@@ -947,7 +1070,7 @@ function boss:TargetBar(key, length, player, text, icon)
 		self:SendMessage("BigWigs_StartBar", self, key, format(L.other, textType == "string" and text or spells[text or key], "???"), length, icons[icon or textType == "number" and text or key])
 		return
 	end
-	if UnitIsUnit(player, "player") then
+	if player == pName then
 		local msg = format(L.you, textType == "string" and text or spells[text or key])
 		if checkFlag(self, key, C.BAR) then
 			self:SendMessage("BigWigs_StartBar", self, key, msg, length, icons[icon or textType == "number" and text or key])
@@ -956,23 +1079,48 @@ function boss:TargetBar(key, length, player, text, icon)
 			self:SendMessage("BigWigs_StartEmphasize", self, msg, length)
 		end
 	elseif not checkFlag(self, key, C.ME_ONLY) and checkFlag(self, key, C.BAR) then
-		self:SendMessage("BigWigs_StartBar", self, key, format(L.other, textType == "string" and text or spells[text or key], player:gsub("%-.+", "*")), length, icons[icon or textType == "number" and text or key])
+		self:SendMessage("BigWigs_StartBar", self, key, format(L.other, textType == "string" and text or spells[text or key], gsub(player, "%-.+", "*")), length, icons[icon or textType == "number" and text or key])
 	end
 end
 
 function boss:StopBar(text, player)
 	if player then
-		if UnitIsUnit(player, "player") then
+		if player == pName then
 			local msg = format(L.you, type(text) == "number" and spells[text] or text)
 			self:SendMessage("BigWigs_StopBar", self, msg)
 			self:SendMessage("BigWigs_StopEmphasize", self, msg)
 		else
-			self:SendMessage("BigWigs_StopBar", self, format(L.other, type(text) == "number" and spells[text] or text, player:gsub("%-.+", "*")))
+			self:SendMessage("BigWigs_StopBar", self, format(L.other, type(text) == "number" and spells[text] or text, gsub(player, "%-.+", "*")))
 		end
 	else
 		self:SendMessage("BigWigs_StopBar", self, type(text) == "number" and spells[text] or text)
 		self:SendMessage("BigWigs_StopEmphasize", self, type(text) == "string" and text or spells[text])
 	end
+end
+
+function boss:PauseBar(key, text)
+	local msg = text or spells[key]
+	self:SendMessage("BigWigs_PauseBar", self, msg)
+	self:SendMessage("BigWigs_StopEmphasize", self, msg)
+end
+
+function boss:ResumeBar(key, text)
+	local msg = text or spells[key]
+	self:SendMessage("BigWigs_ResumeBar", self, msg)
+	if checkFlag(self, key, C.EMPHASIZE) then
+		local length = self:BarTimeLeft(msg)
+		if length > 0 then
+			self:SendMessage("BigWigs_StartEmphasize", self, msg, length)
+		end
+	end
+end
+
+function boss:BarTimeLeft(text)
+	local bars = core:GetPlugin("Bars")
+	if bars then
+		return bars:GetBarTimeLeft(self, type(text) == "number" and spells[text] or text)
+	end
+	return 0
 end
 
 -- ICONS
@@ -1015,7 +1163,11 @@ end
 
 function boss:PlaySound(key, sound)
 	if not checkFlag(self, key, C.MESSAGE) then return end
-	self:SendMessage("BigWigs_Sound", sound)
+	if hasVoice and checkFlag(self, key, C.VOICE) then
+		self:SendMessage("BigWigs_Voice", self, key, sound)
+	else
+		self:SendMessage("BigWigs_Sound", self, key, sound)
+	end
 end
 
 -- Examples of API use in a module:
@@ -1033,15 +1185,17 @@ function boss:Berserk(seconds, noEngageMessage, customBoss, customBerserk, custo
 
 	-- There are many Berserks, but we use 26662 because Brutallus uses this one.
 	-- Brutallus is da bomb.
-	local berserk, icon = (GetSpellInfo(26662)), 26662
-	-- XXX "Interface\\EncounterJournal\\UI-EJ-Icons" ?
-	-- http://static.wowhead.com/images/icons/ej-enrage.png
+	local icon = 26662
+	local berserk = spells[icon]
 	if type(customBerserk) == "number" then
 		key = customBerserk
-		berserk, icon = (GetSpellInfo(customBerserk)), customBerserk
+		berserk = spells[customBerserk]
+		icon = customBerserk
 	elseif type(customBerserk) == "string" then
 		berserk = customBerserk
 	end
+
+	self:Bar(key, seconds, berserk, icon)
 
 	if not noEngageMessage then
 		-- Engage warning with minutes to enrage
@@ -1059,7 +1213,5 @@ function boss:Berserk(seconds, noEngageMessage, customBoss, customBerserk, custo
 	self:DelayedMessage(key, seconds - 10, "Urgent", format(L.custom_sec, berserk, 10))
 	self:DelayedMessage(key, seconds - 5, "Important", format(L.custom_sec, berserk, 5))
 	self:DelayedMessage(key, seconds, "Important", customFinalMessage or format(L.custom_end, boss, berserk), icon, "Alarm")
-
-	self:Bar(key, seconds, berserk, icon)
 end
 

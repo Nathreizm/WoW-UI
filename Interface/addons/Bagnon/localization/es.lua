@@ -26,7 +26,6 @@ L.CmdShowVersion = 'Muestra la versión actual'
 --frame text
 L.TitleBags = 'Mochila de %s'
 L.TitleBank = 'Banco de %s'
-L.Bank = 'Banco'
 
 
 --tooltips
@@ -39,13 +38,18 @@ L.TipHideBag = 'Clic para ocultar la bolsa.'
 L.TipHideBags = '<Clic izquierda> para ocultar las bolsas.'
 L.TipHideSearch = 'Clic para ocultar el campo de búsqueda.'
 L.TipInventoryToggle = '<Clic derecho> para abrir la mochila.'
-L.TipPurchaseBag = 'Clic para comprar una ranura en el banco.'
+L.PurchaseBag = 'Clic para comprar una ranura en el banco.'
 L.TipShowBag = 'Clic para mostrar la bolsa.'
 L.TipShowBags = '<Clic izquierda> para mostrar las bolsas.'
 L.TipShowMenu = '<Clic izquierda> para configurar esta ventana.'
 L.TipShowSearch = 'Clic para buscar.'
 L.TipShowFrameConfig = 'Clic para configurar esta ventana.'
 L.TipDoubleClickSearch = '<Alt-Arrastra> para mover.\n<Clic derecho> para configurar.\n<Doble clic> para buscar.'
+L.ToggleVault = 'Abrir depósito del vacío'
+L.TipCleanBags = 'Clic para limpiar las bolsas.'
+L.TipCleanBank = 'Clic derecho para limpiar el banco.'
+L.TipDepositReagents = 'Clic izquierda para depositar todos los componentes.'
+L.TipFrameToggle = 'Clic derecho para abrir/ocultar otras ventanas.'
 
 --itemcount tooltips
 L.TipCount1 = 'Equipado: %d'

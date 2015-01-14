@@ -1,8 +1,3 @@
---[[
-TODO:
-	maybe do target scanning on new waves, to start some short initial bars for add abilities?
-	rethink proximity for different difficulties
-]]--
 
 --------------------------------------------------------------------------------
 -- Module Declaration
@@ -45,23 +40,54 @@ if L then
 	L.adds_trigger_extra_wave_demonic = "Kar AzgAlada revos xi amanare maev raka ZAR"
 	L.extra_adds = "Extra adds"
 	L.final_wave = "Final Wave"
+	L.add_wave = "%s (%s): %s"
+	L.mage = "|cFF69CCF0"..LOCALIZED_CLASS_NAMES_MALE.MAGE.."|r"
+	L.rogue = "|cFFFFF569"..LOCALIZED_CLASS_NAMES_MALE.ROGUE.."|r"
+	L.shaman = "|cFF0070DE"..LOCALIZED_CLASS_NAMES_MALE.SHAMAN.."|r"
+	L.warrior = "|cFFC79C6E"..LOCALIZED_CLASS_NAMES_MALE.WARRIOR.."|r"
+	L.hunter = "|cFFABD473"..LOCALIZED_CLASS_NAMES_MALE.HUNTER.."|r"
 
-	L.chain_heal, L.chain_heal_desc = EJ_GetSectionInfo(7935)
-	L.chain_heal_icon = 1064
+	L.chain_heal = -7935 -- Empowered Chain Heal
+	L.chain_heal_desc = "{focus}{-7935}"
+	L.chain_heal_icon = "spell_nature_healingwavegreater"
 	L.chain_heal_message = "Your focus is casting Chain Heal!"
 
-	L.arcane_shock, L.arcane_shock_desc = EJ_GetSectionInfo(7928)
-	L.arcane_shock_icon = 114003
+	L.arcane_shock = -7928 -- Arcane Shock
+	L.arcane_shock_desc = "{focus}{-7928}"
+	L.arcane_shock_icon = "spell_arcane_invocation"
 	L.arcane_shock_message = "Your focus is casting Arcane Shock!"
 end
 L = mod:GetLocale()
-L.chain_heal_desc = CL.focus_only..L.chain_heal_desc
-L.arcane_shock_desc = CL.focus_only..L.arcane_shock_desc
 
 local stances = {
 	[143589] = L.battle,
 	[143594] = L.berserker,
 	[143593] = L.defensive,
+}
+
+local addsNormal = { -- shaman 2, 4, 5, 7, 8, 9
+	L.warrior.." - "..L.mage,
+	L.shaman.." - "..L.rogue,
+	L.rogue.." - "..L.warrior,
+	L.shaman.." - "..L.mage,
+	L.warrior.." - "..L.shaman,
+	L.rogue.." - "..L.mage,
+	L.warrior.." - "..L.rogue.." - "..L.shaman,
+	L.mage.." - "..L.shaman.." - "..L.warrior,
+	L.rogue.." - "..L.shaman.." - "..L.mage,
+	L.mage.." - "..L.warrior.." - "..L.rogue,
+}
+local addsMythic = { -- shaman 2, 3, 5, 6, 8, 9
+	L.mage.." - "..L.rogue.." - "..L.warrior,
+	L.rogue.." - "..L.hunter.." - "..L.shaman,
+	L.mage.." - "..L.shaman.." - "..L.warrior,
+	L.mage.." - "..L.hunter.." - "..L.rogue,
+	L.shaman.." - "..L.rogue.." - "..L.warrior,
+	L.mage.." - "..L.shaman.." - "..L.hunter,
+	L.warrior..", "..L.hunter.." - "..L.rogue,
+	L.shaman.." - "..L.rogue.." - "..L.mage,
+	L.hunter.." - "..L.warrior.." - "..L.shaman,
+	L.hunter.." - "..L.mage.." - "..L.warrior,
 }
 
 --------------------------------------------------------------------------------
@@ -73,10 +99,10 @@ function mod:GetOptions()
 		{143502, "TANK_HEALER", "FLASH"}, {-7947, "FLASH", "ICON"},
 		143484, {143716, "FLASH"}, 143536, {143872, "FLASH", "SAY"}, 143503,
 		"custom_off_bonecracker_marks",
-		-7920, {-7933, "FLASH"}, {143475, "FLASH", "ICON"}, "chain_heal", 143474, {143431, "DISPEL"}, 143432,
+		-7920, {-7933, "FLASH"}, {143475, "FLASH", "ICON"}, "chain_heal", 143474, {143431, "DISPEL"}, "arcane_shock",
 		{143494, "TANK_HEALER"}, {143638, "HEALER"}, -7915, "proximity", "berserk", "bosskill",
 	}, {
-		[143502] = "heroic",
+		[143502] = "mythic",
 		[143484] = -7909,
 		["custom_off_bonecracker_marks"] = L.custom_off_bonecracker_marks,
 		[-7920] = -7920,
@@ -85,9 +111,7 @@ function mod:GetOptions()
 end
 
 function mod:OnBossEnable()
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
-	-- heroic
+	-- Mythic
 	self:Log("SPELL_AURA_APPLIED", "HuntersMark", 143882)
 	self:Log("SPELL_CAST_START", "Execute", 143502)
 	-- Adds
@@ -112,25 +136,26 @@ function mod:OnBossEnable()
 	self:Log("SPELL_CAST_START", "BoneCracker", 143638)
 	self:Log("SPELL_AURA_APPLIED", "SunderingBlow", 143494)
 	self:Log("SPELL_AURA_APPLIED_DOSE", "SunderingBlow", 143494)
-
-	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", nil, "boss1")
 end
 
 function mod:OnEngage()
-	self:OpenProximity("proximity", 10) -- Heroic Shockwave , Magistrike is 8 yard having a constant proximity meter might be too much for LFR
 	self:Berserk(600)
 	wipe(marksUsed)
 	self:CDBar(143494, 10) -- Sundering Blow
 	self:Bar(143638, 15.5) -- Bonecracker
 	addWaveCounter = 1
 	self:Bar(-7920, 46, CL.count:format(CL.adds, addWaveCounter), "achievement_guildperk_everybodysfriend") -- adds
+	if not self:LFR() then
+		self:OpenProximity("proximity", 10) -- Heroic Shockwave , Magistrike is 8 yard
+		self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", nil, "boss1")
+	end
 end
 
 --------------------------------------------------------------------------------
 -- Event Handlers
 --
 
--- heroic
+-- Mythic
 function mod:HuntersMark(args)
 	self:PrimaryIcon(-7947, args.destName)
 	if self:Me(args.destGUID) then
@@ -140,7 +165,7 @@ function mod:HuntersMark(args)
 end
 
 function mod:Execute(args)
-	self:Message(args.spellId, "Important", "Warning", CL.casting:format(args.spellName)) -- XXX need feedback if this sound works fine with the other sounds
+	self:Message(args.spellId, "Important", "Warning", CL.casting:format(args.spellName))
 	self:CDBar(args.spellId, 18) -- varies a bit due to ability casts
 	if UnitIsUnit("player", "boss1target") then -- poor mans target check
 		self:Flash(args.spellId)
@@ -209,11 +234,13 @@ function mod:ExtraAdds()
 end
 
 function mod:Adds()
+	local mobs = self:Mythic() and addsMythic[addWaveCounter] or addsNormal[addWaveCounter]
 	if addWaveCounter == 10 then
-		self:Message(-7920, "Neutral", "Long", CL.count:format(CL.adds, addWaveCounter) .. " - " .. L.final_wave)
+		self:Message(-7920, "Neutral", "Long", L.add_wave:format(L.final_wave, addWaveCounter, mobs))
 	else
-		self:Message(-7920, "Neutral", "Long", CL.count:format(CL.adds, addWaveCounter))
+		self:Message(-7920, "Neutral", "Long", L.add_wave:format(CL.adds, addWaveCounter, mobs))
 	end
+
 	addWaveCounter = addWaveCounter + 1
 	if addWaveCounter < 11 then
 		self:Bar(-7920, 46, CL.count:format(CL.adds, addWaveCounter), "achievement_guildperk_everybodysfriend")
@@ -320,6 +347,6 @@ end
 
 function mod:SunderingBlow(args)
 	self:StackMessage(args.spellId, args.destName, args.amount, "Attention", "Info")
-	self:CDBar(args.spellId, self:LFR() and 8 or 10)
+	self:CDBar(args.spellId, 8)
 end
 

@@ -5,7 +5,7 @@ local _, ns = ...
 local ElvUF = ns.oUF
 assert(ElvUF, "ElvUI was unable to locate oUF.")
 
-local CAN_HAVE_CLASSBAR = (E.myclass == "PALADIN" or E.myclass == "DRUID" or E.myclass == "DEATHKNIGHT" or E.myclass == "WARLOCK" or E.myclass == "PRIEST" or E.myclass == "MONK" or E.myclass == 'MAGE')
+local CAN_HAVE_CLASSBAR = (E.myclass == "PALADIN" or E.myclass == "DRUID" or E.myclass == "DEATHKNIGHT" or E.myclass == "WARLOCK" or E.myclass == "PRIEST" or E.myclass == "MONK" or E.myclass == 'MAGE' or E.myclass == 'ROGUE')
 
 function UF:Construct_PlayerFrame(frame)
 	frame.Threat = self:Construct_Threat(frame, true)
@@ -50,6 +50,9 @@ function UF:Construct_PlayerFrame(frame)
 	elseif E.myclass == 'MAGE' then
 		frame.ArcaneChargeBar = self:Construct_MageResourceBar(frame)
 		frame.ClassBar = 'ArcaneChargeBar'
+	elseif E.myclass == 'ROGUE' then
+		frame.Anticipation = self:Construct_RogueResourceBar(frame)
+		frame.ClassBar = 'Anticipation'		
 	end
 	
 	frame.RaidIcon = UF:Construct_RaidIcon(frame)
@@ -109,7 +112,7 @@ function UF:UpdatePlayerFrameAnchors(frame, isShown)
 	end
 	
 	if USE_STAGGER then
-		if not USE_MINI_POWERBAR and not USE_INSET_POWERBAR then
+		if not USE_MINI_POWERBAR and not USE_INSET_POWERBAR and not POWERBAR_DETACHED then
 			stagger:Point('BOTTOMLEFT', power, 'BOTTOMRIGHT', BORDER*2 + (E.PixelMode and -1 or SPACING), 0)
 		else
 			stagger:Point('BOTTOMLEFT', health, 'BOTTOMRIGHT', BORDER*2 + (E.PixelMode and -1 or SPACING), 0)
@@ -657,9 +660,9 @@ function UF:Update_PlayerFrame(frame, db)
 	--Castbar
 	do
 		local castbar = frame.Castbar
-		castbar:Width(db.castbar.width - (E.PixelMode and 2 or (BORDER * 2)))
+		castbar:Width(db.castbar.width - (BORDER * 2))
 		castbar:Height(db.castbar.height)
-		castbar.Holder:Width(db.castbar.width + (E.PixelMode and 0 or (BORDER * 2)))
+		castbar.Holder:Width(db.castbar.width)
 		castbar.Holder:Height(db.castbar.height + (E.PixelMode and 2 or (BORDER * 2)))
 		castbar.Holder:GetScript('OnSizeChanged')(castbar.Holder)
 		
@@ -705,16 +708,21 @@ function UF:Update_PlayerFrame(frame, db)
 			if bars.UpdateAllRuneTypes then
 				bars.UpdateAllRuneTypes(frame)
 			end
-			
+			local c = UF.db.colors.classResources.bgColor
+			bars.backdrop.ignoreUpdates = true
+			bars.backdrop.backdropTexture:SetVertexColor(c.r, c.g, c.b)
+			if(not E.PixelMode) then
+				c = E.db.general.bordercolor
+				bars.backdrop:SetBackdropBorderColor(c.r, c.g, c.b)
+			end
 			local MAX_CLASS_BAR = UF.classMaxResourceBar[E.myclass]
 			if USE_MINI_CLASSBAR and not db.classbar.detachFromFrame then
 				bars:ClearAllPoints()
+				bars:Point("CENTER", frame.Health.backdrop, "TOP", 0, 0)
 				if E.myclass == 'DRUID' then
 					CLASSBAR_WIDTH = CLASSBAR_WIDTH * 2/3
-					bars:Point("LEFT", frame.Health.backdrop, "TOPLEFT", (BORDER*2 + 4), 0)
 				else
-					CLASSBAR_WIDTH = CLASSBAR_WIDTH * (MAX_CLASS_BAR - 1) / MAX_CLASS_BAR	
-					bars:Point("CENTER", frame.Health.backdrop, "TOP", -(BORDER*3 + 6), 0)
+					CLASSBAR_WIDTH = CLASSBAR_WIDTH * (MAX_CLASS_BAR - 1) / MAX_CLASS_BAR
 				end
 				bars:SetFrameStrata("MEDIUM")
 
@@ -732,11 +740,11 @@ function UF:Update_PlayerFrame(frame, db)
 					bars.mover:SetAlpha(0)
 				end			
 			else
-				CLASSBAR_WIDTH = db.classbar.detachedWidth
+				CLASSBAR_WIDTH = db.classbar.detachedWidth - (BORDER*2)
 
 				if not bars.mover then
 					bars:Width(CLASSBAR_WIDTH)
-					bars:Height(E.myclass == 'DRUID' and (CLASSBAR_HEIGHT - (BORDER*2)) or (CLASSBAR_HEIGHT - (E.PixelMode and 1 or 4)))
+					bars:Height(CLASSBAR_HEIGHT - (E.PixelMode and 1 or 4))
 					bars:ClearAllPoints()
 					bars:Point("BOTTOM", E.UIParent, "BOTTOM", 0, 150)
 					E:CreateMover(bars, 'ClassBarMover', L['Classbar'], nil, nil, nil, 'ALL,SOLO')
@@ -751,12 +759,23 @@ function UF:Update_PlayerFrame(frame, db)
 			end			
 
 			bars:Width(CLASSBAR_WIDTH)
-			bars:Height(E.myclass == 'DRUID' and (CLASSBAR_HEIGHT - (BORDER*2)) or (CLASSBAR_HEIGHT - (E.PixelMode and 1 or 4)))	
+			bars:Height(CLASSBAR_HEIGHT - (E.PixelMode and 1 or 4))
 
 			if E.myclass ~= 'MONK' and E.myclass ~= 'WARLOCK' and E.myclass ~= 'DRUID' then
 				for i = 1, MAX_CLASS_BAR do
+					bars[i].backdrop.ignoreUpdates = true
+					bars[i].backdrop.backdropTexture:SetVertexColor(c.r, c.g, c.b)
+					if(not E.PixelMode) then
+						c = E.db.general.bordercolor
+						bars[i].backdrop:SetBackdropBorderColor(c.r, c.g, c.b)
+					end					
 					bars[i]:SetHeight(bars:GetHeight())	
-					bars[i]:SetWidth(E:Scale(bars:GetWidth() - (MAX_CLASS_BAR - 1))/MAX_CLASS_BAR)	
+					if db.classbar.fill == "spaced" then
+						bars[i]:SetWidth(E:Scale(bars:GetWidth() - ((SPACING+(BORDER*2)+2)*(MAX_CLASS_BAR - 1)))/MAX_CLASS_BAR)
+					else
+						bars[i]:SetWidth(E:Scale(bars:GetWidth() - (MAX_CLASS_BAR - 1))/MAX_CLASS_BAR)	
+					end
+					
 					bars[i]:GetStatusBarTexture():SetHorizTile(false)
 					bars[i]:ClearAllPoints()
 					if i == 1 then
@@ -775,7 +794,13 @@ function UF:Update_PlayerFrame(frame, db)
 						bars[i].backdrop:Show()
 					end
 
-					if E.myclass ~= 'DEATHKNIGHT' then
+					if E.myclass == 'ROGUE' then
+						bars[i]:SetStatusBarColor(unpack(ElvUF.colors[frame.ClassBar][i]))
+
+						if bars[i].bg then
+							bars[i].bg:SetTexture(unpack(ElvUF.colors[frame.ClassBar][i]))
+						end						
+					elseif E.myclass ~= 'DEATHKNIGHT' then
 						bars[i]:SetStatusBarColor(unpack(ElvUF.colors[frame.ClassBar]))
 
 						if bars[i].bg then
@@ -789,8 +814,8 @@ function UF:Update_PlayerFrame(frame, db)
 				bars.SolarBar:SetMinMaxValues(0, 0)
 				bars.LunarBar:SetStatusBarColor(unpack(ElvUF.colors.EclipseBar[1]))
 				bars.SolarBar:SetStatusBarColor(unpack(ElvUF.colors.EclipseBar[2]))
-				bars.LunarBar:Size(CLASSBAR_WIDTH, CLASSBAR_HEIGHT - (BORDER*2))			
-				bars.SolarBar:Size(CLASSBAR_WIDTH, CLASSBAR_HEIGHT - (BORDER*2))				
+				bars.LunarBar:Size(CLASSBAR_WIDTH, CLASSBAR_HEIGHT - (E.PixelMode and 1 or 4))		
+				bars.SolarBar:Size(CLASSBAR_WIDTH, CLASSBAR_HEIGHT - (E.PixelMode and 1 or 4))
 			end
 
 			if E.myclass ~= 'DRUID' then
@@ -963,6 +988,8 @@ function UF:Update_PlayerFrame(frame, db)
 				auraBars.sort = nil
 			end
 			
+			auraBars.maxBars = db.aurabar.maxBars
+			auraBars.forceShow = frame.forceShowAuras
 			auraBars:SetAnchors()
 		else
 			if frame:IsElementEnabled('AuraBars') then
@@ -989,7 +1016,7 @@ function UF:Update_PlayerFrame(frame, db)
 			frame:Tag(frame[objectName], objectDB.text_format or '')
 			frame[objectName]:SetJustifyH(objectDB.justifyH or 'CENTER')
 			frame[objectName]:ClearAllPoints()
-			frame[objectName]:SetPoint(objectDB.justifyH or 'CENTER', frame, 'CENTER', objectDB.xOffset, objectDB.yOffset)
+			frame[objectName]:SetPoint(objectDB.justifyH or 'CENTER', frame, objectDB.justifyH or 'CENTER', objectDB.xOffset, objectDB.yOffset)
 		end
 	end
 	
@@ -999,11 +1026,7 @@ function UF:Update_PlayerFrame(frame, db)
 		UF:ToggleTransparentStatusBar(false, frame.Health, frame.Health.bg, (USE_PORTRAIT and USE_PORTRAIT_OVERLAY) ~= true)
 	end
 	
-	if UF.db.colors.transparentPower then
-		UF:ToggleTransparentStatusBar(true, frame.Power, frame.Power.bg)
-	else
-		UF:ToggleTransparentStatusBar(false, frame.Power, frame.Power.bg, true)
-	end	
+	UF:ToggleTransparentStatusBar(UF.db.colors.transparentPower, frame.Power, frame.Power.bg)
 
 	E:SetMoverSnapOffset(frame:GetName()..'Mover', -(12 + db.castbar.height))
 	frame:UpdateAllElements()

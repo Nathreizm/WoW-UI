@@ -1,5 +1,5 @@
 --[[
-Copyright 2012-2013 João Cardoso
+Copyright 2012-2014 João Cardoso
 PetTracker is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -31,10 +31,11 @@ end
 
 function List:NewLine()
 	local line = Line(self)
-	line:SetPoint('TOPLEFT', self:Last() or self.Anchor, 'BOTTOMLEFT', 0, -4)
-	line.text:SetPoint('Left', line.dash, 'Right', 22, 0)
-	line.text:SetHeight(WATCHFRAME_LINEHEIGHT)
-	line.icon:Show()
+	local last = self:Last() or self.Anchor
+
+	line:SetPoint('TOPLEFT', last, 'BOTTOMLEFT', last.xOff or 0, last.yOff or -4)
+	line.Text:SetPoint('Left', line.Icon, 'Right', 8, 0)
+	line.Icon:Show()
 	line:Show()
 	
 	tinsert(self.Lines, line)

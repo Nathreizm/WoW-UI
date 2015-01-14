@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: PetTracker Journal
 ## Notes: Load on demand modification for the Pet Journal.
 ## Author: Jaliborc (João Cardoso)
@@ -14,6 +14,5 @@
 ..\PetTracker\Combat\Slot.xml
 ..\PetTracker\Combat\Slot.lua
 
-TamerJournal.xml
-TamerJournal.lua
-TrackingToggle.lua
+Components\Include.xml
+Features\Include.xml

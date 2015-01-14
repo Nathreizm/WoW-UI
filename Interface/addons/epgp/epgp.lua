@@ -907,7 +907,7 @@ function EPGP:GUILD_ROSTER_UPDATE()
   end
 end
 
-function EPGP:LogBonusLootRoll(player, coinsLeft, reward)
+function EPGP:LogBonusLootRoll(player, coinsLeft, reward, currencyID)
   local weekday, month, day, year = CalendarGetDate()
   local hour, minute = GetGameTime()
   local timestamp = string.format("%04d-%02d-%02d %02d:%02d:00", year, month, day, hour, minute)
@@ -915,7 +915,8 @@ function EPGP:LogBonusLootRoll(player, coinsLeft, reward)
     timestamp = timestamp,
     player = player,
     coinsLeft = coinsLeft,
-    reward = reward
+    reward = reward,
+    currencyID = currencyID
   }
 
   table.insert(self.db.profile.bonus_loot_log, entry)
@@ -934,7 +935,12 @@ function EPGP:PrintCoinLog(num, show_gold)
     end
   end
   for _, e in pairs(to_show) do
-    DEFAULT_CHAT_FRAME:AddMessage(string.format("  %s: %s got %s", e.timestamp, e.player, e.reward or "gold"))
+    local currency_info = ""
+    if e.currencyID ~= nil and tonumber(e.currencyID) > 0 then
+      local currency_name = GetCurrencyInfo(e.currencyID)
+      currency_info = string.format(" (%d %s remaining)", e.coinsLeft, currency_name)
+    end
+    DEFAULT_CHAT_FRAME:AddMessage(string.format("  %s: %s got %s%s", e.timestamp, e.player, e.reward or "gold", currency_info))
   end
 end
 

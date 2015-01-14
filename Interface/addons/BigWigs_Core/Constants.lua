@@ -1,12 +1,17 @@
 local C = {}
 local L = LibStub("AceLocale-3.0"):GetLocale("Big Wigs", true)
+local CL = LibStub("AceLocale-3.0"):GetLocale("Big Wigs: Common", true)
+local BigWigs = BigWigs
 local names = {}
 local descriptions = {}
 
+local GetSpellInfo, GetSpellTexture, GetSpellDescription, EJ_GetSectionInfo = GetSpellInfo, GetSpellTexture, GetSpellDescription, EJ_GetSectionInfo
+local type, next, tonumber, gsub, lshift, band = type, next, tonumber, gsub, bit.lshift, bit.band
+
 -- Option bitflags
-local coreToggles = { "BAR", "MESSAGE", "ICON", "PULSE", "SOUND", "SAY", "PROXIMITY", "FLASH", "ME_ONLY", "EMPHASIZE", "TANK", "HEALER", "TANK_HEALER", "DISPEL", "ALTPOWER" }
+local coreToggles = { "BAR", "MESSAGE", "ICON", "PULSE", "SOUND", "SAY", "PROXIMITY", "FLASH", "ME_ONLY", "EMPHASIZE", "TANK", "HEALER", "TANK_HEALER", "DISPEL", "ALTPOWER", "VOICE" }
 for i, toggle in next, coreToggles do
-	C[toggle] = bit.lshift(1, i - 1)
+	C[toggle] = lshift(1, i - 1)
 	if L[toggle] then
 		names[toggle] = L[toggle]
 		descriptions[toggle] = L[toggle .. "_desc"]
@@ -14,7 +19,7 @@ for i, toggle in next, coreToggles do
 end
 
 -- Toggles that should actually be shown in the interface options
-local listToggles = { "MESSAGE", "FLASH", "BAR", "ICON", "SAY", "PROXIMITY", "ALTPOWER" }
+local listToggles = { "MESSAGE", "FLASH", "BAR", "ICON", "SAY", "PROXIMITY", "ALTPOWER", "VOICE" }
 local roleToggles = { "TANK", "HEALER", "TANK_HEALER", "DISPEL" }
 
 local used = nil
@@ -38,7 +43,7 @@ function BigWigs:RegisterOption(key, name, desc)
 			error("Bit field shift indexes are not consistent with the stored data. Big Wigs should automatically handle this, but at the moment it does not. Boss options might be completely fubar at the moment. Have fun.")
 		end
 		-- Use the stored shift index
-		C[key] = bit.lshift(1, self.db.global.optionShiftIndexes[key])
+		C[key] = lshift(1, self.db.global.optionShiftIndexes[key])
 	else
 		-- Find the next free shift index
 		local nextShiftIndex = nil
@@ -58,7 +63,7 @@ function BigWigs:RegisterOption(key, name, desc)
 		if not nextShiftIndex then error("BigWigs will now blow up. Please consult your local IT technician.") end
 		used[nextShiftIndex] = key
 		self.db.global.optionShiftIndexes[key] = nextShiftIndex
-		C[key] = bit.lshift(1, nextShiftIndex)
+		C[key] = lshift(1, nextShiftIndex)
 	end
 
 	if name and desc then
@@ -80,44 +85,37 @@ function BigWigs:GetRoleOptions()
 	return roleToggles
 end
 
-local getSpellDescription
-do
-	local cache = {}
-	local scanner = CreateFrame("GameTooltip")
-	scanner:SetOwner(WorldFrame, "ANCHOR_NONE")
-	local lcache, rcache = {}, {}
-	for i = 1, 4 do
-		lcache[i], rcache[i] = scanner:CreateFontString(), scanner:CreateFontString()
-		lcache[i]:SetFontObject(GameFontNormal); rcache[i]:SetFontObject(GameFontNormal)
-		scanner:AddFontStrings(lcache[i], rcache[i])
-	end
-	function getSpellDescription(spellId)
-		if cache[spellId] then return cache[spellId] end
-		scanner:ClearLines()
-		scanner:SetHyperlink("spell:"..spellId)
-		for i = scanner:NumLines(), 1, -1 do
-			local desc = lcache[i] and lcache[i]:GetText()
-			if desc then
-				cache[spellId] = desc
-				return desc
-			end
-		end
-	end
-end
-
 --display role icon/message in the option
 local function getRoleStrings(module, key)
 	local option = module.toggleDefaults[key]
-	if bit.band(option, C.TANK_HEALER) == C.TANK_HEALER then
+	if band(option, C.TANK_HEALER) == C.TANK_HEALER then
 		return " |TInterface\\LFGFrame\\UI-LFG-ICON-PORTRAITROLES.blp:16:16:0:0:64:64:0:19:22:41|t|TInterface\\LFGFrame\\UI-LFG-ICON-PORTRAITROLES.blp:16:16:0:0:64:64:20:39:1:20|t", L.tankhealer
-	elseif bit.band(option, C.TANK) == C.TANK then
+	elseif band(option, C.TANK) == C.TANK then
 		return " |TInterface\\LFGFrame\\UI-LFG-ICON-PORTRAITROLES.blp:16:16:0:0:64:64:0:19:22:41|t", L.tank
-	elseif bit.band(option, C.HEALER) == C.HEALER then
+	elseif band(option, C.HEALER) == C.HEALER then
 		return " |TInterface\\LFGFrame\\UI-LFG-ICON-PORTRAITROLES.blp:16:16:0:0:64:64:20:39:1:20|t", L.healer
-	elseif bit.band(option, C.DISPEL) == C.DISPEL then
+	elseif band(option, C.DISPEL) == C.DISPEL then
 		return " |TInterface\\EncounterJournal\\UI-EJ-Icons.blp:16:16:0:0:255:66:229:247:7:27|t", L.dispeller
 	end
 	return "", ""
+end
+
+local function replaceIdWithName(msg)
+	local id = tonumber(msg)
+	if id > 0 then
+		return GetSpellInfo(id)
+	else
+		return EJ_GetSectionInfo(-id)
+	end
+end
+local function replaceIdWithDescription(msg)
+	local id = tonumber(msg)
+	if id > 0 then
+		return GetSpellDescription(id)
+	else
+		local _, d = EJ_GetSectionInfo(-id)
+		return d
+	end
 end
 
 function BigWigs:GetBossOptionDetails(module, bossOption)
@@ -139,21 +137,37 @@ function BigWigs:GetBossOptionDetails(module, bossOption)
 
 			local L = module:GetLocale(true)
 			local title, description = L[option], L[option .. "_desc"]
-			if title then title = title..roleIcon end
-			if description then description = roleDesc..(description):gsub("{rt(%d)}", "\124TInterface\\TARGETINGFRAME\\UI-RaidTargetingIcon_%1.blp:15\124t") end
+			if title then
+				if type(title) == "number" then
+					if not description then description = title end -- Allow a nil description to mean the same id as the title, if title is a number.
+					title = replaceIdWithName(title)
+				else
+					title = gsub(title, "{(%-?%d-)}", replaceIdWithName) -- Allow embedding an id in a string.
+				end
+				title = title..roleIcon
+			end
+			if description then
+				if type(description) == "number" then
+					description = replaceIdWithDescription(description)
+				else
+					description = gsub(description, "{(%-?%d-)}", replaceIdWithDescription) -- Allow embedding an id in a string.
+					description = gsub(description, "{focus}", CL.focus_only) -- Allow embedding the focus prefix.
+				end
+				description = roleDesc.. gsub(description, "{rt(%d)}", "\124TInterface\\TARGETINGFRAME\\UI-RaidTargetingIcon_%1.blp:15\124t")
+			end
 			local icon = L[option .. "_icon"]
 			if icon == option .. "_icon" then icon = nil end
 			if type(icon) == "number" then
-				local _
 				if icon > 10 then
-					_, _, icon = GetSpellInfo(icon)
+					icon = GetSpellTexture(icon)
 				elseif icon > 0 then
 					icon = ("Interface\\TARGETINGFRAME\\UI-RaidTargetingIcon_%d"):format(icon)
 				else
+					local _
 					_, _, _, icon = EJ_GetSectionInfo(-icon)
 				end
 				if not icon then
-					print("|cFF33FF99BigWigs|r:", "No icon found for", module, L[option .. "_icon"])
+					BigWigs:Print(("No icon found for %s using id %d."):format(module.name, L[option .. "_icon"]))
 				end
 			elseif type(icon) == "string" and not icon:find("\\", nil, true) then
 				icon = "Interface\\Icons\\" .. icon
@@ -164,8 +178,10 @@ function BigWigs:GetBossOptionDetails(module, bossOption)
 		if option > 0 then
 			local spellName, _, icon = GetSpellInfo(option)
 			if not spellName then error(("Invalid option %d in module %s."):format(option, module.name)) end
+			local desc = GetSpellDescription(option)
+			if not desc then BigWigs:Print(("No spell description was returned for id %d!"):format(option)) desc = "" end
 			local roleIcon, roleDesc = getRoleStrings(module, spellName)
-			return spellName, spellName..roleIcon, roleDesc..getSpellDescription(option), icon
+			return spellName, spellName..roleIcon, roleDesc..desc, icon
 		else
 			-- This is an EncounterJournal ID
 			local title, description, _, abilityIcon, displayInfo = EJ_GetSectionInfo(-option)

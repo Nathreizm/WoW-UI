@@ -1,0 +1,35 @@
+------------------------------------------------------------------------
+r38 | funkydude | 2014-12-05 13:54:28 +0000 (Fri, 05 Dec 2014) | 1 line
+Changed paths:
+   A /tags/r38-release (from /trunk:37)
+
+Tagging as r38-release
+------------------------------------------------------------------------
+r37 | funkydude | 2014-12-05 11:36:51 +0000 (Fri, 05 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/BigWigs_Ra-denAssist.toc
+   M /trunk/Locales/deDE.lua
+   M /trunk/Locales/esES.lua
+   M /trunk/Locales/esMX.lua
+   M /trunk/Locales/frFR.lua
+   M /trunk/Locales/itIT.lua
+   M /trunk/Locales/koKR.lua
+   M /trunk/Locales/ptBR.lua
+   M /trunk/Locales/ruRU.lua
+   M /trunk/Locales/zhCN.lua
+   M /trunk/Locales/zhTW.lua
+
+Load module locale files after the modules.
+------------------------------------------------------------------------
+r35 | funkydude | 2014-12-01 17:35:26 +0000 (Mon, 01 Dec 2014) | 1 line
+Changed paths:
+   M /trunk/Core.lua
+
+.bossCore was removed, properly use :GetBossModule.
+------------------------------------------------------------------------
+r34 | funkydude | 2014-10-14 19:49:48 +0000 (Tue, 14 Oct 2014) | 1 line
+Changed paths:
+   M /trunk/BigWigs_Ra-denAssist.toc
+
+bump toc
+------------------------------------------------------------------------

@@ -12,3 +12,6 @@ BigWigs: disabled
 GridStatusRaidDebuff: enabled
 !Swatter: disabled
 SlideBar: disabled
+LibSharedMedia-3.0: disabled
+PetTracker: disabled
+PetJournalEnhanced: disabled

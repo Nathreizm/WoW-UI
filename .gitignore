@@ -21,3 +21,5 @@ BlizzardInterfaceCode/*
 *CUFProfiles.txt
 *Blizzard_CombatLog.lua
 Screenshots/*
+
+*.DS_STORE

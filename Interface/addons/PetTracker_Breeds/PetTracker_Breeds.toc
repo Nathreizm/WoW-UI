@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: PetTracker Breeds
 ## Notes: Displays the breed of pets in the Pet Journal, while in battle and on tooltips.
 ## Author: Jaliborc (João Cardoso)

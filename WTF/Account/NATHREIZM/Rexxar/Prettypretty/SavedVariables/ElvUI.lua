@@ -1,30 +1,30 @@
 
 ElvCharacterDB = {
 	["ChatEditHistory"] = {
-		" logging over to my warrior ill do them on him since he needs charms", -- [1]
-		"/wa", -- [2]
-		"/s tuant tank", -- [3]
-		"/s tanks please for the love of god", -- [4]
-		"/s taunt at 3 staks", -- [5]
+		"/s tanks please for the love of god", -- [1]
+		"/s taunt at 3 staks", -- [2]
+		"/ec", -- [3]
+		"  |cff9d9d9d|Hitem:56279:0:0:0:0:0:0:1816386816:90:0:0:0|h[Conch of Thundering Waves]|h|r", -- [4]
+		"  |cff9d9d9d|Hitem:71149:0:0:0:0:0:0:0:90:0:0:0|h[Singed Plume of Aviana]|h|r", -- [5]
 	},
 	["ChatLog"] = {
-		["1393362050.274"] = {
-			"tanks that have the boss plz try and pick up big addds", -- [1]
-			"Nezzthrill-WyrmrestAccord", -- [2]
+		["1393362899.138"] = {
+			"Gift of the Titans", -- [1]
+			"Prettypretty-Rexxar", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Nezzthrill-WyrmrestAccord", -- [5]
+			"Prettypretty", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3079, -- [11]
-			"0x0680000005E2C5E2", -- [12]
+			3178, -- [11]
+			"0x0380000003B34C58", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_INSTANCE_CHAT",
+			[20] = "CHAT_MSG_SAY",
 		},
 		["1393432861.612"] = {
 			"you can have hockey.  and we will continue being good at everything else.", -- [1]
@@ -44,23 +44,23 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393363242.351"] = {
-			"ryan is pulling 150k", -- [1]
-			"Venjart-Bonechewer", -- [2]
-			"Orcish", -- [3]
+		["1393428818.665"] = {
+			"yo", -- [1]
+			"|Kf125|k000000000000000|k", -- [2]
+			"", -- [3]
 			"", -- [4]
-			"Venjart-Bonechewer", -- [5]
+			"", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3235, -- [11]
-			"0x0380000006793A0F", -- [12]
-			0, -- [13]
+			1069, -- [11]
+			false, -- [12]
+			125, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_INSTANCE_CHAT",
+			[20] = "CHAT_MSG_BN_WHISPER",
 		},
 		["1393363076.52"] = {
 			"Gift of the Titans", -- [1]
@@ -134,41 +134,41 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393432833.086"] = {
-			"Haha", -- [1]
-			"Lithdrana-MoonGuard", -- [2]
+		["1393362593.504"] = {
+			"im full", -- [1]
+			"Nezzthrill-WyrmrestAccord", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Lithdrana-MoonGuard", -- [5]
+			"Nezzthrill-WyrmrestAccord", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			756, -- [11]
-			"0x06800000051923E3", -- [12]
+			3114, -- [11]
+			"0x0680000005E2C5E2", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393362975.259"] = {
-			"Gift of the Titans", -- [1]
-			"Prettypretty-Rexxar", -- [2]
+		["1393432632.553"] = {
+			"most beautiful continent...", -- [1]
+			"Kamikat-Saurfang", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Prettypretty", -- [5]
+			"Kamikat-Saurfang", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3196, -- [11]
-			"0x0380000003B34C58", -- [12]
+			692, -- [11]
+			"0x038000000338D385", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_SAY",
+			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
 		["1393427771.514"] = {
 			"well better than PvE pvp set", -- [1]
@@ -188,41 +188,41 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_GUILD",
 		},
-		["1393362808.218"] = {
-			"%s has earned the achievement |cffffff00|Hachievement:3009:03800000068D2B4A:1:2:25:14:4294967295:4294967295:4294967295:4294967295|h[Kiss and Make Up (10 player)]|h|r!", -- [1]
-			"Jårboe-Rexxar", -- [2]
-			"", -- [3]
+		["1393432925.441"] = {
+			":p", -- [1]
+			"Släkeh-Blackrock", -- [2]
+			"Orcish", -- [3]
 			"", -- [4]
-			"Jårboe", -- [5]
+			"Släkeh-Blackrock", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3156, -- [11]
-			"0x03800000068D2B4A", -- [12]
+			779, -- [11]
+			"0x03000000087DF259", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_GUILD_ACHIEVEMENT",
+			[20] = "CHAT_MSG_SAY",
 		},
-		["1393428818.665"] = {
-			"yo", -- [1]
-			"|Kf125|k000000000000000|k", -- [2]
-			"", -- [3]
+		["1393363242.351"] = {
+			"ryan is pulling 150k", -- [1]
+			"Venjart-Bonechewer", -- [2]
+			"Orcish", -- [3]
 			"", -- [4]
-			"", -- [5]
+			"Venjart-Bonechewer", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			1069, -- [11]
-			false, -- [12]
-			125, -- [13]
+			3235, -- [11]
+			"0x0380000006793A0F", -- [12]
+			0, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_BN_WHISPER",
+			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
 		["1393428897.849"] = {
 			"need like 36 or so", -- [1]
@@ -242,19 +242,19 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_BN_WHISPER",
 		},
-		["1393362590.29"] = {
-			"piuck rob up", -- [1]
-			"Nezzthrill-WyrmrestAccord", -- [2]
+		["1393432675.329"] = {
+			"-chuckles-", -- [1]
+			"Avaneya-WyrmrestAccord", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Nezzthrill-WyrmrestAccord", -- [5]
-			"", -- [6]
+			"Avaneya-WyrmrestAccord", -- [5]
+			"AFK", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3113, -- [11]
-			"0x0680000005E2C5E2", -- [12]
+			707, -- [11]
+			"0x0680000005D3F3A6", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
@@ -350,19 +350,19 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393362196.787"] = {
-			"ty", -- [1]
-			"Breeder-Tichondrius", -- [2]
+		["1393362826.196"] = {
+			"rez plz lol", -- [1]
+			"Hotssa-Stonemaul", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Breeder-Tichondrius", -- [5]
+			"Hotssa-Stonemaul", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3095, -- [11]
-			"0x03000000087EF2FF", -- [12]
+			3168, -- [11]
+			"0x01800000054F635D", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
@@ -386,41 +386,41 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_SAY",
 		},
-		["1393362065.652"] = {
-			"breeder- in lfr, its random who gets sucked into a different realm", -- [1]
-			"Woksonfire-Rexxar", -- [2]
+		["1393362839.645"] = {
+			"ty", -- [1]
+			"Hotssa-Stonemaul", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Woksonfire", -- [5]
+			"Hotssa-Stonemaul", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3080, -- [11]
-			"0x03800000057E3C06", -- [12]
+			3170, -- [11]
+			"0x01800000054F635D", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393433096.925"] = {
-			"gohun tunneling the boss and still can't lead in dps", -- [1]
-			"Liife-ScarletCrusade", -- [2]
+		["1393362900.084"] = {
+			"Ok hunter", -- [1]
+			"Evilangelism-Cenarius", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Liife-ScarletCrusade", -- [5]
+			"Evilangelism-Cenarius", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			808, -- [11]
-			"0x01000000048901C2", -- [12]
+			3179, -- [11]
+			"0x0600000006CA5F21", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_INSTANCE_CHAT",
+			[20] = "CHAT_MSG_SAY",
 		},
 		["1393433048.41"] = {
 			"you would totally res me on my warr lol", -- [1]
@@ -458,41 +458,41 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393362079.154"] = {
-			"in flex and on, there are orbs that people click on", -- [1]
-			"Woksonfire-Rexxar", -- [2]
+		["1393362590.29"] = {
+			"piuck rob up", -- [1]
+			"Nezzthrill-WyrmrestAccord", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Woksonfire", -- [5]
+			"Nezzthrill-WyrmrestAccord", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3083, -- [11]
-			"0x03800000057E3C06", -- [12]
+			3113, -- [11]
+			"0x0680000005E2C5E2", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393432675.329"] = {
-			"-chuckles-", -- [1]
-			"Avaneya-WyrmrestAccord", -- [2]
+		["1393432822.916"] = {
+			"tuant tank", -- [1]
+			"Prettypretty-Rexxar", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Avaneya-WyrmrestAccord", -- [5]
-			"AFK", -- [6]
+			"Prettypretty", -- [5]
+			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			707, -- [11]
-			"0x0680000005D3F3A6", -- [12]
+			749, -- [11]
+			"0x0380000003B34C58", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_INSTANCE_CHAT",
+			[20] = "CHAT_MSG_SAY",
 		},
 		["1393362535.699"] = {
 			"Pummel - |cff71d5ff|Hspell:145064|h[Expel Corruption]|h|r (Essence of Corruption)", -- [1]
@@ -512,19 +512,19 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393432925.441"] = {
-			":p", -- [1]
-			"Släkeh-Blackrock", -- [2]
+		["1393363051.255"] = {
+			"Gift of the Titans", -- [1]
+			"Prettypretty-Rexxar", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Släkeh-Blackrock", -- [5]
+			"Prettypretty", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			779, -- [11]
-			"0x03000000087DF259", -- [12]
+			3206, -- [11]
+			"0x0380000003B34C58", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
@@ -584,59 +584,63 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_GUILD",
 		},
-		["1393432917.401"] = {
-			"taunt at 3 staks", -- [1]
-			"Prettypretty-Rexxar", -- [2]
+		["1417931705.553"] = {
+			"grrrrats", -- [1]
+			"Madussa", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Prettypretty", -- [5]
+			"Madussa", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			777, -- [11]
-			"0x0380000003B34C58", -- [12]
+			3380, -- [11]
+			"Player-1151-02F9A8C5", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_SAY",
+			false, -- [16]
+			nil, -- [17]
+			nil, -- [18]
+			nil, -- [19]
+			"CHAT_MSG_GUILD", -- [20]
 		},
-		["1393362914.107"] = {
-			"sorry miss clicked.", -- [1]
-			"Biggcookie-Aman'Thul", -- [2]
+		["1393432865.11"] = {
+			"read that as to stupid", -- [1]
+			"Avaneya-WyrmrestAccord", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Biggcookie-Aman'Thul", -- [5]
-			"", -- [6]
+			"Avaneya-WyrmrestAccord", -- [5]
+			"AFK", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3180, -- [11]
-			"0x03000000077F2523", -- [12]
+			764, -- [11]
+			"0x0680000005D3F3A6", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393432756.484"] = {
-			"canada is beautiful as well", -- [1]
-			"Kamikat-Saurfang", -- [2]
-			"Orcish", -- [3]
+		["1393428886.054"] = {
+			"could I borrow you sometime today for killing frogs for my druid?", -- [1]
+			"|Kf125|k000000000000000|k", -- [2]
+			"", -- [3]
 			"", -- [4]
-			"Kamikat-Saurfang", -- [5]
+			"", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			728, -- [11]
-			"0x038000000338D385", -- [12]
-			0, -- [13]
+			1107, -- [11]
+			false, -- [12]
+			125, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_INSTANCE_CHAT",
+			[20] = "CHAT_MSG_BN_WHISPER",
 		},
 		["1393432977.483"] = {
 			"Because they'll whine for a brez", -- [1]
@@ -692,41 +696,41 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_SAY",
 		},
-		["1393432839.182"] = {
-			"too*", -- [1]
-			"Avaneya-WyrmrestAccord", -- [2]
+		["1393432833.086"] = {
+			"Haha", -- [1]
+			"Lithdrana-MoonGuard", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Avaneya-WyrmrestAccord", -- [5]
-			"AFK", -- [6]
-			0, -- [7]
-			0, -- [8]
-			"", -- [9]
-			0, -- [10]
-			758, -- [11]
-			"0x0680000005D3F3A6", -- [12]
-			0, -- [13]
-			false, -- [14]
-			false, -- [15]
-			[20] = "CHAT_MSG_INSTANCE_CHAT",
-		},
-		["1393362593.504"] = {
-			"im full", -- [1]
-			"Nezzthrill-WyrmrestAccord", -- [2]
-			"Orcish", -- [3]
-			"", -- [4]
-			"Nezzthrill-WyrmrestAccord", -- [5]
+			"Lithdrana-MoonGuard", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3114, -- [11]
-			"0x0680000005E2C5E2", -- [12]
+			756, -- [11]
+			"0x06800000051923E3", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
+		},
+		["1393432917.401"] = {
+			"taunt at 3 staks", -- [1]
+			"Prettypretty-Rexxar", -- [2]
+			"Orcish", -- [3]
+			"", -- [4]
+			"Prettypretty", -- [5]
+			"", -- [6]
+			0, -- [7]
+			0, -- [8]
+			"", -- [9]
+			0, -- [10]
+			777, -- [11]
+			"0x0380000003B34C58", -- [12]
+			0, -- [13]
+			false, -- [14]
+			false, -- [15]
+			[20] = "CHAT_MSG_SAY",
 		},
 		["1393363206.35"] = {
 			"move", -- [1]
@@ -764,19 +768,19 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_SAY",
 		},
-		["1393362278.804"] = {
-			"crit buff", -- [1]
-			"Chelseà-MoonGuard", -- [2]
+		["1393433174.057"] = {
+			"awe, he died", -- [1]
+			"Liife-ScarletCrusade", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Chelseà-MoonGuard", -- [5]
+			"Liife-ScarletCrusade", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3102, -- [11]
-			"0x0680000005DC0BB9", -- [12]
+			829, -- [11]
+			"0x01000000048901C2", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
@@ -800,23 +804,23 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393433113.112"] = {
-			"adds", -- [1]
-			"Nokoichi-Saurfang", -- [2]
+		["1393432710.846"] = {
+			"I do live in Canada tho.", -- [1]
+			"Lithdrana-MoonGuard", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Nokoichi-Saurfang", -- [5]
+			"Lithdrana-MoonGuard", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			813, -- [11]
-			"0x0380000005C5A40F", -- [12]
+			711, -- [11]
+			"0x06800000051923E3", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_SAY",
+			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
 		["1393432729.198"] = {
 			"Southern Canada where the cowboys live?", -- [1]
@@ -872,23 +876,23 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393362375.474"] = {
-			"%s has earned the achievement |cffffff00|Hachievement:3180:03800000068D2B4A:1:2:25:14:4294967295:4294967295:4294967295:4294967295|h[Firefighter (10 player)]|h|r!", -- [1]
-			"Jårboe-Rexxar", -- [2]
-			"", -- [3]
+		["1393362626.213"] = {
+			"no bloodlust or time warp?", -- [1]
+			"Chelseà-MoonGuard", -- [2]
+			"Orcish", -- [3]
 			"", -- [4]
-			"Jårboe", -- [5]
+			"Chelseà-MoonGuard", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3104, -- [11]
-			"0x03800000068D2B4A", -- [12]
+			3115, -- [11]
+			"0x0680000005DC0BB9", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_GUILD_ACHIEVEMENT",
+			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
 		["1393362587.469"] = {
 			"lust", -- [1]
@@ -908,19 +912,19 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393432916.288"] = {
-			"GOHUN!!!!! get off boss", -- [1]
-			"Liife-ScarletCrusade", -- [2]
+		["1393432688.299"] = {
+			"texas isn't that pretty", -- [1]
+			"Kamikat-Saurfang", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Liife-ScarletCrusade", -- [5]
+			"Kamikat-Saurfang", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			775, -- [11]
-			"0x01000000048901C2", -- [12]
+			708, -- [11]
+			"0x038000000338D385", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
@@ -1016,37 +1020,37 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393363051.255"] = {
-			"Gift of the Titans", -- [1]
-			"Prettypretty-Rexxar", -- [2]
+		["1393433113.112"] = {
+			"adds", -- [1]
+			"Nokoichi-Saurfang", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Prettypretty", -- [5]
+			"Nokoichi-Saurfang", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3206, -- [11]
-			"0x0380000003B34C58", -- [12]
+			813, -- [11]
+			"0x0380000005C5A40F", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
 			[20] = "CHAT_MSG_SAY",
 		},
-		["1393432792.581"] = {
-			"no only justin bieber is justin bieber", -- [1]
-			"Lithdrana-MoonGuard", -- [2]
+		["1393363165.562"] = {
+			"spread for that shit people", -- [1]
+			"Nezzthrill-WyrmrestAccord", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Lithdrana-MoonGuard", -- [5]
+			"Nezzthrill-WyrmrestAccord", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			744, -- [11]
-			"0x06800000051923E3", -- [12]
+			3221, -- [11]
+			"0x0680000005E2C5E2", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
@@ -1124,41 +1128,45 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_SAY",
 		},
-		["1393432758.695"] = {
-			"NO attacking in defensive stance", -- [1]
-			"Nokoichi-Saurfang", -- [2]
+		["1393432656.609"] = {
+			"I'll trade, if you live in texas, I'll swap", -- [1]
+			"Fatnate-Saurfang", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Nokoichi-Saurfang", -- [5]
+			"Fatnate-Saurfang", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			729, -- [11]
-			"0x0380000005C5A40F", -- [12]
-			0, -- [13]
-			false, -- [14]
-			false, -- [15]
-			[20] = "CHAT_MSG_SAY",
-		},
-		["1393432742.793"] = {
-			"just pushed my cds keybind being a bitch", -- [1]
-			"Avaneya-WyrmrestAccord", -- [2]
-			"Orcish", -- [3]
-			"", -- [4]
-			"Avaneya-WyrmrestAccord", -- [5]
-			"AFK", -- [6]
-			0, -- [7]
-			0, -- [8]
-			"", -- [9]
-			0, -- [10]
-			724, -- [11]
-			"0x0680000005D3F3A6", -- [12]
+			698, -- [11]
+			"0x0380000006585211", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
+		},
+		["1418918975.248"] = {
+			" |Hitem:71149:0:0:0:0:0:0:0:90:0:0:0|h[Singed Plume of Aviana]|h", -- [1]
+			"|Kb578|k000000000|k", -- [2]
+			"", -- [3]
+			"", -- [4]
+			"", -- [5]
+			"", -- [6]
+			0, -- [7]
+			0, -- [8]
+			"", -- [9]
+			0, -- [10]
+			341, -- [11]
+			false, -- [12]
+			578, -- [13]
+			false, -- [14]
+			false, -- [15]
+			false, -- [16]
+			nil, -- [17]
+			nil, -- [18]
+			nil, -- [19]
+			"CHAT_MSG_BN_WHISPER_INFORM", -- [20]
 		},
 		["1393363138.474"] = {
 			"hmm", -- [1]
@@ -1178,26 +1186,26 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393362839.645"] = {
-			"ty", -- [1]
-			"Hotssa-Stonemaul", -- [2]
+		["1393363268.269"] = {
+			"hs up", -- [1]
+			"Darthcow-CenarionCircle", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Hotssa-Stonemaul", -- [5]
+			"Darthcow-CenarionCircle", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3170, -- [11]
-			"0x01800000054F635D", -- [12]
+			3238, -- [11]
+			"0x0600000004960C61", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393433136.945"] = {
-			"actually he's only 63% on boss rest is adds", -- [1]
+		["1393432828.181"] = {
+			"but america was stupid to make that bed", -- [1]
 			"Fatnate-Saurfang", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
@@ -1207,12 +1215,12 @@ ElvCharacterDB = {
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			818, -- [11]
+			753, -- [11]
 			"0x0380000006585211", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_SAY",
+			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
 		["1393362177.094"] = {
 			"i got dc right b4 u all palled", -- [1]
@@ -1232,23 +1240,23 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393432661.928"] = {
-			"Noooooooope.", -- [1]
-			"Lithdrana-MoonGuard", -- [2]
-			"Orcish", -- [3]
+		["1393362808.218"] = {
+			"%s has earned the achievement |cffffff00|Hachievement:3009:03800000068D2B4A:1:2:25:14:4294967295:4294967295:4294967295:4294967295|h[Kiss and Make Up (10 player)]|h|r!", -- [1]
+			"Jårboe-Rexxar", -- [2]
+			"", -- [3]
 			"", -- [4]
-			"Lithdrana-MoonGuard", -- [5]
+			"Jårboe", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			701, -- [11]
-			"0x06800000051923E3", -- [12]
+			3156, -- [11]
+			"0x03800000068D2B4A", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_INSTANCE_CHAT",
+			[20] = "CHAT_MSG_GUILD_ACHIEVEMENT",
 		},
 		["1393433023.337"] = {
 			"when I play my dk, only people who get ressed are tanks and heals, dps can go F themselfs since they shouldnt of died", -- [1]
@@ -1340,19 +1348,19 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_GUILD_ACHIEVEMENT",
 		},
-		["1393362626.213"] = {
-			"no bloodlust or time warp?", -- [1]
-			"Chelseà-MoonGuard", -- [2]
+		["1393363170.41"] = {
+			"woot", -- [1]
+			"Breeder-Tichondrius", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Chelseà-MoonGuard", -- [5]
+			"Breeder-Tichondrius", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3115, -- [11]
-			"0x0680000005DC0BB9", -- [12]
+			3222, -- [11]
+			"0x03000000087EF2FF", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
@@ -1376,114 +1384,6 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_SAY",
 		},
-		["1393432688.299"] = {
-			"texas isn't that pretty", -- [1]
-			"Kamikat-Saurfang", -- [2]
-			"Orcish", -- [3]
-			"", -- [4]
-			"Kamikat-Saurfang", -- [5]
-			"", -- [6]
-			0, -- [7]
-			0, -- [8]
-			"", -- [9]
-			0, -- [10]
-			708, -- [11]
-			"0x038000000338D385", -- [12]
-			0, -- [13]
-			false, -- [14]
-			false, -- [15]
-			[20] = "CHAT_MSG_INSTANCE_CHAT",
-		},
-		["1393362826.196"] = {
-			"rez plz lol", -- [1]
-			"Hotssa-Stonemaul", -- [2]
-			"Orcish", -- [3]
-			"", -- [4]
-			"Hotssa-Stonemaul", -- [5]
-			"", -- [6]
-			0, -- [7]
-			0, -- [8]
-			"", -- [9]
-			0, -- [10]
-			3168, -- [11]
-			"0x01800000054F635D", -- [12]
-			0, -- [13]
-			false, -- [14]
-			false, -- [15]
-			[20] = "CHAT_MSG_INSTANCE_CHAT",
-		},
-		["1393363268.269"] = {
-			"hs up", -- [1]
-			"Darthcow-CenarionCircle", -- [2]
-			"Orcish", -- [3]
-			"", -- [4]
-			"Darthcow-CenarionCircle", -- [5]
-			"", -- [6]
-			0, -- [7]
-			0, -- [8]
-			"", -- [9]
-			0, -- [10]
-			3238, -- [11]
-			"0x0600000004960C61", -- [12]
-			0, -- [13]
-			false, -- [14]
-			false, -- [15]
-			[20] = "CHAT_MSG_INSTANCE_CHAT",
-		},
-		["1393432656.609"] = {
-			"I'll trade, if you live in texas, I'll swap", -- [1]
-			"Fatnate-Saurfang", -- [2]
-			"Orcish", -- [3]
-			"", -- [4]
-			"Fatnate-Saurfang", -- [5]
-			"", -- [6]
-			0, -- [7]
-			0, -- [8]
-			"", -- [9]
-			0, -- [10]
-			698, -- [11]
-			"0x0380000006585211", -- [12]
-			0, -- [13]
-			false, -- [14]
-			false, -- [15]
-			[20] = "CHAT_MSG_INSTANCE_CHAT",
-		},
-		["1393363375.658"] = {
-			"ty", -- [1]
-			"Darthcow-CenarionCircle", -- [2]
-			"Orcish", -- [3]
-			"", -- [4]
-			"Darthcow-CenarionCircle", -- [5]
-			"", -- [6]
-			0, -- [7]
-			0, -- [8]
-			"", -- [9]
-			0, -- [10]
-			3288, -- [11]
-			"0x0600000004960C61", -- [12]
-			0, -- [13]
-			false, -- [14]
-			false, -- [15]
-			[20] = "CHAT_MSG_INSTANCE_CHAT",
-		},
-		["1393432777.536"] = {
-			"|cff71d5ff|Hspell:34477|h[Misdirection]|h|r cast on Seeramist-Bronzebeard.", -- [1]
-			"Drewpyd-Mug'thol", -- [2]
-			"Orcish", -- [3]
-			"", -- [4]
-			"Drewpyd-Mug'thol", -- [5]
-			"", -- [6]
-			0, -- [7]
-			0, -- [8]
-			"", -- [9]
-			0, -- [10]
-			737, -- [11]
-			"0x0380000002E585D0", -- [12]
-			0, -- [13]
-			false, -- [14]
-			false, -- [15]
-			[20] = "CHAT_MSG_INSTANCE_CHAT",
-		},
 		["1393432869.622"] = {
 			"ADDS<BOSS", -- [1]
 			"Geroswenia-Maiev", -- [2]
@@ -1502,23 +1402,23 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_SAY",
 		},
-		["1393363165.562"] = {
-			"spread for that shit people", -- [1]
-			"Nezzthrill-WyrmrestAccord", -- [2]
+		["1393433101.061"] = {
+			"Assassin's Mark on Kelabris!", -- [1]
+			"Kelabris-WyrmrestAccord", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Nezzthrill-WyrmrestAccord", -- [5]
+			"Kelabris-WyrmrestAccord", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3221, -- [11]
-			"0x0680000005E2C5E2", -- [12]
+			810, -- [11]
+			"0x06800000056A605B", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_INSTANCE_CHAT",
+			[20] = "CHAT_MSG_SAY",
 		},
 		["1393429642.134"] = {
 			"logging over to my warrior ill do them on him since he needs charms", -- [1]
@@ -1538,19 +1438,127 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_BN_WHISPER_INFORM",
 		},
-		["1393363170.41"] = {
-			"woot", -- [1]
-			"Breeder-Tichondrius", -- [2]
+		["1393362646.219"] = {
+			"lol", -- [1]
+			"Hurin-Korgath", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Breeder-Tichondrius", -- [5]
+			"Hurin-Korgath", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3222, -- [11]
-			"0x03000000087EF2FF", -- [12]
+			3116, -- [11]
+			"0x0380000000C03844", -- [12]
+			0, -- [13]
+			false, -- [14]
+			false, -- [15]
+			[20] = "CHAT_MSG_INSTANCE_CHAT",
+		},
+		["1393362079.154"] = {
+			"in flex and on, there are orbs that people click on", -- [1]
+			"Woksonfire-Rexxar", -- [2]
+			"Orcish", -- [3]
+			"", -- [4]
+			"Woksonfire", -- [5]
+			"", -- [6]
+			0, -- [7]
+			0, -- [8]
+			"", -- [9]
+			0, -- [10]
+			3083, -- [11]
+			"0x03800000057E3C06", -- [12]
+			0, -- [13]
+			false, -- [14]
+			false, -- [15]
+			[20] = "CHAT_MSG_INSTANCE_CHAT",
+		},
+		["1393432959.9"] = {
+			"Sorry, my fingers slipped and hit the boss", -- [1]
+			"Kelabris-WyrmrestAccord", -- [2]
+			"Orcish", -- [3]
+			"", -- [4]
+			"Kelabris-WyrmrestAccord", -- [5]
+			"", -- [6]
+			0, -- [7]
+			0, -- [8]
+			"", -- [9]
+			0, -- [10]
+			785, -- [11]
+			"0x06800000056A605B", -- [12]
+			0, -- [13]
+			false, -- [14]
+			false, -- [15]
+			[20] = "CHAT_MSG_SAY",
+		},
+		["1393432756.484"] = {
+			"canada is beautiful as well", -- [1]
+			"Kamikat-Saurfang", -- [2]
+			"Orcish", -- [3]
+			"", -- [4]
+			"Kamikat-Saurfang", -- [5]
+			"", -- [6]
+			0, -- [7]
+			0, -- [8]
+			"", -- [9]
+			0, -- [10]
+			728, -- [11]
+			"0x038000000338D385", -- [12]
+			0, -- [13]
+			false, -- [14]
+			false, -- [15]
+			[20] = "CHAT_MSG_INSTANCE_CHAT",
+		},
+		["1393432758.695"] = {
+			"NO attacking in defensive stance", -- [1]
+			"Nokoichi-Saurfang", -- [2]
+			"Orcish", -- [3]
+			"", -- [4]
+			"Nokoichi-Saurfang", -- [5]
+			"", -- [6]
+			0, -- [7]
+			0, -- [8]
+			"", -- [9]
+			0, -- [10]
+			729, -- [11]
+			"0x0380000005C5A40F", -- [12]
+			0, -- [13]
+			false, -- [14]
+			false, -- [15]
+			[20] = "CHAT_MSG_SAY",
+		},
+		["1393432742.793"] = {
+			"just pushed my cds keybind being a bitch", -- [1]
+			"Avaneya-WyrmrestAccord", -- [2]
+			"Orcish", -- [3]
+			"", -- [4]
+			"Avaneya-WyrmrestAccord", -- [5]
+			"AFK", -- [6]
+			0, -- [7]
+			0, -- [8]
+			"", -- [9]
+			0, -- [10]
+			724, -- [11]
+			"0x0680000005D3F3A6", -- [12]
+			0, -- [13]
+			false, -- [14]
+			false, -- [15]
+			[20] = "CHAT_MSG_INSTANCE_CHAT",
+		},
+		["1393432749.236"] = {
+			"karma", -- [1]
+			"Avaneya-WyrmrestAccord", -- [2]
+			"Orcish", -- [3]
+			"", -- [4]
+			"Avaneya-WyrmrestAccord", -- [5]
+			"AFK", -- [6]
+			0, -- [7]
+			0, -- [8]
+			"", -- [9]
+			0, -- [10]
+			726, -- [11]
+			"0x0680000005D3F3A6", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
@@ -1592,26 +1600,8 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_SAY",
 		},
-		["1393432749.236"] = {
-			"karma", -- [1]
-			"Avaneya-WyrmrestAccord", -- [2]
-			"Orcish", -- [3]
-			"", -- [4]
-			"Avaneya-WyrmrestAccord", -- [5]
-			"AFK", -- [6]
-			0, -- [7]
-			0, -- [8]
-			"", -- [9]
-			0, -- [10]
-			726, -- [11]
-			"0x0680000005D3F3A6", -- [12]
-			0, -- [13]
-			false, -- [14]
-			false, -- [15]
-			[20] = "CHAT_MSG_INSTANCE_CHAT",
-		},
-		["1393432710.846"] = {
-			"I do live in Canada tho.", -- [1]
+		["1393432661.928"] = {
+			"Noooooooope.", -- [1]
 			"Lithdrana-MoonGuard", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
@@ -1621,12 +1611,30 @@ ElvCharacterDB = {
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			711, -- [11]
+			701, -- [11]
 			"0x06800000051923E3", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
+		},
+		["1393362375.474"] = {
+			"%s has earned the achievement |cffffff00|Hachievement:3180:03800000068D2B4A:1:2:25:14:4294967295:4294967295:4294967295:4294967295|h[Firefighter (10 player)]|h|r!", -- [1]
+			"Jårboe-Rexxar", -- [2]
+			"", -- [3]
+			"", -- [4]
+			"Jårboe", -- [5]
+			"", -- [6]
+			0, -- [7]
+			0, -- [8]
+			"", -- [9]
+			0, -- [10]
+			3104, -- [11]
+			"0x03800000068D2B4A", -- [12]
+			0, -- [13]
+			false, -- [14]
+			false, -- [15]
+			[20] = "CHAT_MSG_GUILD_ACHIEVEMENT",
 		},
 		["1393432927.518"] = {
 			"why did we rez him again?", -- [1]
@@ -1664,23 +1672,23 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393432716.572"] = {
-			"leave my redneck dreams alone :'(", -- [1]
-			"Fatnate-Saurfang", -- [2]
+		["1393362975.259"] = {
+			"Gift of the Titans", -- [1]
+			"Prettypretty-Rexxar", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Fatnate-Saurfang", -- [5]
+			"Prettypretty", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			713, -- [11]
-			"0x0380000006585211", -- [12]
+			3196, -- [11]
+			"0x0380000003B34C58", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_INSTANCE_CHAT",
+			[20] = "CHAT_MSG_SAY",
 		},
 		["1393433122.233"] = {
 			"1+1", -- [1]
@@ -1700,19 +1708,19 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_SAY",
 		},
-		["1393432828.181"] = {
-			"but america was stupid to make that bed", -- [1]
-			"Fatnate-Saurfang", -- [2]
+		["1393432839.182"] = {
+			"too*", -- [1]
+			"Avaneya-WyrmrestAccord", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Fatnate-Saurfang", -- [5]
-			"", -- [6]
+			"Avaneya-WyrmrestAccord", -- [5]
+			"AFK", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			753, -- [11]
-			"0x0380000006585211", -- [12]
+			758, -- [11]
+			"0x0680000005D3F3A6", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
@@ -1808,23 +1816,23 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_SAY",
 		},
-		["1393432822.916"] = {
-			"tuant tank", -- [1]
-			"Prettypretty-Rexxar", -- [2]
+		["1393433096.925"] = {
+			"gohun tunneling the boss and still can't lead in dps", -- [1]
+			"Liife-ScarletCrusade", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Prettypretty", -- [5]
+			"Liife-ScarletCrusade", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			749, -- [11]
-			"0x0380000003B34C58", -- [12]
+			808, -- [11]
+			"0x01000000048901C2", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_SAY",
+			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
 		["1393363203.18"] = {
 			"Gift of the Titans", -- [1]
@@ -1880,19 +1888,19 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_SAY",
 		},
-		["1393362646.219"] = {
-			"lol", -- [1]
-			"Hurin-Korgath", -- [2]
+		["1393362278.804"] = {
+			"crit buff", -- [1]
+			"Chelseà-MoonGuard", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Hurin-Korgath", -- [5]
+			"Chelseà-MoonGuard", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3116, -- [11]
-			"0x0380000000C03844", -- [12]
+			3102, -- [11]
+			"0x0680000005DC0BB9", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
@@ -1934,55 +1942,55 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393362068.007"] = {
-			"we only had one tank last pull", -- [1]
-			"Prettypretty-Rexxar", -- [2]
+		["1393362914.107"] = {
+			"sorry miss clicked.", -- [1]
+			"Biggcookie-Aman'Thul", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Prettypretty", -- [5]
+			"Biggcookie-Aman'Thul", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3081, -- [11]
-			"0x0380000003B34C58", -- [12]
+			3180, -- [11]
+			"0x03000000077F2523", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393362900.084"] = {
-			"Ok hunter", -- [1]
-			"Evilangelism-Cenarius", -- [2]
+		["1393432777.536"] = {
+			"|cff71d5ff|Hspell:34477|h[Misdirection]|h|r cast on Seeramist-Bronzebeard.", -- [1]
+			"Drewpyd-Mug'thol", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Evilangelism-Cenarius", -- [5]
+			"Drewpyd-Mug'thol", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3179, -- [11]
-			"0x0600000006CA5F21", -- [12]
+			737, -- [11]
+			"0x0380000002E585D0", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_SAY",
+			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393432865.11"] = {
-			"read that as to stupid", -- [1]
-			"Avaneya-WyrmrestAccord", -- [2]
+		["1393363375.658"] = {
+			"ty", -- [1]
+			"Darthcow-CenarionCircle", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Avaneya-WyrmrestAccord", -- [5]
-			"AFK", -- [6]
+			"Darthcow-CenarionCircle", -- [5]
+			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			764, -- [11]
-			"0x0680000005D3F3A6", -- [12]
+			3288, -- [11]
+			"0x0600000004960C61", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
@@ -2060,19 +2068,19 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_BN_WHISPER",
 		},
-		["1393432959.9"] = {
-			"Sorry, my fingers slipped and hit the boss", -- [1]
-			"Kelabris-WyrmrestAccord", -- [2]
+		["1393433136.945"] = {
+			"actually he's only 63% on boss rest is adds", -- [1]
+			"Fatnate-Saurfang", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Kelabris-WyrmrestAccord", -- [5]
+			"Fatnate-Saurfang", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			785, -- [11]
-			"0x06800000056A605B", -- [12]
+			818, -- [11]
+			"0x0380000006585211", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
@@ -2132,9 +2140,9 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393428886.054"] = {
-			"could I borrow you sometime today for killing frogs for my druid?", -- [1]
-			"|Kf125|k000000000000000|k", -- [2]
+		["1418918951.428"] = {
+			" |Hitem:56279:0:0:0:0:0:0:1816386816:90:0:0:0|h[Conch of Thundering Waves]|h", -- [1]
+			"|Kb578|k000000000|k", -- [2]
 			"", -- [3]
 			"", -- [4]
 			"", -- [5]
@@ -2143,12 +2151,16 @@ ElvCharacterDB = {
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			1107, -- [11]
+			340, -- [11]
 			false, -- [12]
-			125, -- [13]
+			578, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_BN_WHISPER",
+			false, -- [16]
+			nil, -- [17]
+			nil, -- [18]
+			nil, -- [19]
+			"CHAT_MSG_BN_WHISPER_INFORM", -- [20]
 		},
 		["1393432767.42"] = {
 			"sorry everyone in canada is justin beiber and hockey players", -- [1]
@@ -2204,23 +2216,23 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_SAY",
 		},
-		["1393433101.061"] = {
-			"Assassin's Mark on Kelabris!", -- [1]
-			"Kelabris-WyrmrestAccord", -- [2]
+		["1393432916.288"] = {
+			"GOHUN!!!!! get off boss", -- [1]
+			"Liife-ScarletCrusade", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Kelabris-WyrmrestAccord", -- [5]
+			"Liife-ScarletCrusade", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			810, -- [11]
-			"0x06800000056A605B", -- [12]
+			775, -- [11]
+			"0x01000000048901C2", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_SAY",
+			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
 		["1393362675.29"] = {
 			"ty", -- [1]
@@ -2240,19 +2252,19 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393432632.553"] = {
-			"most beautiful continent...", -- [1]
-			"Kamikat-Saurfang", -- [2]
+		["1393432716.572"] = {
+			"leave my redneck dreams alone :'(", -- [1]
+			"Fatnate-Saurfang", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Kamikat-Saurfang", -- [5]
+			"Fatnate-Saurfang", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			692, -- [11]
-			"0x038000000338D385", -- [12]
+			713, -- [11]
+			"0x0380000006585211", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
@@ -2276,41 +2288,41 @@ ElvCharacterDB = {
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393433174.057"] = {
-			"awe, he died", -- [1]
-			"Liife-ScarletCrusade", -- [2]
+		["1393432792.581"] = {
+			"no only justin bieber is justin bieber", -- [1]
+			"Lithdrana-MoonGuard", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Liife-ScarletCrusade", -- [5]
+			"Lithdrana-MoonGuard", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			829, -- [11]
-			"0x01000000048901C2", -- [12]
+			744, -- [11]
+			"0x06800000051923E3", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
 			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
-		["1393362899.138"] = {
-			"Gift of the Titans", -- [1]
-			"Prettypretty-Rexxar", -- [2]
+		["1393362196.787"] = {
+			"ty", -- [1]
+			"Breeder-Tichondrius", -- [2]
 			"Orcish", -- [3]
 			"", -- [4]
-			"Prettypretty", -- [5]
+			"Breeder-Tichondrius", -- [5]
 			"", -- [6]
 			0, -- [7]
 			0, -- [8]
 			"", -- [9]
 			0, -- [10]
-			3178, -- [11]
-			"0x0380000003B34C58", -- [12]
+			3095, -- [11]
+			"0x03000000087EF2FF", -- [12]
 			0, -- [13]
 			false, -- [14]
 			false, -- [15]
-			[20] = "CHAT_MSG_SAY",
+			[20] = "CHAT_MSG_INSTANCE_CHAT",
 		},
 	},
 }

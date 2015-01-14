@@ -1,5 +1,5 @@
 --[[
-Copyright 2012-2013 João Cardoso
+Copyright 2012-2014 João Cardoso
 PetTracker is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -17,62 +17,13 @@ This file is part of PetTracker.
 
 local _, Addon = ...
 local Server, Specie = C_PetBattles, Addon.Specie
-
 local Battle = Addon:NewModule('Battle')
-local Listener = CreateFrame('Frame')
-Listener:RegisterEvent('PET_BATTLE_OVER')
-Listener:RegisterEvent('CHAT_MSG_PET_BATTLE_COMBAT_LOG')
-Listener:SetScript('OnEvent', function(self, event, ...)
-	Battle[event](Battle, ...)
-end)
 
-local ENEMY_PLAYER = LE_BATTLE_PET_ENEMY
-local HEALED = ACTION_SPELL_HEAL
+local ENEMY = LE_BATTLE_PET_ENEMY
 local PET_BATTLE = 5
 
 
---[[ Events ]]--
-
-function Battle:Startup()
-	if not Addon.State.Casts then
-		self:PET_BATTLE_OVER()
-	end
-end
-
-function Battle:CHAT_MSG_PET_BATTLE_COMBAT_LOG(message)
-	local id = tonumber(message:match('^|T.-|t|cff......|HbattlePetAbil:(%d+)'))
-	if id then
-		local isTargetEnemy = message:find(ENEMY)
-		local isHeal = message:find(HEALED)
-
-		if (isHeal and isTargetEnemy) or not (isHeal or isTargetEnemy) then
-			local pet = self:GetCurrent(ENEMY_PLAYER)
-			local casts = Addon.State.Casts[pet.index]
-
-			for i, ability in ipairs(pet:GetAbilities()) do
-				if ability == id then
-					local k = i % 3
-					casts.turn[k] = Addon.State.Turn
-					casts.id[k] = id
-					return
-				end 
-			end
-		end
-	else
-		local round = message:match(PET_BATTLE_COMBAT_LOG_NEW_ROUND:gsub('%%d', '(%%d+)'))
-		if round then
-			Addon.State.Turn = tonumber(round)
-		end
-	end
-end
-
-function Battle:PET_BATTLE_OVER()
-	Addon.State.Casts = {{id = {}, turn = {}}, {id = {}, turn = {}}, {id = {}, turn = {}}}
-	Addon.State.Turn = 0
-end
-
-
---[[ Static ]]--
+--[[ Pets ]]--
 
 function Battle:GetCurrent(owner)
 	local index = Server.GetActivePet(owner)
@@ -86,9 +37,16 @@ function Battle:Get(owner, index)
 	}, self)
 end
 
+function Battle:GetNum(owner)
+	return Server.GetNumPets(owner)
+end
+
+
+--[[ Static ]]--
+
 function Battle:AnyUpgrade()
-	for i = 1, self:GetNum(ENEMY_PLAYER) do
-		local pet = self:Get(ENEMY_PLAYER, i)
+	for i = 1, self:GetNum(ENEMY) do
+		local pet = self:Get(ENEMY, i)
 		if pet:IsUpgrade() then
 			return true
 		end
@@ -97,12 +55,23 @@ function Battle:AnyUpgrade()
 	return false
 end
 
-function Battle:GetNum(owner)
-	return Server.GetNumPets(owner)
+function Battle:GetTamer()
+	if self:IsPvE() then
+		local specie1 = self:Get(ENEMY, 1):GetSpecie()
+		local specie2 = self:Get(ENEMY, 2):GetSpecie()
+		local specie3 = self:Get(ENEMY, 3):GetSpecie()
+
+		for id, tamer in pairs(Addon.Tamers) do
+			local first = tonumber(tamer:match('^[^:]+:[^:]+:[^:]*:[^:]+:%w%w%w%w(%w%w%w)'), 36)
+			if first == specie1 or first == specie2 or first == specie3 then
+				return id
+			end
+		end
+	end
 end
 
 function Battle:IsPvE()
-	return Server.IsPlayerNPC(ENEMY_PLAYER)
+	return Server.IsPlayerNPC(ENEMY)
 end
 
 
@@ -171,8 +140,27 @@ function Battle:GetAbility(i)
 	end
 end
 
+function Battle:GetStats()
+	local speedScale  = self:GetStateValue(25)
+	local healthScale = self:GetStateValue(99)
+	local healthBonus = self:GetStateValue(2)
+
+	if speedScale and healthScale and healthBonus then
+		speedScale  = 100/(speedScale+100)
+		healthScale = 100/(healthScale+100)
+
+		if self:IsWildBattle() and not self:IsAlly() then
+			healthScale = healthScale * 1.2
+		end
+
+		return floor(self:GetMaxHealth() * healthScale - healthBonus + .5),
+			   self:GetPower(),
+			   floor(self:GetSpeed() * speedScale + .5)
+	end
+end
+
 function Battle:IsAlly()
-	return self.owner ~= ENEMY_PLAYER
+	return self.owner ~= ENEMY
 end
 
 function Battle:IsAlive()
@@ -181,6 +169,10 @@ end
 
 
 --[[ General ]]--
+
+function Battle:GetBreed()
+	return Addon.Predict:Breed(self:GetSpecie(), self:GetLevel(), self:GetQuality(), self:GetStats())
+end
 
 function Battle:GetSpecie()
 	return self:GetPetSpeciesID()
@@ -196,14 +188,6 @@ end
 
 function Battle:GetType()
 	return self:GetPetType()
-end
-
-function Battle:GetBreed()
-	return LibStub('LibPetBreedInfo-1.0'):GetBreedByPetBattleSlot(self.owner, self.index)
-end
-
-function Battle:GetStats()
-	return self:GetMaxHealth(), self:GetPower(), self:GetSpeed()
 end
 
 

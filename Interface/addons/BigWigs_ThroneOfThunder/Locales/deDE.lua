@@ -1,4 +1,4 @@
-﻿local L = BigWigs:NewBossLocale("Jin'rokh the Breaker", "deDE")
+local L = BigWigs:NewBossLocale("Jin'rokh the Breaker", "deDE")
 if not L then return end
 if L then
 	L.storm_duration = "Gewittersturm Dauer"
@@ -12,6 +12,7 @@ L = BigWigs:NewBossLocale("Horridon", "deDE")
 if L then
 	L.charge_trigger = "richtet seinen Blick"
 	L.door_trigger = "stürmen"
+	--L.orb_trigger = "charge" -- PLAYERNAME forces Horridon to charge the Farraki door!
 
 	L.chain_lightning_message = "Dein Fokus wirkt Kettenblitzschlag!"
 	L.chain_lightning_bar = "Fokus: Kettenblitzschlag"
@@ -42,6 +43,7 @@ if L then
 	L.custom_on_markpossessed = "Verstärkten Boss markieren"
 	L.custom_on_markpossessed_desc = "Markiert den von Gara'jal verstärkten Boss mit einem Totenkopf."
 
+	--L.priestess_heal = "%s was healed!"
 	L.assault_stun = "Tank betäubt!"
 	L.assault_message = "Kalte Angriffe"
 	L.full_power = "Volle Energie"
@@ -171,7 +173,6 @@ if L then
 
 	L.last_inermission_ability = "Letzte Unterbrechungs-Fähigkeit genutzt!"
 	L.safe_from_stun = "Du bist wahrscheinlich sicher vor Überladungs-Betäubungen"
-	L.intermission = "Unterbrechung"
 	L.diffusion_add = "Kugelblitzelementare"
 	L.shock = "Schock"
 	L.static_shock_bar = "<Elektroschock-Aufteilung>"
@@ -199,8 +200,6 @@ end
 
 L = BigWigs:NewBossLocale("Throne of Thunder Trash", "deDE")
 if L then
-	L.displayname = "Trash"
-
 	L.stormcaller = "Sturmrufer der Zandalari"
 	L.stormbringer = "Sturmbringer Draz'kil"
 	L.monara = "Monara"

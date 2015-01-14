@@ -139,7 +139,7 @@ function AB:BindUpdate(button, spellmacro)
 	elseif spellmacro == "MACRO" then
 		bind.button.id = bind.button:GetID();
 		
-		if floor(.5+select(2,MacroFrameTab1Text:GetTextColor())*10)/10==.8 then bind.button.id = bind.button.id + 36; end
+		if floor(.5+select(2,MacroFrameTab1Text:GetTextColor())*10)/10==.8 then bind.button.id = bind.button.id + MAX_ACCOUNT_MACROS; end
 		
 		bind.button.name = GetMacroInfo(bind.button.id);
 		
@@ -283,7 +283,7 @@ end
 
 function AB:RegisterMacro(addon)
 	if addon == "Blizzard_MacroUI" then
-		for i=1, 36 do
+		for i=1, MAX_ACCOUNT_MACROS do
 			local b = _G["MacroButton"..i];
 			b:HookScript("OnEnter", function(b) AB:BindUpdate(b, "MACRO"); end);
 		end	

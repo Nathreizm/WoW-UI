@@ -1,0 +1,13 @@
+BigWigs: disabled
+Gatherer: disabled
+GatherMate2: disabled
+Skinner: disabled
+!Swatter: enabled
+SlideBar: disabled
+LibSharedMedia-3.0: enabled
+PetJournalEnhanced: enabled
+PetTracker: enabled
+TrickOrTreat: enabled
+WoWUnit: enabled
+MoveAnything: disabled
+BadBoy: disabled

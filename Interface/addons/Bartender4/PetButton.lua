@@ -1,5 +1,5 @@
 --[[
-	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
+	Copyright (c) 2009-2014, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
 --[[
@@ -31,7 +31,7 @@ end
 local function onDragStart(self)
 	if InCombatLockdown() then return end
 	if not Bartender4.db.profile.buttonlock or IsModifiedClick("PICKUPACTION") then
-		self:SetChecked(0)
+		self:SetChecked(false)
 		PickupPetAction(self.id)
 		self:Update()
 	end
@@ -39,9 +39,46 @@ end
 
 local function onReceiveDrag(self)
 	if InCombatLockdown() then return end
-	self:SetChecked(0)
+	self:SetChecked(false)
 	PickupPetAction(self.id)
 	self:Update()
+end
+
+local function SetCooldownHook(cooldown, ...)
+	local effectiveAlpha = cooldown:GetEffectiveAlpha()
+	local start, duration = ...
+
+	if start ~= 0 or duration ~= 0 then
+		-- update swipe alpha
+		cooldown.__metaLAB.SetSwipeColor(cooldown, cooldown.__SwipeR, cooldown.__SwipeG, cooldown.__SwipeB, cooldown.__SwipeA * effectiveAlpha)
+
+		-- only draw bling and edge if alpha is over 50%
+		cooldown:SetDrawBling(effectiveAlpha > 0.5)
+		if effectiveAlpha < 0.5 then
+			cooldown:SetDrawEdge(false)
+		end
+
+		-- ensure the swipe isn't drawn on fully faded bars
+		if effectiveAlpha <= 0.0 then
+			cooldown:SetDrawSwipe(false)
+		end
+	end
+
+	return cooldown.__metaLAB.SetCooldown(cooldown, ...)
+end
+
+local function SetSwipeColorHook(cooldown, r, g, b, a)
+	local effectiveAlpha = cooldown:GetEffectiveAlpha()
+	cooldown.__SwipeR, cooldown.__SwipeG, cooldown.__SwipeB, cooldown.__SwipeA = r, g, b, (a or 1)
+	return cooldown.__metaLAB.SetSwipeColor(cooldown, r, g, b, a * effectiveAlpha)
+end
+
+local function HookCooldown(button)
+	button.cooldown.__metaLAB = getmetatable(button.cooldown).__index
+	button.cooldown.__SwipeR, button.cooldown.__SwipeG, button.cooldown.__SwipeB, button.cooldown.__SwipeA = 0, 0, 0, 0.8
+
+	button.cooldown.SetCooldown = SetCooldownHook
+	button.cooldown.SetSwipeColor = SetSwipeColorHook
 end
 
 Bartender4.PetButton = {}
@@ -86,6 +123,8 @@ function Bartender4.PetButton:Create(id, parent)
 	button.textureCache.pushed = button.pushedTexture:GetTexture()
 	button.textureCache.highlight = button.highlightTexture:GetTexture()
 
+	HookCooldown(button)
+
 	if Masque then
 		local group = parent.MasqueGroup
 		button.MasqueButtonData = {
@@ -117,7 +156,7 @@ function PetButtonPrototype:Update()
 
 	self.isToken = isToken
 	self.tooltipSubtext = subtext
-	self:SetChecked(isActive and 1 or 0)
+	self:SetChecked(isActive)
 	if autoCastAllowed and not autoCastEnabled then
 		self.autocastable:Show()
 		AutoCastShine_AutoCastStop(self.autocast)
@@ -157,6 +196,10 @@ function PetButtonPrototype:Update()
 	end
 	self:UpdateCooldown()
 	self:UpdateHotkeys()
+end
+
+function PetButtonPrototype:UpdateAlpha()
+	self:UpdateCooldown()
 end
 
 function PetButtonPrototype:UpdateHotkeys()

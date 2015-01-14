@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(635, "DBM-Party-WotLK", 13, 284)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 112 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 142 $"):sub(12, -3))
 mod:SetCreatureID(35119)
 --mod:SetEncounterID(338, 339)--DO NOT ENABLE. Confessor and Eadric are both flagged as same encounterid ("Argent Champion")
 mod:SetUsedIcons(8)
@@ -25,7 +25,7 @@ local timerVengeance			= mod:NewBuffActiveTimer(6, 66889)
 local specwarnRadiance			= mod:NewSpecialWarning("specwarnRadiance")
 local specwarnHammerofJustice	= mod:NewSpecialWarningDispel(66940, isDispeller)
 
-mod:AddBoolOption("SetIconOnHammerTarget", true)
+mod:AddBoolOption("SetIconOnHammerTarget", false)
 
 function mod:SPELL_CAST_START(args)
 	if args.spellId == 66935 then					-- Radiance Look Away!

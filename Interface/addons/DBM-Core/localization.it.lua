@@ -220,7 +220,6 @@ DBM_CORE_MOVE_SPECIAL_WARNING_TEXT	= "Avvisi Speciali"
 DBM_CORE_RANGE_CHECK_ZONE_UNSUPPORTED	= "Un monitor di prossimita' di %d metri non e' supportato in questa zona.\nLe distanze supportate sono 10, 11, 15 e 28 metri."
 
 DBM_ARROW_MOVABLE					= "Frecce Mobili"
-DBM_ARROW_NO_RAIDGROUP				= "Questa caratteristica funziona solo in gruppi di Incursione e dentro le istanze di Incursione."
 DBM_ARROW_ERROR_USAGE	= {
 	"Utilizzo di DBM-Arrow:",
 	"/dbm arrow <x> <y>  crea una freccia che punta in una direzione specifica (0 < x/y < 100)",
@@ -239,8 +238,9 @@ DBM_INSTANCE_INFO_REQUESTED			= "Mandala richiesta di informazioni sul lock del 
 DBM_INSTANCE_INFO_STATUS_UPDATE		= "Ricevute le risposte di %d giocatori of %d utenti DBM : %d Dati inviati, %d richieste negate. Attendo qualche secondo per le altre %d risposte..."
 DBM_INSTANCE_INFO_ALL_RESPONSES		= "Ricevute le risposte da tutti."
 DBM_INSTANCE_INFO_DETAIL_DEBUG		= "Mittente: %s Tipo di Risultato: %s Nome Incursione: %s ID: %s Difficulta': %d Dimensione: %d Progress: %s"
-DBM_INSTANCE_INFO_DETAIL_HEADER		= "%s (%d), difficulta' %d:"
+DBM_INSTANCE_INFO_DETAIL_HEADER		= "%s, difficulta' %s:"
 DBM_INSTANCE_INFO_DETAIL_INSTANCE	= "    ID %s, progress %d: %s"
+DBM_INSTANCE_INFO_DETAIL_INSTANCE2	= "    progress %d: %s"
 DBM_INSTANCE_INFO_STATS_DENIED		= "Hanno rifiutato la richiesta: %s"
 DBM_INSTANCE_INFO_STATS_AWAY		= "In pausa: %s"
 DBM_INSTANCE_INFO_STATS_NO_RESPONSE	= "Nessuna versione di DBM installata: %s"

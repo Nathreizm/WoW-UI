@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(191, "DBM-Party-Cataclysm", 10, 77)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 79 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 121 $"):sub(12, -3))
 mod:SetCreatureID(23863)
 mod:SetZone()
 
@@ -14,6 +14,7 @@ mod:RegisterEventsInCombat(
 	"SPELL_DAMAGE",
 	"SPELL_MISSED"
 )
+mod.onlyHeroic = true
 
 local warnThrow				= mod:NewTargetAnnounce(43093, 3)
 local warnWhirlwind			= mod:NewSpellAnnounce(17207, 3)
@@ -35,7 +36,7 @@ local timerSurgeCD			= mod:NewNextTimer(8.5, 42402)--Bear Form Ability, same mec
 local timerLightningTotemCD	= mod:NewNextTimer(17, 97930)--Eagle Form Ability.
 
 mod:AddBoolOption("ThrowIcon", false)
-mod:AddBoolOption("ClawRageIcon", true)
+mod:AddBoolOption("ClawRageIcon", false)
 mod:AddBoolOption("InfoFrame")
 
 function mod:OnCombatEnd()

@@ -31,10 +31,10 @@ L["titan_pride"] = "Titano+Orgoglio: %s"
 
 
 	L.custom_off_titan_mark = "Marcatore Potenza dei Titani"
-	L.custom_off_titan_mark_desc = "Evidenzia i giocatori con Dono dei Titani con {rt1}{rt2}{rt3}{rt4}{rt5}{rt6}{rt7}{rt8}, richiede capoincursione o assistente.\n|cFFFF0000Soltanto 1 dei giocatori nell'incursione dovrebbe tenere abilitata questa opzione per evitare conflitti di marcamento.|r"
+	L.custom_off_titan_mark_desc = "Evidenzia i giocatori con Dono dei Titani con {rt1}{rt2}{rt3}{rt4}{rt5}{rt6}, richiede capoincursione o assistente.\n|cFFFF0000Soltanto 1 dei giocatori nell'incursione dovrebbe tenere abilitata questa opzione per evitare conflitti di marcamento.|r"
 
 	L.custom_off_fragment_mark = "Corrupted Fragment marker"
-	L.custom_off_fragment_mark_desc = "Mark the Corrupted Fragments with {rt8}{rt7}{rt6}, requires promoted or leader.\n|cFFFF0000Only 1 person in the raid should have this enabled to prevent marking conflicts.\nIn 25 player mode, this will conflict with the Gift of the Titans marker.|r"
+	L.custom_off_fragment_mark_desc = "Mark the Corrupted Fragments with {rt8}{rt7}, requires promoted or leader.\n|cFFFF0000Only 1 person in the raid should have this enabled to prevent marking conflicts.|r"
 end
 
 L = BigWigs:NewBossLocale("Galakras", "itIT")
@@ -46,6 +46,8 @@ L["north_tower"] = "Torre nord"
 L["north_tower_trigger"] = "La porta a protezione della torre a nord è stata sfondata!"
 L["south_tower"] = "Torre sud"
 L["south_tower_trigger"] = "La porta a protezione della torre a sud è stata sfondata!"
+L["start_trigger_alliance"] = "Ben fatto! Squadre da sbarco in formazione! Fanti in prima linea!"
+L["start_trigger_horde"] = "Ben fatto. La prima compagnia è riuscita a sbarcare."
 L["tower_defender"] = "Difensore Torre"
 L["towers"] = "Torri"
 L["towers_desc"] = "Avvisa quando le torri vengono distrutte"
@@ -89,6 +91,7 @@ if L then
 	L.adds_trigger_extra_wave = "Tutti i Kor'kron... al mio comando... uccideteli... ORA"
 	L.extra_adds = "Armate Aggiuntive"
 	L.final_wave = "Ultima Ondata"
+	L.add_wave = "%s (%s): %s"
 
 	L.chain_heal_message = "Il tuo focus sta lanciando Catena di Guarigione Potenziata!"
 
@@ -107,6 +110,11 @@ L["enable_zone"] = "Immagazzinamento Artefatti"
 L["start_trigger"] = "Stiamo registrando?"
 L["win_trigger"] = "Riavvio del sistema. Non staccare la corrente o potrebbe saltare tutto in aria."
 
+
+	L.crates = "Casse"
+	L.crates_desc = "Messaggio per quanta Potenza è ancora richiesta e quante casse grandi*medie/piccole servono."
+	L.full_power = "Piena Potenza!"
+	L.power_left = "%d rimanenti! (%d/%d/%d)"
 end
 
 L = BigWigs:NewBossLocale("Thok the Bloodthirsty", "itIT")
@@ -127,10 +135,9 @@ L["disabled"] = "Disabilitato"
 L["item_deathdealer"] = "Torretta della Morte"
 L["item_laser"] = "Laser"
 L["item_magnet"] = "Magnete"
-L["item_mines"] = "Mines"
+L["item_mines"] = "Mine"
 L["item_missile"] = "Missile"
 L["laser_on_you"] = "Laser su di te PEW PEW!"
-L["laser_say"] = "Laser PEW PEW"
 L["overcharged_crawler_mine"] = "Mina Strisciante Sovraccaricata"
 L["saw_blade_near_you"] = "Lama Rotante vicino a te (non su di te)"
 L["saw_blade_near_you_desc"] = "Potresti disabilitare questa opzione ed evitare spam inutile di messaggi se la vostra incursione preferisce usare una tattica in cui state molto ammassati."
@@ -148,7 +155,7 @@ if L then
 	L.you_ate = "Hai mangiato un parassita (%d rimasti)"
 	L.other_ate = "%s ha mangiato un %sparassita (%d rimasti)"
 	L.parasites_up = "%d |4Parassita:Parassiti; attivi"
-	L.dance = "Danza"
+	L.dance = "%s, Danza"
 	L.prey_message = "Usa Preda sul Parassita"
 	L.injection_over_soon = "Fine di Iniezione tra poco (%s)!"
 
@@ -171,17 +178,16 @@ if L then
 L["bombardment"] = "Bombardmento"
 L["bombardment_desc"] = "Bombardamendo di Roccavento che lascia dei fuochi sul terreno. Le Pirostelle Kor'kron possono apparire soltanto durante il bombardmento."
 L["chain_heal_bar"] = "Focus: Catena di Guarigione"
-L["chain_heal_desc"] = "Cura un bersaglio amico per il 40% della sua vita massima, e a catena anche i bersagli amici vicini."
+L["chain_heal_desc"] = "{focus}Cura un bersaglio amico per il 40% della sua vita massima, e a catena anche i bersagli amici vicini."
 L["chain_heal_message"] = "Il tuo focus sta lanciando Catena di Guarigione!"
 L["clump_check_desc"] = "Controlla ogni 3 secondi durante il Bombardamento i giocatori ammucchiati, se viene rilevato un gruppo, verrà creata una Pirostella Kor'kron."
 L["clump_check_warning"] = "Rilevato ammucchiamento, Pirostella in arrivo"
 L["empowered_message"] = "%s adesso è potenziato!"
 L["farseer_trigger"] = "Chiaroveggenti, guarite le nostre ferite!"
-L["intermission"] = "Intermezzo"
 L["ironstar_impact_desc"] = "Una barra a tempo per quando la Pirostella si schianterà contro l'altra parte della stanza."
 L["ironstar_rolling"] = "Pirostella in movimento!"
 L["manifest_rage"] = "Manifestazione della Rabbia"
-L["manifest_rage_desc"] = "Quando Garrosh raggiungwe 100 inizierà a prelanciare Manifestazione della Rabbia per 2 secondi, e poi la canalizzerà. Mentre canalizza, evoca degli add grandi. Porta la Pirostella su Garrosh per incapacitarlo ed interrompere il suo lancio."
+L["manifest_rage_desc"] = "Quando Garrosh raggiunge 100 inizierà a prelanciare Manifestazione della Rabbia per 2 secondi, e poi la canalizzerà. Mentre canalizza, evoca degli add grandi. Porta la Pirostella su Garrosh per incapacitarlo ed interrompere il suo lancio."
 L["phase_3_end_trigger"] = "Pensate di aver VINTO? Siete CIECHI. VI COSTRINGERÒ AD APRIRE GLI OCCHI."
 
 

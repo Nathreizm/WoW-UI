@@ -81,7 +81,8 @@ plugin.defaultDB = {
 	scale = 1.0,
 	chat = nil,
 	useicons = true,
-	classcolor = true,
+	classcolor = true, -- XXX non-functional
+	growUpwards = nil,
 	emphasizedMessages = {
 		sink20OutputSink = "BigWigsEmphasized",
 	},
@@ -94,22 +95,32 @@ LibStub("LibSink-2.0"):Embed(fakeEmphasizeMessageAddon)
 
 plugin.pluginOptions = {
 	type = "group",
-	name = L.output,
+	name = L.messages,
 	childGroups = "tab",
 	args = {
-		normal = plugin:GetSinkAce3OptionsDataTable(),
-		emphasized = fakeEmphasizeMessageAddon:GetSinkAce3OptionsDataTable(),
+		output = {
+			type = "group",
+			name = L.output,
+			order = 2,
+			childGroups = "tab",
+			args = {
+				normal = plugin:GetSinkAce3OptionsDataTable(),
+				emphasized = fakeEmphasizeMessageAddon:GetSinkAce3OptionsDataTable(),
+			},
+		}
 	},
 }
-plugin.pluginOptions.args.normal.name = L.normalMessages
-plugin.pluginOptions.args.normal.order = 1
-plugin.pluginOptions.args.emphasized.name = L.emphasizedMessages
-plugin.pluginOptions.args.emphasized.order = 2
+plugin.pluginOptions.args.output.args.normal.name = L.normalMessages
+plugin.pluginOptions.args.output.args.normal.order = 1
+plugin.pluginOptions.args.output.args.normal.disabled = nil
+plugin.pluginOptions.args.output.args.emphasized.name = L.emphasizedMessages
+plugin.pluginOptions.args.output.args.emphasized.order = 2
+plugin.pluginOptions.args.output.args.emphasized.disabled = nil
 -- Kill chat outputs
-plugin.pluginOptions.args.normal.args.Channel = nil
-plugin.pluginOptions.args.emphasized.args.Channel = nil
-plugin.pluginOptions.args.normal.args.ChatFrame = nil
-plugin.pluginOptions.args.emphasized.args.ChatFrame = nil
+plugin.pluginOptions.args.output.args.normal.args.Channel = nil
+plugin.pluginOptions.args.output.args.emphasized.args.Channel = nil
+plugin.pluginOptions.args.output.args.normal.args.ChatFrame = nil
+plugin.pluginOptions.args.output.args.emphasized.args.ChatFrame = nil
 
 local function updateProfile()
 	db = plugin.db.profile
@@ -226,7 +237,11 @@ do
 		BWMessageFrame:SetWidth(UIParent:GetWidth())
 		BWMessageFrame:SetHeight(80)
 		local align = db.align == "CENTER" and "" or db.align
-		BWMessageFrame:SetPoint("TOP"..align, normalAnchor, "BOTTOM"..align)
+		if db.growUpwards then
+			BWMessageFrame:SetPoint("BOTTOM"..align, normalAnchor, "TOP"..align)
+		else
+			BWMessageFrame:SetPoint("TOP"..align, normalAnchor, "BOTTOM"..align)
+		end
 		BWMessageFrame:SetScale(db.scale or 1)
 		BWMessageFrame:SetFrameStrata("HIGH")
 		BWMessageFrame:SetToplevel(true)
@@ -319,121 +334,134 @@ do
 			end
 		end
 	end
-	local pluginOptions = nil
-	function plugin:GetPluginConfig()
-		if not pluginOptions then
-			pluginOptions = {
-				type = "group",
-				get = function(info) return plugin.db.profile[info[#info]] end,
-				set = function(info, value) plugin.db.profile[info[#info]] = value end,
-				args = {
-					font = {
-						type = "select",
-						name = L.font,
-						order = 1,
-						values = media:List("font"),
-						itemControl = "DDI-Font",
-						get = function()
-							for i, v in next, media:List("font") do
-								if v == plugin.db.profile.font then return i end
-							end
-						end,
-						set = function(info, value)
-							local list = media:List("font")
-							plugin.db.profile.font = list[value]
-						end,
-					},
-					outline = {
-						type = "select",
-						name = L.outline,
-						order = 2,
-						values = {
-							NONE = L.none,
-							OUTLINE = L.thin,
-							THICKOUTLINE = L.thick,
-						},
-					},
-					align = {
-						type = "select",
-						name = L.align,
-						values = {
-							LEFT = L.left,
-							CENTER = L.center,
-							RIGHT = L.right,
-						},
-						width = "half",
-						style = "radio",
-						order = 3,
-						set = function(info, value) 
-							plugin.db.profile[info[#info]] = value
-							BWMessageFrame:ClearAllPoints()
-							local align = value == "CENTER" and "" or value
-							BWMessageFrame:SetPoint("TOP"..align, normalAnchor, "BOTTOM"..align)
-						end,
-					},
-					fontSize = {
-						type = "range",
-						name = L.fontSize,
-						order = 4,
-						max = 40,
-						min = 8,
-						step = 1,
-						width = "full",
-					},
-					usecolors = {
-						type = "toggle",
-						name = L.useColors,
-						desc = L.useColorsDesc,
-						order = 5,
-					},
-					monochrome = {
-						type = "toggle",
-						name = L.monochrome,
-						desc = L.monochromeDesc,
-						order = 6,
-					},
-					classcolor = {
-						type = "toggle",
-						name = L.classColors,
-						desc = L.classColorsDesc,
-						order = 7,
-					},
-					useicons = {
-						type = "toggle",
-						name = L.useIcons,
-						desc = L.useIconsDesc,
-						order = 8,
-					},
-					newline1 = {
-						type = "description",
-						name = "\n",
-						order = 9,
-					},
-					displaytime = {
-						type = "range",
-						name = L.displayTime,
-						desc = L.displayTimeDesc,
-						min = 1,
-						max = 30,
-						step = 0.5,
-						order = 10,
-						set = updateMessageTimers,
-					},
-					fadetime = {
-						type = "range",
-						name = L.fadeTime,
-						desc = L.fadeTimeDesc,
-						min = 1,
-						max = 30,
-						step = 0.5,
-						order = 11,
-						set = updateMessageTimers,
-					},
-				},
-			}
+	local updateAnchor = function(info, value) 
+		plugin.db.profile[info[#info]] = value
+		BWMessageFrame:ClearAllPoints()
+		local align = plugin.db.profile.align == "CENTER" and "" or db.align
+		if plugin.db.profile.growUpwards then
+			BWMessageFrame:SetPoint("BOTTOM"..align, normalAnchor, "TOP"..align)
+		else
+			BWMessageFrame:SetPoint("TOP"..align, normalAnchor, "BOTTOM"..align)
 		end
-		return pluginOptions
+		for i = 1, 4 do
+			local font = labels[i]
+			font:ClearAllPoints()
+		end
 	end
+
+	plugin.pluginOptions.args.more = {
+		type = "group",
+		name = L.general,
+		order = 1,
+		get = function(info) return plugin.db.profile[info[#info]] end,
+		set = function(info, value) plugin.db.profile[info[#info]] = value end,
+		args = {
+			font = {
+				type = "select",
+				name = L.font,
+				order = 1,
+				values = media:List("font"),
+				itemControl = "DDI-Font",
+				get = function()
+					for i, v in next, media:List("font") do
+						if v == plugin.db.profile.font then return i end
+					end
+				end,
+				set = function(info, value)
+					local list = media:List("font")
+					plugin.db.profile.font = list[value]
+				end,
+			},
+			outline = {
+				type = "select",
+				name = L.outline,
+				order = 2,
+				values = {
+					NONE = L.none,
+					OUTLINE = L.thin,
+					THICKOUTLINE = L.thick,
+				},
+			},
+			align = {
+				type = "select",
+				name = L.align,
+				values = {
+					LEFT = L.left,
+					CENTER = L.center,
+					RIGHT = L.right,
+				},
+				width = "half",
+				style = "radio",
+				order = 3,
+				set = updateAnchor,
+			},
+			fontSize = {
+				type = "range",
+				name = L.fontSize,
+				order = 4,
+				max = 40,
+				min = 8,
+				step = 1,
+				width = "full",
+			},
+			usecolors = {
+				type = "toggle",
+				name = L.useColors,
+				desc = L.useColorsDesc,
+				order = 5,
+			},
+			useicons = {
+				type = "toggle",
+				name = L.useIcons,
+				desc = L.useIconsDesc,
+				order = 6,
+			},
+			growUpwards = {
+				type = "toggle",
+				name = L.growingUpwards,
+				desc = L.growingUpwardsDesc,
+				order = 7,
+				set = updateAnchor,
+			},
+			monochrome = {
+				type = "toggle",
+				name = L.monochrome,
+				desc = L.monochromeDesc,
+				order = 8,
+			},
+		--	classcolor = {
+		--		type = "toggle",
+		--		name = L.classColors,
+		--		desc = L.classColorsDesc,
+		--		order = 9,
+		--	},
+			newline1 = {
+				type = "description",
+				name = "\n",
+				order = 10,
+			},
+			displaytime = {
+				type = "range",
+				name = L.displayTime,
+				desc = L.displayTimeDesc,
+				min = 1,
+				max = 30,
+				step = 0.5,
+				order = 11,
+				set = updateMessageTimers,
+			},
+			fadetime = {
+				type = "range",
+				name = L.fadeTime,
+				desc = L.fadeTimeDesc,
+				min = 1,
+				max = 30,
+				step = 0.5,
+				order = 12,
+				set = updateMessageTimers,
+			},
+		},
+	}
 end
 
 -------------------------------------------------------------------------------
@@ -457,7 +485,7 @@ do
 		end
 	end
 
-	local function getNextSlot()
+	local function getNextSlotDown()
 		-- move 4 -> 1
 		local old = labels[4]
 		labels[4] = labels[3]
@@ -477,11 +505,31 @@ do
 		return labels[1]
 	end
 
+	local function getNextSlotUp()
+		-- move 1 -> 4
+		local old = labels[1]
+		labels[1] = labels[2]
+		labels[2] = labels[3]
+		labels[3] = labels[4]
+		labels[4] = old
+		-- reposition
+		local align = db.align == "CENTER" and "" or db.align
+		old:ClearAllPoints()
+		old:SetPoint("BOTTOM"..align)
+		for i = 1, 3 do
+			local lbl = labels[i]
+			lbl:ClearAllPoints()
+			lbl:SetPoint("BOTTOM"..align, labels[i + 1], "TOP"..align)
+		end
+		-- new message at 4
+		return labels[4]
+	end
+
 	function plugin:Print(addon, text, r, g, b, font, size, _, _, _, icon)
 		BWMessageFrame:SetScale(db.scale or 1)
 		BWMessageFrame:Show()
 
-		local slot = getNextSlot()
+		local slot = db.growUpwards and getNextSlotUp() or getNextSlotDown()
 
 		local flags = nil
 		if db.monochrome and db.outline ~= "NONE" then
@@ -605,7 +653,7 @@ do
 	end
 end
 
-function plugin:BigWigs_Message(event, module, key, text, color, sound, icon)
+function plugin:BigWigs_Message(event, module, key, text, color, icon)
 	if not text then return end
 
 	local r, g, b = 1, 1, 1 -- Default to white.

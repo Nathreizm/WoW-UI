@@ -1,4 +1,4 @@
-﻿if not(GetLocale() == "ruRU") then
+if not(GetLocale() == "ruRU") then
     return;
 end
 
@@ -38,8 +38,8 @@ L["Aura(s)"] = "Эффекты"
 L["Auto"] = "Авто"
 L["Auto-cloning enabled"] = "Авто-клонирование включено"
 L["Automatic Icon"] = "Автоматическая Иконка"
--- L["Backdrop Color"] = ""
--- L["Backdrop Style"] = ""
+L["Backdrop Color"] = "Цвет фона" -- Needs review
+L["Backdrop Style"] = "Стиль фона" -- Needs review
 L["Background"] = "Подложка"
 L["Background Color"] = "Цвет Подложки"
 L["Background Inset"] = "Вложенная подложка"
@@ -47,8 +47,8 @@ L["Background Offset"] = "Смещение Подложки"
 L["Background Texture"] = "Текстура Подложки"
 L["Bar Alpha"] = "Прозрачность Полосы"
 L["Bar Color"] = "Цвет Полосы"
--- L["Bar Color Settings"] = ""
--- L["Bar in Front"] = ""
+L["Bar Color Settings"] = "Настройка цвета полос" -- Needs review
+L["Bar in Front"] = "Полосы спереди" -- Needs review
 L["Bar Texture"] = "Текстура Полосы"
 L["Battle"] = "Сражение"
 L["Bear"] = "Медведь"
@@ -57,7 +57,7 @@ L["Blend Mode"] = "Режим Наложения"
 L["Blood"] = "Кровь"
 L["Border"] = "Граница"
 L["Border Color"] = "Цвет Границы"
--- L["Border Inset"] = ""
+L["Border Inset"] = "Граница вкладки" -- Needs review
 L["Border Offset"] = "Смещение Границы"
 L["Border Settings"] = "Настройки Границы"
 L["Border Size"] = "Размер Границы"
@@ -133,7 +133,7 @@ L["Delete all"] = "Удалить всё"
 L["Delete children and group"] = "Удалить группу и ее элементы"
 L["Deletes this display - |cFF8080FFShift|r must be held down while clicking"] = "Удаляя эту индикацию - зажмите |cFF8080FFShift|r и кликните мышью."
 L["Delete Trigger"] = "Удалить Триггер"
--- L["Desaturate"] = ""
+L["Desaturate"] = "Обесцветить" -- Needs review
 L["Devotion"] = "Благочестие"
 L["Disabled"] = "Выключено"
 L["Discrete Rotation"] = "Вращать Дискретно"
@@ -172,7 +172,7 @@ L["Finish"] = "Завершение"
 L["Fire Resistance"] = "Сопротивление Огню"
 L["Flight(Non-Feral)"] = "Полет(не ферал)"
 L["Font"] = "Шрифт"
--- L["Font Flags"] = ""
+L["Font Flags"] = "Флаги шрифта" -- Needs review
 L["Font Size"] = "Размер Шрифта"
 L["Font Type"] = "Тип Шрифта"
 L["Foreground Color"] = "Основной Цвет"
@@ -198,7 +198,7 @@ L["Group aura count description"] = [=[Кол-во из %s человек, к к
 |cFF00CC00!= 2|r будет срабатывать когда %s человек под воздействием и их кол-во не равно 2
 |cFF00CC00<= 0.8|r сработает когда менее 80%% из %s, под воздействием (4 из 5 сопартийцев, 8 из 10 или 20 из 25 членов рейда)
 |cFF00CC00> 1/2|r сработает если затронуто больше половины из %s человек
-|cFF00CC00>= 0|r всегда срабатывает, несмотря ни на что]=]
+|cFF00CC00>= 0|r всегда срабатывает, несмотря ни на что]=] -- Needs review
 L["Group Member Count"] = "Кол-во Элементов Группы"
 L["Group (verb)"] = "Группировать"
 L["Height"] = "Высота"
@@ -206,6 +206,7 @@ L["Hide this group's children"] = "Скрыть элементы этой гру
 L["Hide When Not In Group"] = "Скрыть Когда Не в Группе"
 L["Horizontal Align"] = "Выравнивание по Горизонтали"
 L["Icon Info"] = "Информация о значке"
+L["Icon Inset"] = "Вставка вещи" -- Needs review
 L["Ignored"] = "Игнорируется"
 L["Ignore GCD"] = "Игнорировать ГКД"
 L["%i Matches"] = "%i Совпадений"
@@ -290,6 +291,7 @@ L["Rotation"] = "Поворот"
 L["Same"] = "Похожие"
 L["Search"] = "Поиск"
 L["Secondary"] = "Вторичная"
+L["Select the auras you always want to be listed first"] = "Выберите ауры, которые будут первые в списке" -- Needs review
 L["Send To"] = "Отправить"
 L["Set tooltip description"] = "Установить всплывающую подсказку"
 L["Shadow Dance"] = "Танец Теней"
@@ -337,6 +339,7 @@ L["Text Color"] = "Цвет Текста"
 L["Text Position"] = "Позиция Текста"
 L["Text Settings"] = "Настройки Текста"
 L["Texture"] = "Текстура"
+L["Texture Info"] = "Информация Текстуры" -- Needs review
 L["The children of this group have different display types, so their display options cannot be set as a group."] = "Элементы этой группы содержат разные типы индикаций, по этому их настройки не могут быть групповыми"
 L["The duration of the animation in seconds."] = "Длительность анимации в секугдах"
 L["The type of trigger"] = "Тип Триггера"

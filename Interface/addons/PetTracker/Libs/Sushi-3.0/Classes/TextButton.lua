@@ -1,5 +1,5 @@
 --[[
-Copyright 2008-2013 João Cardoso
+Copyright 2008-2014 João Cardoso
 Sushi is distributed under the terms of the GNU General Public License (or the Lesser GPL).
 This file is part of Sushi.
 
@@ -36,7 +36,7 @@ end
 
 function Button:SetText (text)
 	self:GetFontString():SetText(text)
-	self:SetWidth(self:GetTextWidth() + 15)
+	self:SetWidth(self:GetTextWidth() + 20)
 end
 
 function Button:SetSmall (small)

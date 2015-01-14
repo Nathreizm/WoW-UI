@@ -1,0 +1,27 @@
+
+SkadaDB = {
+	["namespaces"] = {
+		["LibDualSpec-1.0"] = {
+		},
+	},
+	["hasUpgraded"] = true,
+	["profileKeys"] = {
+		["Nathreizm - Arthas"] = "Default",
+	},
+	["profiles"] = {
+		["Default"] = {
+			["windows"] = {
+				{
+					["y"] = 14.9997158050537,
+					["mode"] = "Damage",
+					["point"] = "BOTTOM",
+					["barwidth"] = 227.000045776367,
+					["background"] = {
+						["height"] = 149.999984741211,
+					},
+					["x"] = -272.500015258789,
+				}, -- [1]
+			},
+		},
+	},
+}

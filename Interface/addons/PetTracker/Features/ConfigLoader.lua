@@ -1,5 +1,5 @@
 --[[
-Copyright 2012-2013 João Cardoso
+Copyright 2012-2014 João Cardoso
 PetTracker is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -19,7 +19,7 @@ local _, Addon = ...
 local Loader = Addon:NewModule('ConfigLoader')
 
 function Loader:Startup()
-	if not PetTracker_Tutorial or PetTracker_Tutorial < 8 then
+	if (Addon.Sets.MainTutorial or 0) < 8 then
 		LoadAddOn('PetTracker_Config')
 	else
 		local original = InterfaceOptionsFrame:GetScript('OnShow')

@@ -1,0 +1,19 @@
+
+HandyNotesDB = {
+	["profileKeys"] = {
+		["Nathreizm - Arthas"] = "Nathreizm - Arthas",
+	},
+	["profiles"] = {
+		["Nathreizm - Arthas"] = {
+		},
+	},
+}
+HandyNotes_HandyNotesDB = {
+	["profileKeys"] = {
+		["Nathreizm - Arthas"] = "Nathreizm - Arthas",
+	},
+	["profiles"] = {
+		["Nathreizm - Arthas"] = {
+		},
+	},
+}

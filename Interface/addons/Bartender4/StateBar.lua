@@ -1,5 +1,5 @@
 --[[
-	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
+	Copyright (c) 2009-2014, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
 --[[ Generic Template for a ButtonBar with state control ]]
@@ -45,6 +45,7 @@ function Bartender4.StateBar:Create(id, config, name)
 		bar:RegisterEvent("PLAYER_TALENT_UPDATE")
 		bar:RegisterEvent("PLAYER_REGEN_ENABLED")
 		bar:RegisterEvent("GLYPH_UPDATED")
+		bar:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 		bar:SetScript("OnEvent", StateBar.OnEvent)
 	end
 	return bar
@@ -58,7 +59,7 @@ function StateBar:ApplyConfig(config)
 end
 
 function StateBar:OnEvent(event, ...)
-	if event == "PLAYER_TALENT_UPDATE" or event == "GLYPH_UPDATED" then
+	if event == "PLAYER_TALENT_UPDATE" or event == "GLYPH_UPDATED" or event == "PLAYER_SPECIALIZATION_CHANGED" then
 		if InCombatLockdown() then
 			self.updateStateOnCombatLeave = true
 		else
@@ -82,9 +83,9 @@ local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 	local newT = nil
 	if k == "WARRIOR" then
 		newT = {
-			{ id = "battle", name = GetSpellInfo(2457), index = 1, type = "form"},
-			{ id = "def", name = GetSpellInfo(71), index = 2, type = "form"},
-			{ id = "berserker", name = GetSpellInfo(2458), index = 3, type = "form"},
+			{ id = "battle", name = GetSpellInfo(2457), index = 1 },
+			{ id = "def", name = GetSpellInfo(71), index = 2 },
+			{ id = "gladiator", name = GetSpellInfo(156291), index = 3 },
 		}
 	elseif k == "DRUID" then
 		newT = {
@@ -93,7 +94,6 @@ local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 				-- prowl is virtual, no real stance
 			{ id = "prowl", name = ("%s (%s)"):format((GetSpellInfo(768)), (GetSpellInfo(5215))), index = false},
 			{ id = "moonkin", name = GetSpellInfo(24858), index = 4 },
-			{ id = "treeoflife", name = GetSpellInfo(33891), index = -1, type = "form" },
 		}
 	elseif k == "ROGUE" then
 		newT = {
@@ -112,9 +112,10 @@ local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 		}
 	elseif k == "MONK" then
 		newT = {
-			{ id = "tiger", name = GetSpellInfo(103985), index = 1 },
-			{ id = "ox", name = GetSpellInfo(115069), index = 2 },
-			{ id = "serpent", name = GetSpellInfo(115070), index = 3 },
+			{ id = "tiger", name = GetSpellInfo(103985), index = 1, spec = 3 },
+			{ id = "crane", name = GetSpellInfo(154436), index = 1, spec = 2 },
+			{ id = "ox", name = GetSpellInfo(115069), index = 2, spec = 1 },
+			{ id = "serpent", name = GetSpellInfo(115070), index = 3, spec = 2 },
 		}
 	end
 	rawset(t, k, newT)
@@ -164,7 +165,7 @@ function StateBar:UpdateStates(returnOnly)
 			if not stateconfig.stance[playerclass] then stateconfig.stance[playerclass] = {} end
 			for i,v in pairs(stancemap) do
 				local state = self:GetStanceState(v)
-				if state and state ~= 0 and v.index then
+				if state and state ~= 0 and v.index and (v.spec == nil or v.spec == GetSpecialization()) then
 					-- hack for druid prowl, since its no real "stance", but we want to handle it anyway
 					if playerclass == "DRUID" then
 						if v.id == "cat" then
@@ -172,8 +173,6 @@ function StateBar:UpdateStates(returnOnly)
 							if prowl and prowl ~= 0 then
 								table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
 							end
-						elseif v.id == "incarnation" then
-							v.index = GetNumShapeshiftForms() + 1
 						end
 					elseif playerclass == "ROGUE" then
 						if v.id == "shadowdance" then
@@ -223,14 +222,14 @@ function StateBar:UpdateStates(returnOnly)
 
 	RegisterStateDriver(self, "page", statedriver or "0")
 
-	self:SetAttribute("_onstate-assist-help", [[
+	self:SetAttribute("_onstate-target-help", [[
 		local state = (newstate ~= "nil") and newstate or nil
-		control:ChildUpdate("assist-help", state)
+		control:ChildUpdate("target-help", state)
 	]])
 
-	self:SetAttribute("_onstate-assist-harm", [[
+	self:SetAttribute("_onstate-target-harm", [[
 		local state = (newstate ~= "nil") and newstate or nil
-		control:ChildUpdate("assist-harm", state)
+		control:ChildUpdate("target-harm", state)
 	]])
 
 	local preSelf = ""
@@ -240,17 +239,35 @@ function StateBar:UpdateStates(returnOnly)
 
 	local preFocus = ""
 	if Bartender4.db.profile.focuscastmodifier then
-		preFocus = "[mod:FOCUSCAST,target=focus,exists,nodead]focus;"
+		preFocus = "[mod:FOCUSCAST,@focus,exists,nodead]focus;"
 	end
 
-	UnregisterStateDriver(self, "assist-help")
-	self:SetAttribute("state-assist-help", "nil")
-	UnregisterStateDriver(self, "assist-harm")
-	self:SetAttribute("state-assist-harm", "nil")
+	UnregisterStateDriver(self, "target-help")
+	self:SetAttribute("state-target-help", "nil")
+	UnregisterStateDriver(self, "target-harm")
+	self:SetAttribute("state-target-harm", "nil")
 
+	local helpDriver, harmDriver = "", ""
 	if self.config.autoassist then
-		RegisterStateDriver(self, "assist-help", ("%s%s[help]nil; [target=targettarget, help]targettarget; nil"):format(preSelf, preFocus))
-		RegisterStateDriver(self, "assist-harm", ("%s[harm]nil; [target=targettarget, harm]targettarget; nil"):format(preFocus))
+		helpDriver = "[help]nil; [@targettarget, help]targettarget;"
+		harmDriver = "[harm]nil; [@targettarget, harm]targettarget;"
+	end
+
+	if self.config.mouseover then
+		local moMod = ""
+		if Bartender4.db.profile.mouseovermod and Bartender4.db.profile.mouseovermod ~= "NONE" then
+			moMod = ",mod:" .. Bartender4.db.profile.mouseovermod
+		end
+		helpDriver = ("[@mouseover,help%s]mouseover;"):format(moMod) .. helpDriver
+		harmDriver = ("[@mouseover,harm%s]mouseover;"):format(moMod) .. harmDriver
+	end
+
+	if helpDriver ~= "" then
+		RegisterStateDriver(self, "target-help", ("%s%s%s nil"):format(preSelf, preFocus, helpDriver))
+	end
+
+	if harmDriver ~= "" then
+		RegisterStateDriver(self, "target-harm", ("%s%s nil"):format(preFocus, harmDriver))
 	end
 
 	self:ForAll("UpdateState")
@@ -303,6 +320,17 @@ end
 function StateBar:SetConfigAutoAssist(_, value)
 	if value ~= nil then
 		self.config.autoassist = value
+	end
+	self:UpdateStates()
+end
+
+function StateBar:GetConfigMouseOver()
+	return self.config.mouseover
+end
+
+function StateBar:SetConfigMouseOver(_, value)
+	if value ~= nil then
+		self.config.mouseover = value
 	end
 	self:UpdateStates()
 end

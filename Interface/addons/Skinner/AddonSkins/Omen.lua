@@ -1,16 +1,18 @@
-if not Skinner:isAddonEnabled("Omen") then return end
+local aName, aObj = ...
+if not aObj:isAddonEnabled("Omen") then return end
+local _G = _G
 
-function Skinner:Omen()
+function aObj:Omen()
 
 	local function skinOmen()
-	
-		OmenTitle:SetHeight(20)
-		self:applySkin(OmenTitle)
-		self:applySkin(OmenBarList)
-		
+
+		_G.OmenTitle:SetHeight(20)
+		aObj:applySkin(_G.OmenTitle)
+		aObj:applySkin(_G.OmenBarList)
+
 	end
-	
+
 	skinOmen()
-	self:SecureHook(Omen, "UpdateBackdrop", function() skinOmen() end)
+	self:SecureHook(_G.Omen, "UpdateBackdrop", function() skinOmen() end)
 
 end

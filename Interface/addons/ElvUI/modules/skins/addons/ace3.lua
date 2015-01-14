@@ -52,7 +52,8 @@ local function SkinScrollBar(frame, thumbTrim)
 				frame.thumbbg = CreateFrame("Frame", nil, frame)
 				frame.thumbbg:Point("TOPLEFT", frame:GetThumbTexture(), "TOPLEFT", 2, -thumbTrim)
 				frame.thumbbg:Point("BOTTOMRIGHT", frame:GetThumbTexture(), "BOTTOMRIGHT", -2, thumbTrim)
-				frame.thumbbg:SetTemplate("Default", true)
+				frame.thumbbg:SetTemplate("Default", true, true)
+				frame.thumbbg.backdropTexture:SetVertexColor(0.6, 0.6, 0.6)
 				if frame.trackbg then
 					frame.thumbbg:SetFrameLevel(frame.trackbg:GetFrameLevel())
 				end
@@ -188,9 +189,9 @@ function S:SkinAce3()
 		elseif TYPE == "EditBox" then
 			local frame = widget.editbox
 			local button = widget.button
-			_G[frame:GetName()..'Left']:Kill()
-			_G[frame:GetName()..'Middle']:Kill()
-			_G[frame:GetName()..'Right']:Kill()
+			frame.Left:Kill()
+			frame.Middle:Kill()
+			frame.Right:Kill()
 			frame:Height(17)
 			frame:CreateBackdrop('Default')
 			frame.backdrop:Point('TOPLEFT', -2, 0)

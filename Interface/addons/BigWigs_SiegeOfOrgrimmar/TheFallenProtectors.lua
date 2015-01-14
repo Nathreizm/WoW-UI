@@ -1,7 +1,7 @@
 --[[
 TODO:
 	improve timers by checking how they interact with different Desperate Measures -- Sun Tenderheart fixed, other two still need fixing
-	fix Corrupted Brew timer (in heroic every 2 casts it gets .5s faster) Clash and Vengeful Strikes probably delay it, too
+	fix Corrupted Brew timer (in mythic every 2 casts it gets .5s faster) Clash and Vengeful Strikes probably delay it, too
 	need some data from normal for starting timers at intermission ends
 ]]--
 
@@ -41,7 +41,7 @@ if L then
 
 	L.no_meditative_field = "You're not in the bubble!"
 
-	L.intermission = EJ_GetSectionInfo(7940) -- Desperate Measures
+	L.intermission = -7940 -- Desperate Measures
 	L.intermission_desc = "Warnings for when the bosses use Desperate Measures."
 
 	L.inferno_self = "Inferno Strike on you"
@@ -76,8 +76,6 @@ function mod:GetOptions()
 end
 
 function mod:OnBossEnable()
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
 	self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "BossSucceeded", "boss1", "boss2", "boss3", "boss4", "boss5")
 	self:Log("SPELL_CAST_START", "Heal", 143497)
 	-- Sun Tenderheart
@@ -114,12 +112,14 @@ function mod:OnEngage()
 	darkMeditationTimer = nil
 	infernoTarget, infernoTimer = nil, nil
 	self:OpenProximity("proximity", 5) -- this might not be needed in LFR
-	self:Berserk(self:Heroic() and 600 or 900)
+	self:Berserk(self:Mythic() and 600 or 900)
 	self:Bar(144396, 7) -- Vengeful Strikes
 	self:CDBar(143019, 18) -- Corrupted Brew
 	self:CDBar(143027, 44) -- Clash
 	self:CDBar(143330, 23) -- Gouge
-	self:CDBar(143446, 14) -- Bane
+	if self:Dispeller("magic", nil, 143446) then
+		self:CDBar(143446, 14) -- Bane
+	end
 	self:Bar(143491, 29) -- Calamity
 	hcCalamityCount = 30
 end
@@ -143,11 +143,13 @@ do
 			self:CancelTimer(darkMeditationTimer)
 			darkMeditationTimer = nil
 		end
-		if not self:Heroic() then
+		if not self:Mythic() then
 			--self:CDBar(143027, ) -- Clash
 		end
 		self:CDBar(143491, 30) -- Calamity
-		self:CDBar(143446, 17) -- Bane
+		if self:Dispeller("magic", nil, 143446) then
+			self:CDBar(143446, 17) -- Bane
+		end
 	end
 
 	function mod:SunIntermission(args)
@@ -155,7 +157,7 @@ do
 		if not self:Tank() then
 			darkMeditationTimer = self:ScheduleRepeatingTimer(warnDarkMeditation, 3)
 		end
-		if not self:Heroic() then
+		if not self:Mythic() then
 			self:StopBar(143027) -- Clash
 		end
 		self:StopBar(143491) -- Calamity
@@ -167,7 +169,7 @@ end
 function mod:Calamity(args)
 	self:CDBar(args.spellId, 40)
 	self:Bar(args.spellId, 5, CL.cast:format(args.spellName))
-	if self:Heroic() then
+	if self:Mythic() then
 		self:Message(args.spellId, "Attention", nil, ("%s (%d%%)"):format(CL.casting:format(args.spellName), hcCalamityCount))
 		hcCalamityCount = hcCalamityCount + 10
 	else
@@ -215,7 +217,7 @@ do
 end
 
 function mod:Bane(args)
-	if self:Dispeller("magic", nil, 143446) then
+	if self:Dispeller("magic", nil, args.spellId) then
 		self:Message(args.spellId, "Urgent", "Alarm")
 		self:CDBar(args.spellId, 14)
 	end
@@ -303,14 +305,14 @@ end
 
 function mod:HeIntermission(args)
 	self:StopBar(143330) -- Gouge
-	if not self:Heroic() then
+	if not self:Mythic() then
 		self:StopBar(143491) -- Calamity
 		self:StopBar(143027) -- Clash
 	end
 end
 
 function mod:HeIntermissionEnd(args)
-	if not self:Heroic() then
+	if not self:Mythic() then
 		--self:CDBar(143491, ) -- Calamity
 		--self:CDBar(143027, ) -- Clash
 	end
@@ -412,7 +414,7 @@ end
 
 function mod:Clash(args)
 	self:Message(args.spellId, "Attention")
-	self:CDBar(args.spellId, self:Heroic() and 50 or 46)
+	self:CDBar(args.spellId, self:Mythic() and 50 or 46)
 end
 
 do
@@ -470,7 +472,7 @@ function mod:RookIntermission(args)
 	self:StopBar(143027) -- Clash
 	self:StopBar(144396) -- Vengeful Strikes
 	self:StopBar(143019) -- Corrupted Brew
-	if not self:Heroic() then
+	if not self:Mythic() then
 		self:StopBar(143491) -- Calamity
 	end
 	self:CDBar(-7958, 9) -- Defiled Ground (first cast not limited to her tank, obviously)
@@ -481,7 +483,7 @@ end
 function mod:RookIntermissionEnd(args)
 	self:StopBar(-7958) -- Defiled Ground
 	self:OpenProximity("proximity", 5)
-	if not self:Heroic() then
+	if not self:Mythic() then
 		self:CDBar(143491, 5) -- Calamity
 		self:CDBar(143027, 57) -- Clash
 	end
@@ -491,7 +493,7 @@ end
 
 
 function mod:Heal(args)
-	self:Bar(args.spellId, self:LFR() and 20 or 15, CL.cast:format(CL.other:format(self:SpellName(98417), args.sourceName))) -- "Heal"
+	self:Bar(args.spellId, 15, CL.cast:format(CL.other:format(self:SpellName(2060), args.sourceName))) -- "Heal"
 	self:Message(args.spellId, "Positive", "Warning", CL.other:format(self:SpellName(37455), args.sourceName)) -- "Healing"
 end
 

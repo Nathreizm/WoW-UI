@@ -30,6 +30,8 @@ end
 local L = LibStub("AceLocale-3.0"):GetLocale("Big Wigs: Plugins")
 plugin.displayName = L.bars
 
+local startBreak -- Break timer function
+
 local colors = nil
 local candy = LibStub("LibCandyBar-3.0")
 local media = LibStub("LibSharedMedia-3.0")
@@ -279,12 +281,12 @@ do
 		bd:SetBackdrop(backdrop)
 
 		if C then
-			bd:SetBackdropColor(unpack(C.media.backdropcolor))
-			bd:SetBackdropBorderColor(unpack(C.media.bordercolor))
+			bd:SetBackdropColor(unpack(C.Medias.BackdropColor))
+			bd:SetBackdropBorderColor(unpack(C.Medias.BorderColor))
 			bd:SetOutside(bar)
 		else
-			bd:SetBackdropColor(0.1,0.1,0.1,0.8)
-			bd:SetBackdropBorderColor(0.6,0.6,0.6)
+			bd:SetBackdropColor(0.1,0.1,0.1)
+			bd:SetBackdropBorderColor(0.5,0.5,0.5)
 			bd:ClearAllPoints()
 			bd:SetPoint("TOPLEFT", bar, "TOPLEFT", -2, 2)
 			bd:SetPoint("BOTTOMRIGHT", bar, "BOTTOMRIGHT", 2, -2)
@@ -327,7 +329,7 @@ do
 
 	barStyles.TukUI = {
 		apiVersion = 1,
-		version = 2,
+		version = 3,
 		GetSpacing = function(bar) return 7 end,
 		ApplyStyle = styleBar,
 		BarStopped = removeStyle,
@@ -478,161 +480,82 @@ plugin.defaultDB = {
 	},
 }
 
-local clickOptions = {
-	emphasize = {
-		type = "toggle",
-		name = colorize[L.superEmphasize],
-		desc = L.tempEmphasize,
-		descStyle = "inline",
-		order = 1,
-	},
-	report = {
-		type = "toggle",
-		name = colorize[L.report],
-		desc = L.reportDesc,
-		descStyle = "inline",
-		order = 2,
-	},
-	remove = {
-		type = "toggle",
-		name = colorize[L.remove],
-		desc = L.removeDesc,
-		descStyle = "inline",
-		order = 3,
-	},
-	removeOther = {
-		type = "toggle",
-		name = colorize[L.removeOther],
-		desc = L.removeOtherDesc,
-		descStyle = "inline",
-		order = 4,
-	},
-	disable = {
-		type = "toggle",
-		name = colorize[L.disable],
-		desc = L.disableDesc,
-		descStyle = "inline",
-		order = 5,
-	},
-}
+do
+	local clickOptions = {
+		emphasize = {
+			type = "toggle",
+			name = colorize[L.superEmphasize],
+			desc = L.tempEmphasize,
+			descStyle = "inline",
+			order = 1,
+		},
+		report = {
+			type = "toggle",
+			name = colorize[L.report],
+			desc = L.reportDesc,
+			descStyle = "inline",
+			order = 2,
+		},
+		remove = {
+			type = "toggle",
+			name = colorize[L.remove],
+			desc = L.removeDesc,
+			descStyle = "inline",
+			order = 3,
+		},
+		removeOther = {
+			type = "toggle",
+			name = colorize[L.removeOther],
+			desc = L.removeOtherDesc,
+			descStyle = "inline",
+			order = 4,
+		},
+		disable = {
+			type = "toggle",
+			name = colorize[L.disable],
+			desc = L.disableDesc,
+			descStyle = "inline",
+			order = 5,
+		},
+	}
 
-local function shouldDisable() return not plugin.db.profile.interceptMouse end
-
-plugin.subPanelOptions = {
-	key = "Big Wigs: Clickable Bars",
-	name = L.clickableBars,
-	options = {
-		name = L.clickableBars,
+	local function shouldDisable() return not plugin.db.profile.interceptMouse end
+	plugin.pluginOptions = {
 		type = "group",
+		name = L.bars,
 		childGroups = "tab",
-		get = function(i) return plugin.db.profile[i[#i]] end,
-		set = function(i, value)
-			local key = i[#i]
-			plugin.db.profile[key] = value
-			if key == "interceptMouse" then
-				plugin:RefixClickIntercepts()
+		get = function(info)
+			local key = info[#info]
+			if key == "texture" then
+				for i, v in next, media:List("statusbar") do
+					if v == db.texture then return i end
+				end
+			elseif key == "font" then
+				for i, v in next, media:List("font") do
+					if v == db.font then return i end
+				end
+			end
+			return db[key]
+		end,
+		set = function(info, value)
+			local key = info[#info]
+			if key == "texture" then
+				local list = media:List("statusbar")
+				db.texture = list[value]
+			elseif key == "font" then
+				local list = media:List("font")
+				db.font = list[value]
+			elseif key == "barStyle" then
+				plugin:SetBarStyle(value)
+			else
+				db[key] = value
 			end
 		end,
 		args = {
-			heading = {
-				type = "description",
-				name = L.clickableBarsDesc,
+			custom = {
+				type = "group",
+				name = L.general,
 				order = 1,
-				width = "full",
-				fontSize = "medium",
-			},
-			interceptMouse = {
-				type = "toggle",
-				name = L.enable,
-				desc = L.interceptMouseDesc,
-				order = 2,
-				width = "full",
-			},
-			onlyInterceptOnKeypress = {
-				type = "toggle",
-				name = L.modifierKey,
-				desc = L.modifierKeyDesc,
-				order = 3,
-				disabled = shouldDisable,
-			},
-			interceptKey = {
-				type = "select",
-				name = L.modifier,
-				desc = L.modifierDesc,
-				values = {
-					CTRL = CTRL_KEY_TEXT or "Ctrl",
-					ALT = ALT_KEY or "Alt",
-					SHIFT = SHIFT_KEY_TEXT or "Shift",
-				},
-				order = 4,
-				disabled = function()
-					return not plugin.db.profile.interceptMouse or not plugin.db.profile.onlyInterceptOnKeypress
-				end,
-			},
-			left = {
-				type = "group",
-				name = KEY_BUTTON1 or "Left",
-				order = 10,
-				args = clickOptions,
-				disabled = shouldDisable,
-				get = function(info) return plugin.db.profile.LeftButton[info[#info]] end,
-				set = function(info, value) plugin.db.profile.LeftButton[info[#info]] = value end,
-			},
-			middle = {
-				type = "group",
-				name = KEY_BUTTON3 or "Middle",
-				order = 11,
-				args = clickOptions,
-				disabled = shouldDisable,
-				get = function(info) return plugin.db.profile.MiddleButton[info[#info]] end,
-				set = function(info, value) plugin.db.profile.MiddleButton[info[#info]] = value end,
-			},
-			right = {
-				type = "group",
-				name = KEY_BUTTON2 or "Right",
-				order = 12,
-				args = clickOptions,
-				disabled = shouldDisable,
-				get = function(info) return plugin.db.profile.RightButton[info[#info]] end,
-				set = function(info, value) plugin.db.profile.RightButton[info[#info]] = value end,
-			},
-		},
-	},
-}
-
-do
-	local pluginOptions = nil
-	function plugin:GetPluginConfig()
-		if not pluginOptions then
-			pluginOptions = {
-				type = "group",
-				get = function(info)
-					local key = info[#info]
-					if key == "texture" then
-						for i, v in next, media:List("statusbar") do
-							if v == db.texture then return i end
-						end
-					elseif key == "font" then
-						for i, v in next, media:List("font") do
-							if v == db.font then return i end
-						end
-					end
-					return db[key]
-				end,
-				set = function(info, value)
-					local key = info[#info]
-					if key == "texture" then
-						local list = media:List("statusbar")
-						db.texture = list[value]
-					elseif key == "font" then
-						local list = media:List("font")
-						db.font = list[value]
-					elseif key == "barStyle" then
-						plugin:SetBarStyle(value)
-					else
-						db[key] = value
-					end
-				end,
 				args = {
 					font = {
 						type = "select",
@@ -727,89 +650,163 @@ do
 							end
 						end,
 					},
-					normal = {
-						type = "group",
-						name = L.regularBars,
-						inline = true,
-						width = "full",
-						args = {
-							growup = {
-								type = "toggle",
-								name = L.growUpwards,
-								desc = L.growUpwardsDesc,
-								order = 1,
-							},
-							scale = {
-								type = "range",
-								name = L.scale,
-								min = 0.2,
-								max = 2.0,
-								step = 0.1,
-								order = 2,
-								width = "full",
-							},
-						},
-						order = 10,
+				},
+			},
+			normal = {
+				type = "group",
+				name = L.regularBars,
+				width = "full",
+				args = {
+					growup = {
+						type = "toggle",
+						name = L.growingUpwards,
+						desc = L.growingUpwardsDesc,
+						order = 1,
 					},
-					emphasize = {
-						type = "group",
-						name = L.emphasizedBars,
-						inline = true,
+					scale = {
+						type = "range",
+						name = L.scale,
+						min = 0.2,
+						max = 2.0,
+						step = 0.1,
+						order = 2,
 						width = "full",
-						args = {
-							emphasize = {
-								type = "toggle",
-								name = L.enable,
-								order = 1,
-								width = "half",
-							},
-							emphasizeMove = {
-								type = "toggle",
-								name = L.move,
-								desc = L.moveDesc,
-								order = 2,
-								width = "half",
-							},
-							emphasizeRestart = {
-								type = "toggle",
-								name = L.restart,
-								desc = L.restartDesc,
-								order = 3,
-								width = "half",
-								disabled = function() return not db.emphasizeMove end,
-							},
-							emphasizeGrowup = {
-								type = "toggle",
-								name = L.growUpwards,
-								desc = L.growUpwardsDesc,
-								order = 4,
-							},
-							emphasizeTime = {
-								type = "range",
-								name = L.emphasizeAt,
-								order = 5,
-								min = 6,
-								max = 20,
-								step = 1,
-								width = "full",
-							},
-							emphasizeScale = {
-								type = "range",
-								name = L.scale,
-								order = 6,
-								min = 0.2,
-								max = 2.0,
-								step = 0.1,
-								width = "full",
-							},
-						},
-						order = 11,
 					},
 				},
-			}
-		end
-		return pluginOptions
-	end
+				order = 2,
+			},
+			emphasize = {
+				type = "group",
+				name = L.emphasizedBars,
+				width = "full",
+				args = {
+					emphasize = {
+						type = "toggle",
+						name = L.enable,
+						order = 1,
+						width = "half",
+					},
+					emphasizeMove = {
+						type = "toggle",
+						name = L.move,
+						desc = L.moveDesc,
+						order = 2,
+						width = "half",
+					},
+					emphasizeRestart = {
+						type = "toggle",
+						name = L.restart,
+						desc = L.restartDesc,
+						order = 3,
+						width = "half",
+					},
+					emphasizeGrowup = {
+						type = "toggle",
+						name = L.growingUpwards,
+						desc = L.growingUpwardsDesc,
+						order = 4,
+					},
+					emphasizeTime = {
+						type = "range",
+						name = L.emphasizeAt,
+						order = 5,
+						min = 6,
+						max = 20,
+						step = 1,
+						width = "full",
+					},
+					emphasizeScale = {
+						type = "range",
+						name = L.scale,
+						order = 6,
+						min = 0.2,
+						max = 2.0,
+						step = 0.1,
+						width = "full",
+					},
+				},
+				order = 3,
+			},
+			clicking = {
+				name = L.clickableBars,
+				type = "group",
+				order = 4,
+				childGroups = "tab",
+				get = function(i) return plugin.db.profile[i[#i]] end,
+				set = function(i, value)
+					local key = i[#i]
+					plugin.db.profile[key] = value
+					if key == "interceptMouse" then
+						plugin:RefixClickIntercepts()
+					end
+				end,
+				args = {
+					heading = {
+						type = "description",
+						name = L.clickableBarsDesc,
+						order = 1,
+						width = "full",
+						fontSize = "medium",
+					},
+					interceptMouse = {
+						type = "toggle",
+						name = L.enable,
+						desc = L.interceptMouseDesc,
+						order = 2,
+						width = "full",
+					},
+					onlyInterceptOnKeypress = {
+						type = "toggle",
+						name = L.modifierKey,
+						desc = L.modifierKeyDesc,
+						order = 3,
+						disabled = shouldDisable,
+					},
+					interceptKey = {
+						type = "select",
+						name = L.modifier,
+						desc = L.modifierDesc,
+						values = {
+							CTRL = CTRL_KEY_TEXT or "Ctrl",
+							ALT = ALT_KEY or "Alt",
+							SHIFT = SHIFT_KEY_TEXT or "Shift",
+						},
+						order = 4,
+						disabled = function()
+							return not plugin.db.profile.interceptMouse or not plugin.db.profile.onlyInterceptOnKeypress
+						end,
+					},
+					left = {
+						type = "group",
+						name = KEY_BUTTON1 or "Left",
+						order = 10,
+						args = clickOptions,
+						disabled = shouldDisable,
+						get = function(info) return plugin.db.profile.LeftButton[info[#info]] end,
+						set = function(info, value) plugin.db.profile.LeftButton[info[#info]] = value end,
+					},
+					middle = {
+						type = "group",
+						name = KEY_BUTTON3 or "Middle",
+						order = 11,
+						args = clickOptions,
+						disabled = shouldDisable,
+						get = function(info) return plugin.db.profile.MiddleButton[info[#info]] end,
+						set = function(info, value) plugin.db.profile.MiddleButton[info[#info]] = value end,
+					},
+					right = {
+						type = "group",
+						name = KEY_BUTTON2 or "Right",
+						order = 12,
+						args = clickOptions,
+						disabled = shouldDisable,
+						get = function(info) return plugin.db.profile.RightButton[info[#info]] end,
+						set = function(info, value) plugin.db.profile.RightButton[info[#info]] = value end,
+					},
+				},
+			},
+		},
+	}
 end
 
 --------------------------------------------------------------------------------
@@ -845,12 +842,22 @@ do
 			local spacing = currentBarStyler.GetSpacing(bar) or 0
 			bar:ClearAllPoints()
 			if up or (db.emphasizeGrowup and bar:Get("bigwigs:emphasized")) then
-				bar:SetPoint("BOTTOMLEFT", lastUpBar or anchor, "TOPLEFT", 0, spacing)
-				bar:SetPoint("BOTTOMRIGHT", lastUpBar or anchor, "TOPRIGHT", 0, spacing)
+				if lastUpBar then -- Growing from a bar
+					bar:SetPoint("BOTTOMLEFT", lastUpBar, "TOPLEFT", 0, spacing)
+					bar:SetPoint("BOTTOMRIGHT", lastUpBar, "TOPRIGHT", 0, spacing)
+				else -- Growing from the anchor
+					bar:SetPoint("BOTTOMLEFT", anchor, "BOTTOMLEFT", 0, 0)
+					bar:SetPoint("BOTTOMRIGHT", anchor, "BOTTOMRIGHT", 0, 0)
+				end
 				lastUpBar = bar
 			else
-				bar:SetPoint("TOPLEFT", lastDownBar or anchor, "BOTTOMLEFT", 0, -spacing)
-				bar:SetPoint("TOPRIGHT", lastDownBar or anchor, "BOTTOMRIGHT", 0, -spacing)
+				if lastDownBar then -- Growing from a bar
+					bar:SetPoint("TOPLEFT", lastDownBar, "BOTTOMLEFT", 0, -spacing)
+					bar:SetPoint("TOPRIGHT", lastDownBar, "BOTTOMRIGHT", 0, -spacing)
+				else -- Growing from the anchor
+					bar:SetPoint("TOPLEFT", anchor, "TOPLEFT", 0, 0)
+					bar:SetPoint("TOPRIGHT", anchor, "TOPRIGHT", 0, 0)
+				end
 				lastDownBar = bar
 			end
 		end
@@ -913,6 +920,7 @@ local function createAnchor(frameName, title)
 	display:SetHeight(20)
 	display:SetMinResize(80, 20)
 	display:SetMaxResize(1920, 20)
+	display:SetFrameLevel(20)
 	local bg = display:CreateTexture(nil, "BACKGROUND")
 	bg:SetAllPoints(display)
 	bg:SetBlendMode("BLEND")
@@ -1029,9 +1037,12 @@ function plugin:OnPluginEnable()
 	colors = BigWigs:GetPlugin("Colors")
 
 	self:RegisterMessage("BigWigs_StartBar")
+	self:RegisterMessage("BigWigs_PauseBar", "PauseBar")
+	self:RegisterMessage("BigWigs_ResumeBar", "ResumeBar")
 	self:RegisterMessage("BigWigs_StopBar", "StopSpecificBar")
 	self:RegisterMessage("BigWigs_StopBars", "StopModuleBars")
 	self:RegisterMessage("BigWigs_OnBossDisable", "StopModuleBars")
+	self:RegisterMessage("BigWigs_OnBossReboot", "StopModuleBars")
 	self:RegisterMessage("BigWigs_OnPluginDisable", "StopModuleBars")
 	self:RegisterMessage("BigWigs_StartConfigureMode", showAnchors)
 	self:RegisterMessage("BigWigs_SetConfigureTarget")
@@ -1045,6 +1056,7 @@ function plugin:OnPluginEnable()
 	-- custom bars
 	BigWigs:AddSyncListener(self, "BWCustomBar", 0)
 	BigWigs:AddSyncListener(self, "BWPull", 0)
+	BigWigs:AddSyncListener(self, "BWBreak", 0)
 	self:RegisterMessage("DBM_AddonMessage", "OnDBMSync")
 
 	if not media:Fetch("statusbar", db.texture, true) then db.texture = "BantoBar" end
@@ -1056,6 +1068,17 @@ function plugin:OnPluginEnable()
 		end
 	else
 		self:SetBarStyle(db.barStyle)
+	end
+
+	local tbl = BigWigs3DB.breakTime
+	if tbl then -- Break time present, resume it
+		local prevTime, seconds, nick, isDBM = tbl[1], tbl[2], tbl[3], tbl[4]
+		local curTime = time()
+		if curTime-prevTime > seconds then
+			BigWigs3DB.breakTime = nil
+		else
+			startBreak(seconds-(curTime-prevTime), nick, isDBM, true)
+		end
 	end
 end
 
@@ -1135,6 +1158,42 @@ do
 end
 
 --------------------------------------------------------------------------------
+-- Pausing bars
+--
+
+function plugin:PauseBar(_, module, text)
+	if not normalAnchor then return end
+	for k in next, normalAnchor.bars do
+		if k:Get("bigwigs:module") == module and k.candyBarLabel:GetText() == text then
+			k:Pause()
+			return
+		end
+	end
+	for k in next, emphasizeAnchor.bars do
+		if k:Get("bigwigs:module") == module and k.candyBarLabel:GetText() == text then
+			k:Pause()
+			return
+		end
+	end
+end
+
+function plugin:ResumeBar(_, module, text)
+	if not normalAnchor then return end
+	for k in next, normalAnchor.bars do
+		if k:Get("bigwigs:module") == module and k.candyBarLabel:GetText() == text then
+			k:Resume()
+			return
+		end
+	end
+	for k in next, emphasizeAnchor.bars do
+		if k:Get("bigwigs:module") == module and k.candyBarLabel:GetText() == text then
+			k:Resume()
+			return
+		end
+	end
+end
+
+--------------------------------------------------------------------------------
 -- Stopping bars
 --
 
@@ -1174,6 +1233,25 @@ function plugin:StopModuleBars(_, module)
 		end
 	end
 	if dirty then rearrangeBars(emphasizeAnchor) end
+end
+
+--------------------------------------------------------------------------------
+-- Bar utility functions
+--
+
+function plugin:GetBarTimeLeft(module, text)
+	if not normalAnchor then return end
+	for k in next, normalAnchor.bars do
+		if k:Get("bigwigs:module") == module and k.candyBarLabel:GetText() == text then
+			return k.remaining
+		end
+	end
+	for k in next, emphasizeAnchor.bars do
+		if k:Get("bigwigs:module") == module and k.candyBarLabel:GetText() == text then
+			return k.remaining
+		end
+	end
+	return 0
 end
 
 --------------------------------------------------------------------------------
@@ -1385,9 +1463,9 @@ function plugin:EmphasizeBar(bar)
 		normalAnchor.bars[bar] = nil
 		emphasizeAnchor.bars[bar] = true
 		bar:Set("bigwigs:anchor", emphasizeAnchor)
-		if db.emphasizeRestart then
-			bar:Start() -- restart the bar -> remaining time is a full length bar again after moving it to the emphasize anchor
-		end
+	end
+	if db.emphasizeRestart then
+		bar:Start() -- restart the bar -> remaining time is a full length bar again after moving it to the emphasize anchor
 	end
 	local module = bar:Get("bigwigs:module")
 	local key = bar:Get("bigwigs:option")
@@ -1422,16 +1500,16 @@ do
 	function startCustomBar(bar, nick, localOnly, isDBM)
 		if not timers then timers, prevBars = {}, {} end
 
-		local time, barText
+		local seconds, barText
 		if localOnly then
-			time, barText, nick = bar, localOnly, L.localTimer
+			seconds, barText, nick = bar, localOnly, L.localTimer
 		else
 			if prevBars[bar] and GetTime() - prevBars[bar] < 1.2 then return end -- Throttle
 			prevBars[bar] = GetTime()
 			if not UnitIsGroupLeader(nick) and not UnitIsGroupAssistant(nick) then return end
-			time, barText = bar:match("(%S+) (.*)")
-			time = parseTime(time)
-			if type(time) ~= "number" or type(barText) ~= "string" or time < 0 then
+			seconds, barText = bar:match("(%S+) (.*)")
+			seconds = parseTime(seconds)
+			if type(seconds) ~= "number" or type(barText) ~= "string" or seconds < 0 then
 				return
 			end
 			BigWigs:Print(L.customBarStarted:format(barText, isDBM and "DBM" or "Big Wigs", nick))
@@ -1444,11 +1522,11 @@ do
 		end
 
 		nick = nick:gsub("%-.+", "*") -- Remove server name
-		if time == 0 then
+		if seconds == 0 then
 			plugin:SendMessage("BigWigs_StopBar", plugin, nick..": "..barText)
 		else
-			timers[id] = plugin:ScheduleTimer("SendMessage", time, "BigWigs_Message", false, false, L.timerFinished:format(nick, barText), "Attention", false, "Interface\\Icons\\INV_Misc_PocketWatch_01")
-			plugin:SendMessage("BigWigs_StartBar", plugin, id, nick..": "..barText, time, "Interface\\Icons\\INV_Misc_PocketWatch_01")
+			timers[id] = plugin:ScheduleTimer("SendMessage", seconds, "BigWigs_Message", plugin, false, L.timerFinished:format(nick, barText), "Attention", "Interface\\Icons\\INV_Misc_PocketWatch_01")
+			plugin:SendMessage("BigWigs_StartBar", plugin, id, nick..": "..barText, seconds, "Interface\\Icons\\INV_Misc_PocketWatch_01")
 		end
 	end
 end
@@ -1461,24 +1539,25 @@ do
 		if timeLeft == 0 then
 			plugin:CancelTimer(timer)
 			timer = nil
-			plugin:SendMessage("BigWigs_Message", nil, nil, L.pulling, "Attention", "Alarm", "Interface\\Icons\\ability_warrior_charge")
+			plugin:SendMessage("BigWigs_Message", plugin, nil, L.pulling, "Attention", "Interface\\Icons\\ability_warrior_charge")
+			plugin:SendMessage("BigWigs_Sound", plugin, nil, "Alarm")
 		elseif timeLeft < 11 then
-			plugin:SendMessage("BigWigs_Message", nil, nil, L.pullIn:format(timeLeft), "Attention")
+			plugin:SendMessage("BigWigs_Message", plugin, nil, L.pullIn:format(timeLeft), "Attention")
 			if timeLeft < 6 and BigWigs.db.profile.sound then
-				PlaySoundFile(("Interface\\AddOns\\BigWigs\\Sounds\\%d.mp3"):format(timeLeft), "Master")
+				PlaySoundFile(("Interface\\AddOns\\BigWigs\\Sounds\\%d.ogg"):format(timeLeft), "Master")
 			end
 		end
 	end
-	function startPull(time, nick, isDBM)
-		if not UnitIsGroupLeader(nick) and not UnitIsGroupAssistant(nick) then return end
-		time = tonumber(time)
-		if not time or time < 0 or time > 60 then return end
-		time = floor(time)
-		if timeLeft == time then return end -- Throttle
-		timeLeft = time
+	function startPull(seconds, nick, isDBM)
+		if (not UnitIsGroupLeader(nick) and not UnitIsGroupAssistant(nick) and not UnitIsUnit(nick, "player")) or IsEncounterInProgress() then return end
+		seconds = tonumber(seconds)
+		if not seconds or seconds < 0 or seconds > 60 then return end
+		seconds = floor(seconds)
+		if timeLeft == seconds then return end -- Throttle
+		timeLeft = seconds
 		if timer then
 			plugin:CancelTimer(timer)
-			if time == 0 then
+			if seconds == 0 then
 				timeLeft = 0
 				BigWigs:Print(L.pullStopped:format(nick))
 				plugin:SendMessage("BigWigs_StopBar", plugin, L.pull)
@@ -1487,25 +1566,85 @@ do
 		end
 		BigWigs:Print(L.pullStarted:format(isDBM and "DBM" or "Big Wigs", nick))
 		timer = plugin:ScheduleRepeatingTimer(printPull, 1)
-		plugin:SendMessage("BigWigs_Message", nil, nil, L.pullIn:format(timeLeft), "Attention", "Long")
-		plugin:SendMessage("BigWigs_StartBar", plugin, nil, L.pull, time, "Interface\\Icons\\ability_warrior_charge")
+		plugin:SendMessage("BigWigs_Message", plugin, nil, L.pullIn:format(timeLeft), "Attention")
+		plugin:SendMessage("BigWigs_Sound", plugin, nil, "Long")
+		plugin:SendMessage("BigWigs_StartBar", plugin, nil, L.pull, seconds, "Interface\\Icons\\ability_warrior_charge")
+		plugin:SendMessage("BigWigs_StartPull", plugin, seconds, nick, isDBM)
 	end
 end
 
-function plugin:OnDBMSync(_, sender, prefix, time, text)
+do
+	local timerTbl, lastBreak = nil, 0
+	function startBreak(seconds, nick, isDBM, reboot)
+		if not reboot then
+			if (not UnitIsGroupLeader(nick) and not UnitIsGroupAssistant(nick) and not UnitIsUnit(nick, "player")) or IsEncounterInProgress() then return end
+			seconds = tonumber(seconds)
+			if not seconds or seconds < 0 or seconds > 3600 or (seconds > 0 and seconds < 60) then return end -- 1h max, 1m min
+
+			local t = GetTime()
+			if t-lastBreak < 0.5 then return else lastBreak = t end -- Throttle
+		end
+
+		if timerTbl then
+			for i = 1, #timerTbl do
+				plugin:CancelTimer(timerTbl[i])
+			end
+			if seconds == 0 then
+				timerTbl = nil
+				BigWigs3DB.breakTime = nil
+				BigWigs:Print(L.breakStopped:format(nick))
+				plugin:SendMessage("BigWigs_StopBar", plugin, L.breakBar)
+				return
+			end
+		end
+
+		if not reboot then
+			BigWigs3DB.breakTime = {time(), seconds, nick, isDBM}
+		end
+
+		BigWigs:Print(L.breakStarted:format(isDBM and "DBM" or "Big Wigs", nick))
+		plugin:SendMessage("BigWigs_Message", plugin, nil, L.breakAnnounce:format(seconds/60), "Attention", "Interface\\Icons\\inv_misc_fork&knife")
+		plugin:SendMessage("BigWigs_Sound", plugin, nil, "Long")
+		plugin:SendMessage("BigWigs_StartBar", plugin, nil, L.breakBar, seconds, "Interface\\Icons\\inv_misc_fork&knife")
+
+		timerTbl = {
+			plugin:ScheduleTimer("SendMessage", seconds - 30, "BigWigs_Message", plugin, nil, L.breakSeconds:format(30), "Urgent", "Interface\\Icons\\inv_misc_fork&knife"),
+			plugin:ScheduleTimer("SendMessage", seconds - 10, "BigWigs_Message", plugin, nil, L.breakSeconds:format(10), "Urgent", "Interface\\Icons\\inv_misc_fork&knife"),
+			plugin:ScheduleTimer("SendMessage", seconds - 5, "BigWigs_Message", plugin, nil, L.breakSeconds:format(5), "Important", "Interface\\Icons\\inv_misc_fork&knife"),
+			plugin:ScheduleTimer("SendMessage", seconds, "BigWigs_Message", plugin, nil, L.breakFinished, "Important", "Interface\\Icons\\inv_misc_fork&knife"),
+			plugin:ScheduleTimer("SendMessage", seconds, "BigWigs_Sound", plugin, nil, "Long"),
+			plugin:ScheduleTimer(function() BigWigs3DB.breakTime = nil timerTbl = nil end, seconds)
+		}
+		if seconds > 119 then -- 2min
+			timerTbl[#timerTbl+1] = plugin:ScheduleTimer("SendMessage", seconds - 60, "BigWigs_Message", nil, nil, L.breakMinutes:format(1), "Positive", "Interface\\Icons\\inv_misc_fork&knife")
+		end
+		if seconds > 239 then -- 4min
+			local half = seconds / 2
+			local m = half % 60
+			local halfMin = (half - m) / 60
+			timerTbl[#timerTbl+1] = plugin:ScheduleTimer("SendMessage", half + m, "BigWigs_Message", nil, nil, L.breakMinutes:format(halfMin), "Positive", "Interface\\Icons\\inv_misc_fork&knife")
+		end
+	end
+end
+
+function plugin:OnDBMSync(_, sender, prefix, seconds, text)
 	if prefix == "U" then
-		startCustomBar(time.." "..text, sender, nil, true)
+		startCustomBar(seconds.." "..text, sender, nil, true)
 	elseif prefix == "PT" then
-		startPull(time, sender, true)
+		startPull(seconds, sender, true)
+	elseif prefix == "BT" then
+		startBreak(seconds, sender, true)
 	end
 end
 
-function plugin:OnSync(sync, rest, nick)
-	if rest and nick then
+function plugin:OnSync(sync, seconds, nick)
+	if seconds and nick then
 		if sync == "BWCustomBar" then
-			startCustomBar(rest, nick)
+			startCustomBar(seconds, nick)
 		elseif sync == "BWPull" then
-			startPull(rest, nick)
+			startPull(seconds, nick)
+		elseif sync == "BWBreak" then
+			startBreak(seconds, nick)
 		end
 	end
 end
@@ -1521,19 +1660,19 @@ do
 
 		if not UnitIsGroupLeader("player") and not UnitIsGroupAssistant("player") then BigWigs:Print(L.requiresLeadOrAssist) return end
 
-		local time, barText = input:match("(%S+) (.*)")
-		if not time or not barText then BigWigs:Print(L.wrongCustomBarFormat) return end
+		local seconds, barText = input:match("(%S+) (.*)")
+		if not seconds or not barText then BigWigs:Print(L.wrongCustomBarFormat) return end
 
-		time = parseTime(time)
-		if not time or time < 0 then BigWigs:Print(L.wrongTime) return end
+		seconds = parseTime(seconds)
+		if not seconds or seconds < 0 then BigWigs:Print(L.wrongTime) return end
 
 		if not times then times = {} end
 		local t = GetTime()
 		if not times[input] or (times[input] and (times[input] + 2) < t) then
 			times[input] = t
 			BigWigs:Print(L.sendCustomBar:format(barText))
-			BigWigs:Transmit("BWCustomBar", time, barText)
-			SendAddonMessage("D4", ("U\t%d\t%s"):format(time, barText), IsInGroup(2) and "INSTANCE_CHAT" or "RAID") -- DBM message
+			BigWigs:Transmit("BWCustomBar", seconds, barText)
+			SendAddonMessage("D4", ("U\t%d\t%s"):format(seconds, barText), IsInGroup(2) and "INSTANCE_CHAT" or "RAID") -- DBM message
 		end
 	end
 	SLASH_BIGWIGSRAIDBAR1 = "/raidbar"
@@ -1542,33 +1681,57 @@ end
 SlashCmdList.BIGWIGSLOCALBAR = function(input)
 	if not plugin:IsEnabled() then BigWigs:Enable() end
 
-	local time, barText = input:match("(%S+) (.*)")
-	if not time or not barText then BigWigs:Print(L.wrongCustomBarFormat:gsub("/raidbar", "/localbar")) return end
+	local seconds, barText = input:match("(%S+) (.*)")
+	if not seconds or not barText then BigWigs:Print(L.wrongCustomBarFormat:gsub("/raidbar", "/localbar")) return end
 
-	time = parseTime(time)
-	if not time then BigWigs:Print(L.wrongTime) return end
+	seconds = parseTime(seconds)
+	if not seconds then BigWigs:Print(L.wrongTime) return end
 
-	startCustomBar(time, UnitName("player"), barText)
+	startCustomBar(seconds, UnitName("player"), barText)
 end
 SLASH_BIGWIGSLOCALBAR1 = "/localbar"
 
 SlashCmdList.BIGWIGSPULL = function(input)
 	if not plugin:IsEnabled() then BigWigs:Enable() end
 	if IsEncounterInProgress() then BigWigs:Print(L.encounterRestricted) return end -- Doesn't make sense to allow this in combat
-	if UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then
-		local time = tonumber(input)
-		if not time or time < 0 or time > 60 then BigWigs:Print(L.wrongPullFormat) return end
+	if not IsInGroup() or UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then -- Solo or leader/assist
+		local seconds = tonumber(input)
+		if not seconds or seconds < 0 or seconds > 60 then BigWigs:Print(L.wrongPullFormat) return end
 
-		if time ~= 0 then
+		if seconds ~= 0 then
 			BigWigs:Print(L.sendPull)
 		end
 		BigWigs:Transmit("BWPull", input)
 
-		local _, _, _, _, _, _, _, mapID = GetInstanceInfo()
-		SendAddonMessage("D4", ("PT\t%s\t%d"):format(input, mapID or 0), IsInGroup(2) and "INSTANCE_CHAT" or "RAID") -- DBM message
+		if IsInGroup() then
+			local _, _, _, _, _, _, _, mapID = GetInstanceInfo()
+			SendAddonMessage("D4", ("PT\t%s\t%d"):format(input, mapID or 0), IsInGroup(2) and "INSTANCE_CHAT" or "RAID") -- DBM message
+		end
 	else
 		BigWigs:Print(L.requiresLeadOrAssist)
 	end
 end
 SLASH_BIGWIGSPULL1 = "/pull"
+
+SlashCmdList.BIGWIGSBREAK = function(input)
+	if not plugin:IsEnabled() then BigWigs:Enable() end
+	if IsEncounterInProgress() then BigWigs:Print(L.encounterRestricted) return end -- Doesn't make sense to allow this in combat
+	if not IsInGroup() or UnitIsGroupLeader("player") or UnitIsGroupAssistant("player") then -- Solo or leader/assist
+		local minutes = tonumber(input)
+		if not minutes or minutes < 0 or minutes > 60 or (minutes > 0 and minutes < 1) then BigWigs:Print(L.wrongBreakFormat) return end -- 1h max, 1m min
+
+		if minutes ~= 0 then
+			BigWigs:Print(L.sendBreak)
+		end
+		local seconds = minutes * 60
+		BigWigs:Transmit("BWBreak", seconds)
+
+		if IsInGroup() then
+			SendAddonMessage("D4", ("BT\t%d"):format(seconds), IsInGroup(2) and "INSTANCE_CHAT" or "RAID") -- DBM message
+		end
+	else
+		BigWigs:Print(L.requiresLeadOrAssist)
+	end
+end
+SLASH_BIGWIGSBREAK1 = "/break"
 

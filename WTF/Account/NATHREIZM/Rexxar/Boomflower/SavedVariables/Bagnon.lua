@@ -1,17 +1,17 @@
 
 BagnonFrameSettings = {
-	["version"] = "5.4.2",
 	["frames"] = {
 		["inventory"] = {
 		},
 		["guildbank"] = {
-			["point"] = "BOTTOMLEFT",
 			["y"] = 259.5,
 			["x"] = 507,
+			["point"] = "BOTTOMLEFT",
 		},
 		["bank"] = {
 			["point"] = "BOTTOMLEFT",
-			["y"] = 359.4999389648438,
+			["y"] = 359.499938964844,
 		},
 	},
+	["version"] = "6.0.16",
 }

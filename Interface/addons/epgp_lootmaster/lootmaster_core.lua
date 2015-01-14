@@ -4,16 +4,18 @@
 
 LootMaster          = LibStub("AceAddon-3.0"):NewAddon("EPGPLootMaster", "AceConsole-3.0", "AceComm-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceHook-3.0")
 
-local version 	    = "0.6.39"
-local dVersion 	    = "2014-02-26T16:58:46Z"
-local iVersion	    = 3
-local iVersionML	  = 11
+local version 	    = "0.6.64"
+local dVersion 	    = "2014-12-17T09:53:18Z"
+local iVersion	    = 4
+local iVersionML	  = 12
 local _G            = _G
 
 local debug         = false
 local addon         = LootMaster		-- Local instance of the addon
 
 local L = LibStub("AceLocale-3.0"):GetLocale("EPGPLootmaster")
+local LibBase64 = LibStub("LibBase64-1.0")
+LootMaster.base64 = LibBase64
 
 --[[
     Returns a table serialized as a string.
@@ -194,9 +196,127 @@ end
 function LootMaster:PostEnable()
     -- Inbound Chat Hooking
     ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER_INFORM",    LootMaster.ChatFrameFilter)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_WHISPER",  		  LootMaster.ChatFrameFilter)
     ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY",             LootMaster.ChatFrameFilter)
+	ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER",      LootMaster.ChatFrameFilter)
     ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID",              LootMaster.ChatFrameFilter)
     ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER",       LootMaster.ChatFrameFilter)
+end
+
+-- We're having problems with crossrealm groups and the Ambiguate function only makes it worse.
+-- In the backend storage we should always store the full player name incl the RealmName.
+-- In the interface we should use the normal Ambiguate to show the local names
+-- This is since we communicate this via addon channels to the other players
+--
+-- cache variable for the realmName, because various functions are bugged
+-- we have to remove the spaces and dashes from the realmName for it to work!
+local realmName = gsub(gsub(GetRealmName(), ' ', ''), '-', '')
+function LootMaster.UnAmbiguate(name)
+	-- Don't postfix these default values
+	if name == '' or name == nil or name == 'RAID' or name == 'PARTY' or name == 'BATTLEGROUND' or name == 'GUILD' then
+		return name
+	end
+
+	-- Let the wow client try to add the realmname
+	-- This function is really buggy by the way... If realm name has space in it,
+	-- it expects you to deliver it to this function without the spaces. /facepalm
+	-- So Mackatack-Lightning's Hammer just returns the same, Mackatack-Lightning'sHammer
+	-- does only return Mackatack, as is expected. The quote is preserved, just the space is
+	-- removed.
+	-- Other functions, such as SendAddonMessage and SendChatMessage do work with the space removed
+	-- or with the spaces intact. UnitIsUnit etc still only work without the server names. Now quite
+	-- Sure how to properly use these functions cross-realm
+	local res = LootMaster.Ambiguate(name, "none")
+
+	-- No realmname on the playerName? add it
+	if strfind(res, "-", nil, true) == nil then
+		-- add the realmname to the player name
+		res = res .. "-" .. realmName
+	end
+
+	return res
+end
+
+-- Just a local cache of the Ambiguate function
+-- This function currently is broken if there are spaces in the
+-- player/realmName. It's easily detected when the blizz devs have fixed this
+-- So leave a message to the player when they have so they can report back
+local ambiguateSpacesBroken = true
+if strfind(GetRealmName(), ' ', nil, true) ~= nil then
+	-- We're on a server with a space in the realmName, see if blizzard has fixed the error
+	if Ambiguate(UnitName("player").."-"..GetRealmName(), "none") == UnitName("player") then
+		LootMaster:Print("NOTICE! Ambiguate spaces error has been fixed by Blizzard, please report back to EPGPLootmaster developer!")
+		-- Auto unpatch
+		ambiguateSpacesBroken = false
+		realmName = GetRealmName()
+		-- Else, still broken
+	end
+end
+
+function LootMaster.Ambiguate(name, aType, ...)
+	-- It seems this function totally bugs out when there are spaces in the player name
+	-- So, remove the spaces
+	-- Edit: it's even more broken, it doesn't work when the realmName has spaces AND dashes, () or any other UTF char works,
+	-- just not spaces and dashes...
+	if ambiguateSpacesBroken and name ~= nil and strfind(name, "-", nil, true) ~= nil then
+		-- first, just remove the spaces
+		-- Then split at the first dash, remove any dashes from the
+		-- realmName and concat back together, afterwards, feed this into Ambiguate.
+		-- Sweet... bunch of awesome developers they have at Blizz </sarcasm>
+		name = gsub(name, ' ', '')
+		local n, s = strsplit('-', name, 2)
+		name = n .. '-' .. gsub(s, '-', '')
+	end
+	return Ambiguate(name, aType, ...)
+end
+
+-- Don't trust blizzard functions to remove the realmname, just split on dash and return the first value
+function LootMaster.StripServerName(name)
+	local n, s = strsplit('-', name, 2)
+	return n
+end
+
+-- These built-in wow functions dont work properly with UnAmbiguated names...
+function LootMaster.UnitInRaid(unit)
+	-- Dont do anything special if there's no - in the unit name
+	if strfind(unit, "-", nil, true) ~= nil then
+		unit = LootMaster.Ambiguate(unit, "none")
+	end
+	return UnitInRaid(unit)
+end
+
+-- These built-in wow functions dont work properly with UnAmbiguated names...
+function LootMaster.UnitInParty(unit)
+	-- Dont do anything special if there's no - in the unit name
+	if strfind(unit, "-", nil, true) ~= nil then
+		unit = LootMaster.Ambiguate(unit, "none")
+	end
+	return UnitInParty(unit)
+end
+
+-- These built-in wow functions dont work properly with UnAmbiguated names...
+-- for example UnitIsUnit("Bushmaster", "player") return true, UnitIsUnit("Bushmaster-Darksorrow", "player") returns false...
+function LootMaster.UnitIsUnit(unit1, unit2)
+	-- Dont do anything special if there's no - in the unit name
+	if strfind(unit1, "-", nil, true) ~= nil then
+		unit1 = LootMaster.Ambiguate(unit1, "none")
+	end
+	if strfind(unit2, "-", nil, true) ~= nil then
+		unit2 = LootMaster.Ambiguate(unit2, "none")
+	end
+	return UnitIsUnit(unit1, unit2)
+end
+
+-- UnitName receives a 2nd return value containing the realm name
+function LootMaster.UnitName(unit)
+	local name, realm = UnitName(unit)
+	if name == nil then
+		return nil, nil
+	end
+	if realm ~= nil and realm ~= '' then
+		return name .. "-" .. realm
+	end
+	return name .. '-' .. GetRealmName()
 end
 
 local lastMsgID = nil
@@ -253,7 +373,8 @@ function LootMaster:SlashHandler( input )
 
 	elseif command=='debug' then
 
-        self.debug = not self.debug;
+        self.debug = not self.debug
+		debug = self.debug
         if self.debug then
             self:Print('Debugging enabled')
         else
@@ -354,10 +475,10 @@ function LootMaster:SlashHandler( input )
         else
             num = GetNumSubgroupMembers()
             for i=1, num do
-                name = UnitName('party'..i)
+                name = LootMaster.UnitName('party'..i)
                 ml.AddCandidate(ml, loot.id, name)
             end
-            ml.AddCandidate(ml, loot.id, UnitName('player'))
+            ml.AddCandidate(ml, loot.id, LootMaster.UnitName('player'))
         end
 
         if command=='announce' then
@@ -410,65 +531,9 @@ function LootMaster:SlashHandler( input )
         local ml = LootMasterML;
         if not ml then return self:Print(L["Master Looter Module not enabled"]) end;
 
-        local itemName, item, _, _, _, _, _, _, _, _ = GetItemInfo("item:868:0:0:0:0:0:0:0")
-        if item then
-            local itemID = ml.AddLoot( ml, item, true, 1 )
-            ml.lootTable[itemID].announced = false;
-            ml.AddCandidate( ml, itemID, UnitName('player') )
-			if UnitName('party1') then ml.AddCandidate( ml, itemID, UnitName('party1') ) end
-            if UnitName('party2') then ml.AddCandidate( ml, itemID, UnitName('party2') ) end
-            if UnitName('party3') then ml.AddCandidate( ml, itemID, UnitName('party3') ) end
-            if UnitName('party4') then ml.AddCandidate( ml, itemID, UnitName('party4') ) end
-			ml.SetCandidateResponse(ml, itemID, UnitName('player'), self.RESPONSE.NEED)
-			--for i = 1, 25 do
-			--	ml.AddCandidate( ml, itemID, 'Unit' .. i )
-			--end
-
-			--[[local num = GetNumGuildMembers(false)
-            local count = 0
-            for i=1, num do
-                if count>14 then break end
-                local name, _, _, _, _, _, _, _, online = GetGuildRosterInfo(i)
-				local ep, gp, alt, minEP = LootMasterML:GetEPGP(name)
-                if not online and ep>0 then
-					count = count + 1
-                    ml.AddCandidate( ml, itemID, name )
-					ml.SetCandidateResponse(ml, itemID, name, self.RESPONSE.NEED)
-					--ml.SetCandidateData(ml, itemID, name, 'bid', ceil(math.random()*15)*10)
-					--ml.SetCandidateData(ml, itemID, name, 'votes', floor(math.random()*2))
-                end
-            end]]
-
-            ml.SendCandidateListToMonitors(ml, itemID)
-            ml.ReloadMLTableForLoot(ml, item )
-        end
-
-        --[[for i = 1, 6 do
-           item = GetInventoryItemLink("player",i);
-           if item then
-            local itemID = ml.AddLoot( ml, item, true )
-            ml.lootTable[itemID].announced = false;
-            ml.AddCandidate( ml, itemID, UnitName('player') )
-            if UnitName('party1') then ml.AddCandidate( ml, itemID, UnitName('party1') ) end
-            if UnitName('party2') then ml.AddCandidate( ml, itemID, UnitName('party2') ) end
-            if UnitName('party3') then ml.AddCandidate( ml, itemID, UnitName('party3') ) end
-            if UnitName('party4') then ml.AddCandidate( ml, itemID, UnitName('party4') ) end
-            local num = GetNumGuildMembers(false);
-            local count = 0;
-            for i=1, num do
-                if count>100 then break end;
-                count = count + 1
-                local name, _, _, _, _, _, _, _, online = GetGuildRosterInfo(i);
-                if online then
-                    ml.AddCandidate( ml, itemID, name )
-                end
-            end
-            ml.SendCandidateListToMonitors(ml, itemID)
-            ml.ReloadMLTableForLoot(ml, item )
-           end
-        end
-        ]]--
-
+        --self:AddDebugLoot("item:868:0:0:0:0:0:0:0") -- Default debugging item
+        self:AddDebugLoot("\124cffa335ee\124Hitem:113984:0:0:0:0:0:0:0:null:0:0:1:567\124h[Blackiron Micro Crucible]\124h\124r") -- Heroic item
+        --self:AddDebugLoot("\124cffa335ee\124Hitem:113984:0:0:0:0:0:0:0:null:0:0:1:0\124h[Blackiron Micro Crucible]\124h\124r") -- Normal item
         --self:Print('disabled')
 
 	else
@@ -476,6 +541,47 @@ function LootMaster:SlashHandler( input )
 		self:Print( format('%s loaded.', version) .. L.usage )
 
 	end
+end
+
+function LootMaster:AddDebugLoot(link)
+    local itemName, item, _, _, _, _, _, _, _, _ = GetItemInfo(link) -- Heroic item
+
+    if item then
+        local itemID = LootMasterML:AddLoot(item, true, 1 )
+        LootMasterML.lootTable[itemID].announced = false;
+        LootMasterML:AddCandidate(itemID, LootMaster.UnitName('player') )
+        if LootMaster.UnitName('party1') then LootMasterML:AddCandidate( itemID, LootMaster.UnitName('party1') ) end
+        if LootMaster.UnitName('party2') then LootMasterML:AddCandidate( itemID, LootMaster.UnitName('party2') ) end
+        if LootMaster.UnitName('party3') then LootMasterML:AddCandidate( itemID, LootMaster.UnitName('party3') ) end
+        if LootMaster.UnitName('party4') then LootMasterML:AddCandidate( itemID, LootMaster.UnitName('party4') ) end
+        --ml.SetCandidateResponse(ml, itemID, LootMaster.UnitName('player'), self.RESPONSE.NEED)
+        --for i = 1, 25 do
+        --  ml.AddCandidate( ml, itemID, 'Unit' .. i )
+        --end
+
+        --[[
+        local num = GetNumGuildMembers(false)
+        local count = 0
+        for i=1, num do
+            if count>14 then break end
+            local name, _, _, _, _, _, _, _, online = GetGuildRosterInfo(i)
+            local ep, gp, alt, minEP = LootMasterML:GetEPGP(name)
+            if gp~=nil and online and gp>0 then
+                count = count + 1
+                ml.AddCandidate( ml, itemID, name )
+                ml.SetCandidateResponse(ml, itemID, name, self.RESPONSE.NEED)
+                --ml.SetCandidateData(ml, itemID, name, 'bid', ceil(math.random()*15)*10)
+                --ml.SetCandidateData(ml, itemID, name, 'votes', floor(math.random()*2))
+            elseif ep == nil then
+                self:Print(name .. " is EPGP nil")
+            end
+        end
+        ]]
+
+        LootMasterML:SendCandidateListToMonitors(itemID)
+        LootMasterML:ReloadMLTableForLoot(itemID)
+        LootMasterML:AnnounceLoot(itemID)
+    end
 end
 
 function LootMaster:ColorHexToRGB(color)
@@ -519,8 +625,40 @@ local INVTYPE_Slots = {
 		INVTYPE_RANGEDRIGHT 	= {"SecondaryHandSlot", ["or"] = "MainHandSlot"},
 		INVTYPE_FINGER		    = {"Finger0Slot","Finger1Slot"},
 		INVTYPE_HOLDABLE	    = {"SecondaryHandSlot", ["or"] = "MainHandSlot"},
-		INVTYPE_TRINKET		    = {"TRINKET0SLOT", "TRINKET1SLOT"}
+		INVTYPE_TRINKET		    = {"TRINKET0SLOT", "TRINKET1SLOT"},
+		INVTYPE_MULTI		    = {"HeadSlot", "ShoulderSlot", "ChestSlot", "HandsSlot", "LegsSlot"}
 }
+
+--[[
+    Data for token INVTYPE lookup. Notice that certain tokens are redeemable for different slots, therefore we have to alter EPGPLM
+	to allow it to show multiple items on the interface. Lets also change it so it shows difference in itemlevel the candidate is using
+	The data below is not something EPGPLootmaster can use directly, but is nicely displayed. Cache something afterwards that we can use
+]]--
+local TokenSlotsReverse = {
+	INVTYPE_LEGS		= {99712,99713,99726,99684,99688,99693,99751,99752,99753,96631,96632,96633,99674,99675,99676,95572,95576,95581,89252,89253,89254,95887,95888,95889,89243,89244,89245,89267,89268,89269,78856,78857,78858,78171,78176,78181,71671,71678,71685,78871,78872,78873,67426,67427,67428,40619,40620,40621,40634,40635,40636,45650,45651,45652,45653,45654,45655,29765,29766,29767,30245,30246,30247,31098,31099,31100},
+	INVTYPE_CHEST		= {99714,99715,99716,99686,99691,99696,99742,99743,99744,96566,96567,96568,99677,99678,99679,95569,95574,95579,89249,89250,89251,95822,95823,95824,89237,89238,89239,89264,89265,89266,78847,78848,78849,78174,78179,78184,71672,71679,71686,78862,78863,78864,67423,67424,67425,40610,40611,40612,40625,40626,40627,45632,45633,45634,45635,45636,45637,29753,29754,29755,30236,30237,30238,31089,31090,31091},
+	INVTYPE_SHOULDER	= {99717,99718,99719,99685,99690,99695,99754,99755,99756,96699,96700,96701,99668,99669,99670,95573,95578,95583,89261,89262,89263,95955,95956,95957,89246,89247,89248,89276,89277,89278,78859,78860,78861,78170,78175,78180,71673,71680,71687,78874,78875,78876,71674,71681,71688,64314,64315,64316,65087,65088,65089,40622,40623,40624,40637,40638,40639,45656,45657,45658,45659,45660,45661,29762,29763,29764,30248,30249,30250,31101,31102,31103},
+	INVTYPE_HAND		= {99720,99721,99722,99682,99687,99692,99745,99746,99747,96599,96600,96601,99667,99680,99681,95570,95575,95580,89255,89256,89257,95855,95856,95857,89240,89241,89242,89270,89271,89272,78853,78854,78855,78173,78178,78183,71669,71676,71683,78865,78866,78867,67429,67430,67431,40613,40614,40615,40628,40629,40630,45641,45642,45643,45644,45645,45646,29756,29757,29758,30239,30240,30241,31092,31093,31094},
+	INVTYPE_HEAD		= {99723,99724,99725,99683,99689,99694,99748,99749,99750,96623,96624,96625,99671,99672,99673,95571,95577,95582,89258,89259,89260,95879,95880,95881,89234,89235,89236,89273,89274,89275,78850,78851,78852,78172,78177,78182,71670,71677,71684,78868,78869,78870,71668,71675,71682,63682,63683,63684,65000,65001,65002,40616,40617,40618,40631,40632,40633,45638,45639,45640,45647,45648,45649,29759,29760,29761,30242,30243,30244,31095,31096,31097},
+	INVTYPE_MULTI		= {105866,105867,105868,105857,105858,105859,105863,105864,105865,105860,105861,105862,66998,47242,52025,52026,52027,52028,52029,52030},
+	INVTYPE_WRIST		= {34848,34851,34852},
+	INVTYPE_WAIST		= {34853,34854,34855},
+	INVTYPE_FEET		= {34856,34857,34858}
+}
+local TokenSlots = {}
+for sType, tokens in pairs(TokenSlotsReverse) do
+	for _, tokenID in ipairs(tokens) do
+		TokenSlots[tostring(tokenID)] = sType
+	end
+end
+wipe(TokenSlotsReverse)
+
+--[[ Return the INVTYPE for the current item
+]]--
+function LootMaster:GetTokenINVTYPE(itemID)
+	return TokenSlots[tostring(itemID)]
+end
+
 
 --[[ Extract the itemlinks, gpvalue, itemlevel and texture of the players current equipment for
     the given inventory slot.
@@ -538,9 +676,11 @@ function LootMaster:GetGearByINVTYPE( INVTYPE, unit )
 		item = GetInventoryItemLink(unit,GetInventorySlotInfo(slot['or']))
 	end;
 	if item then tinsert(ret, item) end;
-	if slot[2] then
-		item = GetInventoryItemLink(unit,GetInventorySlotInfo(slot[2]))
-		if item then tinsert(ret, item) end;
+	for i=2, 5 do
+		if slot[i] then
+			item = GetInventoryItemLink(unit,GetInventorySlotInfo(slot[i]))
+			if item then tinsert(ret, item) end;
+		end
 	end
     for i, item in ipairs(ret) do
         local _, _, _, _, _, _, _, _, _, itemTexture = GetItemInfo(item)
@@ -579,6 +719,22 @@ function LootMaster:GetItemBinding(item)
   end
 	tip:Hide()
 	return nil
+end
+
+function LootMaster:GetAverageItemLevel()
+    local unit = "player"
+    local total = 0
+    local count = 0
+    for i=1, 17, 1 do
+        local link = GetInventoryItemLink(unit, i)
+        local name, _, quality, itemLevel = GetItemInfo(link or 0)
+        if itemLevel and itemLevel > 0 and i ~= 4 then
+            total = total + itemLevel
+            count = count + 1
+        end
+    end
+    if total==0 or count==0 then return 0 end
+    return ceil(total/count)
 end
 
 -- Default english locale, this will automatically get updated by the
@@ -855,6 +1011,7 @@ end
 function LootMaster:CommVersionCheckRequest(prefix, message, distribution, sender)
 	local _,_,senderVersionInt, senderVersionString = string.find(message, "^(%d+)_(.*)$")
 	senderVersionInt = tonumber(senderVersionInt) or 0
+	sender = LootMaster.UnAmbiguate(sender)
 	if (debug) then
 		self:Print( string.format("VReq from %s, has version %s", sender, senderVersionString) )
 	end
@@ -888,6 +1045,7 @@ end
 function LootMaster:CommVersionCheckResponse(prefix, message, distribution, sender)
 	local _,_,senderVersionInt, senderVersionString = string.find(message, "^(%d+)_(.*)$")
 	senderVersionInt = tonumber(senderVersionInt) or 0
+	sender = LootMaster.UnAmbiguate(sender)
 	if (debug) then
 		self:Print( string.format("VResp from %s, has version %s", sender, senderVersionString) )
 	end

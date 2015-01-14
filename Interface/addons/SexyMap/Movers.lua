@@ -9,11 +9,11 @@ local options = {
 	type = "group",
 	name = L["Movers"],
 	args = {
-		desc = {
-			order = 0.5,
-			name = L["Movers Warning"],
-			type = "description",
-		},
+		--desc = {
+		--	order = 0.5,
+		--	name = L["Movers Warning"],
+		--	type = "description",
+		--},
 		enable = {
 			order = 1,
 			name = L["Enable Movers"],
@@ -52,8 +52,9 @@ local options = {
 
 local movables = {
 	["DurabilityFrame"] = L["Armored Man"],
-	["WatchFrame"] = L["Objectives Tracker"],
-	["Boss1TargetFrame"] = L["Boss Frames"],
+	["ObjectiveTrackerFrame"] = L["Objectives Tracker"],
+	["VehicleSeatIndicator"] = L["Vehicle Seat"],
+	--["Boss1TargetFrame"] = L["Boss Frames"],
 }
 local movers = {}
 
@@ -70,7 +71,8 @@ end
 
 function mod:OnEnable()
 	sm.core:RegisterModuleOptions("Movers", options, L["Movers"])
-	if mod.db.enabled then
+	self.db.framePositions.WatchFrame = nil -- XXX temp
+	if self.db.enabled then
 		self:SetMovers()
 		self:Start()
 	end
@@ -84,23 +86,6 @@ do
 
 		hooksecurefunc("UpdateContainerFrameAnchors", self.CreateMoversAndSetMovables)
 
-		if not select(4, GetAddOnInfo("Capping")) then
-			local f = CreateFrame("Frame")
-			f:RegisterEvent("UPDATE_WORLD_STATES")
-			local updateStates = function()
-				for i = 1, NUM_EXTENDED_UI_FRAMES do
-					local name = "WorldStateCaptureBar"..i
-					local f = _G[name]
-					if f and not movables[name] then
-						movables[name] = L["Capture Bars"]
-					end
-				end
-				mod:CreateMoversAndSetMovables()
-			end
-			f:SetScript("OnEvent", updateStates)
-			updateStates()
-			movables["VehicleSeatIndicator"] = L["Vehicle Seat"]
-		end
 		self:CreateMoversAndSetMovables()
 	end
 end
@@ -108,9 +93,7 @@ end
 do
 	local function start(self)
 		local f = self:GetParent()
-		local x, y = f:GetLeft(), f:GetBottom()
 		f:StartMoving()
-		f:SetClampedToScreen(false)
 	end
 
 	local function stop(self)
@@ -123,11 +106,9 @@ do
 		mod.db.framePositions[n] = mod.db.framePositions[n] or {}
 		mod.db.framePositions[n].x = x
 		mod.db.framePositions[n].y = y
-		f:SetUserPlaced(true)
 	end
 
 	function mod:CreateMoversAndSetMovables()
-		if InCombatLockdown() then return end
 		for frame, text in pairs(movables) do
 			local pf = _G[frame]
 			if pf then
@@ -150,25 +131,6 @@ do
 
 				f:ClearAllPoints()
 				f:SetAllPoints()
-				--[[if type(f:GetTop()) ~= "number" then
-					print("SexyMap: Mover [", f:GetName(), "] returned a nil Top, this shouldn't happen!")
-				end
-				if type(f:GetBottom()) ~= "number" then
-					print("SexyMap: Mover [", f:GetName(), "] returned a nil Bottom, this shouldn't happen!")
-				end]]
-				if f:GetTop() - f:GetBottom() < 30 then
-					f:ClearAllPoints()
-					f:SetPoint("TOPLEFT", pf, "TOPLEFT")
-					f:SetPoint("TOPRIGHT", pf, "TOPRIGHT")
-					f:SetHeight(40)
-				end
-
-				if f:GetRight() - f:GetLeft() < 30 then
-					f:ClearAllPoints()
-					f:SetPoint("TOPLEFT", pf, "TOPLEFT")
-					f:SetHeight(40)
-					f:SetWidth(40)
-				end
 
 				if not mod.db.lock then
 					f:Hide()
@@ -178,7 +140,9 @@ do
 					local x, y = mod.db.framePositions[frame].x, mod.db.framePositions[frame].y
 					pf:ClearAllPoints()
 					pf:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x, y)
-					pf:SetUserPlaced(true)
+					if frame == "ObjectiveTrackerFrame" then
+						pf:SetPoint("BOTTOM", UIParent, "BOTTOM")
+					end
 				end
 			end
 		end
@@ -203,6 +167,5 @@ function mod:SetMovers()
 			f:Hide()
 		end
 	end
-	WatchFrame:SetPoint("BOTTOM", UIParent, "BOTTOM")
 end
 

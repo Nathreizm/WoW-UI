@@ -38,30 +38,31 @@ end
 
 function UF:Construct_ArenaFrames(frame)	
 	frame.Health = self:Construct_HealthBar(frame, true, true, 'RIGHT')
-	
-	frame.Power = self:Construct_PowerBar(frame, true, true, 'LEFT', false)
-	
 	frame.Name = self:Construct_NameText(frame)
-	
-	frame.Buffs = self:Construct_Buffs(frame)
-	
-	frame.Debuffs = self:Construct_Debuffs(frame)
-	
-	frame.Castbar = self:Construct_Castbar(frame, 'RIGHT')
-	
-	frame.HealPrediction = UF:Construct_HealComm(frame)
-	frame.Trinket = self:Construct_Trinket(frame)
-	frame.PVPSpecIcon = self:Construct_PVPSpecIcon(frame)
-	frame.Range = UF:Construct_Range(frame)
-	frame:SetAttribute("type2", "focus")
 
-	frame.TargetGlow = UF:Construct_TargetGlow(frame)
-	tinsert(frame.__elements, UF.UpdateTargetGlow)
-	frame:RegisterEvent('PLAYER_TARGET_CHANGED', UF.UpdateTargetGlow)
-	frame:RegisterEvent('PLAYER_ENTERING_WORLD', UF.UpdateTargetGlow)
-	frame:RegisterEvent('GROUP_ROSTER_UPDATE', UF.UpdateTargetGlow)
-	
-	if not frame.PrepFrame then
+	if(not frame.isChild) then
+		frame.Power = self:Construct_PowerBar(frame, true, true, 'LEFT', false)
+		
+		frame.Buffs = self:Construct_Buffs(frame)
+		
+		frame.Debuffs = self:Construct_Debuffs(frame)
+		
+		frame.Castbar = self:Construct_Castbar(frame, 'RIGHT')
+		
+		frame.HealPrediction = UF:Construct_HealComm(frame)
+		frame.Trinket = self:Construct_Trinket(frame)
+		frame.PVPSpecIcon = self:Construct_PVPSpecIcon(frame)
+		frame.Range = UF:Construct_Range(frame)
+		frame:SetAttribute("type2", "focus")
+
+		frame.TargetGlow = UF:Construct_TargetGlow(frame)
+		tinsert(frame.__elements, UF.UpdateTargetGlow)
+		frame:RegisterEvent('PLAYER_TARGET_CHANGED', UF.UpdateTargetGlow)
+		frame:RegisterEvent('PLAYER_ENTERING_WORLD', UF.UpdateTargetGlow)
+		frame:RegisterEvent('GROUP_ROSTER_UPDATE', UF.UpdateTargetGlow)
+	end
+
+	if not frame.PrepFrame and not frame.isChild then
 		frame.prepFrame = CreateFrame('Frame', frame:GetName()..'PrepFrame', UIParent)
 		frame.prepFrame:SetFrameStrata('BACKGROUND')
 		frame.prepFrame:SetAllPoints(frame)
@@ -366,7 +367,7 @@ function UF:Update_ArenaFrames(frame, db)
 	--Castbar
 	do
 		local castbar = frame.Castbar
-		castbar:Width(db.castbar.width - (E.PixelMode and 2 or (BORDER * 2)))
+		castbar:Width(db.castbar.width - (BORDER * 2))
 		castbar:Height(db.castbar.height)
 		
 		--Icon
@@ -485,7 +486,7 @@ function UF:Update_ArenaFrames(frame, db)
 			frame:Tag(frame[objectName], objectDB.text_format or '')
 			frame[objectName]:SetJustifyH(objectDB.justifyH or 'CENTER')
 			frame[objectName]:ClearAllPoints()
-			frame[objectName]:SetPoint(objectDB.justifyH or 'CENTER', frame, 'CENTER', objectDB.xOffset, objectDB.yOffset)
+			frame[objectName]:SetPoint(objectDB.justifyH or 'CENTER', frame, objectDB.justifyH or 'CENTER', objectDB.xOffset, objectDB.yOffset)
 		end
 	end
 	
@@ -513,4 +514,4 @@ function UF:Update_ArenaFrames(frame, db)
 	frame:UpdateAllElements()
 end
 
-UF['unitgroupstoload']['arena'] = 5
+UF['unitgroupstoload']['arena'] = {5, 'ELVUI_UNITTARGET'}

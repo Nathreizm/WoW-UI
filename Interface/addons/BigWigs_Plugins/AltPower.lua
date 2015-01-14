@@ -98,132 +98,131 @@ end
 --
 
 do
-	local pluginOptions = nil
-	function plugin:GetPluginConfig()
-		if not pluginOptions then
-			pluginOptions = {
-				type = "group",
-				get = function(info)
-					return db[info[#info]]
+	local disabled = function() return plugin.db.profile.disabled end
+	plugin.pluginOptions = {
+		name = L.altPowerTitle,
+		type = "group",
+		get = function(info)
+			return db[info[#info]]
+		end,
+		set = function(info, value)
+			local entry = info[#info]
+			db[entry] = value
+			plugin:RestyleWindow(entry == "fontOutline" or entry == "fontSize" or entry == "monochrome")
+		end,
+		args = {
+			disabled = {
+				type = "toggle",
+				name = L.disabled,
+				desc = L.disabledDisplayDesc,
+				order = 1,
+			},
+			lock = {
+				type = "toggle",
+				name = L.lock,
+				desc = L.lockDesc,
+				order = 2,
+				disabled = disabled,
+			},
+			font = {
+				type = "select",
+				name = L.font,
+				order = 3,
+				values = media:List("font"),
+				itemControl = "DDI-Font",
+				get = function()
+					for i, v in next, media:List("font") do
+						if v == db.font then return i end
+					end
 				end,
 				set = function(info, value)
-					local entry = info[#info]
-					db[entry] = value
-					plugin:RestyleWindow(entry == "fontOutline" or entry == "fontSize" or entry == "monochrome")
+					db.font = media:List("font")[value]
+					plugin:RestyleWindow(true)
 				end,
-				disabled = function() return plugin.db.profile.disabled end,
+				disabled = disabled,
+			},
+			fontOutline = {
+				type = "select",
+				name = L.outline,
+				order = 4,
+				values = {
+					[""] = L.none,
+					OUTLINE = L.thin,
+					THICKOUTLINE = L.thick,
+				},
+				disabled = disabled,
+			},
+			fontSize = {
+				type = "range",
+				name = L.fontSize,
+				order = 5,
+				max = 24,
+				min = 8,
+				step = 1,
+				disabled = disabled,
+			},
+			monochrome = {
+				type = "toggle",
+				name = L.monochrome,
+				desc = L.monochromeDesc,
+				order = 6,
+				disabled = disabled,
+			},
+			--[[showHide = {
+				type = "group",
+				name = L.showHide,
+				inline = true,
+				order = 5,
+				get = function(info)
+					local key = info[#info]
+					return db.objects[key]
+				end,
+				set = function(info, value)
+					local key = info[#info]
+					db.objects[key] = value
+					plugin:RestyleWindow()
+				end,
 				args = {
-					disabled = {
+					title = {
 						type = "toggle",
-						name = L.disabled,
-						desc = L.disabledDisplayDesc,
+						name = L.title,
+						desc = L.titleDesc,
 						order = 1,
-						disabled = false,
 					},
-					lock = {
+					background = {
 						type = "toggle",
-						name = L.lock,
-						desc = L.lockDesc,
+						name = L.background,
+						desc = L.backgroundDesc,
 						order = 2,
 					},
-					font = {
-						type = "select",
-						name = L.font,
-						order = 3,
-						values = media:List("font"),
-						itemControl = "DDI-Font",
-						get = function()
-							for i, v in next, media:List("font") do
-								if v == db.font then return i end
-							end
-						end,
-						set = function(info, value)
-							db.font = media:List("font")[value]
-							plugin:RestyleWindow(true)
-						end,
-					},
-					fontOutline = {
-						type = "select",
-						name = L.outline,
-						order = 4,
-						values = {
-							[""] = L.none,
-							OUTLINE = L.thin,
-							THICKOUTLINE = L.thick,
-						},
-					},
-					fontSize = {
-						type = "range",
-						name = L.fontSize,
-						order = 5,
-						max = 24,
-						min = 8,
-						step = 1,
-					},
-					monochrome = {
+					sound = {
 						type = "toggle",
-						name = L.monochrome,
-						desc = L.monochromeDesc,
-						order = 6,
+						name = L.soundButton,
+						desc = L.soundButtonDesc,
+						order = 3,
 					},
-					--[[showHide = {
-						type = "group",
-						name = L.showHide,
-						inline = true,
+					close = {
+						type = "toggle",
+						name = L.closeButton,
+						desc = L.closeButtonDesc,
+						order = 4,
+					},
+					ability = {
+						type = "toggle",
+						name = L.abilityName,
+						desc = L.abilityNameDesc,
 						order = 5,
-						get = function(info)
-							local key = info[#info]
-							return db.objects[key]
-						end,
-						set = function(info, value)
-							local key = info[#info]
-							db.objects[key] = value
-							plugin:RestyleWindow()
-						end,
-						args = {
-							title = {
-								type = "toggle",
-								name = L.title,
-								desc = L.titleDesc,
-								order = 1,
-							},
-							background = {
-								type = "toggle",
-								name = L.background,
-								desc = L.backgroundDesc,
-								order = 2,
-							},
-							sound = {
-								type = "toggle",
-								name = L.soundButton,
-								desc = L.soundButtonDesc,
-								order = 3,
-							},
-							close = {
-								type = "toggle",
-								name = L.closeButton,
-								desc = L.closeButtonDesc,
-								order = 4,
-							},
-							ability = {
-								type = "toggle",
-								name = L.abilityName,
-								desc = L.abilityNameDesc,
-								order = 5,
-							},
-							tooltip = {
-								type = "toggle",
-								name = L.tooltip,
-								desc = L.tooltipDesc,
-								order = 6,
-							}
-						},
-					},]]
+					},
+					tooltip = {
+						type = "toggle",
+						name = L.tooltip,
+						desc = L.tooltipDesc,
+						order = 6,
+					}
 				},
-			}
-		end
-		return pluginOptions
-	end
+			},]]
+		},
+	}
 end
 
 -------------------------------------------------------------------------------
@@ -274,6 +273,7 @@ function plugin:OnPluginEnable()
 	self:RegisterMessage("BigWigs_ShowAltPower")
 	self:RegisterMessage("BigWigs_HideAltPower", "Close")
 	self:RegisterMessage("BigWigs_OnBossDisable")
+	self:RegisterMessage("BigWigs_OnBossReboot", "BigWigs_OnBossDisable")
 
 	self:RegisterMessage("BigWigs_StartConfigureMode", "Test")
 	self:RegisterMessage("BigWigs_StopConfigureMode", "Close")
@@ -301,7 +301,7 @@ do
 
 		local players = GetNumGroupMembers()
 		if players ~= maxPlayers then
-			updater:Stop()
+			if updater then plugin:CancelTimer(updater) end
 
 			if repeatSync then
 				syncPowerList = {}
@@ -321,7 +321,7 @@ do
 				local tbl = class and colorTbl[class] or GRAY_FONT_COLOR
 				roleColoredList[unit] = ("%s|cFF%02x%02x%02x%s|r"):format(roleIcons[UnitGroupRolesAssigned(unit)], tbl.r*255, tbl.g*255, tbl.b*255, name)
 			end
-			updater:Play()
+			updater = plugin:ScheduleRepeatingTimer(UpdateDisplay, 2)
 		end
 
 		if repeatSync then
@@ -339,12 +339,6 @@ do
 				plugin:SendMessage("BigWigs_SetConfigureTarget", plugin)
 			end
 		end)
-
-		updater = display:CreateAnimationGroup()
-		updater:SetLooping("REPEAT")
-		updater:SetScript("OnLoop", UpdateDisplay)
-		local anim = updater:CreateAnimation()
-		anim:SetDuration(2)
 
 		local bg = display:CreateTexture(nil, "PARENT")
 		bg:SetAllPoints(display)
@@ -413,7 +407,7 @@ do
 		-- USE THIS CALLBACK TO SKIN THIS WINDOW! NO NEED FOR UGLY HAX! E.g.
 		-- local name, addon = ...
 		-- if BigWigsLoader then
-		--  BigWigsLoader.RegisterMessage(addon, "BigWigs_FrameCreated", function(event, frame, name) print(name.." frame created.") end)
+		-- 	BigWigsLoader.RegisterMessage(addon, "BigWigs_FrameCreated", function(event, frame, name) print(name.." frame created.") end)
 		-- end
 		plugin:SendMessage("BigWigs_FrameCreated", display, "AltPower")
 	end
@@ -532,7 +526,8 @@ function plugin:Close()
 	end
 
 	if display then
-		updater:Stop()
+		if updater then self:CancelTimer(updater) end
+		updater = nil
 		display:UnregisterEvent("GROUP_ROSTER_UPDATE")
 		display:Hide()
 		BigWigs:ClearSyncListeners(self)

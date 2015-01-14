@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## LoadOnDemand: 1
 ## Title: Lib: Babble-Inventory-3.0
 ## Notes: A library to help with localization of item types and subtypes.
@@ -7,6 +7,10 @@
 ## X-eMail: ckknight@gmail.com
 ## X-Category: Library
 ## X-License: MIT
+## X-Curse-Packaged-Version: v5.11.4
+## X-Curse-Project-Name: epgp (dkp reloaded)
+## X-Curse-Project-ID: epgp-dkp-reloaded
+## X-Curse-Repository-ID: wow/epgp-dkp-reloaded/mainline
 
 LibStub\LibStub.lua
 lib.xml

@@ -1,3 +1,267 @@
+b6.19342.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated build number check
+	Cosmetic changes
+	Skin extra reward buttons in GarrisonMissionUI
+	Bugfix for options
+	Bugfix for Nameplate skin
+	Updated AuctionMaster & MasterPlan skins
+
+b6.19243.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated BonusRollPreview skin
+
+b6.19243.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated BuildNo check value
+	Updated GarrisonMissionUI skin
+	Bugfix for Garrison Cache alert frame skin
+	Updated Baggins skin
+	Unobsoleted LibExtraTip
+	Skinned RaidBuffStatus
+
+b6.19116.11
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Code Tidyup
+	Bugfix for GarrisonCache Alert
+	Bugfix for GarrisonMissionUI
+	Updated ArchaeologyUI & PetJournal skins
+	Updated Dominos skin
+	Skinned BonusRollPreview & QuestMapWithDetails
+	Obsoleted Habeebit & Squire2_Config
+
+b6.19116.10
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Changed function hooked for Tab updates
+	Updated AddonList skin
+	Updated Armory, Notes & ZygorGuidesViewer
+	Slinned GarrisonMissionManager & MasterPlan
+
+b6.19116.9
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated Toc to add/remove function names per file
+	Commented out print statements
+	Reparented Garrison Rewards buttons quantity text
+	Updated ChatBubbles skin
+	Updated ArchaeolgyUI skin
+	Replaced SpellFlyout skin with Action/Multibar button code changes
+	Added option to enable/disable skinning of QuestChoice frame
+	Updated AtlasLoot, DBM & MinimalArchaeology skins
+	Unobsoleted MinimapButtonFrame
+
+b6.19116.8
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Changed Skin Nameplates check to fire on combat start
+	Only skin GameTooltip statusbar if not in combat ortherwise wait
+	Make Quantity text appear above button borders on GarrisonMissionUI buttons
+	Make WorldFrame children scanning a callback function
+	Bugfix for Epic Loot Upgrade skin
+	Updated tekKonfig skin
+	Bugfix for MyGarrisons skin
+	Bugfix for LUI skin
+	Bugfix for Altoholic skin not being loaded
+	Skinned Classic Quest Log
+
+b6.19116.7
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Other changes
+	Made global defintions local
+	Updated Ace3, AucAdvanced & QuickMark skins
+	Unobsoleted Atlas
+	Skinned CompactMissions, MyGarrisons & QuestGuru
+
+b6.19116.6
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Display Search Icons where necessary
+	Bugfix for UIParent children checks
+	Updated Bagnon, Cork & Examiner skins
+
+b6.19116.5
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for Garrison Mission frame
+	Updated Outfitter & tekKonfig skins
+	Unobsoleted OneBag3 & Squeenix skins
+
+b6.19116.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated Dominos skin
+	Unobsoleted AutoDecline & Omen skins
+
+b6.19116.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for debug commands
+	Removed unessecary variable
+	Bugfix for ColorPicker skin
+	Changed code which checks for skinned objects in preparation for deprecation of old code
+	Updated Ace3, LUI, Tukui & Xloot skins
+	Obsoleted all skins not changed since 2012
+
+b6.19116.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated Enchantrix & FlightMapEnhanced skins
+
+b6.19116.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated buildNo
+	Bugfix for skin names (Beta/Live)
+	Updated ArkInventory, Enchantrix & Recount skins
+
+b6.19103.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Make more global functions local
+	Updated Nameplates skin
+
+b6.19034.4
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated Build & Version no.s
+	Bugfixes for ButtonBorder checks
+	Updated Mapster & Pawn skins
+	Skinned LegacyQuest
+
+b6.19034.3
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Adjust Container bagname position and gear size
+	Use variable instead of value
+	Bugfix for TrackingOptionsButton
+	Remove debug print statements
+	Updated Bugger & Tukui skins
+
+b6.19034.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for Tukui
+	Bugfix for isAddonEnabled function
+	Updated comment
+	Updated Ace3 & Cork skins
+	Updated WIM skin, allow for WIM_Options to be skinned independently
+	Updated PetBattleTeams skin
+	Replaced function call with value check
+	Bugfix which prevented Add-on loading
+	Skinned Bugger
+
+b6.19034.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Version 6.0.2 changes
+
+b5.18414.7
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated oQueue skin
+
+b5.18414.6
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated ElvUI & oQueue skins
+	Skinned ChatBubbles
+	Skinned TargetCharms
+
+b5.18414.5
+Jncl:
+	ToDo.txt
+	Updated oQueue skin
+	Updated Change_History.txt
+
+b5.18414.4
+Jncl:
+    Updated Change_History.txt
+	Updated Altoholic & FishingBuddy skins
+
+b5.18414.3
+Jncl:
+	Updated oQueue skin
+
+b5.18414.2
+Jncl:
+    ToDo.txt
+    Updated Change_History.txt
+    Updated MinimalArchaeology & PetTracker skins
+
+b5.18414.1
+Jncl:
+    ToDo.txt
+    Updated Change_History.txt
+    Updated Build info
+    Updated DestinyFrame skin & skin Altoholic Minimap button
+    Updated oQueue skin
+
+b5.18019.3
+Jncl:
+    ToDo.txt
+    Updated Change_History.txt
+    Updated Ace3, AuctionMaster & Bagnon skins
+    Skinned StaggerMeter
+    Unobsoleted Ludwig & update skin
+
+b5.18019.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for TitanPanel
+	Updated DBM skin
+
+b5.18019.1
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Updated build number
+	Updated DBM & oQueue skins
+	Added MarkingBar Skin
+
+b5.17956.1
+Jncl:
+	ToDo.txt
+	Updated Change_History
+	Updated version number checks
+	Minor updates
+	Updated oQueue, PetTracker & PowerAuras skins
+
+b5.17688.2
+Jncl:
+	ToDo.txt
+	Updated Change_History.txt
+	Bugfix for FriendsFramePendingButton skin
+	Bugfix when Enumerating frames
+	Updated ArkDewdrop & EnhancedColourPicker skins
+
 b5.17688.1
 Jncl:
 	ToDo.txt

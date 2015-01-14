@@ -31,10 +31,10 @@ L["titan_pride"] = "泰坦+傲：%s"
 
 
 	L.custom_off_titan_mark = "泰坦之赐标记"
-	L.custom_off_titan_mark_desc = "给受到泰坦之赐的玩家使用 {rt1}{rt2}{rt3}{rt4}{rt5}{rt6}{rt7}{rt8} 进行标记，需要权限。\n|cFFFF0000团队中只有1名应该启用此选项以防止标记冲突。|r"
+	L.custom_off_titan_mark_desc = "给受到泰坦之赐的玩家使用 {rt1}{rt2}{rt3}{rt4}{rt5}{rt6} 进行标记，需要权限。\n|cFFFF0000团队中只有1名应该启用此选项以防止标记冲突。|r"
 
 	L.custom_off_fragment_mark = "被腐蚀的碎片标记"
-	L.custom_off_fragment_mark_desc = "使用 {rt8}{rt7}{rt6} 标记被腐蚀的碎片，需要权限。\n|cFFFF0000团队中只有1名应该启用此选项以防止标记冲突。\n在25人模式中，这将与泰坦之赐标记冲突。|r"
+	L.custom_off_fragment_mark_desc = "使用 {rt8}{rt7} 标记被腐蚀的碎片，需要权限。\n|cFFFF0000团队中只有1名应该启用此选项以防止标记冲突。|r"
 end
 
 L = BigWigs:NewBossLocale("Galakras", "zhCN")
@@ -46,6 +46,8 @@ L["north_tower"] = "北部塔楼"
 L["north_tower_trigger"] = "封锁北部塔楼的大门被攻破了！"
 L["south_tower"] = "南部塔楼"
 L["south_tower_trigger"] = "封锁南部塔楼的大门被攻破了！"
+L["start_trigger_alliance"] = "干得好！登陆小队，集合！步兵打头阵！"
+L["start_trigger_horde"] = "干得好。第一纵队已经成功登陆了。"
 L["tower_defender"] = "塔楼守卫"
 L["towers"] = "塔楼"
 L["towers_desc"] = "当塔楼被突破时发出警报。"
@@ -89,6 +91,7 @@ if L then
 	L.adds_trigger_extra_wave = "库卡隆，听我的命令，杀了他们！"
 	L.extra_adds = "额外增援部队"
 	L.final_wave = "最后一波"
+	L.add_wave = "%s (%s): %s"
 
 	L.chain_heal_message = "你的焦点正在施放强效治疗链！"
 
@@ -107,6 +110,11 @@ L["enable_zone"] = "遗物仓库"
 L["start_trigger"] = "录像开了吗？开了？很好。地精泰坦控制模块启动，请退后。"
 L["win_trigger"] = "系统重置中。请勿关闭电源，否则将发生爆炸。"
 
+
+	L.crates = "货箱"
+	L.crates_desc = "当还需要多少能量和需要打开多少大中小货箱时发出警报。"
+	L.full_power = "全能量！"
+	L.power_left = "%d 剩余！(%d/%d/%d)"
 end
 
 L = BigWigs:NewBossLocale("Thok the Bloodthirsty", "zhCN")
@@ -130,7 +138,6 @@ L["item_magnet"] = "电磁体"
 L["item_mines"] = "地雷"
 L["item_missile"] = "导弹"
 L["laser_on_you"] = ">你< 激光 BIU BIU！"
-L["laser_say"] = "激光 BIU BIU"
 L["overcharged_crawler_mine"] = "超载的蛛形地雷"
 L["saw_blade_near_you"] = "锯刃在旁边（不是在你）"
 L["saw_blade_near_you_desc"] = "你可能想关闭这个功能以避免骚扰，如果你的团队大多是根据自己的战术安排。"
@@ -148,7 +155,7 @@ if L then
 	L.you_ate = "你已吃寄生虫（%d 剩余）"
 	L.other_ate = "%s 已吃 %s 寄生虫（%d 剩余）"
 	L.parasites_up = "%d |4寄生虫:寄生虫; 可用"
-	L.dance = "跳舞"
+	L.dance = "%s, 跳舞"
 	L.prey_message = "使用控制诱捕寄生虫"
 	L.injection_over_soon = "注射即将结束 >%s<！"
 
@@ -174,13 +181,12 @@ if L then
 L["bombardment"] = "呼叫轰炸"
 L["bombardment_desc"] = "轰击暴风城，并在地面上留下火焰。 库卡隆钢铁之星只会在呼叫轰炸阶段出现。"
 L["chain_heal_bar"] = "焦点：先祖治疗链"
-L["chain_heal_desc"] = "治疗一个友方目标40%最大生命，会跳到附近友方目标身上。"
+L["chain_heal_desc"] = "{focus}治疗一个友方目标40%最大生命，会跳到附近友方目标身上。"
 L["chain_heal_message"] = "你的焦点目标正在施放先祖治疗链！"
 L["clump_check_desc"] = "在呼叫轰炸阶段时每3秒检查扎堆的玩家，如果检查到群体存在库卡隆钢铁之星将会出现。"
 L["clump_check_warning"] = "发现呼叫轰炸，即将 >钢铁之星<！"
 L["empowered_message"] = ">%s< 强化腐蚀！"
 L["farseer_trigger"] = "先知们，为我们治疗！"
-L["intermission"] = "中场休息"
 L["ironstar_impact_desc"] = "当钢铁之星将撞击墙壁另一边时显示计时条。"
 L["ironstar_rolling"] = "钢铁之星翻滚！"
 L["manifest_rage"] = "暴怒具象"

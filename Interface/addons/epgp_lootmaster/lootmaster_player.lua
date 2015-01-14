@@ -19,24 +19,25 @@ function LootMaster:SendCommand(command, message, target)
     local formatted = format("%s:%s", tostring(command), tostring(message));
     local broadcasted = false
 
-    if UnitInRaid(target) or (EPGP and EPGP:UnitInRaid(target)) then
+    if LootMaster.UnitInRaid(target) then
         -- we're in raid with master looter
         self:SendCommMessage("EPGPLootMasterML", formatted, "RAID", nil, "ALERT")
         self:Debug('SendCommand(RAID): '..formatted, true)
         broadcasted = true;
-    elseif UnitInParty(target) and GetNumSubgroupMembers()>0 then
+    elseif LootMaster.UnitInParty(target) and GetNumSubgroupMembers()>0 then
         --we're in party with master looter
         self:SendCommMessage("EPGPLootMasterML", formatted, "PARTY", nil, "ALERT")
         self:Debug('SendCommand(PARTY): '..formatted, true)
         broadcasted = true;
     else
         --we're not grouped, send message to target by whispering
+		target = LootMaster.Ambiguate(target, "none")
         self:SendCommMessage("EPGPLootMasterML", formatted, "WHISPER", target, "ALERT")
         self:Debug('SendCommand(WHISPER->'..target..'): '..formatted, true)
     end
 
     -- Speedup messages to self by just calling the ML CommandReceived function.
-    if LootMasterML and target == UnitName("player") then
+    if LootMasterML and LootMaster.UnAmbiguate(target) == LootMaster.UnAmbiguate(LootMaster.UnitName("player")) then
 
         local distribution = 'WHISPER'
         if broadcasted then
@@ -55,6 +56,8 @@ function LootMaster:CommandReceived(prefix, message, distribution, sender)
 	command = strupper(command or '');
 	message = message or '';
 
+	sender = LootMaster.UnAmbiguate(sender)
+
 	if command == 'DO_YOU_WANT' then
 
 		-- Masterlooter wants to know from us if we'd like to have the item.
@@ -68,7 +71,7 @@ function LootMaster:CommandReceived(prefix, message, distribution, sender)
 
 		-- local _, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture = GetItemInfo(link)
 		-- Send the master loot our current gear and version number
-		self:SendCommand( 'GEAR', format('%s^%s^%s', itemID, self.iVersion or 0, self:GetGearByINVTYPE(slot, 'player')), sender)
+		self:SendCommand( 'GEAR', format('%s^%s^%s^%s', itemID, self.iVersion or 0, self:GetGearByINVTYPE(slot, 'player'), LootMaster:GetAverageItemLevel()), sender)
 
 		autoPassClassList = LootMaster:DecodeUnlocalizedClasses(autoPassClassList or 0)
 		if autoPassClassList and binding=='pickup' then
@@ -250,7 +253,7 @@ function LootMaster:RegisterMRTLoot( player, link, lootTypeID, lootGP )
         return ' (Unable to register in MRT; itemID not found)'
     end
 
-    if lastLoot.Looter~=player then
+    if LootMaster.UnAmbiguate(lastLoot.Looter)~=LootMaster.UnAmbiguate(player) then
         return ' (Unable to register in MRT; item found, candidate wrong)'
     end
 
@@ -303,7 +306,7 @@ function LootMaster:RegisterHeadCountLoot( player, link, lootTypeID, lootGP )
         return L[' (Unable to register in HeadCount; itemID not found)']
     end
 
-    if lastLoot.player~=player then
+    if LootMaster.UnAmbiguate(lastLoot.player)~=LootMaster.UnAmbiguate(player) then
         return L[' (Unable to register in HeadCount; item found, candidate wrong)']
     end
 

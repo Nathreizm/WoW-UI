@@ -67,7 +67,7 @@ function LootMaster:InitUI()
     titleFrame:SetScript("OnMouseDown", function() frame:StartMoving() end)
     titleFrame:SetScript("OnMouseUp", function() frame:StopMovingOrSizing() end)
     titleFrame:SetScript("OnMouseWheel", function(s, delta)
-      self:SetUIScale( max(min(frame:GetScale(0.8) + delta/15,2.0),0.5) );
+      self:SetUIScale( max(min(frame:GetScale(0.8) + delta/15,5.0),0.5) );
     end)
 
     local titletext = titleFrame:CreateFontString(nil,"OVERLAY","GameFontNormalSmall")
@@ -679,7 +679,7 @@ function LootMaster:AddVersionCheckMember(name)
 
     if not name then return end
 
-	name = Ambiguate(name, "none")
+	name = LootMaster.UnAmbiguate(name)
 
     tinsert( self.versioncheckframe.rows, {
         ["cols"] = {
@@ -786,6 +786,7 @@ function LootMaster:ShowVersionCheckFrame()
             for i=1, num do repeat
                 local name, _, _, _, _, _, _, _, online = GetGuildRosterInfo(i);
                 if online then
+					name = LootMaster.UnAmbiguate(name)
                     local memberID = self:AddVersionCheckMember(name)
                 end
             until true end
@@ -811,16 +812,16 @@ function LootMaster:ShowVersionCheckFrame()
             if num>0 then
                 -- we're in raid
                 for i=1, num do
-                    self:AddVersionCheckMember(GetRaidRosterInfo(i))
+                    self:AddVersionCheckMember(LootMaster.UnAmbiguate(GetRaidRosterInfo(i)))
                 end
                 sstScroll:SetData( frame.rows )
                 self:SendCommMessage("EPGPLMVChk", "0_versioncheck", "RAID")
             else
                 num = GetNumSubgroupMembers()
                 for i=1, num do
-                    self:AddVersionCheckMember(UnitName('party'..i))
+                    self:AddVersionCheckMember(LootMaster.UnAmbiguate(LootMaster.UnitName('party'..i)))
                 end
-                self:AddVersionCheckMember(UnitName('player'))
+                self:AddVersionCheckMember(LootMaster.UnitName('player'))
                 sstScroll:SetData( frame.rows )
                 self:SendCommMessage("EPGPLMVChk", "0_versioncheck", "PARTY")
             end

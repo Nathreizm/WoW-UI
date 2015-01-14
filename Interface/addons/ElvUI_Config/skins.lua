@@ -33,7 +33,12 @@ E.Options.args.skins = {
 			set = function(info, value) E.private.skins.blizzard[ info[#info] ] = value; E:StaticPopup_Show("PRIVATE_RL") end,	
 			disabled = function() return not E.private.skins.blizzard.enable end,
 			guiInline = true,
-			args = {	
+			args = {
+				garrison = {
+					type = 'toggle',
+					name = GARRISON_LOCATION_TOOLTIP,
+					desc = L['TOGGLESKIN_DESC'],
+				},
 				bmah = {
 					type = 'toggle',
 					name = L['Black Market AH'],
@@ -47,11 +52,6 @@ E.Options.args.skins = {
 				encounterjournal = {
 					type = "toggle",
 					name = L["Encounter Journal"],
-					desc = L["TOGGLESKIN_DESC"],
-				},
-				reforge = {
-					type = "toggle",
-					name = L["Reforge Frame"],
 					desc = L["TOGGLESKIN_DESC"],
 				},
 				calendar = {
@@ -303,6 +303,11 @@ E.Options.args.skins = {
 					type = "toggle",
 					name = L['Item Upgrade'],
 					desc = L["TOGGLESKIN_DESC"],				
+				},
+				questChoice = {
+					type = "toggle",
+					name = L['Quest Choice'],
+					desc = L["TOGGLESKIN_DESC"],	
 				},
 			},
 		},

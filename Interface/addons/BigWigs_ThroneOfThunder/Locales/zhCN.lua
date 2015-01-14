@@ -12,6 +12,7 @@ L = BigWigs:NewBossLocale("Horridon", "zhCN")
 if L then
 	L.charge_trigger = "开始拍打他的尾巴"
 	L.door_trigger = "之门中涌出"
+	L.orb_trigger = "冲向" -- PLAYERNAME forces Horridon to charge the Farraki door!
 
 	L.chain_lightning_message = "焦点：>闪电链<！"
 	L.chain_lightning_bar = "焦点：闪电链"
@@ -42,6 +43,7 @@ if L then
 	L.custom_on_markpossessed = "标记控制首领"
 	L.custom_on_markpossessed_desc = "用骷髅团队标记被控制的首领，需要权限。"
 
+	L.priestess_heal = ">%s< 被治疗！"
 	L.assault_stun = "坦克眩晕"
 	L.assault_message = "冰寒突击！"
 	L.full_power = "全能量"
@@ -178,7 +180,6 @@ if L then
 
 	L.last_inermission_ability = "最终阶段转换技能已使用！"
 	L.safe_from_stun = "超载昏迷你也许是安全的"
-	L.intermission = "阶段转换"
 	L.diffusion_add = "散射闪电增援"
 	L.shock = "电能震击"
 	L.static_shock_bar = "<静电冲击分摊>"
@@ -206,8 +207,6 @@ end
 
 L = BigWigs:NewBossLocale("Throne of Thunder Trash", "zhCN")
 if L then
-	L.displayname = "小怪"
-
 	L.stormcaller = "赞达拉风暴召唤者"
 	L.stormbringer = "风暴使者达兹基尔"
 	L.monara = "莫纳拉"

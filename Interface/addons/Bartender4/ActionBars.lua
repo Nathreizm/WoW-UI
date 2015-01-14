@@ -1,5 +1,5 @@
 --[[
-	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
+	Copyright (c) 2009-2014, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
 local _, Bartender4 = ...
@@ -9,8 +9,6 @@ local BT4ActionBars = Bartender4:NewModule("ActionBars", "AceEvent-3.0")
 local select, ipairs, pairs, tostring, tonumber, min, setmetatable = select, ipairs, pairs, tostring, tonumber, min, setmetatable
 
 -- GLOBALS: UnitClass, InCombatLockdown, GetBindingKey, ClearOverrideBindings, SetOverrideBindingClick
-
-local ActionBar, ActionBar_MT
 
 local abdefaults = {
 	['**'] = Bartender4:Merge({
@@ -28,7 +26,8 @@ local abdefaults = {
 			stance = {
 				DRUID = { bear = 9, cat = 7, prowl = 8 },
 				ROGUE = { stealth = 7 },
-				MONK = { tiger = 7, ox = 8, serpent = 9 },
+				MONK = { tiger = 7, ox = 8, serpent = 9, crane = 7 },
+				WARRIOR = { battle = 7, def = 8, gladiator = 9 },
 			},
 		},
 		visibility = {
@@ -56,14 +55,14 @@ local defaults = {
 	}
 }
 
+local ActionBar_MT = {__index = Bartender4.ActionBar}
+
+-- export defaults for other modules
+Bartender4.ActionBar.defaults = abdefaults['**']
+
 function BT4ActionBars:OnInitialize()
 	self.db = Bartender4.db:RegisterNamespace("ActionBars", defaults)
-
-	-- fetch the prototype information
-	ActionBar = Bartender4.ActionBar
-	ActionBar_MT = {__index = ActionBar}
 end
-
 
 local LBF = LibStub("LibButtonFacade", true)
 
@@ -176,6 +175,12 @@ function BT4ActionBars:Create(id, config)
 	local id = tostring(id)
 	local bar = setmetatable(Bartender4.StateBar:Create(id, config, (L["Bar %s"]):format(id)), ActionBar_MT)
 	bar.module = self
+
+	bar:SetScript("OnEvent", bar.OnEvent)
+	bar:RegisterEvent("PLAYER_TALENT_UPDATE")
+	bar:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
+	bar:RegisterEvent("LEARNED_SPELL_IN_TAB")
+	bar:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 	self:CreateBarOption(id)
 

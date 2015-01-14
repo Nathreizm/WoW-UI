@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: Bagnon
 ## Author: Tuller & Jaliborc (João Cardoso)
 ## Notes: Single window displays for your inventory and bank
@@ -6,15 +6,12 @@
 ## SavedVariables: BagnonGlobalSettings
 
 ## OptionalDeps: BagBrother, ItemRack, Wardrobe, WoWUnit
-## Version: 5.4.9
+## Version: 6.0.16
 
 libs\libs.xml
 localization\localization.xml
 main.lua
 
-core\core.xml
-events\events.xml
-info\info.xml
-
+api\api.xml
 settings\settings.xml
 components\components.xml

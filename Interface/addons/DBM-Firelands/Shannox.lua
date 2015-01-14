@@ -3,7 +3,7 @@ local L		= mod:GetLocalizedStrings()
 local Riplimb	= EJ_GetSectionInfo(2581)
 local Rageface	= EJ_GetSectionInfo(2583)
 
-mod:SetRevision(("$Revision: 99 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 131 $"):sub(12, -3))
 mod:SetCreatureID(53691)
 mod:SetEncounterID(1205)
 mod:DisableEEKillDetection()
@@ -16,12 +16,12 @@ mod:SetModelSound("Sound\\Creature\\SHANNOX\\VO_FL_SHANNOX_SPAWN.wav", "Sound\\C
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED",
-	"SPELL_AURA_APPLIED_DOSE",
-	"SPELL_AURA_REMOVED",
-	"SPELL_CAST_START",
-	"SPELL_CAST_SUCCESS",
-	"SPELL_SUMMON",
+	"SPELL_AURA_APPLIED 100415 100167 99837 99937",
+	"SPELL_AURA_APPLIED_DOSE 99945 99937",
+	"SPELL_AURA_REMOVED 99945 99937",
+	"SPELL_CAST_START 100002 99840",
+	"SPELL_CAST_SUCCESS 99947",
+	"SPELL_SUMMON 99836 99839",
 	"UNIT_HEALTH boss1 boss2 boss3", -- probably needs just one (?)
 	"UNIT_DIED"
 )
@@ -65,8 +65,8 @@ local timerFaceRageCD			= mod:NewCDTimer(27, 99947, nil, false)--Has a 27-30 sec
 
 local berserkTimer				= mod:NewBerserkTimer(600)
 
-mod:AddBoolOption("SetIconOnFaceRage")
-mod:AddBoolOption("SetIconOnRage")
+mod:AddBoolOption("SetIconOnFaceRage", false)
+mod:AddBoolOption("SetIconOnRage", false)
 
 local prewarnedPhase2 = false
 local ripLimbDead = false
@@ -80,12 +80,7 @@ function mod:ImmoTrapTarget(targetname)
 	else
 		local uId = DBM:GetRaidUnitId(targetname)
 		if uId then
-			local x, y = GetPlayerMapPosition(uId)
-			if x == 0 and y == 0 then
-				SetMapToCurrentZone()
-				x, y = GetPlayerMapPosition(uId)
-			end
-			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
+			local inRange = DBM.RangeCheck:GetDistance("player", uId)
 			if inRange and inRange < 6 then
 				specWarnImmTrapNear:Show(targetname)
 			end
@@ -101,12 +96,7 @@ function mod:CrystalTrapTarget(targetname)
 	else
 		local uId = DBM:GetRaidUnitId(targetname)
 		if uId then
-			local x, y = GetPlayerMapPosition(uId)
-			if x == 0 and y == 0 then
-				SetMapToCurrentZone()
-				x, y = GetPlayerMapPosition(uId)
-			end
-			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
+			local inRange = DBM.RangeCheck:GetDistance("player", uId)
 			if inRange and inRange < 6 then
 				specWarnCrystalTrapNear:Show(targetname)
 			end
@@ -187,7 +177,8 @@ function mod:OnCombatStart(delay)
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 100415 then
+	local spellId = args.spellId
+	if spellId == 100415 then
 		warnRage:Show(args.destName)
 		timerRage:Start(args.destName)
 		if args:IsPlayer() then
@@ -196,16 +187,16 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.SetIconOnRage then
 			self:SetIcon(args.destName, 6, 15)
 		end
-	elseif args.spellId == 100167 then
+	elseif spellId == 100167 then
 		warnWary:Show(args.destName)
 		timerWary:Start(args.destName)
-	elseif args.spellId == 99837 then--Filter when the dogs get it?
+	elseif spellId == 99837 then--Filter when the dogs get it?
 		if args:IsDestTypePlayer() then
 			warnCrystalPrisonTrapped:Show(args.destName)
 		else--It's a trapped dog
 			timerCrystalPrison:Start(args.destName)--make a 10 second timer for how long dog is trapped.
 		end
-	elseif args.spellId == 99937 then
+	elseif spellId == 99937 then
 		if (args.amount or 1) % 3 == 0 then	--Warn every 3 stacks
 			warnTears:Show(args.destName, args.amount or 1)
 		end
@@ -223,28 +214,31 @@ end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args.spellId == 99945 then
+	local spellId = args.spellId
+	if spellId == 99945 then
 		if self.Options.SetIconOnFaceRage then
 			self:SetIcon(args.destName, 0)
 		end
-	elseif args.spellId == 99937 then
+	elseif spellId == 99937 then
 		timerTears:Cancel(args.destName)
 	end
 end
 
 function mod:SPELL_CAST_START(args)
-	if args.spellId == 100002 then
+	local spellId = args.spellId
+	if spellId == 100002 then
 		warnSpear:Show()--Only valid until rip dies
 		specWarnSpear:Show()
 		timerSpearCD:Start()
-	elseif args.spellId == 99840 and ripLimbDead then	--This is cast after Riplimb dies.
+	elseif spellId == 99840 and ripLimbDead then	--This is cast after Riplimb dies.
 		warnMagmaRupture:Show()
 		timerMagmaRuptureCD:Start()
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 99947 then
+	local spellId = args.spellId
+	if spellId == 99947 then
 		warnFaceRage:Show(args.destName)
 		specWarnFaceRage:Show(args.destName)
 		timerFaceRageCD:Start()
@@ -255,11 +249,12 @@ function mod:SPELL_CAST_SUCCESS(args)
 end
 
 function mod:SPELL_SUMMON(args)
-	if args.spellId == 99836 then
+	local spellId = args.spellId
+	if spellId == 99836 then
 		timerCrystalPrisonCD:Start()
 		trapScansDone = 0
 		self:TrapHandler(99836)
-	elseif args.spellId == 99839 then
+	elseif spellId == 99839 then
 		trapScansDone = 0
 		self:TrapHandler(99839)
 	end
@@ -278,11 +273,12 @@ function mod:UNIT_HEALTH(uId)
 end
 
 function mod:UNIT_DIED(args)
-	if self:GetCIDFromGUID(args.destGUID) == 53694 then
+	local cid = self:GetCIDFromGUID(args.destGUID)
+	if cid == 53694 then
 		timerSpearCD:Cancel()--Cancel it and replace it with other timer
 		timerMagmaRuptureCD:Start(10)
 		ripLimbDead = true
-	elseif self:GetCIDFromGUID(args.destGUID) == 53695 then
+	elseif cid == 53695 then
 		timerFaceRageCD:Cancel()
 	end
 end

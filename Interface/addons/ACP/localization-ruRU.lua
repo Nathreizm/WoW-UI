@@ -62,6 +62,7 @@ if (GetLocale() == "ruRU") then
 	["Reload your User Interface?"] = "Перезагрузить пользовательский интерфейс?",
 	["Remove from current selection"] = "Убрать из текущего выделения",
 	Rename = "Переименовать",
+	-- ["Resurse-ToolTip"] = "",
 	Save = "Сохранить",
 	["Save the current addon list to [%s]?"] = "Сохранить текущий список модификаций в [%s]?",
 	["Set "] = "Набор ",

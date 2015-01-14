@@ -6,13 +6,14 @@
 local mod, CL = BigWigs:NewBoss("Thok the Bloodthirsty", 953, 851)
 if not mod then return end
 mod:RegisterEnableMob(71529)
+mod.engageId = 1599
 
 --------------------------------------------------------------------------------
 -- Locals
 --
 local accCount = 0
 local yetiChargeTimer
-local heroicAdd
+local mythicAdd
 
 --------------------------------------------------------------------------------
 -- Localization
@@ -43,7 +44,7 @@ function mod:GetOptions()
 		{143766, "TANK"}, {143780, "TANK"}, {143767, "TANK"}, {143773, "TANK"},
 		"proximity", "berserk", "bosskill",
 	}, {
-		[148145] = "heroic",
+		[148145] = "mythic",
 		[-7963] = -7960, -- stage 1
 		[-7981] = -7961, -- stage 2
 		[143766] = INLINE_TANK_ICON..TANK,
@@ -52,9 +53,7 @@ function mod:GetOptions()
 end
 
 function mod:OnBossEnable()
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
-	-- heroic
+	-- Mythic
 	self:Log("SPELL_AURA_APPLIED", "YetCharge", 148145)
 	self:RegisterEvent("CHAT_MSG_MONSTER_YELL", "PrisonerTracker")
 	-- stage 2
@@ -78,18 +77,17 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED_DOSE", "TankDebuff", 143766, 143780, 143773, 143767)
 	self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "TankDebuffCasts", "boss1")
 
-	self:Death("Win", 71529)
-	self:Death("Deaths", 73526) -- Starved Yeti
+	self:Death("YetiDeath", 73526) -- Starved Yeti
 end
 
 function mod:OnEngage()
-	if self:Heroic() then
+	if self:Mythic() then
 		yetiChargeTimer = nil
-		heroicAdd = nil
+		mythicAdd = nil
 	end
 	accCount = 0
 	self:Berserk(600)
-	self:OpenProximity("proximity", 10) -- Too close to another group. Tactic dependant - needed for heroic
+	self:OpenProximity("proximity", 10) -- Too close to another group. Tactic dependant - needed for mythic
 	self:CDBar(-7963, self:LFR() and 18 or 14) -- Deafening Screech
 	self:CDBar(143766, 12, 143426, 143766) -- Fearsome Roar with correct icon
 end
@@ -98,13 +96,13 @@ end
 -- Event Handlers
 --
 
--- heroic
+-- Mythic
 
 function mod:PrisonerTracker(_, _, sender)
 	if sender == L.npc_akolik then
-		heroicAdd = "bats"
+		mythicAdd = "bats"
 	elseif sender == L.npc_waterspeaker_gorai then
-		heroicAdd = "yeti"
+		mythicAdd = "yeti"
 	end
 end
 
@@ -144,14 +142,14 @@ end
 
 do
 	local function checkPrisonerKilled()
-		if heroicAdd then
+		if mythicAdd then
 			-- XXX maybe add scheduled message once we know exact timer (videos)
 			-- timer still need verification and still looking for a better event to start bars (don't seem to be any)
-			if heroicAdd == "bats" then
+			if mythicAdd == "bats" then
 				mod:CDBar("adds", 12, mod:SpellName(-8584), 24733) -- bat icon
-			elseif heroicAdd == "yeti" then
+			elseif mythicAdd == "yeti" then
 				mod:CDBar("adds", 10, mod:SpellName(-8582), 26010) -- yeti icon
-				heroicAdd = nil
+				mythicAdd = nil
 			end
 		end
 	end
@@ -160,7 +158,7 @@ do
 		self:Message(-7981, "Neutral", "Long", CL.over:format(args.spellName))
 		self:CDBar(-7963, self:LFR() and 18 or 14) -- Deafening Screech
 		self:CDBar(143766, 12, 17086, "ability_hunter_pet_devilsaur") -- Breath. 143766 isn't exactly a combined option but it's one of the breaths.
-		if self:Heroic() then
+		if self:Mythic() then
 			self:ScheduleTimer(checkPrisonerKilled, 10)
 		end
 	end
@@ -192,6 +190,7 @@ function mod:BloodFrenzyPhase()
 	self:StopBar(143780) -- Acid Breath
 	self:StopBar(143773) -- Freezing Breath
 	self:StopBar(143767) -- Scorching Breath
+	self:StopBar(-7963) -- Deafening Screech
 	self:CloseProximity("proximity")
 	self:Message(-7981, "Neutral", "Long")
 end
@@ -233,9 +232,7 @@ do
 	local accTimes = {10.9, 7.2, 4.8, 3.6}
 	function mod:Acceleration(args)
 		accCount = args.amount or 1
-		if self:LFR() then
-			self:CDBar(-7963, 18)
-		elseif accTimes[accCount] then -- Beyond this is too short a timer to care (2.1-2.4)
+		if accTimes[accCount] then -- Beyond this is too short a timer to care (2.1-2.4)
 			self:Bar(-7963, accTimes[accCount])
 		end
 		if accCount < 6 or accCount % 3 == 0 then
@@ -255,11 +252,9 @@ function mod:TankDebuff(args)
 	self:StackMessage(args.spellId, args.destName, args.amount, "Attention", not self:Me(args.destGUID) and "Warning")
 end
 
-function mod:Deaths(args)
-	if args.mobId == 73526 then -- Starved Yeti
-		self:CancelTimer(yetiChargeTimer)
-		yetiChargeTimer = nil
-		heroicAdd = nil
-	end
+function mod:YetiDeath(args)
+	self:CancelTimer(yetiChargeTimer)
+	yetiChargeTimer = nil
+	mythicAdd = nil
 end
 

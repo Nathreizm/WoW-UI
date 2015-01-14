@@ -1,0 +1,20 @@
+
+TomTomDB = {
+	["profileKeys"] = {
+		["Nathreizm - Arthas"] = "Default",
+	},
+	["profiles"] = {
+		["Default"] = {
+		},
+	},
+}
+TomTomWaypoints = nil
+TomTomWaypointsMF = {
+	["profileKeys"] = {
+		["Nathreizm - Arthas"] = "Nathreizm - Arthas",
+	},
+	["profiles"] = {
+		["Nathreizm - Arthas"] = {
+		},
+	},
+}

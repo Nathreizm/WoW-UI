@@ -198,7 +198,7 @@ DBM_CORE_AUTO_SPEC_WARN_TEXTS.close		= "%s en >%%s< cerca tuyo"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.move		= "%s - ¡muévete!"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.run			= "%s - ¡corre!"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.cast		= "%s - ¡para de castear!"
-DBM_CORE_AUTO_SPEC_WARN_TEXTS.reflect		= "%s - ¡para de atacar!"
+DBM_CORE_AUTO_SPEC_WARN_TEXTS.reflect		= "%s en >%%s< - ¡para de atacar!"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.count		= "%s! (%%d)"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.stack		= "%%d acumulaciones de %s en ti"
 DBM_CORE_AUTO_SPEC_WARN_TEXTS.switch		= ">%s< - ¡cambio de objetivos!"
@@ -270,7 +270,6 @@ DBM_CORE_MOVE_SPECIAL_WARNING_TEXT	= "Aviso especial"
 DBM_CORE_RANGE_CHECK_ZONE_UNSUPPORTED	= "La comprobación de rango de %d yardas no está disponible en esta zona.\nLos rangos disponibles son 10, 11, 15 y 28 yardas."
 
 DBM_ARROW_MOVABLE					= "Flecha movible"
-DBM_ARROW_NO_RAIDGROUP				= "Esta funcionalidad solo puede usarse en grupos de banda o en estancias de banda."
 DBM_ARROW_ERROR_USAGE	= {
 	"Uso de DBM-Arrow:",
 	"/dbm arrow <x> <y>: Crea una flecha que apunta a una dirección específica (0 < x/y < 100)",
@@ -290,8 +289,9 @@ DBM_INSTANCE_INFO_REQUESTED			= "Enviar solicitud de ID de estancias al grupo de
 DBM_INSTANCE_INFO_STATUS_UPDATE		= "Se ha obtenido respuesta de %d jugadores de %d usuarios de DBM: %d han enviado los datos, %d han denegado la solicitud. Se esperará %d segundos más para respuestas..."
 DBM_INSTANCE_INFO_ALL_RESPONSES		= "Se ha recibido respuestas de todos los miembros de la banda"
 DBM_INSTANCE_INFO_DETAIL_DEBUG		= "Personaje: %s Resultado: %s Estancia: %s IDEstancia: %s Difficultad: %d Tamaño: %d Progreso: %s"
-DBM_INSTANCE_INFO_DETAIL_HEADER		= "%s (%d), dificultad %d:"
+DBM_INSTANCE_INFO_DETAIL_HEADER		= "%s, dificultad %s:"
 DBM_INSTANCE_INFO_DETAIL_INSTANCE	= "    ID %s, progreso %d: %s"
+DBM_INSTANCE_INFO_DETAIL_INSTANCE2	= "    progreso %d: %s"
 DBM_INSTANCE_INFO_STATS_DENIED		= "Han denegado la solicitud: %s"
 DBM_INSTANCE_INFO_STATS_AWAY		= "Ausentes: %s"
 DBM_INSTANCE_INFO_STATS_NO_RESPONSE	= "No tienen una versión reciente de DBM instalada: %s"

@@ -1,0 +1,9 @@
+
+MasterPlanPC = {
+	["seen"] = {
+		[-158] = 1418565060,
+		["__time"] = 1418647800,
+	},
+	["version"] = "0.16",
+	["availableMissionSort"] = "xp",
+}

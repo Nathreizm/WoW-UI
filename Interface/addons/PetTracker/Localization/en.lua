@@ -11,30 +11,45 @@ L.PromptForfeitTip = 'If enabled, you will be prompted to forfeit a battle when 
 L.BattlePets = 'Battle Pets'
 L.Breed = 'Breed'
 L.BreedExplanation = 'Determines how stats gained at each level are distributed.'
-L.CapturedPets = 'Captured Pets'
+L.CapturedPets = 'Show Captured'
 L.CommonSearches = 'Common Searches'
+L.EnemyTeam = 'Enemy Team'
 L.FilterPets = 'Filter Pets'
 L.ShowJournal = 'Show in Journal'
 L.Maximized = 'Maximized'
+L.Ninja = 'Ninja'
+L.NoHistory = 'PetTracker has never seen you\nfight this adversary'
 L.NoneCollected = 'None Collected'
+L.Rivals = 'Rivals'
 L.ShowPets = 'Show Battle Pets'
 L.ShowStables = 'Show Stables'
 L.StableTip = '|cffffd200Come here to heal your|npets for a small fee.|r'
+L.TrackPets = 'Track Pets'
+L.TellMore = 'Tell me more about yourself.'
+L.UnlockActions = 'Unlock Enemy Actions'
+L.UnlockActionsTip = 'If enabled, the enemy actions bar can be dragged to anywhere on the screen.'
 L.UpgradeAlert = 'Wild upgrades have appeared!'
 L.ZoneTracker = 'Zone Tracker'
 
-L.FAQ = {
-	'How do I make the map display specific pets only?',
-	'There is a filter box at the top right corner of the world map. See the tutorial for more information and common examples.',
+for i = 1, 10 do
+	L['Source' .. i] = _G['BATTLE_PET_SOURCE_' .. i] -- do not translate. Automatic for most locales
+end
 
-	'How do I toggle the Zone Tracker again?',
-	'Right-Click on the objectives header and toggle Battle Pets. Alternatively, open the Pet Journal and click Zone Tracker at the bottom right corner.',
+L.FAQ = {
+	'How do I show/hide all pets on the map?',
+	'Click on the magnifying glass button at the top right corner of the map. Click on Show Battle Pets.',
+
+	'How do I make the map display specific pets only?',
+	'There is a filter box at the top right corner of the world map. See the tutorial for common search examples.',
+
+	'How do I show the Zone Tracker again?',
+	'Open the Pet Journal and click Zone Tracker at the bottom right corner.',
 
 	'How do I display the pets I have captured in the Zone Tracker?',
-	'Right-Click on the objectives header and enable Missing Pets',
+	'Click on Battle Pets at the tracker and enable Captured Pets',
 
-	'How do I disable the battle upgrade alerts?',
-	'Go to the login screen and disable PetTracker Upgrades in the addon list.',
+	'How do I disable all the upgrade alerts?',
+	'Go to the Main Menu, open the addons list and disable PetTracker Upgrades.',
 
 	'How can I see the tutorial again?',
 	'Click on the button at your right.'
@@ -43,38 +58,46 @@ L.FAQ = {
 L.Tutorial = {
 [[Welcome! You are now using |cffffd200PetTracker|r, by |cffffd200Jaliborc|r.
 
-This short tutorial will help you to quickly get started with the addon, so that you can get back to do what is trully important: to catch... ahem... capture them all!]],
+A lot has changed since Pandaria, so this will help you to quickly get started. Then you can get back to do what is truly important: to catch... ahem... capture them all!]],
 
 [[PetTracker will help you to monitor your progress in the zone you are in.
 
-The |cffffd200Zone Tracker|r displays which pets you are missing, and the rarity of the ones you have captured.]],
+The |cffffd200Zone Tracker|r displays which pets you are missing, their origin, and the rarity of the ones you have captured.]],
 
-[[To hide the zone tracker, |cffffd200right-click|r on the objectives list header. Then, disable |cffffd200Display Battle Pets|r.
+[[Click on |cffffd200Battle Pets|r to toggle the tracker or additional options.]],
 
-You can also disable |cffffd200Display Captured Pets|r to show only the pets you are missing.]],
+[[Open the |cffffd200World Map|r to see what PetTracker can do for your exploration.]],
 
-[[Now we will see what PetTracker can do for your World Map. Please |cffffd200open|r it to get started.]],
+[[PetTracker displays the possible sources of pets on the world map, from spawn points to vendors. It also displays stables and extra information about tamers.
 
-[[PetTracker displays the possible sources of all pets on the world map, from capture locations to vendors.
+To hide these locations, open the tracking menu and disable |cffffd200Show Battle Pets|r.]],
 
-To hide these locations, open the |cffffd200Map Options|r dropdown, and disable |cffffd200Show Battle Pets|r.]],
-
-[[You can also filter which pets are displayed by typing on the highlighted search box. Here are some examples:
+[[You can also filter which pets are displayed by typing on the search box. Here are some examples:
 
 • |cffffd200Cat|r for cats.
 • |cffffd200Missing|r for species you do not own.
 • |cffffd200Aquatic|r for aquatic species.
 • |cffffd200Quest|r for species obtainable through questing.
-• |cffffd200Forest|r for species that inhabit forests.]],
+• |cffffd200Forest|r for species that inhabit forests.]]
+}
 
-[[You can further combine searches for even more precise results:
+L.JournalTutorial = {
+[[Open the |cffffd200Pet Journal|r to see what PetTracker can do for your browsing.]],
+[[This checkbox allows you to toggle the |cffffd200Zone Tracker|r. It is especially useful if you have hidden the tracker previously.]],
+[[Open the |cffffd200Rivals|r tab to learn more about it.]],
+[[The |cffffd200Rivals|r tab provides information about existing battle pet encounters, such as:
 
-• |cffffd200Aquatic Cat|r for... you got it, aquatic cats!
-• |cffffd200Not Cat|r for everything that is not a cat.
-• |cffffd200> Common|r for species of which you have an uncommon or better pet.
-• |cffffd200Forest or Aquatic|r for species that inhabit forests or are aquatic.|r]],
+• Enemy pets and their abilities.
+• Daily quests and rewards.
+• Encounter location.]],
+[[You can also filter which pets are displayed by typing on the search box. Here are some examples:
 
-[[That's it folks! Remember you can always watch this tutorial again at the |cffffd200Interface Options|r, under the |cffffd200Addons|r category.]]
+• |cffffd200Aki|r for Aki the Chosen.
+• |cffffd200Valor|r for rivals that award valor.
+• |cffffd200Draenor|r for rivals located on Draenor.
+• |cffffd200Epic|r for rivals with epic rarity teams.
+• |cffffd200> 20|r for rivals over level 20.]],
+[[PetTracker records the fights you have with each rival. Select a fight and click on |cffffd200Load Team|r to quickly reload the pets you used then.]]
 }
 
 Addon.Locals = L

@@ -1,7 +1,8 @@
 local aName, aObj = ...
 local _G = _G
 
-local assert, CopyTable, debugstack, pairs, rawget, select, type, unpack = _G.assert, _G.CopyTable, _G.debugstack, _G.pairs, _G.rawget, _G.select, _G.type, _G.unpack
+local assert, CopyTable, debugstack, ipairs, pairs, rawget, select, type, unpack, null, setmetatable, RAID_CLASS_COLORS = _G.assert, _G.CopyTable, _G.debugstack, _G.ipairs, _G.pairs, _G.rawget, _G.select, _G.type, _G.unpack, _G.null, _G.setmetatable, _G.RAID_CLASS_COLORS
+local LibStub = _G.LibStub
 
 do
 	-- check to see if required libraries are loaded
@@ -17,7 +18,7 @@ do
 	aObj.callbacks = LibStub("CallbackHandler-1.0"):New(aObj)
 
 	-- specify where debug messages go
-	aObj.debugFrame = ChatFrame10
+	aObj.debugFrame = _G.ChatFrame10
 
 	-- Get Locale
 	aObj.L = LibStub("AceLocale-3.0"):GetLocale(aName)
@@ -26,32 +27,37 @@ do
 	aObj.LSM = LibStub("LibSharedMedia-3.0")
 
 	-- player class
-	aObj.uCls = select(2, UnitClass("player"))
+	aObj.uCls = select(2, _G.UnitClass("player"))
 
-	local liveBuildVer = "5.4.2"
-	local liveBuildNo = 17688
-	local buildInfo, portal = {GetBuildInfo()}, GetCVar("portal") or nil
+	local liveBuildVer = "6.0.3"
+	local liveBuildNo = 19342
+	local buildInfo, portal = {_G.GetBuildInfo()}, _G.GetCVar("portal") or nil
 --[===[@alpha@
 	aObj:Debug(liveBuildVer, liveBuildNo, buildInfo[1], buildInfo[2], buildInfo[3], buildInfo[4], portal)
 --@end-alpha@]===]
 	-- check to see if running on Beta version
 	aObj.isBeta = portal == "public-beta" and true or false
 	aObj.isBeta = aObj.isBeta or buildInfo[1] > liveBuildVer and true or false
-	--check to see if running on PTR servers
-	aObj.isPTR = portal == "public-test" and true or false
-	-- check build number, if > Live then it's a patch
-	aObj.isPatch = tonumber(buildInfo[2]) > liveBuildNo and true or false
+	if not aObj.isBeta then
+		--check to see if running on PTR servers
+		aObj.isPTR = portal == "public-test" and true or false
+		-- check build number, if > Live then it's a patch
+		aObj.isPatch = _G.tonumber(buildInfo[2]) > liveBuildNo and true or false
 --[===[@alpha@
-	if aObj.isPatch then
-		if aObj.isPTR then
-			_G.DEFAULT_CHAT_FRAME:AddMessage("Version No. updated, any PTR changes to be applied?", 1, 0, 0, nil, true)
-		else
-			_G.DEFAULT_CHAT_FRAME:AddMessage("Version No. updated, any Patch changes to be applied?", 1, 0, 0, nil, true)
+		if aObj.isPatch then
+			if aObj.isPTR then
+				_G.DEFAULT_CHAT_FRAME:AddMessage("Version No. updated, any PTR changes to be applied?", 1, 0, 0, nil, true)
+			else
+				_G.DEFAULT_CHAT_FRAME:AddMessage("Version No. updated, any Patch changes to be applied?", 1, 0, 0, nil, true)
+			end
 		end
-	end
 --@end-alpha@]===]
-	-- if patch detected then enable PTR code changes, handles PTR changes going Live
-	if aObj.isPatch then aObj.isPTR = true end
+	end
+	-- if patch detected then enable PTR/Beta code changes, handles PTR/Beta changes going Live
+	if aObj.isPatch then
+		aObj.isPTR = true
+		aObj.isBeta = true
+	end
 
 end
 
@@ -185,6 +191,9 @@ function aObj:OnInitialize()
 	self.Backdrop[9].tile = false
 	self.Backdrop[9].tileSize = 0
 	self.Backdrop[9].edgeSize = 12
+	-- this backdrop has no background
+	self.Backdrop[10] = CopyTable(self.backdrop)
+	self.Backdrop[10].bgFile = nil
 	-- setup background texture
 	if prdb.BgUseTex then
 		if prdb.BgFile and prdb.BgFile ~= "None" then
@@ -198,7 +207,7 @@ function aObj:OnInitialize()
 	self.gradFrames = {["p"] = {}, ["u"] = {}, ["n"] = {}, ["s"] = {}}
 
 	-- TooltipBorder colours
-	c = prdb.ClassColours and _G.RAID_CLASS_COLORS[self.uCls] or prdb.TooltipBorder
+	c = prdb.ClassColours and RAID_CLASS_COLORS[self.uCls] or prdb.TooltipBorder
 	self.tbColour = {c.r, c.g, c.b, c.a or 1}
 	-- StatusBar colours
 	c = prdb.StatusBar
@@ -206,10 +215,10 @@ function aObj:OnInitialize()
 	-- StatusBar texture
 	self.sbTexture = self.LSM:Fetch("statusbar", c.texture)
 	-- Backdrop colours
-	c = prdb.ClassClrsBg and _G.RAID_CLASS_COLORS[self.uCls] or prdb.Backdrop
+	c = prdb.ClassClrsBg and RAID_CLASS_COLORS[self.uCls] or prdb.Backdrop
 	self.bColour = {c.r, c.g, c.b, c.a or 1}
 	-- BackdropBorder colours
-	c = prdb.ClassColours and _G.RAID_CLASS_COLORS[self.uCls] or prdb.BackdropBorder
+	c = prdb.ClassColours and RAID_CLASS_COLORS[self.uCls] or prdb.BackdropBorder
 	self.bbColour = {c.r, c.g, c.b, c.a or 1}
 	-- Inactive Tab & DropDowns texture
 	if prdb.TabDDFile and prdb.TabDDFile ~= "None" then
@@ -231,16 +240,18 @@ function aObj:OnInitialize()
 
 	-- table to hold objects which have been skinned
 	-- with a metatable having weak keys and automatically adding an entry if it doesn't exist
-	self.skinned = _G.setmetatable({}, {__mode = "k", __index = function(t, k) t[k] = true end})
+	-- TODO: deprecate when all skins changed
+	self.skinned = setmetatable({}, {__mode = "k", __index = function(t, k) t[k] = true end})
 
 	-- table to hold frames that have been added, with weak keys
-	self.skinFrame = _G.setmetatable({}, {__mode = "k"})
+	-- TODO: deprecate when all skins changed
+	self.skinFrame = setmetatable({}, {__mode = "k"})
 
 	-- table to hold buttons that have been added, with weak keys
-	self.sBtn = _G.setmetatable({}, {__mode = "k"})
+	self.sBtn = setmetatable({}, {__mode = "k"})
 
 	-- table to hold StatusBars that have been glazed, with weak keys
-	self.sbGlazed = _G.setmetatable({}, {__mode = "k"})
+	self.sbGlazed = setmetatable({}, {__mode = "k"})
 
 	-- shorthand for the TexturedTab profile setting
 	self.isTT = prdb.TexturedTab and true or false
@@ -248,15 +259,15 @@ function aObj:OnInitialize()
 	-- hook to handle textured tabs on Blizzard & other Frames
 	self.tabFrames = {}
 	if self.isTT then
-		self:SecureHook("PanelTemplates_SetTab", function(obj, id)
-			-- self:Debug("PT_ST: [%s, %s, %s, %s]", obj, id, obj.numTabs or "nil", obj.selectedTab or "nil")
-			if not self.tabFrames[obj] then return end -- ignore frame if not monitored
-			-- self:Debug("PT_ST#2")
-			for i = 1, obj.numTabs do
-				if i == id then
-					self:setActiveTab(_G[obj:GetName() .. "Tab" .. i].sf)
-				else
-					self:setInactiveTab(_G[obj:GetName() .. "Tab" .. i].sf)
+		self:SecureHook("PanelTemplates_UpdateTabs", function(frame)
+			if not self.tabFrames[frame] then return end -- ignore frame if not monitored
+			if frame.selectedTab then
+				for i = 1, frame.numTabs do
+					if i == frame.selectedTab then
+						self:setActiveTab(_G[frame:GetName() .. "Tab" .. i].sf)
+					else
+						self:setInactiveTab(_G[frame:GetName() .. "Tab" .. i].sf)
+					end
 				end
 			end
 		end)
@@ -337,10 +348,10 @@ function aObj:OnEnable()
 end
 
 do
-	StaticPopupDialogs[aName .. "_Reload_UI"] = {
+	_G.StaticPopupDialogs[aName .. "_Reload_UI"] = {
 		text = aObj.L["Confirm reload of UI to activate profile changes"],
-		button1 = OKAY,
-		button2 = CANCEL,
+		button1 = _G.OKAY,
+		button2 = _G.CANCEL,
 		OnAccept = function()
 			_G.ReloadUI()
 		end,
@@ -522,6 +533,11 @@ local function hideHeader(obj)
 			break
 		end
 	end
+	if obj.header then
+		obj.header:DisableDrawLayer("BACKGROUND")
+		obj.header:DisableDrawLayer("BORDER")
+		aObj:moveObject{obj=obj.header.text, x=0, y=-6}
+	end
 
 end
 
@@ -626,7 +642,9 @@ local function __addSkinFrame(opts)
 	if opts.ri then aObj:removeInset(opts.obj.Inset) end
 
 	-- reverse parent child relationship
-	if opts.rp then
+	if opts.rp
+	and not opts.obj.SetParent_orig
+	then
 		skinFrame:SetParent(opts.obj:GetParent())
 		opts.obj:SetParent(skinFrame)
 		opts.obj.SetParent_orig = opts.obj.SetParent
@@ -644,8 +662,11 @@ local function __addSkinFrame(opts)
 		-- hook this script to ensure gradient texture is reparented correctly
 		aObj:SecureHookScript(opts.obj.animIn, "OnFinished", function(this)
 			local objP = this:GetParent()
-			objP.sf.tfade:SetParent(objP.sf)
-			if objP.cb then objP.cb.tfade:SetParent(objP.cb) end
+			-- _G.print("animIn OnFinished", objP)
+			aObj:ScheduleTimer(function(frame)
+				frame.sf.tfade:SetParent(frame.sf)
+				if frame.cb then frame.cb.tfade:SetParent(frame.cb) end
+			end, 0.2, objP)
 		end)
 		-- hook AlertFrame scripts for animation functions
 		if opts.afas then
@@ -660,7 +681,8 @@ local function __addSkinFrame(opts)
 		end
 	end
 
-	-- store reference to the frame (used by addons, until they are all updated)
+	-- store reference to the frame
+	-- TODO: deprecate when all skins changed
 	if not opts.ft then aObj.skinFrame[opts.obj] = skinFrame end
 
 	return skinFrame
@@ -1003,12 +1025,12 @@ function aObj:keepFontStrings(obj, hide)
 --@end-alpha@]===]
 
 	local regs = {obj:GetRegions()}
-	for _, reg in _G.ipairs(regs) do
+	for _, reg in ipairs(regs) do
 		if not reg:IsObjectType("FontString") then
 			if not hide then reg:SetAlpha(0) else reg:Hide() end
 		end
 	end
-	regs = _G.null
+	regs = null
 
 end
 
@@ -1033,7 +1055,7 @@ function aObj:keepRegions(obj, regions)
 	regions = revTable(regions)
 
 	local regs = {obj:GetRegions()}
-	for k, reg in _G.ipairs(regs) do
+	for k, reg in ipairs(regs) do
 		-- if we have a list, hide the regions not in that list
 		if regions
 		and not regions[k]
@@ -1047,7 +1069,7 @@ function aObj:keepRegions(obj, regions)
 --@end-debug@]===]
 		end
 	end
-	regs = _G.null
+	regs = null
 
 end
 
@@ -1136,8 +1158,6 @@ local function __moveObject(opts)
 
 	local point, relTo, relPoint, xOfs, yOfs = opts.obj:GetPoint()
 
-	-- aObj:Debug("__mO: [%s, %s, %s, %s, %s]", point, relTo, relPoint, xOfs, yOfs)
-
 	-- handle no Point info
 	if not point then return end
 
@@ -1196,7 +1216,7 @@ function aObj:removeRegions(obj, regions)
 	regions = revTable(regions)
 
 	local regs = {obj:GetRegions()}
-	for k, reg in _G.ipairs(regs) do
+	for k, reg in ipairs(regs) do
 		if not regions
 		or regions
 		and regions[k]
@@ -1210,7 +1230,7 @@ function aObj:removeRegions(obj, regions)
 --@end-debug@]===]
 		end
 	end
-	regs = _G.null
+	regs = null
 
 end
 
@@ -1222,7 +1242,7 @@ function aObj:rmRegionsTex(obj, regions)
 	regions = revTable(regions)
 
 	local regs = {obj:GetRegions()}
-	for k, reg in _G.ipairs(regs) do
+	for k, reg in ipairs(regs) do
 		if not regions
 		or regions
 		and regions[k]
@@ -1237,7 +1257,7 @@ function aObj:rmRegionsTex(obj, regions)
 			end
 		end
 	end
-	regs = _G.null
+	regs = null
 
 end
 
@@ -1380,7 +1400,12 @@ local function __skinDropDown(opts)
 	end
 
 	-- don't skin it twice
-	if aObj.skinned[opts.obj] then return end
+	if opts.obj.sknd then
+		return
+	else
+		opts.obj.sknd = true
+	end
+	aObj:add2Table(aObj.skinned, opts.obj) -- TODO: deprecate when all skins changed
 
 	-- hide textures
 	aObj:removeRegions(opts.obj, {1, 2, 3})
@@ -1453,7 +1478,7 @@ local function __skinEditBox(opts)
 		move = move the edit box, left and up
 		x = move the edit box left/right
 		y = move the edit box up/down
-		mi = move search icon to the right
+		mi = move search icon/instructions to the right
 		ign = ignore this editbox when skinning IOF panels
 --]]
 --[===[@alpha@
@@ -1462,7 +1487,12 @@ local function __skinEditBox(opts)
 --@end-alpha@]===]
 
 	-- don't skin it twice
-	if aObj.skinned[opts.obj] then return end
+	if opts.obj.sknd then
+		return
+	else
+		opts.obj.sknd = true
+	end
+	aObj:add2Table(aObj.skinned, opts.obj) -- TODO: deprecate when all skins changed
 
 	opts.x = opts.x or 0
 	opts.y = opts.y or 0
@@ -1501,6 +1531,9 @@ local function __skinEditBox(opts)
 	if opts.mi then
 		if opts.obj.searchIcon then
 			aObj:moveObject{obj=opts.obj.searchIcon, x=xOfs} -- e.g. BagItemSearchBox
+		elseif opts.obj.Instructions then -- e.g. InputBoxInstructionsTemplate (WoD)
+			opts.obj.Instructions:ClearAllPoints()
+			opts.obj.Instructions:SetPoint("Left", opts.obj, "Left", xOfs, 0)
 		elseif opts.obj.icon then
 			aObj:moveObject{obj=opts.obj.icon, x=xOfs} -- e.g. FriendsFrameBroadcastInput
 		elseif _G[opts.obj:GetName() .. "SearchIcon"] then
@@ -1547,7 +1580,9 @@ function aObj:skinFFToggleTabs(tabName, tabCnt, noHeight)
 	for i = 1, tabCnt or 3 do
 		local togTab = _G[tabName .. i]
 		if not togTab then break end -- handle missing Tabs (e.g. Muted)
-		if not self.skinned[togTab] then -- don't skin it twice
+		if not togTab.sknd then -- don't skin it twice
+			aObj:add2Table(aObj.skinned, togTab) -- TODO: deprecate when all skins changed
+			togTab.sknd = true
 			self:keepRegions(togTab, {7, 8}) -- N.B. regions 7 & 8 are text & highlight
 			if not noHeight then self:adjHeight{obj=togTab, adj=-5}	end
 			self:addSkinFrame{obj=togTab, y1=-2, x2=2, y2=-2}
@@ -1584,7 +1619,12 @@ local function __skinMoneyFrame(opts)
 --@end-alpha@]===]
 
 	-- don't skin it twice
-	if aObj.skinned[opts.obj] then return end
+	if opts.obj.sknd then
+		return
+	else
+		opts.obj.sknd = true
+	end
+	aObj:add2Table(aObj.skinned, opts.obj) -- TODO: deprecate when all skins changed
 
 	local cbMode = _G.GetCVarBool("colorblindMode")
 
@@ -1648,7 +1688,12 @@ local function __skinScrollBar(opts)
 --@end-alpha@]===]
 
 	-- don't skin it twice
-	if aObj.skinned[opts.obj] then return end
+	if opts.obj.sknd then
+		return
+	else
+		opts.obj.sknd = true
+	end
+	aObj:add2Table(aObj.skinned, opts.obj) -- TODO: deprecate when all skins changed
 
 	-- remove all the object's regions except text ones, if required
 	if not opts.noRR then aObj:keepFontStrings(opts.obj) end
@@ -1696,7 +1741,12 @@ local function __skinSlider(opts)
 --@end-alpha@]===]
 
 	-- don't skin it twice
-	if aObj.skinned[opts.obj] then return end
+	if opts.obj.sknd then
+		return
+	else
+		opts.obj.sknd = true
+	end
+	aObj:add2Table(aObj.skinned, opts.obj) -- TODO: deprecate when all skins changed
 
 	aObj:keepFontStrings(opts.obj)
 	opts.obj:SetAlpha(1)
@@ -1749,7 +1799,12 @@ local function __skinTabs(opts)
 --@end-alpha@]===]
 
 	-- don't skin it twice
-	if aObj.skinned[opts.obj] then return end
+	if opts.obj.sknd then
+		return
+	else
+		opts.obj.sknd = true
+	end
+	aObj:add2Table(aObj.skinned, opts.obj) -- TODO: deprecate when all skins changed
 
 	local tabName = opts.obj:GetName() .. "Tab" .. (opts.suffix or "")
 
@@ -1765,8 +1820,7 @@ local function __skinTabs(opts)
 	local xOfs2 = opts.x2 or -6
 	local yOfs2 = opts.y2 or 2
 
-	local tabID = _G.PanelTemplates_GetSelectedTab(opts.obj) or 1
-	-- aObj:Debug("__skinTabs, PanelTemplates_GetSelectedTab: [%s, %s, %s]", opts.obj, PanelTemplates_GetSelectedTab(opts.obj),tabID)
+	local tabID = opts.obj.selectedTab or 1
 	for i = 1, opts.obj.numTabs do
 		local tab = _G[tabName .. i]
 		aObj:keepRegions(tab, kRegions)
@@ -1782,7 +1836,6 @@ local function __skinTabs(opts)
 		end
 	end
 	aObj.tabFrames[opts.obj] = true
-	-- aObj:Debug("__skinTabs: [%s]", opts.obj)
 
 end
 

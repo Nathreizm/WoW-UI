@@ -18,14 +18,14 @@ Bartender4DB = {
 							["enabled"] = false,
 							["version"] = 3,
 							["position"] = {
-								["y"] = -166.9999668321889,
-								["x"] = -231.5000274574767,
+								["y"] = -166.999966832189,
+								["x"] = -231.500027457477,
 								["point"] = "CENTER",
 							},
 						}, -- [2]
 						{
-							["rows"] = 12,
 							["padding"] = 5,
+							["rows"] = 12,
 							["version"] = 3,
 							["position"] = {
 								["y"] = 610,
@@ -34,8 +34,8 @@ Bartender4DB = {
 							},
 						}, -- [3]
 						{
-							["rows"] = 12,
 							["padding"] = 5,
+							["rows"] = 12,
 							["version"] = 3,
 							["position"] = {
 								["y"] = 610,
@@ -70,6 +70,204 @@ Bartender4DB = {
 						}, -- [10]
 					},
 				},
+				["mithrios warr"] = {
+					["actionbars"] = {
+						{
+							["padding"] = 1,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 58.3420715332031,
+								["x"] = 45.0602111816406,
+								["point"] = "BOTTOM",
+								["scale"] = 0.75,
+							},
+						}, -- [1]
+						{
+							["padding"] = 1,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 87.592077255249,
+								["x"] = 45.0602111816406,
+								["point"] = "BOTTOM",
+								["scale"] = 0.75,
+							},
+						}, -- [2]
+						{
+							["padding"] = 1,
+							["rows"] = 12,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 149.507504507916,
+								["x"] = -60.374959848142,
+								["point"] = "RIGHT",
+								["scale"] = 0.75,
+							},
+						}, -- [3]
+						{
+							["padding"] = 1,
+							["rows"] = 12,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 149.253143368171,
+								["x"] = -31.1249518981254,
+								["point"] = "RIGHT",
+								["scale"] = 0.75,
+							},
+						}, -- [4]
+						{
+							["padding"] = 1,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 116.842071533203,
+								["x"] = 45.0600280761719,
+								["point"] = "BOTTOM",
+								["scale"] = 0.75,
+							},
+						}, -- [5]
+						{
+							["padding"] = 1,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 146.092071533203,
+								["x"] = 45.0600280761719,
+								["point"] = "BOTTOM",
+								["scale"] = 0.75,
+							},
+						}, -- [6]
+						{
+							["version"] = 3,
+							["position"] = {
+								["y"] = 0.50005624850445,
+								["x"] = -231.500027457477,
+								["point"] = "CENTER",
+							},
+						}, -- [7]
+						{
+							["version"] = 3,
+							["position"] = {
+								["y"] = 38.5000418871842,
+								["x"] = -231.500027457477,
+								["point"] = "CENTER",
+							},
+						}, -- [8]
+						{
+							["version"] = 3,
+							["position"] = {
+								["y"] = 76.5000800472638,
+								["x"] = -231.500027457477,
+								["point"] = "CENTER",
+							},
+						}, -- [9]
+						{
+							["version"] = 3,
+							["position"] = {
+								["y"] = 114.500083193077,
+								["x"] = -231.500027457477,
+								["point"] = "CENTER",
+							},
+						}, -- [10]
+					},
+				},
+				["Nathreizm - Rexxar"] = {
+					["actionbars"] = {
+						{
+							["padding"] = 1,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 58.3420715332031,
+								["x"] = 45.0602111816406,
+								["point"] = "BOTTOM",
+								["scale"] = 0.75,
+							},
+						}, -- [1]
+						{
+							["padding"] = 1,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 87.592077255249,
+								["x"] = 45.0602111816406,
+								["point"] = "BOTTOM",
+								["scale"] = 0.75,
+							},
+						}, -- [2]
+						{
+							["enabled"] = false,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 149.507504507916,
+								["x"] = -60.374959848142,
+								["point"] = "RIGHT",
+								["scale"] = 0.75,
+							},
+							["rows"] = 12,
+							["padding"] = 1,
+						}, -- [3]
+						{
+							["enabled"] = false,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 149.253143368171,
+								["x"] = -31.1249518981254,
+								["point"] = "RIGHT",
+								["scale"] = 0.75,
+							},
+							["rows"] = 12,
+							["padding"] = 1,
+						}, -- [4]
+						{
+							["padding"] = 1,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 116.842071533203,
+								["x"] = 45.0600280761719,
+								["point"] = "BOTTOM",
+								["scale"] = 0.75,
+							},
+						}, -- [5]
+						{
+							["padding"] = 1,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 146.092071533203,
+								["x"] = 45.0600280761719,
+								["point"] = "BOTTOM",
+								["scale"] = 0.75,
+							},
+						}, -- [6]
+						{
+							["version"] = 3,
+							["position"] = {
+								["y"] = 0.50005624850445,
+								["x"] = -231.500027457477,
+								["point"] = "CENTER",
+							},
+						}, -- [7]
+						{
+							["version"] = 3,
+							["position"] = {
+								["y"] = 38.5000418871842,
+								["x"] = -231.500027457477,
+								["point"] = "CENTER",
+							},
+						}, -- [8]
+						{
+							["version"] = 3,
+							["position"] = {
+								["y"] = 76.5000800472638,
+								["x"] = -231.500027457477,
+								["point"] = "CENTER",
+							},
+						}, -- [9]
+						{
+							["version"] = 3,
+							["position"] = {
+								["y"] = 114.500083193077,
+								["x"] = -231.500027457477,
+								["point"] = "CENTER",
+							},
+						}, -- [10]
+					},
+				},
 				["nath"] = {
 					["actionbars"] = {
 						{
@@ -85,14 +283,14 @@ Bartender4DB = {
 							["enabled"] = false,
 							["version"] = 3,
 							["position"] = {
-								["y"] = -166.9999668321889,
-								["x"] = -231.5000274574767,
+								["y"] = -166.999966832189,
+								["x"] = -231.500027457477,
 								["point"] = "CENTER",
 							},
 						}, -- [2]
 						{
-							["padding"] = 5,
 							["rows"] = 12,
+							["padding"] = 5,
 							["version"] = 3,
 							["position"] = {
 								["y"] = 610,
@@ -101,8 +299,8 @@ Bartender4DB = {
 							},
 						}, -- [3]
 						{
-							["padding"] = 5,
 							["rows"] = 12,
+							["padding"] = 5,
 							["version"] = 3,
 							["position"] = {
 								["y"] = 610,
@@ -136,101 +334,166 @@ Bartender4DB = {
 						},
 					},
 				},
-				["Nathreizm - Rexxar"] = {
+				["Nathreizm - Drenden"] = {
+					["actionbars"] = {
+						{
+							["padding"] = 6,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 41.75,
+								["x"] = -510,
+								["point"] = "BOTTOM",
+							},
+						}, -- [1]
+						{
+							["enabled"] = false,
+							["version"] = 3,
+							["position"] = {
+								["y"] = -205.000015258789,
+								["x"] = -231.500030517578,
+								["point"] = "CENTER",
+							},
+						}, -- [2]
+						{
+							["padding"] = 5,
+							["rows"] = 12,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 610,
+								["x"] = -82,
+								["point"] = "BOTTOMRIGHT",
+							},
+						}, -- [3]
+						{
+							["padding"] = 5,
+							["rows"] = 12,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 610,
+								["x"] = -42,
+								["point"] = "BOTTOMRIGHT",
+							},
+						}, -- [4]
+						{
+							["padding"] = 6,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 83,
+								["x"] = 3,
+								["point"] = "BOTTOM",
+							},
+						}, -- [5]
+						{
+							["padding"] = 6,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 83,
+								["x"] = -510,
+								["point"] = "BOTTOM",
+							},
+						}, -- [6]
+						{
+						}, -- [7]
+						{
+						}, -- [8]
+						nil, -- [9]
+						{
+						}, -- [10]
+					},
+				},
+				["Mithrios - Rexxar"] = {
 					["actionbars"] = {
 						{
 							["padding"] = 1,
 							["version"] = 3,
 							["position"] = {
-								["y"] = 58.34207153320313,
-								["x"] = 45.06021118164063,
-								["point"] = "BOTTOM",
 								["scale"] = 0.75,
+								["x"] = -191.883336840459,
+								["point"] = "BOTTOM",
+								["y"] = 31.1249989485462,
 							},
 						}, -- [1]
 						{
 							["padding"] = 1,
 							["version"] = 3,
 							["position"] = {
-								["y"] = 87.59207725524902,
-								["x"] = 45.06021118164063,
-								["point"] = "BOTTOM",
 								["scale"] = 0.75,
+								["x"] = -191.883336840459,
+								["point"] = "BOTTOM",
+								["y"] = 60.3749904856253,
 							},
 						}, -- [2]
 						{
-							["enabled"] = false,
+							["rows"] = 12,
+							["padding"] = 1,
 							["version"] = 3,
 							["position"] = {
-								["y"] = 149.5075045079159,
+								["scale"] = 0.75,
 								["x"] = -60.374959848142,
 								["point"] = "RIGHT",
-								["scale"] = 0.75,
+								["y"] = 149.507504507916,
 							},
-							["rows"] = 12,
-							["padding"] = 1,
 						}, -- [3]
 						{
-							["enabled"] = false,
-							["version"] = 3,
-							["position"] = {
-								["y"] = 149.2531433681714,
-								["x"] = -31.12495189812535,
-								["point"] = "RIGHT",
-								["scale"] = 0.75,
-							},
 							["rows"] = 12,
 							["padding"] = 1,
+							["version"] = 3,
+							["position"] = {
+								["scale"] = 0.75,
+								["x"] = -31.1249518981254,
+								["point"] = "RIGHT",
+								["y"] = 149.253143368171,
+							},
 						}, -- [4]
 						{
 							["padding"] = 1,
 							["version"] = 3,
 							["position"] = {
-								["y"] = 116.8420715332031,
-								["x"] = 45.06002807617188,
-								["point"] = "BOTTOM",
 								["scale"] = 0.75,
+								["x"] = -191.883336840459,
+								["point"] = "BOTTOM",
+								["y"] = 89.6249787401169,
 							},
 						}, -- [5]
 						{
 							["padding"] = 1,
 							["version"] = 3,
 							["position"] = {
-								["y"] = 146.0920715332031,
-								["x"] = 45.06002807617188,
-								["point"] = "BOTTOM",
 								["scale"] = 0.75,
+								["x"] = -191.883336840459,
+								["point"] = "BOTTOM",
+								["y"] = 118.874980124959,
 							},
 						}, -- [6]
 						{
 							["version"] = 3,
 							["position"] = {
-								["y"] = 0.5000562485044497,
-								["x"] = -231.5000274574767,
+								["y"] = 0.50005624850445,
+								["x"] = -231.500027457477,
 								["point"] = "CENTER",
 							},
 						}, -- [7]
 						{
 							["version"] = 3,
 							["position"] = {
-								["y"] = 38.50004188718418,
-								["x"] = -231.5000274574767,
+								["y"] = 38.5000418871842,
+								["x"] = -231.500027457477,
 								["point"] = "CENTER",
 							},
 						}, -- [8]
 						{
 							["version"] = 3,
 							["position"] = {
-								["y"] = 76.50008004726379,
-								["x"] = -231.5000274574767,
+								["y"] = 76.5000800472638,
+								["x"] = -231.500027457477,
 								["point"] = "CENTER",
 							},
 						}, -- [9]
 						{
 							["version"] = 3,
 							["position"] = {
-								["y"] = 114.5000831930768,
-								["x"] = -231.5000274574767,
+								["y"] = 114.500083193077,
+								["x"] = -231.500027457477,
 								["point"] = "CENTER",
 							},
 						}, -- [10]
@@ -251,14 +514,14 @@ Bartender4DB = {
 							["enabled"] = false,
 							["version"] = 3,
 							["position"] = {
-								["y"] = -189.4999847412109,
-								["x"] = -231.5000305175781,
+								["y"] = -189.499984741211,
+								["x"] = -231.500030517578,
 								["point"] = "CENTER",
 							},
 						}, -- [2]
 						{
-							["rows"] = 12,
 							["padding"] = 5,
+							["rows"] = 12,
 							["version"] = 3,
 							["position"] = {
 								["y"] = 610,
@@ -267,8 +530,8 @@ Bartender4DB = {
 							},
 						}, -- [3]
 						{
-							["rows"] = 12,
 							["padding"] = 5,
+							["rows"] = 12,
 							["version"] = 3,
 							["position"] = {
 								["y"] = 610,
@@ -318,14 +581,14 @@ Bartender4DB = {
 							["enabled"] = false,
 							["version"] = 3,
 							["position"] = {
-								["y"] = -166.9999405714889,
-								["x"] = -231.4999749360767,
+								["y"] = -166.999940571489,
+								["x"] = -231.499974936077,
 								["point"] = "CENTER",
 							},
 						}, -- [2]
 						{
-							["padding"] = 5,
 							["rows"] = 12,
+							["padding"] = 5,
 							["version"] = 3,
 							["position"] = {
 								["y"] = 610,
@@ -334,8 +597,8 @@ Bartender4DB = {
 							},
 						}, -- [3]
 						{
-							["padding"] = 5,
 							["rows"] = 12,
+							["padding"] = 5,
 							["version"] = 3,
 							["position"] = {
 								["y"] = 610,
@@ -367,6 +630,206 @@ Bartender4DB = {
 						}, -- [8]
 						[10] = {
 						},
+					},
+				},
+				["Ahrian - Arthas"] = {
+					["actionbars"] = {
+						{
+							["padding"] = 1,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 31.125002861023,
+								["x"] = 35.6985778808594,
+								["point"] = "BOTTOM",
+								["scale"] = 0.75,
+							},
+						}, -- [1]
+						{
+							["padding"] = 1,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 60.3750057220459,
+								["x"] = 35.6986694335938,
+								["point"] = "BOTTOM",
+								["scale"] = 0.75,
+							},
+						}, -- [2]
+						{
+							["enabled"] = false,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 149.507504507916,
+								["x"] = -60.374959848142,
+								["point"] = "RIGHT",
+								["scale"] = 0.75,
+							},
+							["rows"] = 12,
+							["padding"] = 1,
+						}, -- [3]
+						{
+							["enabled"] = false,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 149.253143368171,
+								["x"] = -31.1249518981254,
+								["point"] = "RIGHT",
+								["scale"] = 0.75,
+							},
+							["rows"] = 12,
+							["padding"] = 1,
+						}, -- [4]
+						{
+							["padding"] = 1,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 89.625,
+								["x"] = 35.6985778808594,
+								["point"] = "BOTTOM",
+								["scale"] = 0.75,
+							},
+						}, -- [5]
+						{
+							["padding"] = 1,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 118.874988555908,
+								["x"] = 36.6984252929688,
+								["point"] = "BOTTOM",
+								["scale"] = 0.75,
+							},
+						}, -- [6]
+						{
+							["version"] = 3,
+							["position"] = {
+								["y"] = 0.50005624850445,
+								["x"] = -231.500027457477,
+								["point"] = "CENTER",
+							},
+						}, -- [7]
+						{
+							["version"] = 3,
+							["position"] = {
+								["y"] = 38.5000418871842,
+								["x"] = -231.500027457477,
+								["point"] = "CENTER",
+							},
+						}, -- [8]
+						{
+							["version"] = 3,
+							["position"] = {
+								["y"] = 76.5000800472638,
+								["x"] = -231.500027457477,
+								["point"] = "CENTER",
+							},
+						}, -- [9]
+						{
+							["version"] = 3,
+							["position"] = {
+								["y"] = 114.500083193077,
+								["x"] = -231.500027457477,
+								["point"] = "CENTER",
+							},
+						}, -- [10]
+					},
+				},
+				["Nathreizm - Cho'gall"] = {
+					["actionbars"] = {
+						{
+							["padding"] = 1,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 58.3420715332031,
+								["x"] = 45.0602111816406,
+								["point"] = "BOTTOM",
+								["scale"] = 0.75,
+							},
+						}, -- [1]
+						{
+							["padding"] = 1,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 87.592077255249,
+								["x"] = 45.0602111816406,
+								["point"] = "BOTTOM",
+								["scale"] = 0.75,
+							},
+						}, -- [2]
+						{
+							["enabled"] = false,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 149.507504507916,
+								["x"] = -60.374959848142,
+								["point"] = "RIGHT",
+								["scale"] = 0.75,
+							},
+							["rows"] = 12,
+							["padding"] = 1,
+						}, -- [3]
+						{
+							["enabled"] = false,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 149.253143368171,
+								["x"] = -31.1249518981254,
+								["point"] = "RIGHT",
+								["scale"] = 0.75,
+							},
+							["rows"] = 12,
+							["padding"] = 1,
+						}, -- [4]
+						{
+							["padding"] = 1,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 116.842071533203,
+								["x"] = 45.0600280761719,
+								["point"] = "BOTTOM",
+								["scale"] = 0.75,
+							},
+						}, -- [5]
+						{
+							["padding"] = 1,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 146.092071533203,
+								["x"] = 45.0600280761719,
+								["point"] = "BOTTOM",
+								["scale"] = 0.75,
+							},
+						}, -- [6]
+						{
+							["version"] = 3,
+							["position"] = {
+								["y"] = 0.50005624850445,
+								["x"] = -231.500027457477,
+								["point"] = "CENTER",
+							},
+						}, -- [7]
+						{
+							["version"] = 3,
+							["position"] = {
+								["y"] = 38.5000418871842,
+								["x"] = -231.500027457477,
+								["point"] = "CENTER",
+							},
+						}, -- [8]
+						{
+							["version"] = 3,
+							["position"] = {
+								["y"] = 76.5000800472638,
+								["x"] = -231.500027457477,
+								["point"] = "CENTER",
+							},
+						}, -- [9]
+						{
+							["version"] = 3,
+							["position"] = {
+								["y"] = 114.500083193077,
+								["x"] = -231.500027457477,
+								["point"] = "CENTER",
+							},
+						}, -- [10]
 					},
 				},
 				["Default"] = {
@@ -384,14 +847,14 @@ Bartender4DB = {
 							["enabled"] = false,
 							["version"] = 3,
 							["position"] = {
-								["y"] = -166.9999405714889,
-								["x"] = -231.5000799788766,
+								["y"] = -166.999940571489,
+								["x"] = -231.500079978877,
 								["point"] = "CENTER",
 							},
 						}, -- [2]
 						{
-							["padding"] = 5,
 							["rows"] = 12,
+							["padding"] = 5,
 							["version"] = 3,
 							["position"] = {
 								["y"] = 610,
@@ -400,8 +863,8 @@ Bartender4DB = {
 							},
 						}, -- [3]
 						{
-							["padding"] = 5,
 							["rows"] = 12,
+							["padding"] = 5,
 							["version"] = 3,
 							["position"] = {
 								["y"] = 610,
@@ -435,271 +898,6 @@ Bartender4DB = {
 						},
 					},
 				},
-				["Nathreizm - Cho'gall"] = {
-					["actionbars"] = {
-						{
-							["version"] = 3,
-							["position"] = {
-								["y"] = 58.34207153320313,
-								["x"] = 45.06021118164063,
-								["point"] = "BOTTOM",
-								["scale"] = 0.75,
-							},
-							["padding"] = 1,
-						}, -- [1]
-						{
-							["version"] = 3,
-							["position"] = {
-								["y"] = 87.59207725524902,
-								["x"] = 45.06021118164063,
-								["point"] = "BOTTOM",
-								["scale"] = 0.75,
-							},
-							["padding"] = 1,
-						}, -- [2]
-						{
-							["rows"] = 12,
-							["enabled"] = false,
-							["version"] = 3,
-							["position"] = {
-								["y"] = 149.5075045079159,
-								["x"] = -60.374959848142,
-								["point"] = "RIGHT",
-								["scale"] = 0.75,
-							},
-							["padding"] = 1,
-						}, -- [3]
-						{
-							["rows"] = 12,
-							["enabled"] = false,
-							["version"] = 3,
-							["position"] = {
-								["y"] = 149.2531433681714,
-								["x"] = -31.12495189812535,
-								["point"] = "RIGHT",
-								["scale"] = 0.75,
-							},
-							["padding"] = 1,
-						}, -- [4]
-						{
-							["version"] = 3,
-							["position"] = {
-								["y"] = 116.8420715332031,
-								["x"] = 45.06002807617188,
-								["point"] = "BOTTOM",
-								["scale"] = 0.75,
-							},
-							["padding"] = 1,
-						}, -- [5]
-						{
-							["version"] = 3,
-							["position"] = {
-								["y"] = 146.0920715332031,
-								["x"] = 45.06002807617188,
-								["point"] = "BOTTOM",
-								["scale"] = 0.75,
-							},
-							["padding"] = 1,
-						}, -- [6]
-						{
-							["version"] = 3,
-							["position"] = {
-								["y"] = 0.5000562485044497,
-								["x"] = -231.5000274574767,
-								["point"] = "CENTER",
-							},
-						}, -- [7]
-						{
-							["version"] = 3,
-							["position"] = {
-								["y"] = 38.50004188718418,
-								["x"] = -231.5000274574767,
-								["point"] = "CENTER",
-							},
-						}, -- [8]
-						{
-							["version"] = 3,
-							["position"] = {
-								["y"] = 76.50008004726379,
-								["x"] = -231.5000274574767,
-								["point"] = "CENTER",
-							},
-						}, -- [9]
-						{
-							["version"] = 3,
-							["position"] = {
-								["y"] = 114.5000831930768,
-								["x"] = -231.5000274574767,
-								["point"] = "CENTER",
-							},
-						}, -- [10]
-					},
-				},
-				["Mithrios - Rexxar"] = {
-					["actionbars"] = {
-						{
-							["padding"] = 1,
-							["version"] = 3,
-							["position"] = {
-								["scale"] = 0.75,
-								["x"] = -191.8833368404589,
-								["point"] = "BOTTOM",
-								["y"] = 31.12499894854619,
-							},
-						}, -- [1]
-						{
-							["padding"] = 1,
-							["version"] = 3,
-							["position"] = {
-								["scale"] = 0.75,
-								["x"] = -191.8833368404589,
-								["point"] = "BOTTOM",
-								["y"] = 60.37499048562532,
-							},
-						}, -- [2]
-						{
-							["padding"] = 1,
-							["rows"] = 12,
-							["version"] = 3,
-							["position"] = {
-								["scale"] = 0.75,
-								["x"] = -60.374959848142,
-								["point"] = "RIGHT",
-								["y"] = 149.5075045079159,
-							},
-						}, -- [3]
-						{
-							["padding"] = 1,
-							["rows"] = 12,
-							["version"] = 3,
-							["position"] = {
-								["scale"] = 0.75,
-								["x"] = -31.12495189812535,
-								["point"] = "RIGHT",
-								["y"] = 149.2531433681714,
-							},
-						}, -- [4]
-						{
-							["padding"] = 1,
-							["version"] = 3,
-							["position"] = {
-								["scale"] = 0.75,
-								["x"] = -191.8833368404589,
-								["point"] = "BOTTOM",
-								["y"] = 89.62497874011693,
-							},
-						}, -- [5]
-						{
-							["padding"] = 1,
-							["version"] = 3,
-							["position"] = {
-								["scale"] = 0.75,
-								["x"] = -191.8833368404589,
-								["point"] = "BOTTOM",
-								["y"] = 118.8749801249585,
-							},
-						}, -- [6]
-						{
-							["version"] = 3,
-							["position"] = {
-								["y"] = 0.5000562485044497,
-								["x"] = -231.5000274574767,
-								["point"] = "CENTER",
-							},
-						}, -- [7]
-						{
-							["version"] = 3,
-							["position"] = {
-								["y"] = 38.50004188718418,
-								["x"] = -231.5000274574767,
-								["point"] = "CENTER",
-							},
-						}, -- [8]
-						{
-							["version"] = 3,
-							["position"] = {
-								["y"] = 76.50008004726379,
-								["x"] = -231.5000274574767,
-								["point"] = "CENTER",
-							},
-						}, -- [9]
-						{
-							["version"] = 3,
-							["position"] = {
-								["y"] = 114.5000831930768,
-								["x"] = -231.5000274574767,
-								["point"] = "CENTER",
-							},
-						}, -- [10]
-					},
-				},
-				["Nathreizm - Arthas"] = {
-					["actionbars"] = {
-						{
-							["padding"] = 6,
-							["version"] = 3,
-							["position"] = {
-								["y"] = 41.75,
-								["x"] = -510,
-								["point"] = "BOTTOM",
-							},
-						}, -- [1]
-						{
-							["enabled"] = false,
-							["version"] = 3,
-							["position"] = {
-								["y"] = -189.4999847412109,
-								["x"] = -231.5000305175781,
-								["point"] = "CENTER",
-							},
-						}, -- [2]
-						{
-							["rows"] = 12,
-							["padding"] = 5,
-							["version"] = 3,
-							["position"] = {
-								["y"] = 610,
-								["x"] = -82,
-								["point"] = "BOTTOMRIGHT",
-							},
-						}, -- [3]
-						{
-							["rows"] = 12,
-							["padding"] = 5,
-							["version"] = 3,
-							["position"] = {
-								["y"] = 610,
-								["x"] = -42,
-								["point"] = "BOTTOMRIGHT",
-							},
-						}, -- [4]
-						{
-							["padding"] = 6,
-							["version"] = 3,
-							["position"] = {
-								["y"] = 83,
-								["x"] = 3,
-								["point"] = "BOTTOM",
-							},
-						}, -- [5]
-						{
-							["padding"] = 6,
-							["version"] = 3,
-							["position"] = {
-								["y"] = 83,
-								["x"] = -510,
-								["point"] = "BOTTOM",
-							},
-						}, -- [6]
-						{
-						}, -- [7]
-						{
-						}, -- [8]
-						nil, -- [9]
-						{
-						}, -- [10]
-					},
-				},
 				["Littleboytoy - Cho'gall"] = {
 					["actionbars"] = {
 						{
@@ -715,8 +913,75 @@ Bartender4DB = {
 							["enabled"] = false,
 							["version"] = 3,
 							["position"] = {
-								["y"] = -189.4999847412109,
-								["x"] = -231.5000305175781,
+								["y"] = -189.499984741211,
+								["x"] = -231.500030517578,
+								["point"] = "CENTER",
+							},
+						}, -- [2]
+						{
+							["padding"] = 5,
+							["rows"] = 12,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 610,
+								["x"] = -82,
+								["point"] = "BOTTOMRIGHT",
+							},
+						}, -- [3]
+						{
+							["padding"] = 5,
+							["rows"] = 12,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 610,
+								["x"] = -42,
+								["point"] = "BOTTOMRIGHT",
+							},
+						}, -- [4]
+						{
+							["padding"] = 6,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 83,
+								["x"] = 3,
+								["point"] = "BOTTOM",
+							},
+						}, -- [5]
+						{
+							["padding"] = 6,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 83,
+								["x"] = -510,
+								["point"] = "BOTTOM",
+							},
+						}, -- [6]
+						{
+						}, -- [7]
+						{
+						}, -- [8]
+						nil, -- [9]
+						{
+						}, -- [10]
+					},
+				},
+				["Nathreizm - Azralon"] = {
+					["actionbars"] = {
+						{
+							["padding"] = 6,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 41.75,
+								["x"] = -510,
+								["point"] = "BOTTOM",
+							},
+						}, -- [1]
+						{
+							["enabled"] = false,
+							["version"] = 3,
+							["position"] = {
+								["y"] = -205.000015258789,
+								["x"] = -231.500030517578,
 								["point"] = "CENTER",
 							},
 						}, -- [2]
@@ -767,101 +1032,234 @@ Bartender4DB = {
 						}, -- [10]
 					},
 				},
-				["mithrios warr"] = {
+				["Nathreizm - Arthas"] = {
 					["actionbars"] = {
 						{
-							["padding"] = 1,
 							["version"] = 3,
 							["position"] = {
-								["y"] = 31.12500286102295,
-								["x"] = 42.45480346679688,
+								["y"] = 58.3420715332031,
+								["x"] = 45.0602111816406,
 								["point"] = "BOTTOM",
 								["scale"] = 0.75,
 							},
+							["padding"] = 1,
 						}, -- [1]
 						{
-							["padding"] = 1,
 							["version"] = 3,
 							["position"] = {
-								["y"] = 60.3750057220459,
-								["x"] = 42.45480346679688,
+								["y"] = 87.592077255249,
+								["x"] = 45.0602111816406,
 								["point"] = "BOTTOM",
 								["scale"] = 0.75,
 							},
+							["padding"] = 1,
 						}, -- [2]
 						{
-							["padding"] = 1,
 							["rows"] = 12,
 							["version"] = 3,
 							["position"] = {
-								["y"] = 149.5075045079159,
+								["y"] = 149.507504507916,
 								["x"] = -60.374959848142,
 								["point"] = "RIGHT",
 								["scale"] = 0.75,
 							},
+							["padding"] = 1,
 						}, -- [3]
 						{
-							["padding"] = 1,
 							["rows"] = 12,
 							["version"] = 3,
 							["position"] = {
-								["y"] = 149.2531433681714,
-								["x"] = -31.12495189812535,
+								["y"] = 149.253143368171,
+								["x"] = -31.1249518981254,
 								["point"] = "RIGHT",
 								["scale"] = 0.75,
 							},
+							["padding"] = 1,
 						}, -- [4]
 						{
-							["padding"] = 1,
 							["version"] = 3,
 							["position"] = {
-								["y"] = 89.625,
-								["x"] = 42.45480346679688,
+								["y"] = 116.842071533203,
+								["x"] = 45.0600280761719,
 								["point"] = "BOTTOM",
 								["scale"] = 0.75,
 							},
+							["padding"] = 1,
 						}, -- [5]
 						{
-							["padding"] = 1,
 							["version"] = 3,
 							["position"] = {
-								["y"] = 118.8749885559082,
-								["x"] = 42.45480346679688,
+								["y"] = 146.092071533203,
+								["x"] = 45.0600280761719,
 								["point"] = "BOTTOM",
 								["scale"] = 0.75,
 							},
+							["padding"] = 1,
 						}, -- [6]
 						{
 							["version"] = 3,
 							["position"] = {
-								["y"] = 0.5000562485044497,
-								["x"] = -231.5000274574767,
+								["y"] = 0.50005624850445,
+								["x"] = -231.500027457477,
 								["point"] = "CENTER",
 							},
 						}, -- [7]
 						{
 							["version"] = 3,
 							["position"] = {
-								["y"] = 38.50004188718418,
-								["x"] = -231.5000274574767,
+								["y"] = 38.5000418871842,
+								["x"] = -231.500027457477,
 								["point"] = "CENTER",
 							},
 						}, -- [8]
 						{
 							["version"] = 3,
 							["position"] = {
-								["y"] = 76.50008004726379,
-								["x"] = -231.5000274574767,
+								["y"] = 76.5000800472638,
+								["x"] = -231.500027457477,
 								["point"] = "CENTER",
 							},
 						}, -- [9]
 						{
 							["version"] = 3,
 							["position"] = {
-								["y"] = 114.5000831930768,
-								["x"] = -231.5000274574767,
+								["y"] = 114.500083193077,
+								["x"] = -231.500027457477,
 								["point"] = "CENTER",
 							},
+						}, -- [10]
+					},
+				},
+				["Nathreizm - Stormreaver"] = {
+					["actionbars"] = {
+						{
+							["padding"] = 6,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 41.75,
+								["x"] = -510,
+								["point"] = "BOTTOM",
+							},
+						}, -- [1]
+						{
+							["enabled"] = false,
+							["version"] = 3,
+							["position"] = {
+								["y"] = -189.499984741211,
+								["x"] = -231.500030517578,
+								["point"] = "CENTER",
+							},
+						}, -- [2]
+						{
+							["padding"] = 5,
+							["rows"] = 12,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 610,
+								["x"] = -82,
+								["point"] = "BOTTOMRIGHT",
+							},
+						}, -- [3]
+						{
+							["padding"] = 5,
+							["rows"] = 12,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 610,
+								["x"] = -42,
+								["point"] = "BOTTOMRIGHT",
+							},
+						}, -- [4]
+						{
+							["padding"] = 6,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 83,
+								["x"] = 3,
+								["point"] = "BOTTOM",
+							},
+						}, -- [5]
+						{
+							["padding"] = 6,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 83,
+								["x"] = -510,
+								["point"] = "BOTTOM",
+							},
+						}, -- [6]
+						{
+						}, -- [7]
+						{
+						}, -- [8]
+						[10] = {
+						},
+					},
+				},
+				["Nathreizm - Thrall"] = {
+					["actionbars"] = {
+						{
+							["padding"] = 6,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 41.75,
+								["x"] = -510,
+								["point"] = "BOTTOM",
+							},
+						}, -- [1]
+						{
+							["enabled"] = false,
+							["version"] = 3,
+							["position"] = {
+								["y"] = -205.000015258789,
+								["x"] = -231.500030517578,
+								["point"] = "CENTER",
+							},
+						}, -- [2]
+						{
+							["padding"] = 5,
+							["rows"] = 12,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 610,
+								["x"] = -82,
+								["point"] = "BOTTOMRIGHT",
+							},
+						}, -- [3]
+						{
+							["padding"] = 5,
+							["rows"] = 12,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 610,
+								["x"] = -42,
+								["point"] = "BOTTOMRIGHT",
+							},
+						}, -- [4]
+						{
+							["padding"] = 6,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 83,
+								["x"] = 3,
+								["point"] = "BOTTOM",
+							},
+						}, -- [5]
+						{
+							["padding"] = 6,
+							["version"] = 3,
+							["position"] = {
+								["y"] = 83,
+								["x"] = -510,
+								["point"] = "BOTTOM",
+							},
+						}, -- [6]
+						{
+						}, -- [7]
+						{
+						}, -- [8]
+						nil, -- [9]
+						{
 						}, -- [10]
 					},
 				},
@@ -871,70 +1269,113 @@ Bartender4DB = {
 		},
 		["ExtraActionBar"] = {
 			["profiles"] = {
-				["mithrios warr"] = {
-					["version"] = 3,
-					["position"] = {
-						["y"] = -31.62639121016076,
-						["x"] = -296.06957389484,
-						["point"] = "RIGHT",
-					},
-				},
-				["Nathreizm - Cho'gall"] = {
-					["position"] = {
-						["y"] = -144.2456945488229,
-						["x"] = 264.4136712134205,
-						["point"] = "CENTER",
-						["scale"] = 0.8500000238418579,
-					},
-					["version"] = 3,
-				},
-				["Littleboytoy - Cho'gall"] = {
-					["version"] = 3,
-					["position"] = {
-						["y"] = 222.9999847412109,
-						["x"] = -31.5,
-						["point"] = "BOTTOM",
-					},
-				},
 				["nath"] = {
 					["version"] = 3,
 					["position"] = {
-						["y"] = -185.9999859122287,
-						["x"] = -31.50002472198707,
+						["y"] = -185.999985912229,
+						["x"] = -31.5000247219871,
 						["point"] = "CENTER",
 					},
 				},
 				["Nathreizm - Rexxar"] = {
 					["version"] = 3,
 					["position"] = {
-						["y"] = -144.2456945488229,
-						["x"] = 264.4136712134205,
+						["y"] = -144.245694548823,
+						["x"] = 264.413671213421,
 						["point"] = "CENTER",
-						["scale"] = 0.8500000238418579,
+						["scale"] = 0.850000023841858,
 					},
 				},
-				["Nathreizm - Arthas"] = {
+				["mithrios warr"] = {
 					["version"] = 3,
 					["position"] = {
-						["y"] = 222.9999847412109,
-						["x"] = -31.5,
-						["point"] = "BOTTOM",
+						["y"] = -15.5494186611577,
+						["x"] = -350.230118915057,
+						["point"] = "CENTER",
+						["scale"] = 0.850000023841858,
 					},
 				},
 				["Nathtrain - Cho'gall"] = {
 					["version"] = 3,
 					["position"] = {
-						["y"] = 222.9999847412109,
+						["y"] = 222.999984741211,
 						["x"] = -31.5,
 						["point"] = "BOTTOM",
 					},
 				},
+				["Ahrian - Arthas"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = -144.245694548823,
+						["x"] = 264.413671213421,
+						["point"] = "CENTER",
+						["scale"] = 0.850000023841858,
+					},
+				},
+				["Nathreizm - Drenden"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 222.999984741211,
+						["x"] = -31.5,
+						["point"] = "BOTTOM",
+					},
+				},
+				["Nathreizm - Stormreaver"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 222.999984741211,
+						["x"] = -31.5,
+						["point"] = "BOTTOM",
+					},
+				},
+				["Nathreizm - Cho'gall"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = -144.245694548823,
+						["x"] = 264.413671213421,
+						["point"] = "CENTER",
+						["scale"] = 0.850000023841858,
+					},
+				},
+				["Littleboytoy - Cho'gall"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 222.999984741211,
+						["x"] = -31.5,
+						["point"] = "BOTTOM",
+					},
+				},
+				["Nathreizm - Azralon"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 222.999984741211,
+						["x"] = -31.5,
+						["point"] = "BOTTOM",
+					},
+				},
+				["Nathreizm - Arthas"] = {
+					["position"] = {
+						["y"] = -144.245694548823,
+						["x"] = 264.413671213421,
+						["point"] = "CENTER",
+						["scale"] = 0.850000023841858,
+					},
+					["version"] = 3,
+				},
 				["Prettypretty - Rexxar"] = {
 					["version"] = 3,
 					["position"] = {
-						["y"] = -184.9999521973197,
+						["y"] = -184.99995219732,
 						["x"] = -31.4999196791872,
 						["point"] = "CENTER",
+					},
+				},
+				["Nathreizm - Thrall"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 222.999984741211,
+						["x"] = -31.5,
+						["point"] = "BOTTOM",
 					},
 				},
 			},
@@ -950,6 +1391,24 @@ Bartender4DB = {
 						["scale"] = 1,
 					},
 				},
+				["mithrios warr"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 173.092082977295,
+						["x"] = 111.238739013672,
+						["point"] = "BOTTOM",
+						["scale"] = 0.75,
+					},
+				},
+				["Nathreizm - Rexxar"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 173.092037200928,
+						["x"] = 97.5603942871094,
+						["point"] = "BOTTOM",
+						["scale"] = 0.75,
+					},
+				},
 				["nath"] = {
 					["version"] = 3,
 					["position"] = {
@@ -959,13 +1418,22 @@ Bartender4DB = {
 						["y"] = 41.75,
 					},
 				},
-				["Nathreizm - Rexxar"] = {
+				["Nathreizm - Drenden"] = {
 					["version"] = 3,
 					["position"] = {
-						["y"] = 173.0920372009277,
-						["x"] = 97.56039428710938,
+						["y"] = 41.75,
+						["x"] = 37.5,
 						["point"] = "BOTTOM",
+						["scale"] = 1,
+					},
+				},
+				["Mithrios - Rexxar"] = {
+					["version"] = 3,
+					["position"] = {
 						["scale"] = 0.75,
+						["x"] = -139.383260622881,
+						["point"] = "BOTTOM",
+						["y"] = 145.874984433355,
 					},
 				},
 				["Nathtrain - Cho'gall"] = {
@@ -986,6 +1454,24 @@ Bartender4DB = {
 						["y"] = 41.75,
 					},
 				},
+				["Ahrian - Arthas"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 148.524993896484,
+						["x"] = 108.130706787109,
+						["point"] = "BOTTOM",
+						["scale"] = 0.75,
+					},
+				},
+				["Nathreizm - Cho'gall"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 173.092037200928,
+						["x"] = 97.5603942871094,
+						["point"] = "BOTTOM",
+						["scale"] = 0.75,
+					},
+				},
 				["Default"] = {
 					["version"] = 3,
 					["position"] = {
@@ -993,33 +1479,6 @@ Bartender4DB = {
 						["x"] = 37.5,
 						["point"] = "BOTTOM",
 						["y"] = 41.75,
-					},
-				},
-				["Nathreizm - Cho'gall"] = {
-					["position"] = {
-						["y"] = 173.0920372009277,
-						["x"] = 97.56039428710938,
-						["point"] = "BOTTOM",
-						["scale"] = 0.75,
-					},
-					["version"] = 3,
-				},
-				["Mithrios - Rexxar"] = {
-					["version"] = 3,
-					["position"] = {
-						["scale"] = 0.75,
-						["x"] = -139.3832606228805,
-						["point"] = "BOTTOM",
-						["y"] = 145.8749844333546,
-					},
-				},
-				["Nathreizm - Arthas"] = {
-					["version"] = 3,
-					["position"] = {
-						["y"] = 41.75,
-						["x"] = 37.5,
-						["point"] = "BOTTOM",
-						["scale"] = 1,
 					},
 				},
 				["Littleboytoy - Cho'gall"] = {
@@ -1031,19 +1490,55 @@ Bartender4DB = {
 						["scale"] = 1,
 					},
 				},
-				["mithrios warr"] = {
+				["Nathreizm - Azralon"] = {
 					["version"] = 3,
 					["position"] = {
-						["y"] = 145.875,
-						["x"] = 128.7203674316406,
+						["y"] = 41.75,
+						["x"] = 37.5,
+						["point"] = "BOTTOM",
+						["scale"] = 1,
+					},
+				},
+				["Nathreizm - Arthas"] = {
+					["position"] = {
+						["y"] = 173.092082977295,
+						["x"] = 111.238739013672,
 						["point"] = "BOTTOM",
 						["scale"] = 0.75,
+					},
+					["version"] = 3,
+				},
+				["Nathreizm - Stormreaver"] = {
+					["version"] = 3,
+					["position"] = {
+						["scale"] = 1,
+						["x"] = 37.5,
+						["point"] = "BOTTOM",
+						["y"] = 41.75,
+					},
+				},
+				["Nathreizm - Thrall"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 41.75,
+						["x"] = 37.5,
+						["point"] = "BOTTOM",
+						["scale"] = 1,
 					},
 				},
 			},
 		},
 		["XPBar"] = {
 			["profiles"] = {
+				["Ahrian - Arthas"] = {
+					["enabled"] = true,
+					["version"] = 3,
+					["position"] = {
+						["y"] = 206.417510986328,
+						["x"] = 301.907440185547,
+						["point"] = "BOTTOMLEFT",
+					},
+				},
 				["Default"] = {
 					["enabled"] = true,
 					["version"] = 3,
@@ -1055,21 +1550,30 @@ Bartender4DB = {
 				},
 				["Nathreizm - Cho'gall"] = {
 					["enabled"] = true,
+					["version"] = 3,
 					["position"] = {
-						["y"] = 206.4175109863281,
-						["x"] = 301.9074401855469,
+						["y"] = 206.417510986328,
+						["x"] = 301.907440185547,
 						["point"] = "BOTTOMLEFT",
 					},
-					["version"] = 3,
 				},
 				["Nathreizm - Rexxar"] = {
 					["enabled"] = true,
 					["version"] = 3,
 					["position"] = {
-						["y"] = 206.4175109863281,
-						["x"] = 301.9074401855469,
+						["y"] = 206.417510986328,
+						["x"] = 301.907440185547,
 						["point"] = "BOTTOMLEFT",
 					},
+				},
+				["Nathreizm - Arthas"] = {
+					["enabled"] = true,
+					["position"] = {
+						["y"] = 206.417510986328,
+						["x"] = 301.907440185547,
+						["point"] = "BOTTOMLEFT",
+					},
+					["version"] = 3,
 				},
 				["nath"] = {
 					["enabled"] = true,
@@ -1084,9 +1588,9 @@ Bartender4DB = {
 					["enabled"] = true,
 					["version"] = 3,
 					["position"] = {
-						["y"] = 4.000244140625,
-						["x"] = 281,
-						["point"] = "TOPLEFT",
+						["y"] = 206.417510986328,
+						["x"] = 301.907440185547,
+						["point"] = "BOTTOMLEFT",
 					},
 				},
 			},
@@ -1102,6 +1606,22 @@ Bartender4DB = {
 						["point"] = "BOTTOM",
 					},
 				},
+				["mithrios warr"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 47,
+						["x"] = -512,
+						["point"] = "BOTTOM",
+					},
+				},
+				["Nathreizm - Rexxar"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 47,
+						["x"] = -512,
+						["point"] = "BOTTOM",
+					},
+				},
 				["nath"] = {
 					["enabled"] = true,
 					["version"] = 3,
@@ -1111,7 +1631,16 @@ Bartender4DB = {
 						["point"] = "BOTTOM",
 					},
 				},
-				["Nathreizm - Rexxar"] = {
+				["Nathreizm - Drenden"] = {
+					["enabled"] = true,
+					["version"] = 3,
+					["position"] = {
+						["y"] = 47,
+						["x"] = -512,
+						["point"] = "BOTTOM",
+					},
+				},
+				["Mithrios - Rexxar"] = {
 					["version"] = 3,
 					["position"] = {
 						["y"] = 47,
@@ -1137,8 +1666,7 @@ Bartender4DB = {
 						["point"] = "BOTTOM",
 					},
 				},
-				["Default"] = {
-					["enabled"] = true,
+				["Ahrian - Arthas"] = {
 					["version"] = 3,
 					["position"] = {
 						["y"] = 47,
@@ -1147,14 +1675,6 @@ Bartender4DB = {
 					},
 				},
 				["Nathreizm - Cho'gall"] = {
-					["position"] = {
-						["y"] = 47,
-						["x"] = -512,
-						["point"] = "BOTTOM",
-					},
-					["version"] = 3,
-				},
-				["Mithrios - Rexxar"] = {
 					["version"] = 3,
 					["position"] = {
 						["y"] = 47,
@@ -1162,7 +1682,7 @@ Bartender4DB = {
 						["point"] = "BOTTOM",
 					},
 				},
-				["Nathreizm - Arthas"] = {
+				["Default"] = {
 					["enabled"] = true,
 					["version"] = 3,
 					["position"] = {
@@ -1180,7 +1700,34 @@ Bartender4DB = {
 						["point"] = "BOTTOM",
 					},
 				},
-				["mithrios warr"] = {
+				["Nathreizm - Azralon"] = {
+					["enabled"] = true,
+					["version"] = 3,
+					["position"] = {
+						["y"] = 47,
+						["x"] = -512,
+						["point"] = "BOTTOM",
+					},
+				},
+				["Nathreizm - Arthas"] = {
+					["position"] = {
+						["y"] = 47,
+						["x"] = -512,
+						["point"] = "BOTTOM",
+					},
+					["version"] = 3,
+				},
+				["Nathreizm - Stormreaver"] = {
+					["enabled"] = true,
+					["version"] = 3,
+					["position"] = {
+						["y"] = 47,
+						["x"] = -512,
+						["point"] = "BOTTOM",
+					},
+				},
+				["Nathreizm - Thrall"] = {
+					["enabled"] = true,
 					["version"] = 3,
 					["position"] = {
 						["y"] = 47,
@@ -1201,6 +1748,28 @@ Bartender4DB = {
 						["point"] = "BOTTOM",
 					},
 				},
+				["mithrios warr"] = {
+					["padding"] = 1,
+					["onebag"] = true,
+					["version"] = 3,
+					["position"] = {
+						["y"] = 172.442067999275,
+						["x"] = 331.985221946019,
+						["point"] = "BOTTOM",
+						["scale"] = 0.800000011920929,
+					},
+				},
+				["Nathreizm - Rexxar"] = {
+					["padding"] = 1,
+					["onebag"] = true,
+					["version"] = 3,
+					["position"] = {
+						["y"] = 172.442067999275,
+						["x"] = 328.502800019127,
+						["point"] = "BOTTOM",
+						["scale"] = 0.800000011920929,
+					},
+				},
 				["nath"] = {
 					["onebag"] = true,
 					["version"] = 3,
@@ -1210,15 +1779,23 @@ Bartender4DB = {
 						["point"] = "BOTTOM",
 					},
 				},
-				["Nathreizm - Rexxar"] = {
+				["Nathreizm - Drenden"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 38.5,
+						["x"] = 345,
+						["point"] = "BOTTOM",
+					},
+				},
+				["Mithrios - Rexxar"] = {
 					["onebag"] = true,
 					["padding"] = 1,
 					["version"] = 3,
 					["position"] = {
-						["y"] = 172.4420679992745,
-						["x"] = 328.5028000191269,
+						["scale"] = 0.75,
+						["x"] = 100.189481071472,
 						["point"] = "BOTTOM",
-						["scale"] = 0.800000011920929,
+						["y"] = 143.624980791734,
 					},
 				},
 				["Nathtrain - Cho'gall"] = {
@@ -1239,6 +1816,28 @@ Bartender4DB = {
 						["point"] = "BOTTOM",
 					},
 				},
+				["Ahrian - Arthas"] = {
+					["onebag"] = true,
+					["padding"] = 1,
+					["version"] = 3,
+					["position"] = {
+						["y"] = 145.225014371053,
+						["x"] = 334.655436829558,
+						["point"] = "BOTTOM",
+						["scale"] = 0.800000011920929,
+					},
+				},
+				["Nathreizm - Cho'gall"] = {
+					["onebag"] = true,
+					["padding"] = 1,
+					["version"] = 3,
+					["position"] = {
+						["y"] = 172.442067999275,
+						["x"] = 331.985221946019,
+						["point"] = "BOTTOM",
+						["scale"] = 0.800000011920929,
+					},
+				},
 				["Default"] = {
 					["onebag"] = true,
 					["version"] = 3,
@@ -1248,10 +1847,27 @@ Bartender4DB = {
 						["point"] = "BOTTOM",
 					},
 				},
-				["Nathreizm - Cho'gall"] = {
+				["Littleboytoy - Cho'gall"] = {
+					["onebag"] = true,
+					["version"] = 3,
+					["position"] = {
+						["y"] = 41.75,
+						["x"] = 463.5,
+						["point"] = "BOTTOM",
+					},
+				},
+				["Nathreizm - Azralon"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 38.5,
+						["x"] = 345,
+						["point"] = "BOTTOM",
+					},
+				},
+				["Nathreizm - Arthas"] = {
 					["onebag"] = true,
 					["position"] = {
-						["y"] = 172.4420679992745,
+						["y"] = 172.442067999275,
 						["x"] = 331.985221946019,
 						["point"] = "BOTTOM",
 						["scale"] = 0.800000011920929,
@@ -1259,18 +1875,7 @@ Bartender4DB = {
 					["padding"] = 1,
 					["version"] = 3,
 				},
-				["Mithrios - Rexxar"] = {
-					["padding"] = 1,
-					["onebag"] = true,
-					["version"] = 3,
-					["position"] = {
-						["scale"] = 0.75,
-						["x"] = 100.1894810714722,
-						["point"] = "BOTTOM",
-						["y"] = 143.6249807917341,
-					},
-				},
-				["Nathreizm - Arthas"] = {
+				["Nathreizm - Stormreaver"] = {
 					["onebag"] = true,
 					["version"] = 3,
 					["position"] = {
@@ -1279,116 +1884,12 @@ Bartender4DB = {
 						["point"] = "BOTTOM",
 					},
 				},
-				["Littleboytoy - Cho'gall"] = {
-					["onebag"] = true,
+				["Nathreizm - Thrall"] = {
 					["version"] = 3,
 					["position"] = {
-						["y"] = 41.75,
-						["x"] = 463.5,
+						["y"] = 38.5,
+						["x"] = 345,
 						["point"] = "BOTTOM",
-					},
-				},
-				["mithrios warr"] = {
-					["padding"] = 1,
-					["onebag"] = true,
-					["version"] = 3,
-					["position"] = {
-						["y"] = 141.1299591064453,
-						["x"] = 358.8096923828125,
-						["point"] = "BOTTOM",
-						["scale"] = 0.75,
-					},
-				},
-			},
-		},
-		["Vehicle"] = {
-			["profiles"] = {
-				["Boomflower - Rexxar"] = {
-					["version"] = 3,
-					["position"] = {
-						["y"] = 51.50013879190243,
-						["x"] = 53.49997862898772,
-						["point"] = "CENTER",
-					},
-				},
-				["nath"] = {
-					["version"] = 3,
-					["position"] = {
-						["y"] = 51.50013879190243,
-						["x"] = 53.49997862898772,
-						["point"] = "CENTER",
-					},
-				},
-				["Nathreizm - Rexxar"] = {
-					["version"] = 3,
-					["position"] = {
-						["y"] = -153.7931365966797,
-						["x"] = 228.4886474609375,
-						["point"] = "CENTER",
-					},
-				},
-				["Nathtrain - Cho'gall"] = {
-					["version"] = 3,
-					["position"] = {
-						["y"] = 47.5,
-						["x"] = 99.5,
-						["point"] = "CENTER",
-					},
-				},
-				["Prettypretty - Rexxar"] = {
-					["version"] = 3,
-					["position"] = {
-						["y"] = 51.50001624196932,
-						["x"] = 53.49994361472113,
-						["point"] = "CENTER",
-					},
-				},
-				["Default"] = {
-					["version"] = 3,
-					["position"] = {
-						["y"] = 51.50006876336931,
-						["x"] = 53.50008367178759,
-						["point"] = "CENTER",
-					},
-				},
-				["Nathreizm - Cho'gall"] = {
-					["version"] = 3,
-					["position"] = {
-						["y"] = -153.7931365966797,
-						["x"] = 228.4886474609375,
-						["point"] = "CENTER",
-					},
-				},
-				["Mithrios - Rexxar"] = {
-					["version"] = 3,
-					["position"] = {
-						["y"] = 51.50013879190243,
-						["x"] = 53.49997862898772,
-						["point"] = "CENTER",
-					},
-				},
-				["Nathreizm - Arthas"] = {
-					["version"] = 3,
-					["position"] = {
-						["y"] = 47.5,
-						["x"] = 99.5,
-						["point"] = "CENTER",
-					},
-				},
-				["Littleboytoy - Cho'gall"] = {
-					["version"] = 3,
-					["position"] = {
-						["y"] = 47.5,
-						["x"] = 99.5,
-						["point"] = "CENTER",
-					},
-				},
-				["mithrios warr"] = {
-					["version"] = 3,
-					["position"] = {
-						["y"] = -46.980224609375,
-						["x"] = -355.869140625,
-						["point"] = "RIGHT",
 					},
 				},
 			},
@@ -1404,6 +1905,24 @@ Bartender4DB = {
 						["scale"] = 1,
 					},
 				},
+				["mithrios warr"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 171.592071533203,
+						["x"] = 59.4717102050781,
+						["point"] = "BOTTOM",
+						["scale"] = 0.75,
+					},
+				},
+				["Nathreizm - Rexxar"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 171.592071533203,
+						["x"] = 27.3969421386719,
+						["point"] = "BOTTOM",
+						["scale"] = 0.75,
+					},
+				},
 				["nath"] = {
 					["version"] = 3,
 					["position"] = {
@@ -1413,13 +1932,22 @@ Bartender4DB = {
 						["y"] = 135,
 					},
 				},
-				["Nathreizm - Rexxar"] = {
+				["Nathreizm - Drenden"] = {
 					["version"] = 3,
 					["position"] = {
-						["y"] = 171.5920715332031,
-						["x"] = 27.39694213867188,
+						["y"] = 116,
+						["x"] = -460,
 						["point"] = "BOTTOM",
+						["scale"] = 1,
+					},
+				},
+				["Mithrios - Rexxar"] = {
+					["version"] = 3,
+					["position"] = {
 						["scale"] = 0.75,
+						["x"] = -162.657331170199,
+						["point"] = "BOTTOM",
+						["y"] = 144.375012643091,
 					},
 				},
 				["Nathtrain - Cho'gall"] = {
@@ -1440,6 +1968,24 @@ Bartender4DB = {
 						["y"] = 116,
 					},
 				},
+				["Ahrian - Arthas"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 171.592071533203,
+						["x"] = 59.4717102050781,
+						["point"] = "BOTTOM",
+						["scale"] = 0.75,
+					},
+				},
+				["Nathreizm - Cho'gall"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 171.592071533203,
+						["x"] = 59.4717102050781,
+						["point"] = "BOTTOM",
+						["scale"] = 0.75,
+					},
+				},
 				["Default"] = {
 					["version"] = 3,
 					["position"] = {
@@ -1449,47 +1995,177 @@ Bartender4DB = {
 						["y"] = 135,
 					},
 				},
-				["Nathreizm - Cho'gall"] = {
-					["position"] = {
-						["y"] = 171.5920715332031,
-						["x"] = 59.47171020507813,
-						["point"] = "BOTTOM",
-						["scale"] = 0.75,
-					},
-					["version"] = 3,
-				},
-				["Mithrios - Rexxar"] = {
-					["version"] = 3,
-					["position"] = {
-						["scale"] = 0.75,
-						["x"] = -162.6573311701993,
-						["point"] = "BOTTOM",
-						["y"] = 144.3750126430909,
-					},
-				},
-				["Nathreizm - Arthas"] = {
-					["version"] = 3,
-					["position"] = {
-						["y"] = -14.99997711181641,
-						["x"] = -82.49998474121094,
-						["point"] = "CENTER",
-					},
-				},
 				["Littleboytoy - Cho'gall"] = {
 					["version"] = 3,
 					["position"] = {
-						["y"] = -14.99997711181641,
-						["x"] = -82.49998474121094,
+						["y"] = -14.9999771118164,
+						["x"] = -82.4999847412109,
+						["point"] = "CENTER",
+					},
+				},
+				["Nathreizm - Azralon"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = -14.9999771118164,
+						["x"] = -82.4999847412109,
+						["point"] = "CENTER",
+					},
+				},
+				["Nathreizm - Arthas"] = {
+					["position"] = {
+						["y"] = 171.592071533203,
+						["x"] = 59.4717102050781,
+						["point"] = "BOTTOM",
+						["scale"] = 0.75,
+					},
+					["version"] = 3,
+				},
+				["Nathreizm - Stormreaver"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = -14.9999771118164,
+						["x"] = -82.4999847412109,
+						["point"] = "CENTER",
+					},
+				},
+				["Nathreizm - Thrall"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = -14.9999771118164,
+						["x"] = -82.4999847412109,
+						["point"] = "CENTER",
+					},
+				},
+			},
+		},
+		["Vehicle"] = {
+			["profiles"] = {
+				["Boomflower - Rexxar"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 51.5001387919024,
+						["x"] = 53.4999786289877,
 						["point"] = "CENTER",
 					},
 				},
 				["mithrios warr"] = {
 					["version"] = 3,
 					["position"] = {
-						["y"] = 144.375,
-						["x"] = 54.08978271484375,
-						["point"] = "BOTTOM",
-						["scale"] = 0.75,
+						["y"] = -153.79313659668,
+						["x"] = 228.488647460938,
+						["point"] = "CENTER",
+					},
+				},
+				["Nathreizm - Rexxar"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = -153.79313659668,
+						["x"] = 228.488647460938,
+						["point"] = "CENTER",
+					},
+				},
+				["nath"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 51.5001387919024,
+						["x"] = 53.4999786289877,
+						["point"] = "CENTER",
+					},
+				},
+				["Nathreizm - Drenden"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 47.5,
+						["x"] = 99.5,
+						["point"] = "CENTER",
+					},
+				},
+				["Mithrios - Rexxar"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 51.5001387919024,
+						["x"] = 53.4999786289877,
+						["point"] = "CENTER",
+					},
+				},
+				["Nathtrain - Cho'gall"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 47.5,
+						["x"] = 99.5,
+						["point"] = "CENTER",
+					},
+				},
+				["Prettypretty - Rexxar"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 51.5000162419693,
+						["x"] = 53.4999436147211,
+						["point"] = "CENTER",
+					},
+				},
+				["Ahrian - Arthas"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = -153.79313659668,
+						["x"] = 228.488647460938,
+						["point"] = "CENTER",
+					},
+				},
+				["Nathreizm - Cho'gall"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = -153.79313659668,
+						["x"] = 228.488647460938,
+						["point"] = "CENTER",
+					},
+				},
+				["Default"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 51.5000687633693,
+						["x"] = 53.5000836717876,
+						["point"] = "CENTER",
+					},
+				},
+				["Littleboytoy - Cho'gall"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 47.5,
+						["x"] = 99.5,
+						["point"] = "CENTER",
+					},
+				},
+				["Nathreizm - Azralon"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 47.5,
+						["x"] = 99.5,
+						["point"] = "CENTER",
+					},
+				},
+				["Nathreizm - Arthas"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = -153.79313659668,
+						["x"] = 228.488647460938,
+						["point"] = "CENTER",
+					},
+				},
+				["Nathreizm - Stormreaver"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 47.5,
+						["x"] = 99.5,
+						["point"] = "CENTER",
+					},
+				},
+				["Nathreizm - Thrall"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 47.5,
+						["x"] = 99.5,
+						["point"] = "CENTER",
 					},
 				},
 			},
@@ -1504,6 +2180,22 @@ Bartender4DB = {
 						["point"] = "BOTTOM",
 					},
 				},
+				["mithrios warr"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = -204.443138122559,
+						["x"] = -181.176147460938,
+						["point"] = "CENTER",
+					},
+				},
+				["Nathreizm - Rexxar"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = -204.443138122559,
+						["x"] = -181.176147460938,
+						["point"] = "CENTER",
+					},
+				},
 				["nath"] = {
 					["version"] = 3,
 					["position"] = {
@@ -1512,12 +2204,20 @@ Bartender4DB = {
 						["point"] = "BOTTOM",
 					},
 				},
-				["Nathreizm - Rexxar"] = {
+				["Nathreizm - Drenden"] = {
 					["version"] = 3,
 					["position"] = {
-						["y"] = -204.4431381225586,
-						["x"] = -181.1761474609375,
-						["point"] = "CENTER",
+						["y"] = 116,
+						["x"] = -120,
+						["point"] = "BOTTOM",
+					},
+				},
+				["Mithrios - Rexxar"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 177.374974141075,
+						["x"] = -181.216862022795,
+						["point"] = "BOTTOM",
 					},
 				},
 				["Nathtrain - Cho'gall"] = {
@@ -1536,35 +2236,27 @@ Bartender4DB = {
 						["point"] = "BOTTOM",
 					},
 				},
-				["Default"] = {
+				["Ahrian - Arthas"] = {
 					["version"] = 3,
 					["position"] = {
-						["y"] = 135,
-						["x"] = -120,
-						["point"] = "BOTTOM",
+						["y"] = -204.443138122559,
+						["x"] = -181.176147460938,
+						["point"] = "CENTER",
 					},
 				},
 				["Nathreizm - Cho'gall"] = {
 					["version"] = 3,
 					["position"] = {
-						["y"] = -204.4431381225586,
-						["x"] = -181.1761474609375,
+						["y"] = -204.443138122559,
+						["x"] = -181.176147460938,
 						["point"] = "CENTER",
 					},
 				},
-				["Mithrios - Rexxar"] = {
+				["Default"] = {
 					["version"] = 3,
 					["position"] = {
-						["y"] = 177.3749741410751,
-						["x"] = -181.2168620227947,
-						["point"] = "BOTTOM",
-					},
-				},
-				["Nathreizm - Arthas"] = {
-					["version"] = 3,
-					["position"] = {
-						["y"] = 116,
-						["x"] = -460,
+						["y"] = 135,
+						["x"] = -120,
 						["point"] = "BOTTOM",
 					},
 				},
@@ -1576,11 +2268,35 @@ Bartender4DB = {
 						["point"] = "BOTTOM",
 					},
 				},
-				["mithrios warr"] = {
+				["Nathreizm - Azralon"] = {
 					["version"] = 3,
 					["position"] = {
-						["y"] = 174.8799438476563,
-						["x"] = 60.93463134765625,
+						["y"] = 116,
+						["x"] = -460,
+						["point"] = "BOTTOM",
+					},
+				},
+				["Nathreizm - Arthas"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = -204.443138122559,
+						["x"] = -181.176147460938,
+						["point"] = "CENTER",
+					},
+				},
+				["Nathreizm - Stormreaver"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 116,
+						["x"] = -460,
+						["point"] = "BOTTOM",
+					},
+				},
+				["Nathreizm - Thrall"] = {
+					["version"] = 3,
+					["position"] = {
+						["y"] = 116,
+						["x"] = -460,
 						["point"] = "BOTTOM",
 					},
 				},
@@ -1610,18 +2326,23 @@ Bartender4DB = {
 		},
 	},
 	["profileKeys"] = {
+		["Littleboytoy - Rexxar"] = "mithrios warr",
+		["Ahrian - Arthas"] = "Ahrian - Arthas",
+		["Nathreizm - Cho'gall"] = "Nathreizm - Cho'gall",
+		["Nathreizm - Azralon"] = "Nathreizm - Azralon",
+		["Nathreizm - Arthas"] = "Nathreizm - Arthas",
+		["Nathreizm - Stormreaver"] = "Nathreizm - Stormreaver",
 		["Boomflower - Rexxar"] = "Nathreizm - Cho'gall",
 		["Preistyp - Cho'gall"] = "mithrios warr",
 		["Nathreizm - Aegwynn"] = "Nathreizm - Rexxar",
-		["Nathreizm - Rexxar"] = "Nathreizm - Rexxar",
-		["Littleboytoy - Rexxar"] = "mithrios warr",
-		["Prettypretty - Rexxar"] = "Nathreizm - Rexxar",
-		["Mithrios - Rexxar"] = "mithrios warr",
-		["Littleboytoy - Cho'gall"] = "Littleboytoy - Cho'gall",
+		["Nathreizm - Drenden"] = "Nathreizm - Drenden",
 		["Nathtrain - Cho'gall"] = "mithrios warr",
-		["Nathreizm - Arthas"] = "Nathreizm - Arthas",
-		["Nathreizm - Cho'gall"] = "Nathreizm - Cho'gall",
+		["Prettypretty - Rexxar"] = "Nathreizm - Rexxar",
+		["Littleboytoy - Cho'gall"] = "Littleboytoy - Cho'gall",
 		["Nathreizm - Perenolde"] = "mithrios warr",
+		["Mithrios - Rexxar"] = "mithrios warr",
+		["Nathreizm - Rexxar"] = "Nathreizm - Rexxar",
+		["Nathreizm - Thrall"] = "Nathreizm - Thrall",
 	},
 	["profiles"] = {
 		["Boomflower - Rexxar"] = {
@@ -1629,12 +2350,32 @@ Bartender4DB = {
 			["blizzardVehicle"] = true,
 			["outofrange"] = "hotkey",
 		},
+		["mithrios warr"] = {
+			["focuscastmodifier"] = false,
+			["minimapIcon"] = {
+				["minimapPos"] = 91.4321496365926,
+			},
+			["buttonlock"] = true,
+			["blizzardVehicle"] = true,
+			["outofrange"] = "hotkey",
+		},
+		["Nathreizm - Rexxar"] = {
+			["focuscastmodifier"] = false,
+			["blizzardVehicle"] = true,
+			["outofrange"] = "hotkey",
+			["buttonlock"] = true,
+		},
 		["nath"] = {
 			["focuscastmodifier"] = false,
 			["blizzardVehicle"] = true,
 			["outofrange"] = "hotkey",
 		},
-		["Nathreizm - Rexxar"] = {
+		["Nathreizm - Drenden"] = {
+			["focuscastmodifier"] = false,
+			["blizzardVehicle"] = true,
+			["outofrange"] = "hotkey",
+		},
+		["Mithrios - Rexxar"] = {
 			["focuscastmodifier"] = false,
 			["blizzardVehicle"] = true,
 			["buttonlock"] = true,
@@ -1650,24 +2391,22 @@ Bartender4DB = {
 			["blizzardVehicle"] = true,
 			["outofrange"] = "hotkey",
 		},
-		["Default"] = {
+		["Ahrian - Arthas"] = {
 			["focuscastmodifier"] = false,
+			["minimapIcon"] = {
+				["minimapPos"] = 160.734744068284,
+			},
+			["buttonlock"] = true,
 			["blizzardVehicle"] = true,
 			["outofrange"] = "hotkey",
 		},
 		["Nathreizm - Cho'gall"] = {
 			["focuscastmodifier"] = false,
-			["buttonlock"] = true,
 			["blizzardVehicle"] = true,
+			["buttonlock"] = true,
 			["outofrange"] = "hotkey",
 		},
-		["Mithrios - Rexxar"] = {
-			["focuscastmodifier"] = false,
-			["blizzardVehicle"] = true,
-			["outofrange"] = "hotkey",
-			["buttonlock"] = true,
-		},
-		["Nathreizm - Arthas"] = {
+		["Default"] = {
 			["focuscastmodifier"] = false,
 			["blizzardVehicle"] = true,
 			["outofrange"] = "hotkey",
@@ -1677,12 +2416,24 @@ Bartender4DB = {
 			["blizzardVehicle"] = true,
 			["outofrange"] = "hotkey",
 		},
-		["mithrios warr"] = {
+		["Nathreizm - Azralon"] = {
 			["focuscastmodifier"] = false,
-			["minimapIcon"] = {
-				["minimapPos"] = 147.2453204650944,
-			},
+			["blizzardVehicle"] = true,
+			["outofrange"] = "hotkey",
+		},
+		["Nathreizm - Arthas"] = {
+			["focuscastmodifier"] = false,
 			["buttonlock"] = true,
+			["blizzardVehicle"] = true,
+			["outofrange"] = "hotkey",
+		},
+		["Nathreizm - Stormreaver"] = {
+			["focuscastmodifier"] = false,
+			["blizzardVehicle"] = true,
+			["outofrange"] = "hotkey",
+		},
+		["Nathreizm - Thrall"] = {
+			["focuscastmodifier"] = false,
 			["blizzardVehicle"] = true,
 			["outofrange"] = "hotkey",
 		},

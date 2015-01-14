@@ -1,4 +1,4 @@
-﻿## Interface: 50400
+﻿## Interface: 60000
 ## X-Min-Interface: 50001
 ## Title:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Dragon Soul|r
 ## Title-deDE:|cffffe00a<|r|cffff7d0aDBM|r|cffffe00a>|r |cff69ccf0Drachenseele|r
@@ -18,7 +18,7 @@
 ## X-DBM-Mod-Category: CATA
 ## X-DBM-Mod-Has-LFR : 1
 ## X-DBM-Mod-MapID: 967
-## X-DBM-Mod-Sort: 100
+## X-DBM-Mod-Sort: 300
 localization.en.lua
 localization.de.lua
 localization.ru.lua

@@ -217,7 +217,6 @@ DBM_CORE_MOVE_SPECIAL_WARNING_TEXT	= "Aviso especial"
 DBM_CORE_RANGE_CHECK_ZONE_UNSUPPORTED	= "Medição de distância de %d metros não suportada nessa zona.\nAs distâncias suportadas são 10, 11, 15 e 28 metros."
 
 DBM_ARROW_MOVABLE					= "Seta móvel"
-DBM_ARROW_NO_RAIDGROUP				= "Essa funcionalidade só está disponível em grupos de raide e no interior de instâncias de raide."
 DBM_ARROW_ERROR_USAGE	= {
 	"Uso da seta do DBM:",
 	"/dbm arrow <x> <y>  cria uma seta que aponta para um local específico (0 < x/y < 100)",
@@ -236,8 +235,9 @@ DBM_INSTANCE_INFO_REQUESTED			= "Enviadas requisições de vínculos de raide pa
 DBM_INSTANCE_INFO_STATUS_UPDATE		= "Recebidas respostas de %d jogadores de um total de %d usuários do DBM: %d enviaram os dados, %d negaram a solicitação. Esperando mais %d segundos pelas respostas restantes..."
 DBM_INSTANCE_INFO_ALL_RESPONSES		= "Recebidas respostas de tosos os membros da raide"
 DBM_INSTANCE_INFO_DETAIL_DEBUG		= "Sender: %s ResultType: %s InstanceName: %s InstanceID: %s Difficulty: %d Size: %d Progress: %s"
-DBM_INSTANCE_INFO_DETAIL_HEADER		= "%s (%d), dificuldade %d:"
+DBM_INSTANCE_INFO_DETAIL_HEADER		= "%s, dificuldade %s:"
 DBM_INSTANCE_INFO_DETAIL_INSTANCE	= "    ID %s, progresso %d: %s"
+DBM_INSTANCE_INFO_DETAIL_INSTANCE2	= "    progresso %d: %s"
 DBM_INSTANCE_INFO_STATS_DENIED		= "Negou a solicitação: %s"
 DBM_INSTANCE_INFO_STATS_AWAY		= "Ausente: %s"
 DBM_INSTANCE_INFO_STATS_NO_RESPONSE	= "Não possui uma versão recente do DBM instalada: %s"

@@ -173,7 +173,7 @@ function EPGP:ProcessCommand(str)
 end
 
 function EPGP:FakeCoinEvent(item)
-  LLN.BonusMessageReceiver(nil, string.format("BONUS_LOOT_RESULT^%s^%s^%s", "item", item, 32),
+  LLN.BonusMessageReceiver(nil, string.format("BONUS_LOOT_RESULT^%s^%s^%s^%s", "item", item, 32, 776),
 			   nil, UnitName("player"))
 end
 

@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("ICCTrash", "DBM-Icecrown", 6)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 132 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 178 $"):sub(12, -3))
 mod:SetModelID(30459)
 mod:SetUsedIcons(1, 2, 8)
 mod.isTrashMod = true
@@ -36,11 +36,11 @@ local warnBanish				= mod:NewTargetAnnounce(71298, 3)
 --Lower Spire
 local specWarnDisruptingShout	= mod:NewSpecialWarningCast(71022)
 local specWarnDarkReckoning		= mod:NewSpecialWarningMoveAway(69483)
-local specWarnTrap				= mod:NewSpecialWarning("SpecWarnTrapL")
+local specWarnTrapL				= mod:NewSpecialWarning("SpecWarnTrapL")
 --Plagueworks
 local specWarnDecimate			= mod:NewSpecialWarningSpell(71123)
 local specWarnMortalWound		= mod:NewSpecialWarningStack(71127, mod:IsTank() or mod:IsHealer(), 6)
-local specWarnTrap				= mod:NewSpecialWarning("SpecWarnTrapP")
+local specWarnTrapP				= mod:NewSpecialWarning("SpecWarnTrapP")
 local specWarnBlightBomb		= mod:NewSpecialWarningSpell(71088)
 --Frostwing Hall
 local specWarnGosaEvent			= mod:NewSpecialWarning("SpecWarnGosaEvent")
@@ -62,9 +62,6 @@ local timerChainsofShadow		= mod:NewTargetTimer(10, 70645)
 local timerConflag				= mod:NewTargetTimer(10, 71785)
 local timerBanish				= mod:NewTargetTimer(6, 71298)
 
---Lower Spire
-local soundDarkReckoning		= mod:NewSound(69483)
-
 mod:RemoveOption("HealthFrame")
 mod:RemoveOption("SpeedKillTimer")
 --Lower Spire
@@ -78,7 +75,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerDarkReckoning:Start(args.destName)
 		if args:IsPlayer() then
 			specWarnDarkReckoning:Show()
-			soundDarkReckoning:Play()
 		end
 		if self.Options.SetIconOnDarkReckoning then
 			self:SetIcon(args.destName, 8, 8)
@@ -183,9 +179,9 @@ end
 
 function mod:OnSync(msg, arg)
 	if msg == "WarderTrap" then
-		specWarnTrap:Show()
+		specWarnTrapL:Show()
 	elseif msg == "FleshTrap" then
-		specWarnTrap:Show()
+		specWarnTrapP:Show()
 	elseif msg == "GauntletStart" then
 		specWarnGosaEvent:Show()
 	end

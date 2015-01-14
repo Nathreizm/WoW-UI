@@ -5,6 +5,7 @@ local select, pairs, next, type, unpack = select, pairs, next, type, unpack
 local loadstring, assert, error = loadstring, assert, error
 local setmetatable, getmetatable, rawset, rawget = setmetatable, getmetatable, rawset, rawget
 local bit_band, bit_lshift, bit_rshift = bit.band, bit.lshift, bit.rshift
+local coroutine = coroutine
 
 local LDB = LibStub:GetLibrary("LibDataBroker-1.1");
 local AceGUI = LibStub("AceGUI-3.0");
@@ -413,6 +414,39 @@ AceGUI:RegisterLayout("AbsoluteList", function(content, children)
   end
 end);
 
+AceGUI:RegisterLayout("ButtonsScrollLayout", function(content, children)
+  local yOffset = 0;
+
+  local scrollTop, scrollBottom = content.obj:GetScrollPos();
+  for i = 1, #children do
+    local child = children[i]
+
+    local frame = child.frame;
+    local frameHeight = (frame.height or frame:GetHeight() or 0);
+
+    frame:ClearAllPoints();
+    if (-yOffset + frameHeight > scrollTop and -yOffset - frameHeight < scrollBottom) then
+        frame:Show();
+
+        frame:SetPoint("LEFT", content);
+        frame:SetPoint("RIGHT", content);
+        frame:SetPoint("TOP", content, "TOP", 0, yOffset)
+    else
+        frame:Hide();
+        frame.yOffset = yOffset
+    end
+
+    if child.DoLayout then
+        child:DoLayout()
+    end
+
+    yOffset = yOffset - (frameHeight + 2);
+  end
+  if(content.obj.LayoutFinished) then
+    content.obj:LayoutFinished(nil, yOffset * -1);
+  end
+end);
+
 -- Builds a cache of name/icon pairs from existing spell data
 -- Why? Because if you call GetSpellInfo with a spell name, it only works if the spell is an actual castable ability,
 -- but if you call it with a spell id, you can get buffs, talents, etc. This is useful for displaying faux aura information
@@ -421,32 +455,28 @@ end);
 -- This is a rather slow operation, so it's only done once, and the result is subsequently saved
 function WeakAuras.CreateIconCache(callback)
   local func = function()
-  local id = 0;
-  local misses = 0;
-  
-  while (misses < 200) do
-    id = id + 1;
-    local name, _, icon = GetSpellInfo(id);
-    if(name) then
-    if not(iconCache[name]) then
-      iconCache[name] = icon;
+    local id = 0;
+    local misses = 0;
+    
+    while (misses < 200) do
+      id = id + 1;
+      local name, _, icon = GetSpellInfo(id);
+      if(name) then
+        iconCache[name] = icon;
+        if not(idCache[name]) then
+          idCache[name] = {}
+        end
+        idCache[name][id] = true;
+        misses = 0;
+      else
+        misses = misses + 1;
+      end
+      coroutine.yield();
+    end  
+    if(callback) then
+      callback();
     end
-    if not(idCache[name]) then
-      idCache[name] = {}
-    end
-    idCache[name][id] = true;
-    misses = 0;
-    else
-    misses = misses + 1;
-    end
-    coroutine.yield();
   end
-  
-  if(callback) then
-    callback();
-  end
-  end
-
   local co = coroutine.create(func);
   dynFrame:AddAction(callback, co);
 end
@@ -914,7 +944,7 @@ function WeakAuras.ConstructOptions(prototype, data, startorder, subPrefix, subS
             get = function() return trigger[realname] end,
             set = function(info, v)
               trigger[realname] = v;
-              if(arg.required and not triggetype) then
+              if(arg.required and not triggertype) then
                 untrigger[realname] = v;
               end
               WeakAuras.Add(data);
@@ -1075,7 +1105,6 @@ loadedFrame:SetScript("OnEvent", function(self, event, addon)
     if(addon == ADDON_NAME) then
       db = WeakAurasSaved;
       WeakAurasOptionsSaved = WeakAurasOptionsSaved or {};
-      save_import = db.save_import or true
 
       odb = WeakAurasOptionsSaved;
       
@@ -1094,7 +1123,7 @@ loadedFrame:SetScript("OnEvent", function(self, event, addon)
         num = num + 1;
       end
       
-      if(num < 39000 or odb.locale ~= locale or odb.build ~= build or odb.version ~= version or forceCacheReset) then
+      if(num < 39000 or odb.locale ~= locale or odb.build ~= build or odb.version ~= version) then
         WeakAuras.CreateIconCache();
   
         odb.build = build;
@@ -1458,6 +1487,12 @@ function WeakAuras.LayoutDisplayButtons(msg)
         if(WeakAuras.regions[data.id].region.SetStacks) then
           WeakAuras.regions[data.id].region:SetStacks(1);
         end
+
+        if (num % 50 == 0) then
+          frame.buttonsScroll:ResumeLayout()
+          frame.buttonsScroll:PerformLayout()
+          frame.buttonsScroll:PauseLayout()
+        end
     
         num = num + 1;
       end
@@ -1466,6 +1501,8 @@ function WeakAuras.LayoutDisplayButtons(msg)
       coroutine.yield();
     end
 
+    frame.buttonsScroll:ResumeLayout()
+    frame.buttonsScroll:PerformLayout()
     WeakAuras.SortDisplayButtons(msg);
   
     for id, button in pairs(displayButtons) do
@@ -1481,8 +1518,9 @@ function WeakAuras.LayoutDisplayButtons(msg)
   
   local func1 = function()
     local num = frame.loadProgressNum or 0;
+    frame.buttonsScroll:PauseLayout()
     for index, id in pairs(loadedSorted) do
-    local data = WeakAuras.GetData(id);
+      local data = WeakAuras.GetData(id);
       if(data) then
         WeakAuras.EnsureDisplayButton(data);
         WeakAuras.UpdateDisplayButton(data);
@@ -1495,6 +1533,12 @@ function WeakAuras.LayoutDisplayButtons(msg)
         end
     
         num = num + 1;
+      end
+
+      if (num % 50 == 0) then
+        frame.buttonsScroll:ResumeLayout()
+        frame.buttonsScroll:PerformLayout()
+        frame.buttonsScroll:PauseLayout()
       end
     
       frame.loadProgress:SetText(L["Creating buttons: "]..num.."/"..total);
@@ -2045,7 +2089,7 @@ function WeakAuras.AddOption(id, data)
           data.actions[field] = data.actions[field] or {};
           data.actions[field][value] = v;
           if(value == "sound" or value == "sound_path") then
-            PlaySoundFile(v);
+            PlaySoundFile(v, data.actions.start.sound_channel);
           end
           WeakAuras.Add(data);
         end,
@@ -3818,6 +3862,13 @@ function WeakAuras.ReloadTriggerOptions(data)
     end
   end
   
+  -- the spell id table is sparse, so tremove doesn't work
+  local function spellId_tremove(tbl, pos)
+    for i = pos, 9, 1 do
+        tbl[i] = tbl[i + 1]
+    end
+  end
+
   local function getAuraMatchesList(name)
     local ids = idCache[name]
     if(ids) then
@@ -3995,12 +4046,13 @@ function WeakAuras.ReloadTriggerOptions(data)
       desc = L["Enter an aura name, partial aura name, or spell id"],
       order = 12,
       hidden = function() return not (trigger.type == "aura" and not trigger.fullscan and trigger.unit == "multi"); end,
-      get = function(info) return trigger.name end,
+      get = function(info) return trigger.spellId and tostring(trigger.spellId) or trigger.name end,
       set = function(info, v)
         if(v == "") then
           trigger.name = nil;
+          trigger.spellId = nil;
         else
-          trigger.name = WeakAuras.CorrectAuraName(v);
+          trigger.name, trigger.spellId = WeakAuras.CorrectAuraName(v);
         end
         WeakAuras.Add(data);
         WeakAuras.SetThumbnail(data);
@@ -4024,17 +4076,18 @@ function WeakAuras.ReloadTriggerOptions(data)
       desc = L["Enter an aura name, partial aura name, or spell id"],
       order = 12,
       hidden = function() return not (trigger.type == "aura" and not trigger.fullscan and trigger.unit ~= "multi"); end,
-      get = function(info) return trigger.names[1] end,
+      get = function(info) return trigger.spellIds[1] and tostring(trigger.spellIds[1]) or trigger.names[1] end,
       set = function(info, v)
         if(v == "") then
           if(trigger.names[1]) then
             tremove(trigger.names, 1);
+            spellId_tremove(trigger.spellIds, 1);
           end
         else
           if(tonumber(v)) then
             WeakAuras.ShowSpellIDDialog(trigger, v);
           end
-          trigger.names[1] = WeakAuras.CorrectAuraName(v);
+          trigger.names[1], trigger.spellIds[1] = WeakAuras.CorrectAuraName(v);
         end
         WeakAuras.Add(data);
         WeakAuras.SetThumbnail(data);
@@ -4065,14 +4118,18 @@ function WeakAuras.ReloadTriggerOptions(data)
       order = 15,
       name = "",
       hidden = function() return not (trigger.type == "aura" and trigger.names[1] and not trigger.fullscan and trigger.unit ~= "multi"); end,
-      get = function(info) return trigger.names[2] end,
+      get = function(info) return trigger.spellIds[2] and tostring(trigger.spellIds[2]) or trigger.names[2] end,
       set = function(info, v)
         if(v == "") then
           if(trigger.names[2]) then
             tremove(trigger.names, 2);
+            spellId_tremove(trigger.spellIds, 2);
           end
         else
-          trigger.names[2] = WeakAuras.CorrectAuraName(v);
+          if(tonumber(v)) then
+            WeakAuras.ShowSpellIDDialog(trigger, v);
+          end
+          trigger.names[2], trigger.spellIds[2] = WeakAuras.CorrectAuraName(v);
         end
         WeakAuras.Add(data);
         WeakAuras.SetThumbnail(data);
@@ -4103,14 +4160,18 @@ function WeakAuras.ReloadTriggerOptions(data)
       order = 18,
       name = "",
       hidden = function() return not (trigger.type == "aura" and trigger.names[2] and not trigger.fullscan and trigger.unit ~= "multi"); end,
-      get = function(info) return trigger.names[3] end,
+      get = function(info) return trigger.spellIds[3] and tostring(trigger.spellIds[3]) or trigger.names[3] end,
       set = function(info, v)
         if(v == "") then
           if(trigger.names[3]) then
             tremove(trigger.names, 3);
+            spellId_tremove(trigger.spellIds, 3);
           end
         else
-          trigger.names[3] = WeakAuras.CorrectAuraName(v);
+          if(tonumber(v)) then
+            WeakAuras.ShowSpellIDDialog(trigger, v);
+          end
+          trigger.names[3], trigger.spellIds[3] = WeakAuras.CorrectAuraName(v);
         end
         WeakAuras.Add(data);
         WeakAuras.SetThumbnail(data);
@@ -4141,14 +4202,18 @@ function WeakAuras.ReloadTriggerOptions(data)
       order = 21,
       name = "",
       hidden = function() return not (trigger.type == "aura" and trigger.names[3] and not trigger.fullscan and trigger.unit ~= "multi"); end,
-      get = function(info) return trigger.names[4] end,
+      get = function(info) return trigger.spellIds[4] and tostring(trigger.spellIds[4]) or trigger.names[4] end,
       set = function(info, v)
         if(v == "") then
           if(trigger.names[4]) then
             tremove(trigger.names, 4);
+            spellId_tremove(trigger.spellIds, 4);
           end
         else
-          trigger.names[4] = WeakAuras.CorrectAuraName(v);
+          if(tonumber(v)) then
+            WeakAuras.ShowSpellIDDialog(trigger, v);
+          end
+          trigger.names[4], trigger.spellIds[4] = WeakAuras.CorrectAuraName(v);
         end
         WeakAuras.Add(data);
         WeakAuras.SetThumbnail(data);
@@ -4179,14 +4244,18 @@ function WeakAuras.ReloadTriggerOptions(data)
       order = 24,
       name = "",
       hidden = function() return not (trigger.type == "aura" and trigger.names[4] and not trigger.fullscan and trigger.unit ~= "multi"); end,
-      get = function(info) return trigger.names[5] end,
+      get = function(info) return trigger.spellIds[5] and tostring(trigger.spellIds[5]) or trigger.names[5] end,
       set = function(info, v)
         if(v == "") then
           if(trigger.names[5]) then
             tremove(trigger.names, 5);
+            spellId_tremove(trigger.spellIds, 5);
           end
         else
-          trigger.names[5] = WeakAuras.CorrectAuraName(v);
+          if(tonumber(v)) then
+            WeakAuras.ShowSpellIDDialog(trigger, v);
+          end
+          trigger.names[5], trigger.spellIds[5] = WeakAuras.CorrectAuraName(v);
         end
         WeakAuras.Add(data);
         WeakAuras.SetThumbnail(data);
@@ -4217,14 +4286,18 @@ function WeakAuras.ReloadTriggerOptions(data)
       order = 27,
       name = "",
       hidden = function() return not (trigger.type == "aura" and trigger.names[5] and not trigger.fullscan and trigger.unit ~= "multi"); end,
-      get = function(info) return trigger.names[6] end,
+      get = function(info) return trigger.spellIds[6] and tostring(trigger.spellIds[6]) or trigger.names[6] end,
       set = function(info, v)
         if(v == "") then
           if(trigger.names[6]) then
             tremove(trigger.names, 6);
+            spellId_tremove(trigger.spellIds, 6);
           end
         else
-          trigger.names[6] = WeakAuras.CorrectAuraName(v);
+          if(tonumber(v)) then
+            WeakAuras.ShowSpellIDDialog(trigger, v);
+          end
+          trigger.names[6], trigger.spellIds[6] = WeakAuras.CorrectAuraName(v);
         end
         WeakAuras.Add(data);
         WeakAuras.SetThumbnail(data);
@@ -4255,14 +4328,18 @@ function WeakAuras.ReloadTriggerOptions(data)
       order = 30,
       name = "",
       hidden = function() return not (trigger.type == "aura" and trigger.names[6] and not trigger.fullscan and trigger.unit ~= "multi"); end,
-      get = function(info) return trigger.names[7] end,
+      get = function(info) return trigger.spellIds[7] and tostring(trigger.spellIds[7]) or trigger.names[7] end,
       set = function(info, v)
         if(v == "") then
           if(trigger.names[7]) then
             tremove(trigger.names, 7);
+            spellId_tremove(trigger.spellIds, 7);
           end
         else
-          trigger.names[7] = WeakAuras.CorrectAuraName(v);
+          if(tonumber(v)) then
+            WeakAuras.ShowSpellIDDialog(trigger, v);
+          end
+          trigger.names[7], trigger.spellIds[7] = WeakAuras.CorrectAuraName(v);
         end
         WeakAuras.Add(data);
         WeakAuras.SetThumbnail(data);
@@ -4293,14 +4370,18 @@ function WeakAuras.ReloadTriggerOptions(data)
       order = 33,
       name = "",
       hidden = function() return not (trigger.type == "aura" and trigger.names[7] and not trigger.fullscan and trigger.unit ~= "multi"); end,
-      get = function(info) return trigger.names[8] end,
+      get = function(info) return trigger.spellIds[8] and tostring(trigger.spellIds[8]) or trigger.names[8] end,
       set = function(info, v)
         if(v == "") then
           if(trigger.names[8]) then
             tremove(trigger.names, 8);
+            spellId_tremove(trigger.spellIds, 8);
           end
         else
-          trigger.names[8] = WeakAuras.CorrectAuraName(v);
+          if(tonumber(v)) then
+            WeakAuras.ShowSpellIDDialog(trigger, v);
+          end
+          trigger.names[8], trigger.spellIds[8] = WeakAuras.CorrectAuraName(v);
         end
         WeakAuras.Add(data);
         WeakAuras.SetThumbnail(data);
@@ -4331,14 +4412,18 @@ function WeakAuras.ReloadTriggerOptions(data)
       order = 36,
       name = "",
       hidden = function() return not (trigger.type == "aura" and trigger.names[8] and not trigger.fullscan and trigger.unit ~= "multi"); end,
-      get = function(info) return trigger.names[9] end,
+      get = function(info) return trigger.spellIds[9] and tostring(trigger.spellIds[9]) or trigger.names[9] end,
       set = function(info, v)
         if(v == "") then
           if(trigger.names[9]) then
             tremove(trigger.names, 9);
+            spellId_tremove(trigger.spellIds, 9);
           end
         else
-          trigger.names[9] = WeakAuras.CorrectAuraName(v);
+          if(tonumber(v)) then
+            WeakAuras.ShowSpellIDDialog(trigger, v);
+          end
+          trigger.names[9], trigger.spellIds[9] = WeakAuras.CorrectAuraName(v);
         end
         WeakAuras.Add(data);
         WeakAuras.SetThumbnail(data);
@@ -5154,10 +5239,59 @@ function WeakAuras.ReloadTriggerOptions(data)
         end
       end
     },
+    custom_texture = {
+      type = "input",
+      name = L["Texture Info"],
+      order = 21.5,
+      multiline = true,
+      width = "normal",
+      hidden = function() return not (trigger.type == "custom") end,
+      get = function() return trigger.customTexture end,
+      set = function(info, v)
+        trigger.customTexture = v;
+        WeakAuras.Add(data);
+        WeakAuras.SetThumbnail(data);
+        WeakAuras.SetIconNames(data);
+        WeakAuras.UpdateDisplayButton(data);
+      end
+    },
+    custom_texture_expand = {
+      type = "execute",
+      order = 22,
+      name = L["Expand Text Editor"],
+      func = function()
+        WeakAuras.TextEditor(data, appendToTriggerPath("customTexture"))
+      end,
+      hidden = function() return not (trigger.type == "custom") end,
+    },
+    custom_texture_error = {
+      type = "description",
+      name = function()
+        if not(trigger.customTexture and trigger.customTexture ~= "") then
+          return "";
+        end
+        local _, errorString = loadstring("return "..(trigger.customTexture or ""));
+        return errorString and "|cFFFF0000"..errorString or "";
+      end,
+      width = "double",
+      order = 22.5,
+      hidden = function()
+        if not(trigger.type == "custom" and trigger.customTexture and trigger.customTexture ~= "") then
+          return true;
+        else
+          local loadedFunction, errorString = loadstring("return "..(trigger.customTexture or ""));
+          if(errorString and not loadedFunction) then
+            return false;
+          else
+            return true;
+          end
+        end
+      end
+    },
     custom_stacks = {
       type = "input",
       name = L["Stack Info"],
-      order = 22,
+      order = 23,
       multiline = true,
       width = "normal",
       hidden = function() return not (trigger.type == "custom") end,
@@ -5172,7 +5306,7 @@ function WeakAuras.ReloadTriggerOptions(data)
     },
     custom_stacks_expand = {
       type = "execute",
-      order = 22.5,
+      order = 23.5,
       name = L["Expand Text Editor"],
       func = function()
         WeakAuras.TextEditor(data, appendToTriggerPath("customStacks"))
@@ -5189,7 +5323,7 @@ function WeakAuras.ReloadTriggerOptions(data)
         return errorString and "|cFFFF0000"..errorString or "";
       end,
       width = "double",
-      order = 23,
+      order = 24,
       hidden = function()
         if not(trigger.type == "custom" and trigger.customStacks and trigger.customStacks ~= "") then
           return true;
@@ -5327,6 +5461,11 @@ function WeakAuras.ReloadTriggerOptions(data)
       args = regionOption
     };
     
+    data.load.use_class = getAll(data, {"load", "use_class"});
+    local single_class = getAll(data, {"load", "class"});
+    data.load.class = {}
+    data.load.class.single = single_class;
+
     displayOptions[id].args.load.args = WeakAuras.ConstructOptions(WeakAuras.load_prototype, data, 10, nil, nil, optionTriggerChoices[id], "load");
     removeFuncs(displayOptions[id].args.load);
     replaceNameDescFuncs(displayOptions[id].args.load, data);
@@ -5650,6 +5789,11 @@ end
 
 function WeakAuras.AddBorderOptions(input, id, data)
   local borderOptions = {
+  border = {
+    type = "toggle",
+    name = L["Border"],
+    order = 46.05
+  },
   borderEdge = {
     type = "select",
     dialogControl = "LSM30_Border",
@@ -5657,6 +5801,7 @@ function WeakAuras.AddBorderOptions(input, id, data)
     order = 46.1,
     values = AceGUIWidgetLSMlists.border,
     disabled = function() return not data.border end,
+    hidden = function() return not data.border end,
   },
   borderBackdrop = {
     type = "select",
@@ -5665,6 +5810,7 @@ function WeakAuras.AddBorderOptions(input, id, data)
     order = 46.2,
     values = AceGUIWidgetLSMlists.background,
     disabled = function() return not data.border end,
+    hidden = function() return not data.border end,
   },
   borderOffset = {
     type = "range",
@@ -5674,6 +5820,7 @@ function WeakAuras.AddBorderOptions(input, id, data)
     softMax = 32,
     bigStep = 1,
     disabled = function() return not data.border end,
+    hidden = function() return not data.border end,
   },
   borderSize = {
     type = "range",
@@ -5683,6 +5830,7 @@ function WeakAuras.AddBorderOptions(input, id, data)
     softMax = 64,
     bigStep = 1,
     disabled = function() return not data.border end,
+    hidden = function() return not data.border end,
   },
   borderInset = {
     type = "range",
@@ -5692,6 +5840,7 @@ function WeakAuras.AddBorderOptions(input, id, data)
     softMax = 32,
     bigStep = 1,
     disabled = function() return not data.border end,
+    hidden = function() return not data.border end,
   },
   borderColor = {
     type = "color",
@@ -5699,6 +5848,7 @@ function WeakAuras.AddBorderOptions(input, id, data)
     hasAlpha = true,
     order = 46.6,
     disabled = function() return not data.border end,
+    hidden = function() return not data.border end,
   },
   backdropColor = {
     type = "color",
@@ -5706,11 +5856,7 @@ function WeakAuras.AddBorderOptions(input, id, data)
     hasAlpha = true,
     order = 46.8,
     disabled = function() return not data.border end,
-  },
-  border = {
-    type = "toggle",
-    name = L["Border"],
-    order = 46.9
+    hidden = function() return not data.border end,
   },
   }
   
@@ -5795,8 +5941,8 @@ function WeakAuras.CreateFrame()
   local import = CreateFrame("Frame", nil, frame);
   import:SetWidth(17)
   import:SetHeight(40)
-  import:SetPoint("TOPRIGHT", -140, 12)  
-  import:Hide()
+  import:SetPoint("TOPRIGHT", -100, 12)  
+  --import:Hide()
   
   local importbg = import:CreateTexture(nil, "BACKGROUND")
   importbg:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Header")
@@ -5807,32 +5953,25 @@ function WeakAuras.CreateFrame()
   importbutton:SetWidth(30);
   importbutton:SetHeight(30);
   importbutton:SetPoint("CENTER", import, "CENTER", 1, -1);
-  importbutton:SetChecked()
   importbutton:SetHitRectInsets(0,0,0,0)
+  importbutton:SetChecked(db.import_disabled)
+
   importbutton:SetScript("PostClick", function(self) 
     if self:GetChecked() then 
-      save_import = true;
       PlaySound("igMainMenuOptionCheckBoxOn")
-      print(save_import)
+      db.import_disabled = true
     else 
-      save_import = false;
       PlaySound("igMainMenuOptionCheckBoxOff") 
-      print(save_import)
+      db.import_disabled = nil
     end 
   end)
-  importbutton:SetScript("OnEnter", ShowTooltip)
-  importbutton:SetScript("OnLeave", HideTooltip)
-
-  local function ShowTooltip(self)
-  GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-  GameTooltip:SetText("Save Import")  -- This sets the top line of text, in gold.
-  GameTooltip:AddLine("If this option is enabled, you are only enable to import auras from people in your guild/raid/group.", 1, 1, 1)
-  GameTooltip:Show()
-  end
-
-  local function HideTooltip(self)
-  GameTooltip:Hide()
-  end
+  importbutton:SetScript("OnEnter", function(self)
+      GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+      GameTooltip:SetText("Disable Import")
+      GameTooltip:AddLine("If this option is enabled, you are no longer able to import auras.", 1, 1, 1)
+      GameTooltip:Show()
+  end)
+  importbutton:SetScript("OnLeave", GameTooltip_Hide)
   
   local importbg_l = import:CreateTexture(nil, "BACKGROUND")
   importbg_l:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Header")
@@ -5887,8 +6026,10 @@ function WeakAuras.CreateFrame()
     db.frame = db.frame or {};
     db.frame.xOffset = xOffset;
     db.frame.yOffset = yOffset;
-    db.frame.width = frame:GetWidth();
-    db.frame.height = frame:GetHeight();
+	if(not frame.minimized) then
+		db.frame.width = frame:GetWidth();
+		db.frame.height = frame:GetHeight();
+	end
     frame:ClearAllPoints();
     frame:SetPoint("TOPRIGHT", UIParent, "TOPRIGHT", xOffset, yOffset);
   end
@@ -5977,9 +6118,11 @@ function WeakAuras.CreateFrame()
   minimizebutton:SetScript("OnClick", function()
     if(frame.minimized) then
       frame.minimized = nil;
-    if db.frame then
-    db.frame.height = math.min(db.frame.height, 500)
-    end
+      if db.frame then
+        if db.frame.height < 240 then
+          db.frame.height = 500
+        end
+      end
       frame:SetHeight(db.frame and db.frame.height or 500);
       if(frame.window == "default") then
         frame.buttonsContainer.frame:Show();
@@ -5998,7 +6141,7 @@ function WeakAuras.CreateFrame()
       minimizebutton:SetNormalTexture("Interface\\BUTTONS\\UI-Panel-CollapseButton-Up.blp");
       minimizebutton:SetPushedTexture("Interface\\BUTTONS\\UI-Panel-CollapseButton-Down.blp");
     else
-      frame.minimized = true;
+      frame.minimized = true;      
       frame:SetHeight(40);
       frame.buttonsContainer.frame:Hide();
       frame.texturePick.frame:Hide();
@@ -6025,13 +6168,13 @@ function WeakAuras.CreateFrame()
   minimizebg_r:SetPoint("LEFT", minimizebg, "RIGHT")
   minimizebg_r:SetWidth(10)
   minimizebg_r:SetHeight(40)
-  
+
   local _, _, _, enabled, loadable = GetAddOnInfo("WeakAurasTutorials");
   if(enabled and loadable) then
     local tutorial = CreateFrame("Frame", nil, frame);
     tutorial:SetWidth(17)
     tutorial:SetHeight(40)
-    tutorial:SetPoint("TOPRIGHT", -100, 12)
+    tutorial:SetPoint("TOPRIGHT", -140, 12)
     
     local tutorialbg = tutorial:CreateTexture(nil, "BACKGROUND")
     tutorialbg:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Header")
@@ -6475,7 +6618,7 @@ function WeakAuras.CreateFrame()
   frame.modelPick = modelPick;
   
   local modelPickZ = AceGUI:Create("Slider");
-  modelPickZ:SetSliderValues(-2, 2, 0.05);
+  modelPickZ:SetSliderValues(-20, 20, 0.05);
   modelPickZ:SetLabel(L["Z Offset"]);
   modelPickZ.frame:SetParent(modelPick.frame);
   modelPickZ:SetCallback("OnValueChanged", function()
@@ -6483,7 +6626,7 @@ function WeakAuras.CreateFrame()
   end);
   
   local modelPickX = AceGUI:Create("Slider");
-  modelPickX:SetSliderValues(-2, 2, 0.05);
+  modelPickX:SetSliderValues(-20, 20, 0.05);
   modelPickX:SetLabel(L["X Offset"]);
   modelPickX.frame:SetParent(modelPick.frame);
   modelPickX:SetCallback("OnValueChanged", function()
@@ -6491,7 +6634,7 @@ function WeakAuras.CreateFrame()
   end);
   
   local modelPickY = AceGUI:Create("Slider");
-  modelPickY:SetSliderValues(-2, 2, 0.05);
+  modelPickY:SetSliderValues(-20, 20, 0.05);
   modelPickY:SetLabel(L["Y Offset"]);
   modelPickY.frame:SetParent(modelPick.frame);
   modelPickY:SetCallback("OnValueChanged", function()
@@ -6715,6 +6858,7 @@ function WeakAuras.CreateFrame()
         end
       end);
       importexportbox:SetText("");
+      importexportbox:SetLabel("0");
       importexportbox:SetFocus();
     end
   end
@@ -6921,8 +7065,6 @@ function WeakAuras.CreateFrame()
     frame.window = "default";
     
     frame:RefreshPick();
-    if(type(id) == "string") then
-    end
   end
   
   local buttonsContainer = AceGUI:Create("InlineGroup");
@@ -6949,6 +7091,8 @@ function WeakAuras.CreateFrame()
   filterInput:SetPoint("BOTTOMLEFT", buttonsContainer.frame, "TOPLEFT", 2, -18);
   filterInput:SetPoint("TOPLEFT", buttonsContainer.frame, "TOPLEFT", 2, -2);
   -- Fix from page 181-182 of World of Warcraft Programming: A Guide and Reference for Creating WoW Addon by James Whitehead
+  -- @patch 6.0 compatibility quick fix
+  if MAX_NUM_TALENTS then
   WeakAurasFilterInputMiddle:ClearAllPoints();
   WeakAurasFilterInputMiddle:SetPoint("BOTTOMLEFT", WeakAurasFilterInputLeft, "BOTTOMRIGHT");
   WeakAurasFilterInputMiddle:SetPoint("TOPRIGHT", WeakAurasFilterInputRight, "TOPLEFT");
@@ -6959,6 +7103,7 @@ function WeakAuras.CreateFrame()
   WeakAurasFilterInputRight:ClearAllPoints();
   WeakAurasFilterInputRight:SetPoint("bottomright", filterInput, "bottomright");
   WeakAurasFilterInputRight:SetPoint("topright", filterInput, "topright");
+  end
   filterInput:SetTextInsets(16, 0, 0, 0);
   local searchIcon = filterInput:CreateTexture(nil, "overlay");
   searchIcon:SetTexture("Interface\\Common\\UI-Searchbox-Icon");
@@ -6981,7 +7126,7 @@ function WeakAuras.CreateFrame()
   filterInputClear:Hide();
   
   local buttonsScroll = AceGUI:Create("ScrollFrame");
-  buttonsScroll:SetLayout("AbsoluteList");
+  buttonsScroll:SetLayout("ButtonsScrollLayout");
   buttonsScroll.width = "fill";
   buttonsScroll.height = "fill";
   buttonsContainer:SetLayout("fill");
@@ -6997,40 +7142,20 @@ function WeakAuras.CreateFrame()
   end
   frame.buttonsScroll = buttonsScroll;
   
-  function buttonsScroll:IsChildInView(child)
-    if(child) then
-      if not(child.GetParent) then
-        child = child.frame;
-      end
-      if(child:GetParent() == buttonsScroll.content) then
-        if(child:IsVisible()) then
-          local _, _, _, _, childTop = child:GetPoint(1);
-          childTop = childTop * -1;
-          local childBottom = childTop + child:GetHeight();
-          local scrollTop, scrollBottom = self:GetScrollPos();
-          if(childTop < scrollTop) then
-            return "above";
-          elseif(childBottom > scrollBottom) then
-            return "below";
-          else
-            return true;
-          end
-        else
-          return "hidden";
-        end
-      else
-        return nil;
-      end
-    else
-      return nil;
-    end
-  end
-  
   function buttonsScroll:GetScrollPos()
     local status = self.status or self.localstatus;
     return status.offset, status.offset + self.scrollframe:GetHeight();
   end
-  
+
+  -- override SetScroll to make childrens visible as needed
+  local oldSetScroll = buttonsScroll.SetScroll;
+  buttonsScroll.SetScroll = function(self, value)
+    if (self:GetScrollPos() ~= value) then
+      oldSetScroll(self, value);
+      self:DoLayout();
+    end
+  end
+
   function buttonsScroll:SetScrollPos(top, bottom)
     local status = self.status or self.localstatus;
     local viewheight = self.scrollframe:GetHeight();
@@ -7583,12 +7708,6 @@ function WeakAuras.CreateFrame()
   local newButton = AceGUI:Create("WeakAurasNewHeaderButton");
   newButton:SetText(L["New"]);
   newButton:SetClick(function() frame:PickOption("New") end);
-  newButton.frame:SetScript("OnUpdate", function()
-    if(pickonupdate) then
-      frame:PickDisplay(pickonupdate);
-      pickonupdate = nil;
-    end
-  end);
   frame.newButton = newButton;
   
   local numAddons = 0;
@@ -7844,6 +7963,9 @@ tXmdmY4fDE5]];
       WeakAuras.regions[id].region:Expand();
       self.moversizer:SetToRegion(WeakAuras.regions[id].region, db.displays[id]);
       local _, _, _, _, yOffset = displayButtons[id].frame:GetPoint(1);
+      if (not yOffset) then
+        yOffset = displayButtons[id].frame.yOffset;
+      end
       self.buttonsScroll:SetScrollPos(yOffset, yOffset - 32);
       if(data.controlledChildren) then
         for index, childId in pairs(data.controlledChildren) do
@@ -7876,7 +7998,12 @@ tXmdmY4fDE5]];
       
       if(displayButtons[centerId]) then
         local _, _, _, _, yOffset = displayButtons[centerId].frame:GetPoint(1);
-        self.buttonsScroll:SetScrollPos(yOffset, yOffset - 32);
+        if not yOffset then
+          yOffset = displayButtons[centerId].frame.yOffset
+        end
+        if yOffset then
+          self.buttonsScroll:SetScrollPos(yOffset, yOffset - 32);
+        end
       end
     end
   end
@@ -7973,7 +8100,9 @@ function WeakAuras.NewDisplayButton(data)
   WeakAuras.AddOption(id, data);
   WeakAuras.SetIconNames(data);
   WeakAuras.SortDisplayButtons();
-  pickonupdate = id;
+
+  frame:PickDisplay(id);
+
   displayButtons[id].callbacks.OnRenameClick();
 end
 
@@ -8295,16 +8424,16 @@ function WeakAuras.CorrectAuraName(input)
     local name, _, icon = GetSpellInfo(spellId);
     if(name) then
       iconCache[name] = icon;
-      return name;
+      return name, spellId;
     else
       return "Invalid Spell ID";
     end
   else
     local ret = WeakAuras.BestKeyMatch(input, iconCache);
     if(ret == "") then
-      return "No Match Found";
+      return "No Match Found", nil;
     else
-      return ret;
+      return ret, nil;
     end
   end
 end

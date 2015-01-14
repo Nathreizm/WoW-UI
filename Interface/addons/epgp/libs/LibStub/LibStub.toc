@@ -5,5 +5,9 @@
 ## X-Website: http://jira.wowace.com/browse/LS
 ## X-Category: Library
 ## X-License: Public Domain	
+## X-Curse-Packaged-Version: v5.11.4
+## X-Curse-Project-Name: epgp (dkp reloaded)
+## X-Curse-Project-ID: epgp-dkp-reloaded
+## X-Curse-Repository-ID: wow/epgp-dkp-reloaded/mainline
 
 LibStub.lua

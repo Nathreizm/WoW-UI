@@ -183,18 +183,14 @@ end
 -- Quet'zal
 
 do
-	local everyoneElse, scheduled = {}, nil
+	local scheduled = {}, nil
 	local function checkArcLightning(spellName, checkOpen)
-		local debuffs = nil
-		wipe(everyoneElse)
-		-- seems easier than table searching/removing/inserting. multi-target should take a name-keyed table ;[
 		if not mod.isEngaged then return end -- This can run after wipe, so check if the encounter is engaged
-		for i=1, GetNumGroupMembers() do
-			local name = GetRaidRosterInfo(i)
-			if UnitDebuff(name, spellName) then
+		local debuffs = nil
+		for unit in mod:IterateGroup() do
+			if UnitDebuff(unit, spellName) then
 				debuffs = true
-			elseif UnitAffectingCombat(name) then -- XXX doesn't update for bres/ss/reincarnate
-				everyoneElse[#everyoneElse+1] = name
+				break
 			end
 		end
 		if not debuffs then
@@ -204,7 +200,7 @@ do
 		if mod:LFR() then return end
 
 		if UnitDebuff("player", spellName) then
-			mod:OpenProximity(136193, 12, everyoneElse) -- open multi-target proximity if you have Arcing Lighning
+			mod:OpenProximity(136193, 12) -- open Arcing Lighning
 		elseif checkOpen then
 			mod:CloseProximity(136193) -- close multi-target
 			-- reopen Lightning Storm/Unleashed Flame

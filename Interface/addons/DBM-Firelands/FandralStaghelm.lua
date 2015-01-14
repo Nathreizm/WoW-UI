@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(197, "DBM-Firelands", nil, 78)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 99 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 142 $"):sub(12, -3))
 mod:SetCreatureID(52571)
 mod:SetEncounterID(1185)
 mod:DisableEEKillDetection()
@@ -14,11 +14,11 @@ mod:SetModelSound("Sound\\Creature\\FandralFlameDruid\\VO_FL_FANDRAL_GATE_INTRO_
 mod:RegisterCombat("combat")
 
 mod:RegisterEventsInCombat(
-	"SPELL_AURA_APPLIED",
-	"SPELL_AURA_APPLIED_DOSE",
-	"SPELL_AURA_REMOVED",
-	"SPELL_CAST_START",
-	"SPELL_CAST_SUCCESS"
+	"SPELL_AURA_APPLIED 98374 98379 97238 97235 98535 98584 98450",
+	"SPELL_AURA_APPLIED_DOSE 97238 97235 98584",
+	"SPELL_AURA_REMOVED 98450",
+	"SPELL_CAST_START 98451",
+	"SPELL_CAST_SUCCESS 98476"
 )
 
 local warnAdrenaline			= mod:NewStackAnnounce(97238, 3)
@@ -30,7 +30,7 @@ local yellLeapingFlames			= mod:NewYell(98476)
 local specWarnLeapingFlamesCast	= mod:NewSpecialWarningYou(98476)
 local specWarnLeapingFlamesNear	= mod:NewSpecialWarningClose(98476)
 local specWarnLeapingFlames		= mod:NewSpecialWarningMove(98535)
-local specWarnSearingSeed		= mod:NewSpecialWarningMove(98450)
+local specWarnSearingSeed		= mod:NewSpecialWarningMoveAway(98450)
 local specWarnOrb				= mod:NewSpecialWarningStack(98584, true, 4)
 
 local timerOrbActive			= mod:NewBuffActiveTimer(64, 98451)
@@ -39,8 +39,6 @@ local timerSearingSeed			= mod:NewBuffFadesTimer(60, 98450)
 local timerNextSpecial			= mod:NewTimer(4, "timerNextSpecial", 97238)--This one stays localized because it's 1 timer used for two abilities
 
 local berserkTimer				= mod:NewBerserkTimer(600)
-
-local soundSeed					= mod:NewSound(98450)
 
 mod:AddBoolOption("RangeFrameSeeds", true)
 mod:AddBoolOption("RangeFrameCat", false)--Diff options for each ability cause seeds strat is pretty universal, don't blow up raid, but leaps may or may not use a stack strategy, plus melee will never want it on by default.
@@ -110,16 +108,12 @@ function mod:LeapingFlamesTarget(targetname)
 	else
 		local uId = DBM:GetRaidUnitId(targetname)
 		if uId then
-			local x, y = GetPlayerMapPosition(uId)
-			if x == 0 and y == 0 then
-				SetMapToCurrentZone()
-				x, y = GetPlayerMapPosition(uId)
-			end
-			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
+			local inRange = DBM.RangeCheck:GetDistance("player", uId)
 			if inRange and inRange < 13 then
 				recentlyJumped = true--Anti Spam
 				specWarnLeapingFlamesNear:Show(targetname)
 				if self.Options.LeapArrow then
+					local x, y = UnitPosition(uId)
 					DBM.Arrow:ShowRunAway(x, y, 12, 5)
 				end
 				self:Schedule(2.5, clearLeapWarned)--Clear it a little faster for near warnings though, cause  you definitely don't need 4 seconds to move if it wasn't even on YOU.
@@ -163,7 +157,8 @@ function mod:OnCombatEnd()
 end
 
 function mod:SPELL_AURA_APPLIED(args)
-	if args.spellId == 98374 then		-- Cat Form (99574? maybe the form id for druids with staff)
+	local spellId = args.spellId
+	if spellId == 98374 then		-- Cat Form
 		kitty = true
 		abilityCount = 0
 		timerNextSpecial:Cancel()
@@ -171,7 +166,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.RangeFrameCat then
 			DBM.RangeCheck:Show(10)
 		end
-	elseif args.spellId == 98379 then	-- Scorpion Form
+	elseif spellId == 98379 then	-- Scorpion Form
 		kitty = false
 		abilityCount = 0
 		timerNextSpecial:Cancel()
@@ -179,7 +174,7 @@ function mod:SPELL_AURA_APPLIED(args)
 		if self.Options.RangeFrameCat and not UnitDebuff("player", seedsDebuff) then--Only hide range finder if you do not have seed.
 			DBM.RangeCheck:Hide()
 		end
-	elseif args.spellId == 97238 then
+	elseif spellId == 97238 then
 		abilityCount = (args.amount or 1)--This should change your ability account to his current stack, which is disconnect friendly.
 		warnAdrenaline:Show(args.destName, args.amount or 1)
 		if kitty then
@@ -187,19 +182,18 @@ function mod:SPELL_AURA_APPLIED(args)
 		else
 			timerNextSpecial:Start(abilityTimers[abilityCount] or 3.7, swipe, abilityCount+1)
 		end
-	elseif args.spellId == 97235 then
+	elseif spellId == 97235 then
 		warnFury:Show(args.destName, args.amount or 1)
-	elseif args.spellId == 98535 and args:IsPlayer() and not recentlyJumped then
+	elseif spellId == 98535 and args:IsPlayer() and not recentlyJumped then
 		specWarnLeapingFlames:Show()--You stood in the fire!
-	elseif args.spellId == 98584 and args:IsPlayer() then
+	elseif spellId == 98584 and args:IsPlayer() then
 		if (args.amount or 1) >= 4 then
 			specWarnOrb:Show(args.amount)--You stood in the fire!
 		end
 		timerOrb:Start()
-	elseif args.spellId == 98450 and args:IsPlayer() then
+	elseif spellId == 98450 and args:IsPlayer() then
 		local _, _, _, _, _, duration, expires, _, _ = UnitDebuff("player", args.spellName)--Find out what our specific seed timer is
 		specWarnSearingSeed:Schedule(expires - GetTime() - 5)	-- Show "move away" warning 5secs before explode
-		soundSeed:Schedule(expires - GetTime() - 5)
 		timerSearingSeed:Start(expires-GetTime())
 		if self.Options.RangeFrameSeeds then
 			DBM.RangeCheck:Show(12)
@@ -209,9 +203,9 @@ end
 mod.SPELL_AURA_APPLIED_DOSE = mod.SPELL_AURA_APPLIED
 
 function mod:SPELL_AURA_REMOVED(args)
-	if args.spellId == 98450 and args:IsPlayer() then
+	local spellId = args.spellId
+	if spellId == 98450 and args:IsPlayer() then
 		specWarnSearingSeed:Cancel()
-		soundSeed:Cancel()
 		timerSearingSeed:Cancel()
 		if self.Options.RangeFrameSeeds then
 			DBM.RangeCheck:Hide()
@@ -220,14 +214,16 @@ function mod:SPELL_AURA_REMOVED(args)
 end
 
 function mod:SPELL_CAST_START(args)
-	if args.spellId == 98451 then
+	local spellId = args.spellId
+	if spellId == 98451 then
 		warnOrbs:Show()
 		timerOrbActive:Start()
 	end
 end
 
 function mod:SPELL_CAST_SUCCESS(args)
-	if args.spellId == 98476 then
+	local spellId = args.spellId
+	if spellId == 98476 then
 		targetScansDone = 0
 		self:TargetScanner()
 	end

@@ -7,6 +7,7 @@ local find, format = string.find, string.format
 local floor = math.floor
 local twipe, tinsert, tconcat = table.wipe, table.insert, table.concat
 
+local S_ITEM_LEVEL = ITEM_LEVEL:gsub( "%%d", "(%%d+)" )
 local playerGUID = UnitGUID("player")
 local targetList, inspectCache = {}, {}
 local NIL_COLOR = { r=1, g=1, b=1 }
@@ -34,16 +35,6 @@ local tooltips = {
 	DropDownList2MenuBackdrop,
 	DropDownList3MenuBackdrop,
 	BNToastFrame
-}
-
-local levelAdjust = {
-	["0"]=0,["1"]=8,["373"]=4,["374"]=8,["375"]=4,["376"]=4,
-	["377"]=4,["379"]=4,["380"]=4,["445"]=0,["446"]=4,["447"]=8,
-	["451"]=0,["452"]=8,["453"]=0,["454"]=4,["455"]=8,["456"]=0,
-	["457"]=8,["458"]=0,["459"]=4,["460"]=8,["461"]=12,["462"]=16,
-	["465"]=0,["466"]=4,["467"]=8,["468"]=0,["469"]=4,["470"]=8,
-	["471"]=12,["472"]=16,["491"]=0,["492"]=4,["493"]=8,["494"]=0,
-	["495"]=4,["496"]=8,["497"]=12,["498"]=16,
 }
 
 local classification = {
@@ -176,6 +167,7 @@ end
 
 function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 	if E.private.tooltip.enable ~= true then return end
+
 	if(tt:GetAnchorType() ~= "ANCHOR_NONE") then return end
 	if InCombatLockdown() and self.db.visibility.combat then
 		tt:Hide()
@@ -228,26 +220,53 @@ function TT:GameTooltip_SetDefaultAnchor(tt, parent)
 	end
 end
 
-function TT:GetItemLvL(unit)
-	local total, item = 0, 0
+function TT:GetAvailableTooltip()
+	for i=1, #GameTooltip.shoppingTooltips do
+		if(not GameTooltip.shoppingTooltips[i]:IsShown()) then
+			return GameTooltip.shoppingTooltips[i]
+		end
+	end
+end
 
+function TT:ScanForItemLevel(itemLink)
+	local tooltip = self:GetAvailableTooltip();
+	tooltip:SetOwner(UIParent, "ANCHOR_NONE");
+	tooltip:SetHyperlink(itemLink);
+	tooltip:Show();
+
+	local itemLevel = 0;
+	for i = 2, tooltip:NumLines() do
+		local text = _G[ tooltip:GetName() .."TextLeft"..i]:GetText();
+		if(text and text ~= "") then
+			local value = tonumber(text:match(S_ITEM_LEVEL));
+			if(value) then
+				itemLevel = value;
+			end
+		end
+	end
+  
+	tooltip:Hide();
+	return itemLevel
+end
+
+function TT:GetItemLvL(unit)
+	local total, item = 0, 0;
 	for i = 1, #SlotName do
-		local slot = GetInventoryItemLink(unit, GetInventorySlotInfo(("%sSlot"):format(SlotName[i])))
-		if (slot ~= nil) then
-			local _, _, _, ilvl = GetItemInfo(slot)
-			local upgrade = slot:match(":(%d+)\124h%[")
-			if ilvl ~= nil then
-				item = item + 1
-				total = total + ilvl + (upgrade and levelAdjust[upgrade] or 0)
+		local itemLink = GetInventoryItemLink(unit, GetInventorySlotInfo(("%sSlot"):format(SlotName[i])));
+		if (itemLink ~= nil) then
+			local itemLevel = self:ScanForItemLevel(itemLink);
+			if(itemLevel and itemLevel > 0) then
+				item = item + 1;
+				total = total + itemLevel;
 			end
 		end
 	end
 
-	if (total < 1 or item < 15) then
+	if(total < 1 or item < 15) then
 		return
 	end
 	
-	return floor(total / item);
+	return floor(total / item)
 end
 
 function TT:RemoveTrashLines(tt)
@@ -497,6 +516,7 @@ function TT:GameTooltip_OnTooltipSetUnit(tt)
 	else
 		GameTooltipStatusBar:SetStatusBarColor(0.6, 0.6, 0.6)
 	end
+
 end
 
 function TT:GameTooltipStatusBar_OnValueChanged(tt, value)
@@ -528,22 +548,32 @@ function TT:GameTooltip_OnTooltipSetItem(tt)
 	if not tt.itemCleared then
 		local item, link = tt:GetItem()
 		local num = GetItemCount(link)
-		local left = ""
-		local right = ""
-		
+		local numall = GetItemCount(link,true)
+		local left = " "
+		local right = " "
+		local bankCount = " "
+
 		if link ~= nil and self.db.spellID then
 			left = (("|cFFCA3C3C%s|r %s"):format(ID, link)):match(":(%w+)")
 		end
-		
-		if num > 1 and self.db.itemCount then
+
+		if self.db.itemCount == "BAGS_ONLY" then
 			right = ("|cFFCA3C3C%s|r %d"):format(L['Count'], num)
+		elseif self.db.itemCount == "BANK_ONLY" then
+			bankCount = ("|cFFCA3C3C%s|r %d"):format(L['Bank'],(numall - num))
+		elseif self.db.itemCount == "BOTH" then
+			right = ("|cFFCA3C3C%s|r %d"):format(L['Count'], num)
+			bankCount = ("|cFFCA3C3C%s|r %d"):format(L['Bank'],(numall - num))
 		end
-		
-		if left ~= "" or right ~= "" then
+
+		if left ~= " " or right ~= " " then
 			tt:AddLine(" ")
 			tt:AddDoubleLine(left, right)
 		end
-		
+		if bankCount ~= " " then
+			tt:AddDoubleLine(" ", bankCount)
+		end
+
 		tt.itemCleared = true
 	end
 end
@@ -637,6 +667,18 @@ function TT:RepositionBNET(frame, point, anchor, anchorPoint, xOffset, yOffset)
 	end
 end
 
+function TT:CheckBackdropColor()
+	local r, g, b = GameTooltip:GetBackdropColor()
+	r = E:Round(r, 1)
+	g = E:Round(g, 1)
+	b = E:Round(b, 1)
+	local red, green, blue, alpha = unpack(E.media.backdropfadecolor)
+
+	if(r ~= red or g ~= green or b ~= blue) then
+		GameTooltip:SetBackdropColor(red, green, blue, alpha)
+	end
+end
+
 function TT:Initialize()
 	self.db = E.db.tooltip
 
@@ -667,7 +709,7 @@ function TT:Initialize()
 	self:SecureHook('GameTooltip_SetDefaultAnchor')
 	self:SecureHook('GameTooltip_ShowStatusBar')
 	self:SecureHook("SetItemRef")
-	self:SecureHook("GameTooltip_ShowCompareItem")
+	--self:SecureHook("GameTooltip_ShowCompareItem")
 	self:SecureHook(GameTooltip, "SetUnitAura")
 	self:SecureHook(GameTooltip, "SetUnitBuff", "SetUnitAura")
 	self:SecureHook(GameTooltip, "SetUnitDebuff", "SetUnitAura")
@@ -676,10 +718,12 @@ function TT:Initialize()
 	self:HookScript(GameTooltip, 'OnTooltipCleared', 'GameTooltip_OnTooltipCleared')
 	self:HookScript(GameTooltip, 'OnTooltipSetItem', 'GameTooltip_OnTooltipSetItem')
 	self:HookScript(GameTooltip, 'OnTooltipSetUnit', 'GameTooltip_OnTooltipSetUnit')
+	self:HookScript(GameTooltip, "OnSizeChanged", "CheckBackdropColor")
+
 	self:HookScript(GameTooltipStatusBar, 'OnValueChanged', 'GameTooltipStatusBar_OnValueChanged')
 	
 	self:RegisterEvent("MODIFIER_STATE_CHANGED")
-
+	self:RegisterEvent("CURSOR_UPDATE", "CheckBackdropColor")
 	E.Skins:HandleCloseButton(ItemRefCloseButton)
 	for _, tt in pairs(tooltips) do
 		self:HookScript(tt, 'OnShow', 'SetStyle')

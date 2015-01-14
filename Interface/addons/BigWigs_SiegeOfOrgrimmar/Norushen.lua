@@ -6,13 +6,13 @@
 local mod, CL = BigWigs:NewBoss("Norushen", 953, 866)
 if not mod then return end
 mod:RegisterEnableMob(72276, 71977, 71976, 71967) -- Amalgam of Corruption, Manifestation of Corruption, Essence of Corruption, Norushen
+mod.engageId = 1624
 
 --------------------------------------------------------------------------------
 -- Locals
 --
 
 local bigAddSpawnCounter, bigAddKillCounter = 0, 0
-local throttlePlayers = {} -- Throttle users that have BW & DBM installed >.>
 local bigAddKills = {}
 local percent = 50
 
@@ -51,7 +51,6 @@ function mod:GetOptions()
 end
 
 function mod:OnBossEnable()
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
 	if IsEncounterInProgress() then
 		self:OpenAltPower("altpower", 147800, "AZ", true) -- Corruption
 	end
@@ -75,9 +74,6 @@ function mod:OnBossEnable()
 	self:Log("SPELL_AURA_APPLIED", "Phase2", 146179) -- Phase 2, "Frayed"
 	self:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", nil, "boss1")
 
-	self:RegisterEvent("ENCOUNTER_START")
-	self:RegisterEvent("ENCOUNTER_END")
-
 	self:AddSyncListener("BlindHatred")
 	self:AddSyncListener("InsideBigAddDeath", 0)
 	self:AddSyncListener("OutsideBigAddDeath", 0)
@@ -90,24 +86,7 @@ function mod:OnBossEnable()
 end
 
 function mod:Warmup()
-	-- Backup for ENCOUNTER_START not always firing.
 	self:Bar("warmup", 26, COMBAT, "ability_titankeeper_quarantine")
-end
-
-function mod:ENCOUNTER_START(_, id)
-	if id == 1624 then
-		self:Bar("warmup", 26, COMBAT, "ability_titankeeper_quarantine")
-	end
-end
-
-function mod:ENCOUNTER_END(_, id, name, diff, size, win)
-	if id == 1624 then
-		if win == 1 then
-			self:Win(true)
-		else
-			self:Wipe()
-		end
-	end
 end
 
 function mod:OnEngage()
@@ -115,7 +94,6 @@ function mod:OnEngage()
 	self:Berserk(self:LFR() and 600 or 418)
 	self:Bar(145226, 25) -- Blind Hatred
 	wipe(bigAddKills)
-	wipe(throttlePlayers)
 	percent = 50
 	self:OpenAltPower("altpower", 147800, "AZ", true) -- Corruption
 end
@@ -193,19 +171,16 @@ function mod:UnleashCorruption()
 	self:Sync("Phase2BigAddSpawn") -- Big adds spawning outside in p2
 end
 
-function mod:OnSync(sync, rest, player)
+function mod:OnSync(sync, rest)
 	if sync == "BlindHatred" then
 		self:Message(145226, "Important", "Long")
 		self:Bar(145226, 60)
 	elseif sync == "Phase2" then
 		self:Message("stages", "Neutral", "Warning", CL.phase:format(2), 146179)
 		self:UnregisterUnitEvent("UNIT_HEALTH_FREQUENT", "boss1")
-	elseif sync == "InsideBigAddDeath" then
-		local t = GetTime()
-		if throttlePlayers[player] and (t - throttlePlayers[player]) < 5 then
-			return
-		end
-		throttlePlayers[player] = t
+	elseif sync == "InsideBigAddDeath" and rest then
+		-- Custom throttle to work around a really rare bug in the encounter where the normal phase will sometimes merge with the "inside" phase and everyone sees the death event of the add, rather than the 1 person.
+		if bigAddKills[rest] then return else bigAddKills[rest] = true end
 
 		bigAddSpawnCounter = bigAddSpawnCounter + 1
 		if self:LFR() then
@@ -223,8 +198,9 @@ function mod:OnSync(sync, rest, player)
 			self:CDBar("big_adds", 5, L.big_add:format(bigAddSpawnCounter), 147082)
 		end
 		percent = percent - 10
-	elseif sync == "OutsideBigAddDeath" and rest and rest ~= "" then -- XXX backwards compat
+	elseif sync == "OutsideBigAddDeath" and rest then
 		if bigAddKills[rest] then return else bigAddKills[rest] = true end -- Custom throttle to catch 2 big adds dieing outside at the same time
+
 		bigAddKillCounter = bigAddKillCounter + 1
 		if bigAddKillCounter > bigAddSpawnCounter then
 			bigAddSpawnCounter = bigAddKillCounter -- Compensate for no boss mod players (LFR) :[
@@ -233,15 +209,15 @@ function mod:OnSync(sync, rest, player)
 	end
 end
 
-function mod:OnDBMSync(_, player, prefix, _, _, event)
-	if prefix == "M" and event == "ManifestationDied" then
-		self:OnSync("InsideBigAddDeath", nil, player)
+function mod:OnDBMSync(_, _, prefix, _, _, event, guid)
+	if prefix == "M" and event == "ManifestationDied" and guid ~= "" then
+		self:OnSync("InsideBigAddDeath", guid)
 	end
 end
 
 function mod:Deaths(args)
 	if args.mobId == 71977 then -- Big add inside (Manifestation of Corruption)
-		self:Sync("InsideBigAddDeath")
+		self:Sync("InsideBigAddDeath", args.destGUID)
 	elseif args.mobId == 72264 then -- Big add outside (Unleashed Manifestation of Corruption)
 		self:Sync("OutsideBigAddDeath", args.destGUID)
 	end

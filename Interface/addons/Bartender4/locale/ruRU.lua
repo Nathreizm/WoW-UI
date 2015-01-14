@@ -8,13 +8,14 @@ if not L then return end
 L["ActionBar Paging"] = "Листание панелей"
 L["Alpha"] = "Прозрачность"
 L["ALT"] = "Alt"
--- L["Alternatively, you can also find us on |cffffff78irc://irc.freenode.org/wowace|r"] = "Alternatively, you can also find us on |cffffff78irc://irc.freenode.org/wowace|r"
+L["Alternatively, you can also find us on |cffffff78irc://irc.freenode.org/wowace|r"] = "Также, вы можете найти нас на  |cffffff78irc://irc.freenode.org/wowace|r" -- Needs review
 L["Always Hide"] = "Всегда скрывать"
 L["Anchor"] = "Якорь"
 L["Apply Preset"] = "Применить предустановку"
-L["Auto-Assist"] = "Авто-Помощь"
+-- L["Auto-Assist Casting"] = "Auto-Assist Casting"
 L["Bag Bar"] = "Панель сумок"
 L["Bar Options"] = "Опции панели"
+L["Bar Paging"] = "Листание панелей с кнопками" -- Needs review
 L["Bars"] = "Панели"
 L["Bar %s"] = "Панель № %s"
 L["Bar Snapping"] = "Прилипание панелей"
@@ -55,7 +56,7 @@ L["Configure the alpha of the bar."] = "Настройка прозрачнос�
 L["Configure the Bag Bar"] = "Настройка панели сумок"
 L["Configure the Blizzard Art Bar"] = "Настроить панели Blizzard Арт"
 L["Configure the Button Tooltip."] = "Настройка всплывающих подсказок для кнопок."
--- L["Configure the Extra Action Bar"] = "Configure the Extra Action Bar"
+L["Configure the Extra Action Bar"] = "Настроить Extra Action Bar" -- Needs review
 L["Configure the Fade Out Alpha"] = "Настройка прозрачности исчезновения"
 L["Configure the Fade Out Delay"] = "Настройка задержки исчезновения"
 L["Configure the Micro Menu"] = "Настройка системных кнопок"
@@ -78,18 +79,21 @@ L["Disabled in Combat"] = "Отключать в бою"
 L["Don't Page"] = "Не листать"
 L["Down"] = "Вниз"
 L["Empty button background"] = "Фон пустых клавиш"
-L[ [=[Enable Auto-Assist for this bar.
- Auto-Assist will automatically try to cast on your target's target if your target is no valid target for the selected spell.]=] ] = [=[Включить авто-помощь для этой панели.
-Авто-помощь будет автоматически пытаться применить ваше заклинание на цель цели, если оно не может быть использовано на вашу цель.]=]
+--[==[ L[ [=[Enable Auto-Assist for this bar.
+Auto-Assist will automatically try to cast on your target's target if your target is no valid target for the selected spell.]=] ] = [=[Enable Auto-Assist for this bar.
+Auto-Assist will automatically try to cast on your target's target if your target is no valid target for the selected spell.]=] ]==]
 L[ [=[Enable Bar Switching based on the actionbar controls provided by the game. 
 See Blizzard Key Bindings for assignments - Usually Shift-Mouse Wheel and Shift+1 - Shift+6.]=] ] = [=[Включить смену панелей, основанную на установках панелей команд в игре. 
 Смотрите назначения клавиш в игре — обычно это Shift+Колесо мыши и Shift+1 - Shift+6.]=]
 L["Enabled"] = "Включено"
 L["Enable/Disable the bar."] = "Включить/Отключить панель."
+--[==[ L[ [=[Enable Mouse-Over Casting for this bar.
+Mouse-Over Casting will automatically cast onto the unit under your mouse without targeting it, if possible.]=] ] = [=[Enable Mouse-Over Casting for this bar.
+Mouse-Over Casting will automatically cast onto the unit under your mouse without targeting it, if possible.]=] ]==]
 L["Enable State-based Button Swaping"] = "Разрешить переключение панелей"
 L["Enable the Bag Bar"] = "Включить панель сумок"
 L["Enable the Blizzard Art Bar"] = "Разрешить панели Blizzard Арт"
--- L["Enable the Extra Action Bar"] = "Enable the Extra Action Bar"
+L["Enable the Extra Action Bar"] = "Включить Extra Action Bar" -- Needs review
 L["Enable the FadeOut mode"] = "Включить исчезновение панели"
 L["Enable the Micro Menu"] = "Включить микроменю"
 L["Enable the PetBar"] = "Включить панель питомца"
@@ -99,12 +103,12 @@ L["Enable the use of a custom condition, disabling all of the above."] = "Раз
 L["Enable the use of the Blizzard Vehicle UI, hiding any Bartender4 bars in the meantime."] = "Разрешить использование стандартного интерфейса управления транспортом, все панели Bartender4 будут скрыты на это время."
 L["Enable the Vehicle Bar"] = "Включить панель транспорта"
 L["Enable the XP Bar"] = "Включить полосу опыта"
--- L["Extra Action Bar"] = "Extra Action Bar"
+L["Extra Action Bar"] = "Extra Action Bar" -- Needs review
 L["Fade Out"] = "Исчезновение"
 L["Fade Out Alpha"] = "Прозрачность исчезновения"
 L["Fade Out Delay"] = "Задержка сокрытия"
 L["FAQ"] = "ЧаВо"
--- L["Flyout Direction"] = "Flyout Direction"
+L["Flyout Direction"] = "Flyout Direction" -- Needs review
 L["Focus-Cast by modifier"] = "Применение к фокусу по модификатору"
 L["Focus-Cast Modifier"] = "Применение к фокусу"
 L["Frequently Asked Questions"] = "Часто задаваемые Вопросы"
@@ -151,8 +155,16 @@ L["Lock the buttons."] = "Заблокировать кнопки."
 L["Micro Menu"] = "Микроменю"
 L["Minimap Icon"] = "Иконка у мини-карты"
 L["Modifier Based Switching"] = "Переключение, основанное на модификаторах"
+-- L["Mouse-Over Casting"] = "Mouse-Over Casting"
+-- L["Mouse-Over casting can be limited to be only active when a modifier key is being held down. You can configure the modifier in the global \"Bar\" Options."] = "Mouse-Over casting can be limited to be only active when a modifier key is being held down. You can configure the modifier in the global \"Bar\" Options."
+-- L["Mouse-Over Casting Modifier"] = "Mouse-Over Casting Modifier"
 L["No Display"] = "Не отображать"
 L["None"] = "Нет"
+--[==[ L[ [=["None" as modifier means its always active, and no modifier is required.
+
+Remember to enable Mouse-Over Casting for the individual bars, on the "State Configuration" tab, if you want it to be active for a specific bar.]=] ] = [=["None" as modifier means its always active, and no modifier is required.
+
+Remember to enable Mouse-Over Casting for the individual bars, on the "State Configuration" tab, if you want it to be active for a specific bar.]=] ]==]
 L["No Stance/Form"] = "Нет стоек/форм"
 L["Note: Enabling Custom Conditionals will disable all of the above settings!"] = "Заметка: включение своих условий повлечёт за собой отключение указанных выше настроек!"
 L["Number of buttons."] = "Количество кнопок на панели."
@@ -179,6 +191,7 @@ L["Right-click Self-Cast"] = "ПКМ – применение к себе"
 L["Right ending"] = "Правый край"
 L["Rows"] = "Строки"
 L["Scale"] = "Масштаб"
+-- L["Select a modifier for Mouse-Over Casting"] = "Select a modifier for Mouse-Over Casting"
 L["Select the Focus-Cast Modifier"] = "Выбрать модификатор для прочтения заклинания на фокус"
 L["Select the Self-Cast Modifier"] = "Выбрать модификатор для прочтения заклинания на себя"
 L["Self-Cast by modifier"] = "Чтение на себя по модификатору"
@@ -187,6 +200,7 @@ L["SHIFT"] = "Shift"
 L["Show a Icon to open the config at the Minimap"] = "Отображать иконку у мини-карты для открытия настроек"
 L["Show Reputation Bar"] = "Отобразить панель репутации"
 L["Show XP Bar"] = "Отобразить панель опыта"
+-- L["Smart Target selection"] = "Smart Target selection"
 L["Specify the Color of the Out of Mana Indicator"] = "Выбрать цвет для индикации нехватки маны"
 L["Specify the Color of the Out of Range Indicator"] = "Выберите цвет для индикации недостижимости"
 L["Stance Bar"] = "Панель стоек"
@@ -198,6 +212,7 @@ L["The background of button places where no buttons are placed"] = "Фон на 
 L["The bar default is to be visible all the time, you can configure conditions here to control when the bar should be hidden."] = "По умолчанию панели будут отображаться всегда. Здесь вы можете настроить условия сокрытия панелей."
 L["The default behaviour of this bar when no state-based paging option affects it."] = "Поведение данной панели когда она не попадает под какие-либо другие модификаторы состояния."
 L["The Positioning options here will allow you to position the bar to your liking and with an absolute precision."] = "Опции позиционирования позволят вам определить местоположение панелей с абсолютной точностью"
+-- L["These options can automatically select a different target for your spell, based on macro conditions. Note however that they will overrule any target changes from normal macros."] = "These options can automatically select a different target for your spell, based on macro conditions. Note however that they will overrule any target changes from normal macros."
 L["This bar will be hidden once you enter combat."] = "Данная панель будет скрыта, как только вы вступите в бой."
 L["This bar will be hidden whenever you are not in combat."] = "Данная панель будет скрыта, пока вы находитесь вне боя."
 L["Three bars stacked"] = "Сложены три панели" -- Needs review

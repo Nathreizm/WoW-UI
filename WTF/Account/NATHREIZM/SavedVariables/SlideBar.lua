@@ -1,5 +1,5 @@
 
 SlideBarConfig = {
 	["anchor"] = "right",
-	["position"] = 219.000006565824,
+	["position"] = 229.999995809049,
 }

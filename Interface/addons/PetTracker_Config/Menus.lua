@@ -1,5 +1,5 @@
 --[[
-Copyright 2012-2013 João Cardoso
+Copyright 2012-2014 João Cardoso
 PetTracker is distributed under the terms of the GNU General Public License (Version 3).
 As a special exception, the copyright holders of this addon do not give permission to
 redistribute and/or modify it.
@@ -25,8 +25,8 @@ function Menus:Startup()
 		Addon:ForAllModules('AddOptions', self)
 	end)
 
-	local FAQ = self:CreatePanel('FAQ', ADDON)
-	FAQ:SetChildren(function(self)
+	local Help = self:CreatePanel(HELP_LABEL, ADDON)
+	Help:SetChildren(function(self)
 		for i = 1, #Questions, 2 do
 			local question = self:CreateChild('Header')
 			question:SetWidth(400)
@@ -40,9 +40,9 @@ function Menus:Startup()
 		end
 	end)
 
-	local ShowTutorial = SushiButton(FAQ)
+	local ShowTutorial = SushiButton(Help)
 	ShowTutorial:SetText(RESET_TUTORIALS)
-	ShowTutorial:SetPoint('LEFT', FAQ, 'TOP', 170, -70)
+	ShowTutorial:SetPoint('LEFT', Help, 'TOP', 170, -70)
 	ShowTutorial:SetCall('OnClick', function()
 		Addon.Tutorial:Restart()
 		HideUIPanel(InterfaceOptionsFrame)
@@ -55,7 +55,7 @@ function Menus:CreatePanel(name, parent)
 	local group = SushiMagicGroup(panel)
 
 	group:SetAddon(ADDON)
-	group:SetFooter('Copyright 2012-2013 João Cardoso')
+	group:SetFooter('Copyright 2012-2014 João Cardoso')
 	panel.parent = parent
 	panel.name = name
 

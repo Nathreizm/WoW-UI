@@ -6,17 +6,9 @@ MapsterDB = {
 		["Coords"] = {
 		},
 		["FogClear"] = {
-			["global"] = {
-				["errata"] = {
-					["STVDiamondMineBG"] = {
-						["17469"] = 310904028324,
-						["17467"] = 185973492097,
-					},
-				},
-			},
 			["profiles"] = {
 				["Default"] = {
-					["version"] = 1,
+					["version"] = 2,
 				},
 				["Nathreizm - Cho'gall"] = {
 					["version"] = 1,
@@ -31,9 +23,11 @@ MapsterDB = {
 		["Boytoyz - Rexxar"] = "Default",
 		["Lavasham - Cho'gall"] = "Default",
 		["Littleboytoy - Rexxar"] = "Default",
+		["Ahrian - Arthas"] = "Default",
 		["Nathreizm - Cho'gall"] = "Nathreizm - Cho'gall",
 		["Lolmithrios - Rexxar"] = "Default",
 		["Nathreizm - Arthas"] = "Default",
+		["Nathreizm - Stormreaver"] = "Default",
 		["Boomflower - Rexxar"] = "Default",
 		["Preistyp - Cho'gall"] = "Default",
 		["Magemagey - Cho'gall"] = "Default",
@@ -41,31 +35,32 @@ MapsterDB = {
 		["Nathreizm - Rexxar"] = "Default",
 		["Nathtrain - Cho'gall"] = "Default",
 		["Demheals - Cho'gall"] = "Default",
-		["Littleboytoy - Cho'gall"] = "Default",
-		["Mithrios - Rexxar"] = "Default",
-		["Prettypretty - Rexxar"] = "Default",
-		["Songandrargo - Kil'jaeden"] = "Default",
 		["Nathreizm - Perenolde"] = "Default",
+		["Nathreizm - Drenden"] = "Default",
+		["Songandrargo - Kil'jaeden"] = "Default",
+		["Littleboytoy - Cho'gall"] = "Default",
+		["Prettypretty - Rexxar"] = "Default",
+		["Mithrios - Rexxar"] = "Default",
+		["Nathreizm - Azralon"] = "Default",
+		["Nathreizm - Thrall"] = "Default",
 	},
 	["profiles"] = {
-		["WARRIOR"] = {
-		},
 		["Rexxar"] = {
 		},
+		["WARRIOR"] = {
+		},
 		["Default"] = {
-			["arrowScale"] = 0.8500000000000001,
-			["x"] = 8.455269597990991,
-			["point"] = "TOP",
-			["scale"] = 1,
+			["scale"] = 1.16,
 			["questPanels"] = 0,
-			["y"] = -3.280235691076086,
+			["y"] = 23.8846691572435,
+			["x"] = -90.9771572965638,
 		},
 		["Nathreizm - Cho'gall"] = {
-			["scale"] = 0.8730911612510681,
-			["questPanels"] = 0,
-			["y"] = 3.999995195699739,
-			["x"] = -32.97713166755602,
+			["y"] = 3.99999519569974,
+			["x"] = -32.977131667556,
 			["point"] = "TOP",
+			["scale"] = 0.873091161251068,
+			["questPanels"] = 0,
 		},
 	},
 }

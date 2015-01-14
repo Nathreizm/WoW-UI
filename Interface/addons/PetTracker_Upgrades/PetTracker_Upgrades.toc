@@ -1,4 +1,4 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: PetTracker Upgrades
 ## Notes: Warns you when wild pets you might want appear in combat.
 ## Author: Jaliborc (João Cardoso)

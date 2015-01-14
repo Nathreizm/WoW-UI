@@ -1,9 +1,10 @@
-## Interface: 50400
+## Interface: 60000
 ## Title: PetTracker
 ## Notes: Tracking pets in and out of combat since 2012.
 ## Author: Jaliborc (João Cardoso)
+## Version: 6.0.13
 
-## SavedVariables: PetTracker_Tutorial, PetTracker_Sets
+## SavedVariables: PetTracker_Sets
 ## SavedVariablesPerCharacter: PetTracker_State
 ## X-Category: Battle Pets
 ## OptionalDeps: WoWUnit

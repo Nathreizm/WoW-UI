@@ -1,4 +1,4 @@
-local L = LibStub("AceLocale-3.0"):NewLocale("Ra-den Assist", "esES")
+local L = BigWigs:NewBossLocale("Ra-den Assist", "esES")
 if not L then return end
 
 L["allowed"] = "Miembros de banda actualizados" -- Needs review

@@ -1,14 +1,18 @@
-if not Skinner:isAddonEnabled("MinimapButtonFrame") then return end
+local aName, aObj = ...
+if not aObj:isAddonEnabled("MinimapButtonFrame") then return end
+local _G = _G
 
-function Skinner:MinimapButtonFrame()
+function aObj:MinimapButtonFrame()
 
-	self:applySkin(MBFRestoreButtonFrame)
-	self:applySkin(MinimapButtonFrame)
+	self:skinButton{obj=_G.MinimapButtonFrameDragButton}
+	self:addSkinFrame{obj=_G.MinimapButtonFrame, nb=true}
+	self:skinButton{obj=_G.MBFRestoreButton}
+	self:addSkinFrame{obj=_G.MBFRestoreButtonFrame, nb=true}
 
 	-- create a button skin
-	MBFAddSkin("Skinner", nil, nil, 35)
+	_G.MBFAddSkin("Skinner", nil, nil, 35)
 
-	MinimapButtonFrame.SetBackdropColor = function() end
-	MinimapButtonFrame.SetBackdropBorderColor = function() end
+	_G.MinimapButtonFrame.SetBackdropColor = function() end
+	_G.MinimapButtonFrame.SetBackdropBorderColor = function() end
 
 end

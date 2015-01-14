@@ -1,4 +1,4 @@
-﻿local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
+local E, L, V, P, G = unpack(select(2, ...)); --Inport: Engine, Locales, PrivateDB, ProfileDB, GlobalDB
 local CH = E:NewModule('Chat', 'AceTimer-3.0', 'AceHook-3.0', 'AceEvent-3.0')
 local LSM = LibStub("LibSharedMedia-3.0")
 local CreatedFrames = 0;
@@ -15,6 +15,9 @@ local cvars = {
 
 local len, gsub, find, sub, gmatch, format, random = string.len, string.gsub, string.find, string.sub, string.gmatch, string.format, math.random
 local tinsert, tremove, tsort, twipe, tconcat = table.insert, table.remove, table.sort, table.wipe, table.concat
+
+local PLAYER_REALM = gsub(E.myrealm,'[%s%-]','')
+local PLAYER_NAME = E.myname.."-"..PLAYER_REALM
 
 local TIMESTAMP_FORMAT
 local DEFAULT_STRINGS = {
@@ -114,32 +117,26 @@ local rolePaths = {
 
 local specialChatIcons = {
 	["BleedingHollow"] = {
-		["Tirain"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\tyrone_biggums_chat_logo.tga:16:18|t"
+		["Tirain"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\tyroneBiggums.tga:16:18|t"
 	},
 	["Spirestone"] = {
-		["Sinth"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\tyrone_biggums_chat_logo.tga:16:18|t",
-		["Elvz"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\ElvUI_Chat_Logo:13:22|t",
-		["Sarah"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\mr_hankey.tga:18:22|t",
-		["Itzjonny"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\hulk_head:18:22|t",
-		["Elv"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\ElvUI_Chat_Logo:13:22|t",
-		["Athlina"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\heart_chat_logo.tga:15:15|t",
-		["Brronwyn"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\heart_chat_logo.tga:15:15|t",
-		["Gwendollyn"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\heart_chat_logo.tga:15:15|t",
-		["Selystel"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\heart_chat_logo.tga:15:15|t",
-		["Wowzakapow"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\heart_chat_logo.tga:15:15|t",
-		["Letsyles"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\heart_chat_logo.tga:15:15|t",
-		["Temptora"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\heart_chat_logo.tga:15:15|t",
-		["Incisìon"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\short_bus.tga:16:16|t",
-	},
-	["Tichondrious"] = {
-		["Athlina"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\heart_chat_logo.tga:15:15|t",
+		["Sinth"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\tyroneBiggums.tga:16:18|t",
 	},
 	["Illidan"] = {
-		["Affinichi"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\Bathrobe_Chat_Logo.blp:15:15|t",
-		["Uplift"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\Bathrobe_Chat_Logo.blp:15:15|t",
-		["Affinitii"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\Bathrobe_Chat_Logo.blp:15:15|t",
-		["Affinity"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\Bathrobe_Chat_Logo.blp:15:15|t"
-	}
+		["Affinichi"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\bathrobe.blp:15:15|t",
+		["Uplift"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\bathrobe.blp:15:15|t",
+		["Affinitii"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\bathrobe.blp:15:15|t",
+		["Affinity"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\bathrobe.blp:15:15|t"
+	},
+	["ShatteredHand"] = {
+		["Elv"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\elvui.blp:13:22|t",
+		["Sarah"] =  "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\elvui.blp:13:22|t",
+		["Sara"] =  "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\helloKitty.tga:18:20|t",
+
+		["Vinceypoo"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\illuminati.tga:18:18|t",
+		["Vincey"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\illuminati.tga:18:18|t",
+		["Vinceanity"] = "|TInterface\\AddOns\\ElvUI\\media\\textures\\chatLogos\\illuminati.tga:18:18|t",	
+	},
 }
 
 CH.Keywords = {};
@@ -473,12 +470,12 @@ function CH:UpdateAnchors()
 end
 
 function CH:PositionChat(override)
-	if not self.db.lockPositions or ((InCombatLockdown() and not override and self.initialMove) or (IsMouseButtonDown("LeftButton") and not override)) then return end
+	if ((InCombatLockdown() and not override and self.initialMove) or (IsMouseButtonDown("LeftButton") and not override)) then return end
 	if not RightChatPanel or not LeftChatPanel then return; end
-	RightChatPanel:SetSize(E.db.chat.panelWidth, E.db.chat.panelHeight)
+	RightChatPanel:SetSize(E.db.chat.separateSizes and E.db.chat.panelWidthRight or E.db.chat.panelWidth, E.db.chat.separateSizes and E.db.chat.panelHeightRight or E.db.chat.panelHeight)
 	LeftChatPanel:SetSize(E.db.chat.panelWidth, E.db.chat.panelHeight)	
 	
-	if E.private.chat.enable ~= true then return end
+	if not self.db.lockPositions or E.private.chat.enable ~= true then return end
 		
 	local chat, chatbg, tab, id, point, button, isDocked, chatFound
 	for _, frameName in pairs(CHAT_FRAMES) do
@@ -520,7 +517,6 @@ function CH:PositionChat(override)
 				isDocked = false
 			end	
 		end	
-
 		
 		if point == "BOTTOMRIGHT" and chat:IsShown() and not (id > NUM_CHAT_WINDOWS) and id == self.RightChatWindowID then
 			chat:ClearAllPoints()
@@ -531,12 +527,11 @@ function CH:PositionChat(override)
 				chat:SetPoint("BOTTOMLEFT", RightChatDataPanel, "BOTTOMLEFT", 1, 1)
 			end
 			if id ~= 2 then
-				chat:SetSize(E.db.chat.panelWidth - 11, (E.db.chat.panelHeight - BASE_OFFSET))
+				chat:SetSize((E.db.chat.separateSizes and E.db.chat.panelWidthRight or E.db.chat.panelWidth) - 11, (E.db.chat.separateSizes and E.db.chat.panelHeightRight or E.db.chat.panelHeight) - BASE_OFFSET)
 			else
 				chat:SetSize(E.db.chat.panelWidth - 11, (E.db.chat.panelHeight - BASE_OFFSET) - CombatLogQuickButtonFrame_Custom:GetHeight())				
 			end
-			
-			
+
 			FCF_SavePositionAndDimensions(chat)			
 			
 			tab:SetParent(RightChatPanel)
@@ -718,7 +713,7 @@ function CH:DisableChatThrottle()
 end
 
 function CH:ShortChannel()
-	return format("|Hchannel:%s|h[%s]|h", self, DEFAULT_STRINGS[self] or self:gsub("channel:", ""))
+	return format("|Hchannel:%s|h[%s]|h", self, DEFAULT_STRINGS[self:upper()] or self:gsub("channel:", ""))
 end
 
 function CH:ConcatenateTimeStamp(msg)
@@ -736,23 +731,42 @@ end
 
 
 
-local function GetBNFriendColor(name, id)
-	local _, _, game, _, _, _, _, class = BNGetToonInfo(id)
-
-	if game ~= BNET_CLIENT_WOW or not class then
-		return name
-	else
-		for k,v in pairs(LOCALIZED_CLASS_NAMES_MALE) do if class == v then class = k end end
-		for k,v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do if class == v then class = k end end
-
-		if RAID_CLASS_COLORS[class] then
-			return "|c"..RAID_CLASS_COLORS[class].colorStr..name.."|r"
-		else
-			return name
+function CH:GetBNFriendColor(name, id)
+	local _, _, _, _, _, _, _, class = BNGetToonInfo(id)
+	if(not class or class == "") then
+		local toonName, toonID
+		for i=1, BNGetNumFriends() do
+			_, presenceName, _, _, _, toonID = BNGetFriendInfo(i)
+			if(presenceName == name) then
+				_, _, _, _, _, _, _, class = BNGetToonInfo(toonID)
+				if(class) then
+					break;
+				end
+			end
 		end
+	end
+
+	if(class) then
+		for k,v in pairs(LOCALIZED_CLASS_NAMES_MALE) do if class == v then class = k end end
+		for k,v in pairs(LOCALIZED_CLASS_NAMES_FEMALE) do if class == v then class = k end end	
+	end
+
+	if(not class or not RAID_CLASS_COLORS[class]) then
+		return name
+	end
+
+
+	if RAID_CLASS_COLORS[class] then
+		return "|c"..RAID_CLASS_COLORS[class].colorStr..name.."|r"
+	else
+		return name
 	end
 end
 
+
+function CH:GetPluginReplacementIcon(nameRealm)
+	return 
+end
 
 E.NameReplacements = {}
 function CH:ChatFrame_MessageEventHandler(event, ...)
@@ -916,11 +930,9 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 				arg4 = arg4.." "..arg10;
 			end
 			
-			globalString = CH:ConcatenateTimeStamp(globalstring);
-			
 			local accessID = ChatHistory_GetAccessID(Chat_GetChatCategory(type), arg8);
 			local typeID = ChatHistory_GetAccessID(infoType, arg8, arg12);
-			self:AddMessage(format(globalstring, arg8, arg4), info.r, info.g, info.b, info.id, false, accessID, typeID);
+			self:AddMessage(format(CH:ConcatenateTimeStamp(globalstring), arg8, arg4), info.r, info.g, info.b, info.id, false, accessID, typeID);
 		elseif ( type == "BN_CONVERSATION_NOTICE" ) then
 			local channelLink = format(CHAT_BN_CONVERSATION_GET_LINK, arg8, MAX_WOW_CHAT_CHANNELS + arg8);
 			local playerLink = format("|HBNplayer:%s:%s:%s:%s:%s|h[%s]|h", arg2, arg13, arg11, Chat_GetChatCategory(type), arg8, arg2);
@@ -984,56 +996,52 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			end
 			
 			-- Add AFK/DND flags
-			local pflag;
-			if(strlen(arg6) > 0) then
-				if ( arg6 == "GM" ) then
-					--If it was a whisper, dispatch it to the GMChat addon.
-					if ( type == "WHISPER" ) then
-						return;
-					end
-					--Add Blizzard Icon, this was sent by a GM
-					pflag = "|TInterface\\ChatFrame\\UI-ChatIcon-Blizz:12:20:0:0:32:16:4:28:0:16|t ";
-				elseif ( arg6 == "DEV" ) then
-					--Add Blizzard Icon, this was sent by a Dev
-					pflag = "|TInterface\\ChatFrame\\UI-ChatIcon-Blizz:12:20:0:0:32:16:4:28:0:16|t ";
-				else					
-					pflag = _G["CHAT_FLAG_"..arg6];
-				end
-			else
-				local myRealm = E.myrealm
-				myRealm = myRealm:gsub(' ', '')
-				if specialChatIcons[myRealm] then
-					for character, texture in pairs(specialChatIcons[myRealm]) do
-						if arg2 == character then
-							pflag = texture
-						end							
-					end
-					
-					for realm, _ in pairs(specialChatIcons) do
-						if realm ~= myRealm then
-							for character, texture in pairs(specialChatIcons[realm]) do
-								if arg2 == character.."-"..realm then
-									pflag = texture
-								end			
-							end
-						end
-					end
-				else
-					for realm, _ in pairs(specialChatIcons) do
-						for character, texture in pairs(specialChatIcons[realm]) do
-							if arg2 == character.."-"..realm then
-								pflag = texture
-							end		
-						end
-					end					
-				end
+            local pflag;
+            local pluginIcon, flags = CH:GetPluginReplacementIcon(arg2, arg6, type)
+            if(pluginIcon and flags) then
+                pflag = pluginIcon
+            else
+                if(strlen(arg6) > 0) then
+                    if ( arg6 == "GM" ) then
+                        --If it was a whisper, dispatch it to the GMChat addon.
+                        if ( type == "WHISPER" ) then
+                            return;
+                        end
+                        --Add Blizzard Icon, this was sent by a GM
+                        pflag = "|TInterface\\ChatFrame\\UI-ChatIcon-Blizz:12:20:0:0:32:16:4:28:0:16|t ";
+                    elseif ( arg6 == "DEV" ) then
+                        --Add Blizzard Icon, this was sent by a Dev
+                        pflag = "|TInterface\\ChatFrame\\UI-ChatIcon-Blizz:12:20:0:0:32:16:4:28:0:16|t ";
+                    else                    
+                        pflag = _G["CHAT_FLAG_"..arg6];
+                    end
+                else
+                    if(specialChatIcons[PLAYER_REALM] and specialChatIcons[PLAYER_REALM][E.myname] ~= true) then
+                        for realm, _ in pairs(specialChatIcons) do
+                            for character, texture in pairs(specialChatIcons[realm]) do
+                                if arg2 == character.."-"..realm then
+                                    pflag = texture
+                                end        
+                            end
+                        end
+                    else
+                        if(pluginIcon) then
+                            pflag = pluginIcon
+                        end
+                    end
+    
+                    if(pflag == true) then
+                        pflag = nil
+                    end
+                    
+                    if(not pflag and lfgRoles[arg2] and (type == "PARTY_LEADER" or type == "PARTY" or type == "RAID" or type == "RAID_LEADER" or type == "INSTANCE_CHAT" or type == "INSTANCE_CHAT_LEADER")) then
+                        pflag = lfgRoles[arg2]
+                    end
+                end
+                
+                pflag = pflag or ""
+            end
 
-				if(not pflag and lfgRoles[arg2] and (type == "PARTY_LEADER" or type == "PARTY" or type == "RAID" or type == "RAID_LEADER" or type == "INSTANCE_CHAT" or type == "INSTANCE_CHAT_LEADER")) then
-					pflag = lfgRoles[arg2]
-				end
-
-				pflag = pflag or ""
-			end
 			if ( type == "WHISPER_INFORM" and GMChatFrame_IsGM and GMChatFrame_IsGM(arg2) ) then
 				return;
 			end
@@ -1076,7 +1084,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			if ( type ~= "BN_WHISPER" and type ~= "BN_WHISPER_INFORM" and type ~= "BN_CONVERSATION" ) then
 				playerLink = "|Hplayer:"..arg2..":"..arg11..":"..chatGroup..(chatTarget and ":"..chatTarget or "").."|h";
 			else
-				coloredName = GetBNFriendColor(arg2, arg13)
+				coloredName = CH:GetBNFriendColor(arg2, arg13)
 				playerLink = "|HBNplayer:"..arg2..":"..arg13..":"..arg11..":"..chatGroup..(chatTarget and ":"..chatTarget or "").."|h";
 			end
 			
@@ -1120,7 +1128,7 @@ function CH:ChatFrame_MessageEventHandler(event, ...)
 			
 			local accessID = ChatHistory_GetAccessID(chatGroup, chatTarget);
 			local typeID = ChatHistory_GetAccessID(infoType, chatTarget, arg12 == "" and arg13 or arg12);
-			if CH.db.shortChannels then
+			if CH.db.shortChannels and type ~= "EMOTE" and type ~= "TEXT_EMOTE" then
 				body = body:gsub("|Hchannel:(.-)|h%[(.-)%]|h", CH.ShortChannel)
 				body = body:gsub('CHANNEL:', '')
 				body = body:gsub("^(.-|h) "..L['whispers'], "%1")
@@ -1205,20 +1213,23 @@ function CH:SetupChat(event, ...)
 		frame:SetShadowOffset((E.mult or 1), -(E.mult or 1))	
 		frame:SetFading(self.db.fade)
 		
-		frame:SetScript("OnHyperlinkClick", URLChatFrame_OnHyperlinkShow)
-		frame:SetScript("OnMouseWheel", ChatFrame_OnMouseScroll)
-		
-		if id > NUM_CHAT_WINDOWS then
-			frame:SetScript("OnEvent", CH.FloatingChatFrame_OnEvent)
-		elseif id ~= 2 then
-			frame:SetScript("OnEvent", CH.ChatFrame_OnEvent)
-		end
-		
-		hooksecurefunc(frame, "SetScript", function(f, script, func)
-			if script == "OnMouseWheel" and func ~= ChatFrame_OnMouseScroll then
-				f:SetScript(script, ChatFrame_OnMouseScroll)
+		if not frame.scriptsSet then
+			frame:SetScript("OnHyperlinkClick", URLChatFrame_OnHyperlinkShow)
+			frame:SetScript("OnMouseWheel", ChatFrame_OnMouseScroll)
+			
+			if id > NUM_CHAT_WINDOWS then
+				frame:SetScript("OnEvent", CH.FloatingChatFrame_OnEvent)
+			elseif id ~= 2 then
+				frame:SetScript("OnEvent", CH.ChatFrame_OnEvent)
 			end
-		end)
+			
+			hooksecurefunc(frame, "SetScript", function(f, script, func)
+				if script == "OnMouseWheel" and func ~= ChatFrame_OnMouseScroll then
+					f:SetScript(script, ChatFrame_OnMouseScroll)
+				end
+			end)
+			frame.scriptsSet = true
+		end
 	
 		if not _G[frameName.."Tab"].glow.anim then
 			E:SetUpAnimGroup(_G[frameName.."Tab"].glow)
@@ -1264,7 +1275,7 @@ function CH:CHAT_MSG_CHANNEL(event, message, author, ...)
 	local msg = PrepareMessage(author, message)
 
 	-- ignore player messages
-	if author == UnitName("player") then return CH.FindURL(self, event, message, author, ...) end
+	if author == PLAYER_NAME then return CH.FindURL(self, event, message, author, ...) end
 	if msgList[msg] and CH.db.throttleInterval ~= 0 then
 		if difftime(time(), msgTime[msg]) <= CH.db.throttleInterval then
 			blockFlag = true
@@ -1289,7 +1300,7 @@ function CH:CHAT_MSG_YELL(event, message, author, ...)
 	if msg == nil then return CH.FindURL(self, event, message, author, ...) end	
 
 	-- ignore player messages
-	if author == UnitName("player") then return CH.FindURL(self, event, message, author, ...) end
+	if author == PLAYER_NAME then return CH.FindURL(self, event, message, author, ...) end
 	if msgList[msg] and msgCount[msg] > 1 and CH.db.throttleInterval ~= 0 then
 		if difftime(time(), msgTime[msg]) <= CH.db.throttleInterval then
 			blockFlag = true
@@ -1316,6 +1327,18 @@ function CH:ThrottleSound()
 end
 
 function CH:CheckKeyword(message)
+	for itemLink in message:gmatch("|%x+|Hitem:.-|h.-|h|r") do
+		for keyword, _ in pairs(CH.Keywords) do
+			if itemLink == keyword then
+				if self.db.keywordSound ~= 'None' and not self.SoundPlayed  then
+					PlaySoundFile(LSM:Fetch("sound", self.db.keywordSound), "Master")
+					self.SoundPlayed = true
+					self.SoundTimer = CH:ScheduleTimer('ThrottleSound', 1)
+				end
+			end
+		end
+	end
+	
 	local rebuiltString, lowerCaseWord
 	local isFirstWord = true
 	for word in message:gmatch("[^%s]+") do
@@ -1456,12 +1479,12 @@ local function GetTimeForSavedMessage()
 end
 
 function CH:SaveChatHistory(event, ...)
-	if self.db.throttleInterval ~= 0 and (event == 'CHAT_MESSAGE_SAY' or event == 'CHAT_MESSAGE_YELL' or event == 'CHAT_MSG_CHANNEL') then	
+	if self.db.throttleInterval ~= 0 and (event == 'CHAT_MSG_SAY' or event == 'CHAT_MSG_YELL' or event == 'CHAT_MSG_CHANNEL') then	
 		self:ChatThrottleHandler(event, ...)		
 		
 		local message, author = ...
 		local msg = PrepareMessage(author, message)
-		if author ~= UnitName("player") and msgList[msg] then
+		if author ~= PLAYER_NAME and msgList[msg] then
 			if difftime(time(), msgTime[msg]) <= CH.db.throttleInterval then
 				return;
 			end
@@ -1553,20 +1576,22 @@ end
 function CH:CheckLFGRoles()
 	local isInGroup, isInRaid = IsInGroup(), IsInRaid()
 	local unit = isInRaid and "raid" or "party"
-
+	local name, realm 
 	twipe(lfgRoles)
 	if(not isInGroup or not self.db.lfgIcons) then return end
 
 	local role = UnitGroupRolesAssigned("player")
 	if(role) then
-		lfgRoles[E.myname] = rolePaths[role]
+		lfgRoles[PLAYER_NAME] = rolePaths[role]
 	end
 
 	for i=1, GetNumGroupMembers() do
 		if(UnitExists(unit..i) and not UnitIsUnit(unit..i, "player")) then
 			role = UnitGroupRolesAssigned(unit..i)
-			local name = GetUnitName(unit..i, true)
+			name, realm = UnitName(unit..i)
+			
 			if(role and name) then
+				name = realm and name..'-'..realm or name..'-'..PLAYER_REALM;
 				lfgRoles[name] = rolePaths[role]
 			end
 		end
@@ -1708,9 +1733,9 @@ function CH:Initialize()
 	end)	
 	
 	if self.db.chatHistory then
-		self.SoundPlayed = true;
-		self:DisplayChatHistory()
-		self.SoundPlayed = nil;
+		--self.SoundPlayed = true;
+		--self:DisplayChatHistory()
+		--self.SoundPlayed = nil;
 	end
 		
 	

@@ -6,7 +6,7 @@
 local mod, CL = BigWigs:NewBoss("Ordos", 951, 861)
 if not mod then return end
 mod:RegisterEnableMob(72057)
-mod.otherMenu = 6
+mod.otherMenu = 862
 mod.worldBoss = 72057
 
 --------------------------------------------------------------------------------
@@ -18,6 +18,7 @@ if L then
 	L.engage_yell = "You will take my place on the eternal brazier."
 
 	L.burning_soul_bar = "Explosions"
+	L.burning_soul_self_bar = "You explode!"
 end
 L = mod:GetLocale()
 
@@ -61,12 +62,12 @@ end
 
 function mod:MagmaCrush(args)
 	self:Message(args.spellId, "Urgent", nil, CL["casting"]:format(args.spellName))
-	self:CDBar(args.spellId, 12) -- 15.7 29.1 24.1 13.3 20.6 12.1
+	self:CDBar(args.spellId, 12)
 end
 
 function mod:PoolOfFire(args)
 	self:Message(args.spellId, "Attention", "Alarm")
-	self:CDBar(args.spellId, 32) -- 32.6 33.8 41.3
+	self:CDBar(args.spellId, 32)
 end
 
 do
@@ -84,7 +85,7 @@ end
 
 function mod:AncientFlame(args)
 	self:Message(args.spellId, "Attention")
-	self:CDBar(args.spellId, 44) -- 43.5 45.9
+	self:CDBar(args.spellId, 44)
 end
 
 do
@@ -94,7 +95,7 @@ do
 			local t = GetTime()
 			if t-prev > 4 then
 				prev = t
-				self:Message(144695, "Personal", "Info", CL["near"]:format(args.spellName))
+				self:Message(144695, "Personal", "Info", CL["you"]:format(args.spellName))
 			end
 		end
 	end
@@ -103,17 +104,20 @@ end
 do
 	local coloredNames, burningSoulList, isOnMe, scheduled = mod:NewTargetList(), {}, nil, nil
 	local function warnBurningSoul(spellId)
-		mod:CDBar(spellId, 24) -- 23.8 - 41.4
+		mod:CDBar(spellId, 24)
 		mod:Bar(spellId, 10, L.burning_soul_bar)
-		if not isOnMe then
-			mod:OpenProximity(spellId, 8, burningSoulList)
+		if isOnMe then
+			mod:Bar(spellId, 10, L.burning_soul_self_bar)
+		else
+			mod:OpenProximity(spellId, 10, burningSoulList)
+			mod:Bar(spellId, 10, L.burning_soul_bar)
 		end
 		for i,v in ipairs(burningSoulList) do
 			coloredNames[i] = v
+			burningSoulList[i] = nil
 		end
 		mod:TargetMessage(spellId, coloredNames, "Urgent", "Alert", nil, nil, true)
 		scheduled = nil
-		wipe(burningSoulList)
 	end
 
 	function mod:BurningSoulRemoved(args)
@@ -125,7 +129,7 @@ do
 		if self:Me(args.destGUID) then
 			self:Flash(args.spellId)
 			self:Say(args.spellId)
-			self:OpenProximity(args.spellId, 8)
+			self:OpenProximity(args.spellId, 10)
 			isOnMe = true
 		end
 

@@ -1,5 +1,5 @@
-## Interface: 50400
-## X-Curse-Packaged-Version: 1.51
+## Interface: 60000
+## X-Curse-Packaged-Version: r38-release
 ## X-Curse-Project-Name: BigWigs_Ra-denAssist
 ## X-Curse-Project-ID: bigwigs_ra-denassist
 ## X-Curse-Repository-ID: wow/bigwigs_ra-denassist/mainline
@@ -16,6 +16,6 @@
 ## X-Category: Raid
 ## X-BigWigs-LoadOn-ZoneId: 930
 
-locales.xml
 Core.lua
+locales.xml
 

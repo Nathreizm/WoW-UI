@@ -10,8 +10,9 @@ end
 
 L = BigWigs:NewBossLocale("Horridon", "koKR")
 if L then
-	L.charge_trigger = "시선을" -- 호리돈이 시선을 PLAYERNAME에게 고정하고 꼬리를 바닥에 쿵쿵 내려칩니다!
-	L.door_trigger = "모래의 분노" -- 파락키, 모래의 분노로 적의 껍질을 벗겨라!
+	L.charge_trigger = "시선을"
+	L.door_trigger = "모래의 분노"
+	--L.orb_trigger = "charge" -- PLAYERNAME forces Horridon to charge the Farraki door!
 
 	L.chain_lightning_message = "당신의 주시 대상이 연쇄 번개를 시전합니다!"
 	L.chain_lightning_bar = "주시 대상: 연쇄 번개"
@@ -42,6 +43,7 @@ if L then
 	L.custom_on_markpossessed = "빙의된 보스 공격대 아이콘"
 	L.custom_on_markpossessed_desc = "영혼에 빙의된 보스에게 해골 공격대 아이콘을 표시합니다."
 
+	--L.priestess_heal = "%s was healed!"
 	L.assault_stun = "탱커 기절!"
 	L.assault_message = "혹한의 공격"
 	L.full_power = "전체 기력"
@@ -178,7 +180,6 @@ if L then
 
 	L.last_inermission_ability = "마지막 도관 작동 능력 사용!"
 	L.safe_from_stun = "당신은 과충전 기절에 안전"
-	L.intermission = "도관 작동 중지"
 	L.diffusion_add = "연쇄 확산"
 	L.shock = "전하 충격"
 	L.static_shock_bar = "<Static Shock Split>"
@@ -200,8 +201,6 @@ end
 
 L = BigWigs:NewBossLocale("Throne of Thunder Trash", "koKR")
 if L then
-	L.displayname = "Trash"
-
 	L.stormcaller = "Zandalari Storm-Caller"
 	L.stormbringer = "Stormbringer Draz'kil"
 	L.monara = "Monara"

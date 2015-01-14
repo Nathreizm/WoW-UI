@@ -27,12 +27,8 @@ local function BuildABConfig()
 					type = 'toggle',
 					name = L['Enable'],
 					set = function(info, value)
-						if i == 6 then
-							E:StaticPopup_Show("BAR6_CONFIRMATION")						
-						else
-							E.db.actionbar['bar'..i][ info[#info] ] = value; 
-							AB:PositionAndSizeBar('bar'..i)
-						end
+						E.db.actionbar['bar'..i][ info[#info] ] = value; 
+						AB:PositionAndSizeBar('bar'..i)
 					end,
 				},
 				restorePosition = {
@@ -350,9 +346,9 @@ local function BuildABConfig()
 				desc = L["This setting will be updated upon changing stances."],
 				values = {
 					['darkenInactive'] = L['Darken Inactive'],
-					['classic'] = L['Classic']
+					['classic'] = L['Classic'],
 				},
-			},		
+			},
 		},
 	}
 end
@@ -425,7 +421,8 @@ E.Options.args.actionbar = {
 			desc = L['Color of the actionbutton when out of range.'],
 			get = function(info)
 				local t = E.db.actionbar[ info[#info] ]
-				return t.r, t.g, t.b, t.a
+				local d = P.actionbar[info[#info]]
+				return t.r, t.g, t.b, t.a, d.r, d.g, d.b
 			end,
 			set = function(info, r, g, b)
 				E.db.actionbar[ info[#info] ] = {}
@@ -441,7 +438,8 @@ E.Options.args.actionbar = {
 			desc = L['Color of the actionbutton when out of power (Mana, Rage, Focus, Holy Power).'],
 			get = function(info)
 				local t = E.db.actionbar[ info[#info] ]
-				return t.r, t.g, t.b, t.a
+				local d = P.actionbar[info[#info]]
+				return t.r, t.g, t.b, t.a, d.r, d.g, d.b
 			end,
 			set = function(info, r, g, b)
 				E.db.actionbar[ info[#info] ] = {}

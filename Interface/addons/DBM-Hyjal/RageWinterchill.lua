@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("Rage", "DBM-Hyjal")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 527 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 535 $"):sub(12, -3))
 mod:SetCreatureID(17767)
 mod:SetModelID(17444)
 mod:SetZone()
@@ -26,7 +26,7 @@ local specWarnDnD		= mod:NewSpecialWarningMove(31258)
 
 local berserkTimer		= mod:NewBerserkTimer(600)
 
-mod:AddBoolOption("IceBoltIcon", true)
+mod:AddBoolOption("IceBoltIcon", false)
 
 function mod:OnCombatStart(delay)
 	berserkTimer:Start(-delay)

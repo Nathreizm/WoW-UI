@@ -2,23 +2,23 @@
 BagnonFrameSettings = {
 	["frames"] = {
 		["inventory"] = {
-			["y"] = 218.9999389648438,
+			["y"] = 190.999954223633,
 			["dataBrokerObject"] = "epgp",
-		},
-		["guildbank"] = {
-			["y"] = 247.5001525878906,
-			["x"] = 209.4626922607422,
-			["point"] = "BOTTOMLEFT",
 		},
 		["voidstorage"] = {
 			["point"] = "BOTTOMLEFT",
-			["y"] = 245.9999389648438,
+			["y"] = 245.999938964844,
+		},
+		["guildbank"] = {
+			["point"] = "BOTTOMLEFT",
+			["y"] = 247.500152587891,
+			["x"] = 209.462692260742,
 		},
 		["bank"] = {
-			["y"] = 144.9999847412109,
-			["x"] = 500.0000610351563,
-			["point"] = "BOTTOMLEFT",
+			["point"] = "BOTTOMRIGHT",
+			["y"] = 144.999984741211,
+			["x"] = -431.999877929688,
 		},
 	},
-	["version"] = "5.4.9",
+	["version"] = "6.0.16",
 }

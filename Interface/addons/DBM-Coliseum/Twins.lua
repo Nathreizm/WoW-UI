@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod("ValkTwins", "DBM-Coliseum")
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 133 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 142 $"):sub(12, -3))
 mod:SetCreatureID(34497, 34496)
 mod:SetEncounterID(1089)
 mod:SetModelID(29240)
@@ -40,7 +40,7 @@ local timerDarkTouch				= mod:NewTargetTimer(20, 66001)
 local timerAchieve					= mod:NewAchievementTimer(180, 3815, "TimerSpeedKill")
 
 mod:AddBoolOption("SpecialWarnOnDebuff", false, "announce")
-mod:AddBoolOption("SetIconOnDebuffTarget", true)
+mod:AddBoolOption("SetIconOnDebuffTarget", false)
 mod:AddBoolOption("HealthFrame", true)
 
 local debuffTargets					= {}

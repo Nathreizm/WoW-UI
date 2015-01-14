@@ -1,12 +1,10 @@
-﻿## Interface: 50400
+﻿## Interface: 60000
 ## Author: Hegarol
-## Version: v7.07.02
+## Version: v8.00.00beta7
 ## SavedVariables: AtlasLootDB
 ## SavedVariablesPerCharacter: AtlasLootCharDB
-## Dependencies: AtlasLoot_Loader
-## LoadOnDemand: 1
-## OptionalDeps: Ace3, LibBabble-Boss-3.0, LibBabble-Inventory-3.0, LibBabble-ItemSet-3.0, LibDBIcon-1.0, LibDataBroker-1.1, LibStrataFix
-## X-Curse-Packaged-Version: v7.07.02
+## OptionalDeps: Ace3, LibStub, LibBabble-Boss-3.0, CallbackHandler-1.0, LibDataBroker-1.1
+## X-Curse-Packaged-Version: v8.00.00beta7
 ## X-Curse-Project-Name: AtlasLoot Enhanced
 ## X-Curse-Project-ID: atlasloot-enhanced
 ## X-Curse-Repository-ID: wow/atlasloot-enhanced/mainline
@@ -17,7 +15,7 @@
 ## Title-esES: AtlasLoot Enhanced
 ## Title-koKR: AtlasLoot Enhanced
 ## Title-zhCN: AtlasLoot Enhanced
-## Title-zhTW: |r|cFF0099FF[地圖]|rAtlasLoot 物品掉落[主程式]
+## Title-zhTW: AtlasLoot Enhanced |cFF0099FF[主程式]|r
 ## RealTitle-zhCN: [地图]副本掉落物品查询
 ## RealTitle-zhTW: [地圖]AtlasLoot 物品掉落[主程式]
 
@@ -35,15 +33,82 @@
 ## X-Category: Map
 ## X-License: GPL v2
 ## X-Website: http://www.atlasloot.net
-## X-Embeds: Ace3, LibBabble-Boss-3.0, LibBabble-Inventory-3.0, LibBabble-ItemSet-3.0, LibDBIcon-1.0, LibDataBroker-1.1, LibStrataFix
+## X-Embeds: LibStub, LibBabble-Boss-3.0, CallbackHandler-1.0, LibDataBroker-1.1
 ## X-Localizations: enUS, deDE, frFR, esES, koKR, zhCN, zhTW, esMX, ptBR, ruRU
 
 embeds.xml
 
-Core\AtlasLoot.xml
-Menus\Menus.xml
-Modules\Modules.xml
-Modules\CompareFrame\CompareFrame.xml
-TableRegister\TableRegister.xml
+Init.lua
+Constants.lua
+db.lua
 
-modules.xml
+Locales\Locales.lua
+Locales\constants.lua
+Locales\constants.cn.lua
+Locales\constants.de.lua
+Locales\constants.es.lua
+Locales\constants.fr.lua
+Locales\constants.kr.lua
+Locales\constants.mx.lua
+Locales\constants.pt.lua
+Locales\constants.ru.lua
+Locales\constants.tw.lua
+Locales\IngameLocales.lua
+Locales\LibBabble.lua
+
+AtlasLoot.xml
+AtlasLoot.lua
+Loader.lua
+
+Core\StaticPopupDialogs.lua
+Core\SlashCommands.lua
+Core\ClickHandler.lua
+Core\Tooltip.lua
+Core\ItemInfo.lua
+Core\TooltipScan.lua
+Core\EncounterJournal.lua
+Core\ItemQuery.lua
+Core\ItemString.lua
+Core\MapPOI.lua
+
+MiniMapButton.lua
+
+Data\Mount.lua
+Data\Token.lua
+Data\Sets.lua
+
+ItemDB\ItemDB.lua
+ItemDB\SoundData.lua
+
+Button\Button.lua
+Button\Item_type.lua
+Button\Link_type.lua
+Button\Achievement_type.lua
+Button\Profession_type.lua
+Button\Dummy_type.lua
+Button\Pet_type.lua
+Button\Mount_type.lua
+Button\Faction_type.lua
+Button\Token_type.lua
+Button\Set_type.lua
+Button\Extra_Price_type.lua
+Button\Extra_Quest_type.lua
+Button\Extra_PvP_type.lua
+Button\Extra_Location_type.lua
+
+GUI\GUI.xml
+GUI\GUI.lua
+GUI\Template_CheckBox.lua
+GUI\Template_Button.lua
+GUI\Template_Select.lua
+GUI\Template_DropDown.lua
+GUI\Template_TextWithBg.lua
+GUI\ItemFrame.lua
+GUI\ModelFrame.lua
+GUI\SoundFrame.lua
+GUI\QuickLootFrame.lua
+GUI\SetViewFrame.lua
+
+Addons\Addons.lua
+Addons\BonusRoll.lua
+Addons\Search.lua

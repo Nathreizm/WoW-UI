@@ -1,7 +1,7 @@
-MHExRTopt = {};
-MHExRTopt.panel = CreateFrame( "Frame", "MHExRTbossmods", UIParent);
-MHExRTopt.panel.name = MHExRTL.panelbossmodsmalkorokh;
-InterfaceOptions_AddCategory(MHExRTopt.panel);
+MHExRTopt = {}
+MHExRTopt.panel = CreateFrame( "Frame", "MHExRTbossmods", UIParent)
+MHExRTopt.panel.name = MHExRTL.panelbossmodsmalkorokh
+InterfaceOptions_AddCategory(MHExRTopt.panel)
 
 local MSG_PREFIX = "MHADD"
 
@@ -13,26 +13,38 @@ local malkorok_unitid = 71454
 ExRTmods.defFont = "Interface\\AddOns\\Malkorok\\media\\skurri.ttf"
 ExRTmods.barImg = "Interface\\AddOns\\Malkorok\\media\\bar17.tga"
 
-ExRT_Optpanel.title = CreateFrame("SimpleHTML","MHMHExRToptFrameTxt",MHExRTopt.panel);
-ExRT_Optpanel.title:SetWidth(500);
-ExRT_Optpanel.title:SetHeight(20);
-ExRT_Optpanel.title:SetPoint("TOPLEFT", MHExRTopt.panel, 110,-43);
-ExRT_Optpanel.title:SetFont(ExRTmods.defFont, 16,"OUTLINE");
+ExRT_Optpanel.title = CreateFrame("SimpleHTML",nil,MHExRTopt.panel)
+ExRT_Optpanel.title:SetWidth(500)
+ExRT_Optpanel.title:SetHeight(20)
+ExRT_Optpanel.title:SetPoint("TOPLEFT", MHExRTopt.panel, 110,-43)
+ExRT_Optpanel.title:SetFont(ExRTmods.defFont, 16,"OUTLINE")
 ExRT_Optpanel.title:SetText(MHExRTL.panelbossmodsmalkorokh)
 
-ExRT_Optpanel.image = CreateFrame("FRAME","MHMHExRToptFrameImg",MHExRTopt.panel);
-ExRT_Optpanel.image:SetWidth(64);
-ExRT_Optpanel.image:SetHeight(64);
-ExRT_Optpanel.image:SetBackdrop({bgFile = "Interface\\AddOns\\Malkorok\\media\\Exorsus.tga"});
-ExRT_Optpanel.image:SetPoint("TOPLEFT", MHExRTopt.panel, 32,-20);	
+ExRT_Optpanel.image = CreateFrame("FRAME",nil,MHExRTopt.panel)
+ExRT_Optpanel.image:SetWidth(64)
+ExRT_Optpanel.image:SetHeight(64)
+ExRT_Optpanel.image:SetBackdrop({bgFile = "Interface\\AddOns\\Malkorok\\media\\Exorsus.tga"})
+ExRT_Optpanel.image:SetPoint("TOPLEFT", MHExRTopt.panel, 32,-20)
 
-ExRT_Optpanel.infotxt = MHExRTopt.panel:CreateFontString(nil,"ARTWORK")
-ExRT_Optpanel.infotxt:SetFont(ExRTmods.defFont, 14,"OUTLINE");
-ExRT_Optpanel.infotxt:SetSize(550,40);
-ExRT_Optpanel.infotxt:SetPoint("BOTTOMRIGHT", MHExRTopt.panel, -20,110);
+ExRT_Optpanel.infotxt = MHExRTopt.panel:CreateFontString(nil,"ARTWORK","GameFontNormal")
+do
+	--local fontName = GameFontNormal:GetFont()
+	ExRT_Optpanel.infotxt:SetFont(ExRTmods.defFont,14,"OUTLINE")
+end
+ExRT_Optpanel.infotxt:SetTextColor(1,1,1,1)
+ExRT_Optpanel.infotxt:SetSize(550,40)
+ExRT_Optpanel.infotxt:SetPoint("BOTTOMRIGHT", MHExRTopt.panel, -20,125)
 ExRT_Optpanel.infotxt:SetJustifyH("RIGHT")
 ExRT_Optpanel.infotxt:SetJustifyV("BOTTOM")
-ExRT_Optpanel.infotxt:SetText(MHExRTL.panelsetauthor..": Афиа (Afiya) @ EU-Howling Fjord, e-mail: ykiigor@gmail.com\n"..MHExRTL.panelsettranslate)
+ExRT_Optpanel.infotxt:SetText(MHExRTL.panelsetauthor..": Afiya (Афиа) @ EU-Howling Fjord, e-mail: ykiigor@gmail.com\n"..MHExRTL.panelsettranslate)
+
+ExRT_Optpanel.thankstxt = MHExRTopt.panel:CreateFontString(nil,"ARTWORK","GameFontNormal")
+ExRT_Optpanel.thankstxt:SetTextColor(1,1,1,1)
+ExRT_Optpanel.thankstxt:SetSize(550,40)
+ExRT_Optpanel.thankstxt:SetPoint("BOTTOMRIGHT", MHExRTopt.panel, -20,110)
+ExRT_Optpanel.thankstxt:SetJustifyH("RIGHT")
+ExRT_Optpanel.thankstxt:SetJustifyV("BOTTOM")
+ExRT_Optpanel.thankstxt:SetText(MHExRTL.panelbossmodsThanks..": mysticalos, viouviou, Xnilagor, Krovikan, oscarucb")
 
 -----------------------------------------
 -- functions
@@ -66,7 +78,14 @@ function ExRTmods:SendExMsg(prefix, msg, tochat, touser)
 	end
 end
 
-
+local function GUIDtoID(guid)
+	if not guid then 
+		return 0 
+	else
+		local id = guid:match("[^%-]+%-%d+%-%d+%-%d+%-%d+%-(%d+)%-%w+")
+		return tonumber(id or 0)
+	end
+end
 
 -----------------------------------------
 -- Malkorok
@@ -90,8 +109,8 @@ local malkorok_backdrop = {}
 local malkorok_iconshow = 0
 local malkorok_dangershow = 0
 
-local malkorok_spell = "142842"
-local malkorok_spell_baoe = "142861"
+local malkorok_spell = 142842
+local malkorok_spell_baoe = 142861
 
 local malkorok_baoe_num = 0
 
@@ -108,6 +127,15 @@ local malkorok_pie_coord = {
 {{84,84},{82,185},{177,135}},	--4
 {{84,84},{177,135},{177,27}},	--5
 {{84,84},{177,27},{82,-15}},	--6
+}
+
+local malkorok_mainframe_pie_WM = {
+{r=1,g=0,b=0.05}, -- red
+{r=0,g=1,b=0.05}, -- green
+{r=1,g=1,b=1}, -- white entrance
+{r=0.95,g=1,b=0}, -- yellow
+{r=0.6,g=0,b=0.71}, -- purple
+{r=0,g=0.1,b=1}, -- blue
 }
 
 local malkorok_pie_status = {0,0,0,0,0,0,0,0}
@@ -177,12 +205,14 @@ local Malkorok_rotate_origin={x=90/256,y=90/256}
 local Malkorok_rotate_aspect=1
 local Malkorok_rotate_angle = 0
 
+local math_cos, math_sin, sqrt, acos = math.cos, math.sin, sqrt, acos
+
 local function Malkorok_RotateCoordPair (x,y,ox,oy,a,asp)
 	y=y/asp
 	oy=oy/asp
 	if a == nil then return x,y end
-	return ox + (x-ox)*math.cos(a) - (y-oy)*math.sin(a),
-		(oy + (y-oy)*math.cos(a) + (x-ox)*math.sin(a))*asp
+	return ox + (x-ox)*math_cos(a) - (y-oy)*math_sin(a),
+		(oy + (y-oy)*math_cos(a) + (x-ox)*math_sin(a))*asp
 end
 
 local Malkorok_def_angle = (3.14159/180)*8
@@ -201,8 +231,9 @@ local function Malkorok_def_angle_rotate()
 	local g5,g6 = Malkorok_RotateCoordPair(Malkorok_rotate_coords.tr.x,Malkorok_rotate_coords.tr.y,Malkorok_rotate_origin.x,Malkorok_rotate_origin.y,Malkorok_def_angle,Malkorok_rotate_aspect)
 	local g7,g8 = Malkorok_RotateCoordPair(Malkorok_rotate_coords.br.x,Malkorok_rotate_coords.br.y,Malkorok_rotate_origin.x,Malkorok_rotate_origin.y,Malkorok_def_angle,Malkorok_rotate_aspect)
 
-	for i=1,6 do		
+	for i=1,6 do
 		malkorok_mainframe_pie[i].tex:SetTexCoord(g1,g2,g3,g4,g5,g6,g7,g8)
+		malkorok_mainframe_pie[i].texWM:SetTexCoord(g1,g2,g3,g4,g5,g6,g7,g8)
 	end
 end
 
@@ -235,6 +266,22 @@ local function Malkorokfindpie(px1,py1,pxy)
 		if cos1 > 179 and cos1 < 181 then return i end
 	end
 	return 0
+end
+
+local malkorok_mapID = 0--953
+local malkorok_mapLevelID = 0--8
+local GGetPlayerMapPosition, GetNumGroupMembers, GetCurrentMapAreaID, GetCurrentMapDungeonLevel, SetMapToCurrentZone = GetPlayerMapPosition, GetNumGroupMembers, GetCurrentMapAreaID, GetCurrentMapDungeonLevel, SetMapToCurrentZone
+
+-- oscarucb: Ensure we SetMapToCurrentZone when needed before calling GetPlayerMapPosition
+local function GetPlayerMapPosition(...)
+	local now_mapID = GetCurrentMapAreaID()
+	local now_mapLevelID = GetCurrentMapDungeonLevel()
+	if malkorok_mapID ~= now_mapID or malkorok_mapLevelID ~= now_mapLevelID then
+		SetMapToCurrentZone()
+		malkorok_mapID = now_mapID
+		malkorok_mapLevelID = now_mapLevelID
+	end
+	return GGetPlayerMapPosition(...)
 end
 
 local function Malkoroktimerfunc(self,elapsed)
@@ -278,6 +325,7 @@ local function Malkoroktimerfunc(self,elapsed)
 
 				for i=1,6 do		
 					malkorok_mainframe_pie[i].tex:SetTexCoord(g1,g2,g3,g4,g5,g6,g7,g8)
+					malkorok_mainframe_pie[i].texWM:SetTexCoord(g1,g2,g3,g4,g5,g6,g7,g8)
 				end
 			end
 		else
@@ -285,6 +333,7 @@ local function Malkoroktimerfunc(self,elapsed)
 			if malkorok_rotate == true then
 				for i=1,6 do
 					malkorok_mainframe_pie[i].tex:SetTexCoord(0,180/256,0,180/256)
+					malkorok_mainframe_pie[i].texWM:SetTexCoord(0,180/256,0,180/256)
 				end	
 				Malkorok_rotate_angle = 0
 				if Malkorok_def_angle~=0 then Malkorok_def_angle_rotate() end
@@ -296,9 +345,9 @@ local function Malkoroktimerfunc(self,elapsed)
 		if n > 0 and malkorok_raid_marks_e == true then
 			for j=1,n do
 				local name, _,subgroup,_,_,class = GetRaidRosterInfo(j)
-				if name ~= nil and subgroup <= 5 and UnitIsDeadOrGhost(name)~=1 then
+				if name and subgroup <= 6 and not UnitIsDeadOrGhost(name) then
 					local px, py = GetPlayerMapPosition(name)
-					--print(name.." "..px.." "..py)
+
 					if px >= malkorok_main_coord_top_x and px<=malkorok_main_coord_bot_x and py>=malkorok_main_coord_top_y and py<=malkorok_main_coord_bot_y then
 						local px1 = (px-malkorok_main_coord_top_x)/(malkorok_main_coord_bot_x-malkorok_main_coord_top_x)*(malkorok_width-20)+10-(16/2)
 						local py1 = (py-malkorok_main_coord_top_y)/(malkorok_main_coord_bot_y-malkorok_main_coord_top_y)*(malkorok_height-20)+10-(16/2)
@@ -324,8 +373,8 @@ end
 
 local function MalkorokEventHandler(self, event, ...)
 	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
-		local _, event_n, _, _, _, _, _, destGUID , _, _, _, spellId,spellName = ...
-		if event_n == "SPELL_CAST_SUCCESS" and tostring(spellId) == malkorok_spell then
+		local _, event_n, _, _, _, _, _, destGUID , _, _, _, spellId = ...
+		if event_n == "SPELL_CAST_SUCCESS" and spellId == malkorok_spell then
 			for i=1,6 do  
 				malkorok_pie_status[i]=0
 				malkorok_mainframe_pie[i].tex:SetVertexColor(0,1,0,0.8);
@@ -336,7 +385,7 @@ local function MalkorokEventHandler(self, event, ...)
 			else
 				malkorok_baoe_num = 0
 			end
-		elseif event_n == "SPELL_CAST_SUCCESS" and tostring(spellId) == malkorok_spell_baoe then
+		elseif event_n == "SPELL_CAST_SUCCESS" and spellId == malkorok_spell_baoe then
 			malkorok_baoe_num = 0
 			malkorok_mainframe_aoecd.cooldown:SetCooldown(GetTime(), 69)
 			for i=1,6 do  
@@ -345,12 +394,11 @@ local function MalkorokEventHandler(self, event, ...)
 			end
 		elseif event_n == "UNIT_DIED" then
 			if destGUID == nil then return end
-			local unitid =tonumber((destGUID):sub(-13, -9), 16)
+			local unitid =GUIDtoID(destGUID)
 			if unitid == malkorok_unitid then
 				ExRTmods:ExBossmodsCloseAll()
 			end
 		end
-
 	elseif event == "ZONE_CHANGED_NEW_AREA" then
 		SetMapToCurrentZone()
 		if GetCurrentMapAreaID() == 811 then
@@ -389,8 +437,9 @@ local function MalkorokLoad()
 	malkorok_mainframe = CreateFrame("Frame","MHmalkorok_mainframe",UIParent);
 	malkorok_mainframe:SetHeight(malkorok_width);
 	malkorok_mainframe:SetWidth(malkorok_height);
-	malkorok_mainframe:SetPoint("TOPLEFT",UIParent, "CENTER", 0, 0);
+	malkorok_mainframe:SetPoint("TOP",UIParent, "TOP", 0, 0);
 	if ExRT["Bossmods"]~=nil and ExRT["Bossmods"]["MalkorokLeft"]~= nil and ExRT["Bossmods"]["MalkorokTop"]~= nil then
+		malkorok_mainframe:ClearAllPoints()
 		if ExRT["Bossmods"]["MalkorokLeft"] > (GetScreenWidth()-50) then ExRT["Bossmods"]["MalkorokLeft"] = GetScreenWidth() - 200 end
 		if ExRT["Bossmods"]["MalkorokLeft"] < -150 then ExRT["Bossmods"]["MalkorokLeft"] = 0 end
 		if ExRT["Bossmods"]["MalkorokTop"] < 50 then ExRT["Bossmods"]["MalkorokTop"] = 200 end
@@ -400,6 +449,7 @@ local function MalkorokLoad()
 	malkorok_mainframe:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background",edgeFile = "Interface\\AddOns\\Malkorok\\media\\border.tga",tile = false,edgeSize = 8});
 	malkorok_mainframe:SetBackdropColor(0,0,0,0.5);
 	malkorok_mainframe:SetBackdropBorderColor(0.2,0.2,0.2,0.4);
+	malkorok_mainframe:SetFrameStrata("HIGH")
 	malkorok_mainframe:EnableMouse(true);
 	malkorok_mainframe:SetMovable(true);
 	--malkorok_mainframe:SetClampedToScreen(true)
@@ -420,8 +470,9 @@ local function MalkorokLoad()
 	if ExRT["Bossmods"]["Alpha"] ~= nil then malkorok_mainframe:SetAlpha(ExRT["Bossmods"]["Alpha"]/100) end
 	if ExRT["Bossmods"]["Scale"] ~= nil then malkorok_mainframe:SetScale(ExRT["Bossmods"]["Scale"]/100) end
 
+	malkorok_mainframe.piesFrames = malkorok_mainframe_pie
 	for i=1,6 do 
-		malkorok_mainframe_pie[i] = CreateFrame("Frame","MHmalkorok_mainframe_pie_"..tostring(i),malkorok_mainframe);
+		malkorok_mainframe_pie[i] = CreateFrame("Frame",nil,malkorok_mainframe);
 		malkorok_mainframe_pie[i]:SetHeight(180);
 		malkorok_mainframe_pie[i]:SetWidth(180);
 		malkorok_mainframe_pie[i]:SetPoint("TOPLEFT",malkorok_mainframe, "TOPLEFT", 10, -10);
@@ -435,6 +486,21 @@ local function MalkorokLoad()
 
 		malkorok_mainframe_pie[i].tex:SetVertexColor(0,1,0,0.8)
 		malkorok_pie_status[i]=0
+		
+		malkorok_mainframe_pie[i].texWM = malkorok_mainframe_pie[i]:CreateTexture(nil, "BACKGROUND")
+		malkorok_mainframe_pie[i].texWM:SetTexture("Interface\\AddOns\\Malkorok\\media\\b"..tostring(i)..".tga", true)
+		malkorok_mainframe_pie[i].texWM:SetPoint("TOPLEFT",malkorok_mainframe_pie[i], "TOPLEFT", 0, 0);
+		malkorok_mainframe_pie[i].texWM:SetTexCoord(0,180/256,0,180/256)
+		malkorok_mainframe_pie[i].texWM:SetHeight(180);
+		malkorok_mainframe_pie[i].texWM:SetWidth(180);
+		malkorok_mainframe_pie[i].texWM:SetVertexColor(malkorok_mainframe_pie_WM[i].r,malkorok_mainframe_pie_WM[i].g,malkorok_mainframe_pie_WM[i].b,1)
+		
+		malkorok_mainframe_pie[i].tex:SetDrawLayer("BACKGROUND", 4)
+		malkorok_mainframe_pie[i].texWM:SetDrawLayer("BACKGROUND", 7)
+		
+		if not ExRT.Bossmods.WMarker then
+			malkorok_mainframe_pie[i].texWM:Hide()
+		end
 	end
 
 	malkorok_mainframe:SetScript("OnMouseDown", function(self,button)
@@ -460,6 +526,7 @@ local function MalkorokLoad()
 				malkorok_rotate = false
 				for i=1,6 do
 					malkorok_mainframe_pie[i].tex:SetTexCoord(0,180/256,0,180/256)
+					malkorok_mainframe_pie[i].texWM:SetTexCoord(0,180/256,0,180/256)
 				end
 				Malkorok_rotate_angle = 0
 				if Malkorok_def_angle~=0 then Malkorok_def_angle_rotate() end	
@@ -493,7 +560,7 @@ local function MalkorokLoad()
 	--malkorok_mainframe.PlayerIcon:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background"});
 	--malkorok_mainframe.PlayerIcon:SetBackdropColor(1,0,0,0.5);
 
-	malkorok_mainframe.Player = CreateFrame("Frame","MPIcon",malkorok_mainframe.PlayerIcon);
+	malkorok_mainframe.Player = CreateFrame("Frame",nil,malkorok_mainframe.PlayerIcon);
 	malkorok_mainframe.Player:SetHeight(malkorok_playericonsize*1.5);
 	malkorok_mainframe.Player:SetWidth(malkorok_playericonsize*1.5);
 	malkorok_mainframe.Player:SetPoint("TOPLEFT",malkorok_mainframe.PlayerIcon, "TOPLEFT", -(malkorok_playericonsize/4), (malkorok_playericonsize/4));
@@ -579,15 +646,41 @@ local function MalkorokLoad()
 		malkorok_main_coord_bot_x = 0.4426
 		malkorok_main_coord_bot_y = 0.4478
 	end
+	if GetCurrentMapAreaID() == 321 then
+		malkorok_main_coord_top_x = 0.4941
+		malkorok_main_coord_top_y = 0.3678
+		malkorok_main_coord_bot_x = 0.5106
+		malkorok_main_coord_bot_y = 0.3897
+	end
 end
 
 local malkorok = CreateFrame("Button",nil,MHExRTopt.panel,"OptionsButtonTemplate") 
-malkorok:SetWidth(600) 
+malkorok:SetWidth(575) 
 malkorok:SetHeight(22) 
 malkorok:SetText(MHExRTL.panelbossmodsmalkorok) 
 malkorok.tooltipText = '/mal'
 malkorok:SetPoint("TOPLEFT",MHExRTopt.panel,10,-95) 
 malkorok:SetScript("OnClick",MalkorokLoad) 
+
+local malkorok_autoload_chk = CreateFrame("CheckButton",nil,MHExRTopt.panel,"UICheckButtonTemplate")  
+malkorok_autoload_chk:SetPoint("TOPLEFT",582,-91)
+malkorok_autoload_chk.text:SetText("")
+malkorok_autoload_chk.tooltipText = MHExRTL.panelbossmodsautoload
+malkorok_autoload_chk:SetScript("OnEnter",function(self) 
+	GameTooltip:SetOwner(self,"ANCHOR_RIGHT")
+	GameTooltip:SetText(self.tooltipText or "", nil, nil, nil, nil, true)
+	GameTooltip:Show()
+end)
+malkorok_autoload_chk:SetScript("OnLeave",function() 
+	GameTooltip_Hide() 
+end)
+malkorok_autoload_chk:SetScript("OnClick", function(self,event) 
+	if self:GetChecked() then
+		ExRT.Bossmods.autoLoad = nil
+	else
+		ExRT.Bossmods.autoLoad = true
+	end
+end)
 
 -----------------------------------------
 -- Malkorok AI
@@ -598,14 +691,17 @@ local malkorok_ai_pie_raid = {}
 local malkorok_ai_pie_yellow = 0
 local malkorok_ai_tmr = 0
 local malkorok_ai_tmr2 = 0
-local malkorok_ai_spell_aoe = "143805"
+local malkorok_ai_spell_aoe = 143805
 --local malkorok_ai_spell_aoe = "20473"
 
 local function MalkorokAItimerfunc2(self,elapsed)
 	malkorok_ai_tmr2 = malkorok_ai_tmr2 + elapsed
 	if malkorok_ai_tmr2 > 5 then
-		if malkorok_pie_status[malkorok_ai_pie_yellow]==1 then
-			malkorok_mainframe_pie[malkorok_ai_pie_yellow].tex:SetVertexColor(1,0,0,0.8);
+		for i=1,6 do
+			if malkorok_ai_pie[i] == 1 and malkorok_pie_status[i]==1 then
+				malkorok_mainframe_pie[i].tex:SetVertexColor(1,0,0,0.8);
+			end
+			malkorok_ai_pie[i] = 0
 		end
 		malkorok_ai_mainframe:SetScript("OnUpdate", nil)
 		malkorok_ai_tmr2 = 0
@@ -615,9 +711,24 @@ end
 local function MalkorokAItimerfunc(self,elapsed)
 	malkorok_ai_tmr = malkorok_ai_tmr + elapsed
 	if malkorok_ai_tmr > 1 then
-		malkorok_mainframe_pie[malkorok_ai_pie_yellow].tex:SetVertexColor(1,0.8,0,0.8);
+		for i=1,6 do
+			if malkorok_ai_pie[i] == 1 then
+				malkorok_mainframe_pie[i].tex:SetVertexColor(1,0.8,0,0.8)
+			end
+		end
 		malkorok_ai_mainframe:SetScript("OnUpdate", MalkorokAItimerfunc2)
 		malkorok_ai_tmr = 0
+	end
+end
+
+local function GetMaxGroupsForDiff()
+	local _,_,difficulty = GetInstanceInfo()
+	if difficulty == 14 or difficulty == 15 then
+		return 6
+	elseif difficulty == 16 then
+		return 4
+	else
+		return 5
 	end
 end
 
@@ -629,20 +740,17 @@ local function MalkorokAItimerfunc_do(self,elapsed)
 		local n = GetNumGroupMembers() or 0
 		--n = 1
 		if n > 0 and malkorok_ai_mainframe ~= nil then
-			local j2 = 0
 			for i=1,6 do malkorok_ai_pie_raid[i]=0 end
 			for j=1,n do
 				local name, _,subgroup = GetRaidRosterInfo(j)
 				--name = UnitName("player") subgroup = 1
-				if name ~= nil and subgroup <= 5 and UnitIsDeadOrGhost(name)~=1 and UnitIsConnected(name)==1 then
+				if name and subgroup <= GetMaxGroupsForDiff() and not UnitIsDeadOrGhost(name) and UnitIsConnected(name) then
 					local px, py = GetPlayerMapPosition(name)
 					if px >= malkorok_main_coord_top_x and px<=malkorok_main_coord_bot_x and py>=malkorok_main_coord_top_y and py<=malkorok_main_coord_bot_y then
 						local px1 = (px-malkorok_main_coord_top_x)/(malkorok_main_coord_bot_x-malkorok_main_coord_top_x)*(malkorok_width-20)+10-(malkorok_playericonsize/2)
 						local py1 = (py-malkorok_main_coord_top_y)/(malkorok_main_coord_bot_y-malkorok_main_coord_top_y)*(malkorok_height-20)+10-(malkorok_playericonsize/2)
 				
 						local numpie = Malkorokfindpie(px1,py1)
-
-						local usesave = nil
 
 						for i_a=1,40 do
 							local _,_,_,_,_,_,_,_,_,_,auraSpellId = UnitAura(name, i_a,"HELPFUL")
@@ -653,46 +761,37 @@ local function MalkorokAItimerfunc_do(self,elapsed)
 								auraSpellId == 110700 or--Divine Shield druid
 								auraSpellId == 45438 or	--Ice Block
 								auraSpellId == 47585 or	--Dispersion
+								auraSpellId == 113862 or--Greater Invisibility
+								auraSpellId == 110960 or--Greater Invisibility
+								auraSpellId == 1022 or	--Hand of Protection
 								auraSpellId == 642 then	--Divine Shield
-									usesave = 1
+									numpie = 0
 							end
 						end
 				
-						if numpie>0 and malkorok_ai_pie[numpie] == 0 and usesave == nil then 
+						--if numpie>0 and malkorok_ai_pie[numpie] == 0 then 
+						if numpie>0 then 
 							malkorok_ai_pie_raid[numpie] = malkorok_ai_pie_raid[numpie] + 1
 						end
-
-						j2 = j2 + 1
 					end
 				end
 			end
-			if j2 <= 6 then 
-				malkorok_ai_mainframe.text:SetTextColor(1, 0.5, 0.5, 1)
-				--return 
-			else
-				malkorok_ai_mainframe.text:SetTextColor(1, 1, 1, 1)
-			end
-			local minpie = 0
+
 			local minpieam = 40
 			for i=1,6 do 
-				if malkorok_ai_pie[i]==0 then
-					minpie = i
-					minpieam = malkorok_ai_pie_raid[i]
-					break
-				end					
+				minpieam = min(minpieam,malkorok_ai_pie_raid[i])
 			end
 			for i=1,6 do 
-				if malkorok_ai_pie[i]==0 then
-					if malkorok_ai_pie_raid[i]<minpieam then
-						minpie = i
-						minpieam = malkorok_ai_pie_raid[i]
+				if malkorok_ai_pie_raid[i]==minpieam then
+					if RaidRank()>0 then ExRTmods:SendExMsg("malkorok",tostring(i).."\tR") end
+					malkorok_ai_pie[i] = 1
+					malkorok_pie_status[i]=1
+					
+					if not ExRT.Bossmods.not25 then
+						break
 					end
 				end
 			end
-			if minpie == 0 then return end
-			--malkorok_ai_pie[minpie] = 1
-			if RaidRank()>0 then ExRTmods:SendExMsg("malkorok",tostring(minpie).."\tR") end
-			malkorok_ai_pie_yellow = minpie
 			malkorok_ai_mainframe:SetScript("OnUpdate", MalkorokAItimerfunc)
 		end
 		malkorok_ai_mainframe_2:SetScript("OnUpdate", nil)
@@ -700,15 +799,11 @@ local function MalkorokAItimerfunc_do(self,elapsed)
 	end
 end
 
-local function MalkorokAIEventHandler(self, event, ...)
-	if event == "COMBAT_LOG_EVENT_UNFILTERED" then
-		local _, event_n, _, _, _, _, _, _, _, _, _, spellId,spellName = ...
-		if event_n == "SPELL_CAST_SUCCESS" and (tostring(spellId) == malkorok_ai_spell_aoe) then
-			malkorok_ai_tmr_do = 0
-			malkorok_ai_mainframe_2:SetScript("OnUpdate", MalkorokAItimerfunc_do)
-		elseif event_n == "SPELL_CAST_SUCCESS" and (tostring(spellId) == malkorok_spell or tostring(spellId) == malkorok_spell_baoe) then
-			for i=1,6 do malkorok_ai_pie[i]=0 end
-		end
+local function MalkorokAIEventHandler(self, event, _, event_n, _, _, _, _, _, _, _, _, _, spellId)
+	if event_n == "SPELL_CAST_SUCCESS" and spellId == malkorok_ai_spell_aoe then
+		for i=1,6 do malkorok_ai_pie[i]=0 end
+		malkorok_ai_tmr_do = 0
+		malkorok_ai_mainframe_2:SetScript("OnUpdate", MalkorokAItimerfunc_do)
 	end
 end
 
@@ -716,7 +811,7 @@ local function MalkorokAILoad()
 	if malkorok_mainframe == nil then return end
 	if malkorok_ai_mainframe ~= nil then return end
 
-	malkorok_ai_mainframe = CreateFrame("Frame","MHmalkorok_ai_mainframe",nil);
+	malkorok_ai_mainframe = CreateFrame("Frame")
 	if malkorok_ai_mainframe_2==nil then malkorok_ai_mainframe_2 = CreateFrame("Frame") end
 
 	malkorok_ai_mainframe:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED") 
@@ -730,17 +825,39 @@ local function MalkorokAILoad()
 	malkorok_ai_mainframe.text:SetPoint("CENTER", malkorok_mainframe,"BOTTOMRIGHT", -12,12);
 	malkorok_ai_mainframe.text:SetTextColor(1, 1, 1, 1)
 
-	print(MHExRTL.panelbossmodsradenonly25)
+	if not ExRT.Bossmods.not25 then
+		print(MHExRTL.panelbossmodsradenonly25)
+	end
 	print(MHExRTL.panelbossmodsmalkorokaihelp)
 end
 
 local malkorok_ai = CreateFrame("Button",nil,MHExRTopt.panel,"OptionsButtonTemplate") 
-malkorok_ai:SetWidth(600) 
+malkorok_ai:SetWidth(575) 
 malkorok_ai:SetHeight(22) 
 malkorok_ai:SetText(MHExRTL.panelbossmodsmalkorokai) 
 malkorok_ai.tooltipText = '/mal ai'
 malkorok_ai:SetPoint("TOPLEFT",MHExRTopt.panel,10,-120) 
 malkorok_ai:SetScript("OnClick",MalkorokAILoad) 
+
+local malkorok_ai_autoload_chk = CreateFrame("CheckButton",nil,MHExRTopt.panel,"UICheckButtonTemplate")  
+malkorok_ai_autoload_chk:SetPoint("TOPLEFT",582,-116)
+malkorok_ai_autoload_chk.text:SetText("")
+malkorok_ai_autoload_chk.tooltipText = MHExRTL.panelbossmodsautoload
+malkorok_ai_autoload_chk:SetScript("OnEnter",function(self) 
+	GameTooltip:SetOwner(self,"ANCHOR_RIGHT")
+	GameTooltip:SetText(self.tooltipText or "", nil, nil, nil, nil, true)
+	GameTooltip:Show()
+end)
+malkorok_ai_autoload_chk:SetScript("OnLeave",function() 
+	GameTooltip_Hide() 
+end)
+malkorok_ai_autoload_chk:SetScript("OnClick", function(self,event) 
+	if self:GetChecked() then
+		ExRT.Bossmods.autoLoadAI = nil
+	else
+		ExRT.Bossmods.autoLoadAI = true
+	end
+end)
 
 -----------------------------------------
 -- Options
@@ -826,15 +943,49 @@ clearallbut:SetScript("OnClick",function()
 	ExRTmods:ExBossmodsCloseAll()
 end) 
 
-helptext = CreateFrame("Frame",nil,MHExRTopt.panel)
-helptext:SetSize(580,280)
-helptext:SetPoint("TOPLEFT",MHExRTopt.panel, "TOPLEFT", 20, -150)
-helptext.txt = helptext:CreateFontString(nil,"ARTWORK")
+local wm_chk = CreateFrame("CheckButton",nil,MHExRTopt.panel,"UICheckButtonTemplate")  
+wm_chk:SetPoint("TOPLEFT",20,-141)
+wm_chk.text:SetText(string.gsub(WORLD_MARKER or "World Marker","%%d",""))
+wm_chk:SetScript("OnClick", function(self,event) 
+	if self:GetChecked() then
+		ExRT.Bossmods.WMarker = true
+		if malkorok_mainframe then
+			for i=1,6 do 
+				malkorok_mainframe_pie[i].texWM:Show()
+			end
+		end
+	else
+		ExRT.Bossmods.WMarker = nil
+		if malkorok_mainframe then
+			for i=1,6 do 
+				malkorok_mainframe_pie[i].texWM:Hide()
+			end
+		end
+	end
+end)
+
+local Chk_10ppl = CreateFrame("CheckButton",nil,MHExRTopt.panel,"UICheckButtonTemplate")  
+Chk_10ppl:SetPoint("TOPLEFT",320,-141)
+Chk_10ppl.text:SetText(RAID_DIFFICULTY_10PLAYER or "10 ppl")
+Chk_10ppl:SetScript("OnClick", function(self,event) 
+	if self:GetChecked() then
+		ExRT.Bossmods.not25 = true
+	else
+		ExRT.Bossmods.not25 = nil
+	end
+end)
+
+local helptext = CreateFrame("Frame",nil,MHExRTopt.panel)
+helptext:SetSize(580,260)
+helptext:SetPoint("TOPLEFT",MHExRTopt.panel, "TOPLEFT", 20, -170)
+helptext.txt = helptext:CreateFontString(nil,"ARTWORK","GameFontNormal")
 helptext.txt:SetAllPoints()
-helptext.txt:SetFont(ExRTmods.defFont, 14)
+helptext.txt:SetTextColor(1,1,1,1)
+--helptext.txt:SetFont(ExRTmods.defFont, 14)
 helptext.txt:SetJustifyH("LEFT")
 helptext.txt:SetJustifyV("TOP")
 helptext.txt:SetText(MHExRTL.panelbossmodhelptext)
+
 
 function ExRTmods:ExBossmodsCloseAll()
 	if malkorok_ai_mainframe_2 ~= nil then
@@ -865,32 +1016,49 @@ function ExRTmods:BossmodsresetFramePosition()
 end
 
 local function BossmodseventHandler(self, event, ...)
-	if event == "ADDON_LOADED" then
-		if ... ~= "Malkorok" then return end
-		if ExRT == nil then
-			ExRT = {}
-		end
-		if ExRT["Bossmods"] == nil then
-			ExRT["Bossmods"] = {}
-		end
-		if ExRT["Bossmods"]["Alpha"] ~= nil then BossmodsSlider1:SetValue(ExRT["Bossmods"]["Alpha"]) end
-		if ExRT["Bossmods"]["Scale"] ~= nil then BossmodsSlider2:SetValue(ExRT["Bossmods"]["Scale"]) end
-		RegisterAddonMessagePrefix(MSG_PREFIX)
-	elseif event == "CHAT_MSG_ADDON" then
-		local prefix, message, channel, sender = ...
-		if prefix == MSG_PREFIX and (channel=="RAID" or channel=="GUILD" or (channel=="WHISPER" and (UnitIsInMyGuild(sender)==1 or sender == UnitName("player")))) then
-			ExRTmods:ExBossmodsGetExMsg(sender, strsplit("\t", message))
-		end 
-	elseif event == "UNIT_TARGET" then
-		if ... ~= "player" or malkorok_mainframe ~= nil then return end
+	if event == "PLAYER_TARGET_CHANGED" and not malkorok_mainframe then
 		local destGUID = UnitGUID("target")
-		if destGUID ~= nil then
-			local unitid = tonumber((destGUID):sub(-13, -9), 16)
-			if unitid == malkorok_unitid and UnitIsDead("target")~=1 then
-				MalkorokLoad()
-				if RaidRank()>0 then MalkorokAILoad() end
+		if destGUID then
+			local unitid = GUIDtoID(destGUID)
+			if unitid == malkorok_unitid and not UnitIsDead("target") then
+				if not ExRT.Bossmods.autoLoad then 
+					MalkorokLoad() 
+				end
+				if not ExRT.Bossmods.autoLoadAI then 
+					MalkorokAILoad() 
+				end
 			end
 		end
+	elseif event == "CHAT_MSG_ADDON" then
+		local prefix, message, channel, sender = ...
+		if prefix == MSG_PREFIX and (channel=="RAID" or channel=="GUILD" or (channel=="WHISPER" and (UnitIsInMyGuild(sender) or sender == UnitName("player")))) then
+			ExRTmods:ExBossmodsGetExMsg(sender, strsplit("\t", message))
+		end 
+	elseif event == "INSTANCE_ENCOUNTER_ENGAGE_UNIT" and not malkorok_mainframe then	--ENCOUNTER_START: id new Malkorok unknown. RIP event
+		local boss1GUID = UnitGUID("boss1")
+		if boss1GUID and GUIDtoID(boss1GUID) == malkorok_unitid and not ExRT.Bossmods.autoLoad then
+			MalkorokLoad() 
+			if not ExRT.Bossmods.autoLoadAI then 
+				MalkorokAILoad() 
+			end
+		end
+	elseif event == "ADDON_LOADED" and ... ~= "Malkorok" then
+		ExRT = ExRT or {}
+		ExRT["Bossmods"] = ExRT["Bossmods"] or {}
+		if ExRT["Bossmods"]["Alpha"] then 
+			BossmodsSlider1:SetValue(ExRT["Bossmods"]["Alpha"]) 
+		end
+		if ExRT["Bossmods"]["Scale"] then 
+			BossmodsSlider2:SetValue(ExRT["Bossmods"]["Scale"]) 
+		end
+		RegisterAddonMessagePrefix(MSG_PREFIX)
+		
+		malkorok_autoload_chk:SetChecked(not ExRT.Bossmods.autoLoad)
+		malkorok_ai_autoload_chk:SetChecked(not ExRT.Bossmods.autoLoadAI)
+		wm_chk:SetChecked(ExRT.Bossmods.WMarker)
+		Chk_10ppl:SetChecked(ExRT.Bossmods.not25)
+		
+		self:UnregisterEvent("ADDON_LOADED")
 	end
 end
 
@@ -911,5 +1079,6 @@ SLASH_ExrtanounceM2 = "/mal";
 local bm = CreateFrame("frame")
 bm:RegisterEvent("ADDON_LOADED") 
 bm:RegisterEvent("CHAT_MSG_ADDON")
-bm:RegisterEvent("UNIT_TARGET")
+bm:RegisterEvent("PLAYER_TARGET_CHANGED")
+bm:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT")
 bm:SetScript("OnEvent", BossmodseventHandler)

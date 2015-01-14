@@ -1,38 +1,17 @@
-if not Skinner:isAddonEnabled("Atlas") then return end
+local aName, aObj = ...
+if not aObj:isAddonEnabled("Atlas") then return end
+local _G = _G
 
-function Skinner:Atlas()
-
-	-- this is used to add a texture to the dropdown
-	local function textureDD(dd, opt)
-
-		self:keepFontStrings(dd)
-		if self.db.profile.TexturedDD then
-			dd.ddTex = dd:CreateTexture(nil, "BORDER")
-			dd.ddTex:SetTexture(Skinner.itTex)
-			dd.ddTex:ClearAllPoints()
-			dd.ddTex:SetPoint("TOPLEFT", dd, "TOPLEFT", 20, opt and -5 or -4)
-			dd.ddTex:SetPoint("BOTTOMRIGHT", dd, "BOTTOMRIGHT", opt and -24 or -18, opt and 8 or 10)
-		end
-
-	end
+function aObj:Atlas()
 
 -->>--	AtlasFrame
-	self:moveObject(self:getRegion(AtlasFrame, 6), nil, nil, "+", 8)
-	self:moveObject(self:getRegion(AtlasFrame, 7), nil, nil, "+", 8)
-	self:moveObject(AtlasFrameCloseButton, "-", 4, "+", 8)
-	textureDD(AtlasFrameDropDownType)
-	textureDD(AtlasFrameDropDown)
-	self:removeRegions(AtlasFrame, {1,2,3,4,5}) -- N.B. other regions are text or Map Textures
-	self:skinEditBox(AtlasSearchEditBox, {9})
-	self:keepFontStrings(AtlasScrollBar)
-	self:skinScrollBar(AtlasScrollBar)
-	self:applySkin(AtlasFrame, nil)
+	self:skinDropDown{obj=_G.AtlasFrameDropDownType}
+	self:skinDropDown{obj=_G.AtlasFrameDropDown}
+	self:removeRegions(_G.AtlasFrame, {1, 2, 3, 4, 5}) -- N.B. other regions are text or Map Textures
+	self:skinEditBox{obj=_G.AtlasSearchEditBox, regs={9}}
+	self:skinScrollBar{obj=_G.AtlasScrollBar}
+	self:addSkinFrame{obj=_G.AtlasFrame, x1=12, y1=-10, x2=2}
 	-- change the draw layer so the map is visible
-	AtlasMap:SetDrawLayer("OVERLAY")
-
--->>--	AtlasOptionsFrame
-	self:keepRegions(AtlasOptionsFrame, {11})
-	textureDD(AtlasOptionsFrameDropDownCats, true)
-	self:applySkin(AtlasOptionsFrame, true)
+	_G.AtlasMap:SetDrawLayer("OVERLAY")
 
 end

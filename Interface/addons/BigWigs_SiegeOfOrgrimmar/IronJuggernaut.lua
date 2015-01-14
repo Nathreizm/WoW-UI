@@ -28,7 +28,7 @@ local L = mod:NewLocale("enUS", true)
 if L then
 	L.custom_off_mine_marks = "Mine marker"
 	L.custom_off_mine_marks_desc = "To help soaking assignments, mark the Crawler Mines with {rt1}{rt2}{rt3}, requires promoted or leader.\n|cFFFF0000Only 1 person in the raid should have this enabled to prevent marking conflicts.|r\n|cFFADFF2FTIP: If the raid has chosen you to turn this on, quickly mousing over all the mines is the fastest way to mark them.|r"
-	L.custom_off_mine_marks_icon = "Interface\\TARGETINGFRAME\\UI-RaidTargetingIcon_1"
+	L.custom_off_mine_marks_icon = 1
 end
 L = mod:GetLocale()
 
@@ -44,7 +44,7 @@ function mod:GetOptions()
 		"custom_off_mine_marks",
 		"stages", -8183, "berserk", "bosskill",
 	}, {
-		[-8181] = "heroic",
+		[-8181] = "mythic",
 		[-8179] = -8177,
 		[144485] = -8178,
 		["custom_off_mine_marks"] = L.custom_off_mine_marks,
@@ -53,8 +53,6 @@ function mod:GetOptions()
 end
 
 function mod:OnBossEnable()
-	self:RegisterEvent("INSTANCE_ENCOUNTER_ENGAGE_UNIT", "CheckBossStatus")
-
 	self:Log("SPELL_CAST_SUCCESS", "MineArming", 144718) -- Detonation Sequence
 	-- Siege mode
 	self:Log("SPELL_PERIODIC_DAMAGE", "ExplosiveTar", 144498)
@@ -70,7 +68,7 @@ function mod:OnBossEnable()
 end
 
 function mod:OnEngage()
-	self:Berserk(self:Heroic() and 450 or 600)
+	self:Berserk(self:Mythic() and 450 or 600)
 	-- no need to start bars here we do it at regeneration
 	phase = 1
 	if self.db.profile.custom_off_mine_marks then
@@ -257,6 +255,7 @@ function mod:UNIT_SPELLCAST_SUCCEEDED(unitId, spellName, _, _, spellId)
 		self:CDBar(144498, 10) -- Explosive Tar
 		self:StopBar(144459) -- Laser Burn
 		self:StopBar(-8179) -- Borer Drill
+		self:StopBar(-8181) -- Ricochet
 		self:StopBar(144467) -- Ignite Armor
 		self:StopBar(CL.phase:format(2)) -- in case it overruns
 	elseif spellId == 144356 then -- Ricochet

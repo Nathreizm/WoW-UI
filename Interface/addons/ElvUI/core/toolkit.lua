@@ -245,7 +245,7 @@ local function FontTemplate(fs, font, fontSize, fontStyle)
 	E["texts"][fs] = true
 end
 
-local function StyleButton(button, noHover, noPushed, noChecked)
+local function StyleButton(button, noHover, noPushed, noChecked, noCD)
 	if button.SetHighlightTexture and not button.hover and not noHover then
 		local hover = button:CreateTexture("frame", nil, self)
 		hover:SetTexture(1, 1, 1, 0.3)
@@ -275,6 +275,8 @@ local function StyleButton(button, noHover, noPushed, noChecked)
 	if cooldown then
 		cooldown:ClearAllPoints()
 		cooldown:SetInside()
+		cooldown:SetDrawEdge(false)
+		if not noCD then cooldown:SetSwipeColor(0, 0, 0, 1) end
 	end
 end
 

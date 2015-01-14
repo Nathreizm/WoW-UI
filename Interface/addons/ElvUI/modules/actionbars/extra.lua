@@ -14,7 +14,11 @@ function AB:SetupExtraButton()
 	ExtraActionBarFrame:SetParent(holder)
 	ExtraActionBarFrame:ClearAllPoints()
 	ExtraActionBarFrame:SetPoint('CENTER', holder, 'CENTER')
-		
+	DraenorZoneAbilityFrame:SetParent(holder)
+	DraenorZoneAbilityFrame:ClearAllPoints()
+	DraenorZoneAbilityFrame:SetPoint('CENTER', holder, 'CENTER')
+
+	DraenorZoneAbilityFrame.ignoreFramePositionManager = true
 	ExtraActionBarFrame.ignoreFramePositionManager  = true
 	
 	for i=1, ExtraActionBarFrame:GetNumChildren() do
@@ -36,6 +40,20 @@ function AB:SetupExtraButton()
 				E:RegisterCooldown(button.cooldown)
 				button.cooldown:HookScript("OnShow", FixExtraActionCD)
 			end
+		end
+	end
+	
+	local button = DraenorZoneAbilityFrame.SpellButton
+	if button then
+		button:SetNormalTexture('')
+		button:StyleButton(nil, nil, nil, true)
+		button:SetTemplate()
+		button.Icon:SetDrawLayer('ARTWORK')
+		button.Icon:SetTexCoord(unpack(E.TexCoords))
+		button.Icon:SetInside()
+		
+		if(button.Cooldown and E.private.cooldown.enable) then
+			E:RegisterCooldown(button.Cooldown)
 		end
 	end
 

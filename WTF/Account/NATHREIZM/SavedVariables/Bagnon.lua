@@ -1,4 +1,4 @@
 
 BagnonGlobalSettings = {
-	["version"] = "5.4.9",
+	["version"] = "6.0.16",
 }

@@ -61,8 +61,8 @@ function aObj:Defaults()
 		MerchantFrame        = true,
 		Petition             = true,
 		PetStableFrame       = true,
+		QuestChoice          = true,
 		QuestFrame           = true,
-		ReforgingUI          = true,
 		SideDressUpFrame     = true,
 		Tabard               = true,
 		TaxiFrame            = true,
@@ -91,31 +91,32 @@ function aObj:Defaults()
 		LootFrames           = {skin = true, size = 1},
 		LootHistory          = true,
 		MirrorTimers         = {skin = true, glaze = true},
-		OverrideActionBar    = true,
+		ObjectiveTracker     = {skin = false, popups = true},
+		OverrideActionBar    = true, -- a.k.a. VehicleUI
 		PetJournal           = true,
 		PVPFrame             = true,
-		QuestLog             = true,
+		QuestMap             = true,
 		RaidUI               = true,
 		ReadyCheck           = true,
 		RolePollPopup        = true,
 		ScrollOfResurrection = true,
 		SpellBookFrame       = true,
-		SpellFlyout          = true,
 		StackSplit           = true,
 		TalentUI             = true,
 		TradeFrame           = true,
 		TradeSkillUI         = true,
 		VehicleMenuBar       = true,
-		WatchFrame           = {skin = false, popups = true},
 	-->>-- UI Frames
 		DisableAllUI         = false,
+		AddonList		  	 = true,
 		AlertFrames          = true,
-		AuthChallengeUI		 = false, -- N.B. cannot be skinned
+		AuthChallengeUI      = false, -- N.B. cannot be skinned
 		AutoComplete         = true,
 		BattlefieldMm        = {skin = true, gloss = false},
 		BNFrames             = true,
 		Calendar             = true,
-		ChallengesUI         = true or nil,
+		ChallengesUI         = true,
+		ChatBubbles          = true,
 		ChatButtons          = true,
 		ChatConfig           = true,
 		ChatEditBox          = {skin = true, style = 3},
@@ -129,6 +130,8 @@ function aObj:Defaults()
 		CombatLogQBF         = false,
 		DebugTools           = true,
 		DestinyFrame         = true,
+		DraenorZoneAbility   = true,
+		GarrisonUI           = true,
 		GMChatUI             = true,
 		GMSurveyUI           = true,
 		GuildBankUI          = true,
@@ -152,8 +155,9 @@ function aObj:Defaults()
 		PVEFrame             = true,
 		RaidFrame            = true,
 		ScriptErrors         = true,
+		SplashFrame          = true,
 		StaticPopups         = true,
-		StoreUI				 = false, -- N.B. cannot be skinned
+		StoreUI              = false, -- N.B. cannot be skinned
 		TimeManager          = true,
 		Tooltips             = {skin = true, style = 1, glazesb = true, border = 1},
 		Tutorial             = true,
@@ -776,15 +780,15 @@ function aObj:Options()
 					name = self.L["Stable Frame"],
 					desc = self.L["Toggle the skin of the Stable Frame"],
 				},
+				QuestChoice = {
+					type = "toggle",
+					name = self.L["Quest Choice Frame"],
+					desc = self.L["Toggle the skin of the Quest Choice Frame"],
+				},
 				QuestFrame = {
 					type = "toggle",
 					name = self.L["Quest Frame"],
 					desc = self.L["Toggle the skin of the Quest Frame"],
-				},
-				ReforgingUI = {
-					type = "toggle",
-					name = self.L["Reforging Frame"],
-					desc = self.L["Toggle the skin of the Reforging Frame"],
 				},
 				SideDressUpFrame = {
 					type = "toggle",
@@ -851,7 +855,7 @@ function aObj:Options()
 				},
 				AchievementUI = {
 					type = "group",
-					order = -2,
+					order = -1,
 					inline = true,
 					name = self.L["Achievement UI"],
 					get = function(info) return db.AchievementUI[info[#info]] end,
@@ -886,7 +890,7 @@ function aObj:Options()
 				CastingBar = {
 					type = "group",
 					inline = true,
-					order = -10,
+					order = -1,
 					name = self.L["Casting Bar Frame"],
 					get = function(info) return db.CastingBar[info[#info]] end,
 					set = function(info, value)
@@ -1034,7 +1038,7 @@ function aObj:Options()
 				MirrorTimers = {
 					type = "group",
 					inline = true,
-					order = -2,
+					order = -1,
 					name = self.L["Timer Frames"],
 					get = function(info) return db.MirrorTimers[info[#info]] end,
 					set = function(info, value)
@@ -1056,10 +1060,30 @@ function aObj:Options()
 						},
 					},
 				},
+				ObjectiveTracker = {
+					type = "group",
+					order = -1,
+					inline = true,
+					name = self.L["Tracker Frame"],
+					get = function(info) return db.ObjectiveTracker[info[#info]] end,
+					set = function(info, value) db.ObjectiveTracker[info[#info]] = value end,
+					args = {
+						skin = {
+							type = "toggle",
+							name = self.L["Tracker Frame Skin"],
+							desc = self.L["Toggle the skin of the Tracker Frame"],
+						},
+						popups = {
+							type = "toggle",
+							name = self.L["AutoPopUps Skin"],
+							desc = self.L["Toggle the skin of the AutoPopUps"],
+						},
+					},
+				},
 				OverrideActionBar = {
 					type = "toggle",
-					name = self.L["Override Action Bar"],
-					desc = self.L["Toggle the skin of the Override Action Bar"],
+					name = self.L["VehicleUI"],
+					desc = self.L["Toggle the skin of the VehicleUI"],
 				},
 				PetJournal = {
 					type = "toggle",
@@ -1076,10 +1100,10 @@ function aObj:Options()
 					name = self.L["PVP Frame"],
 					desc = self.L["Toggle the skin of the PVP Frame"],
 				},
-				QuestLog = {
+				QuestMap = {
 					type = "toggle",
-					name = self.L["Quest Log Frame"],
-					desc = self.L["Toggle the skin of the Quest Log Frame"],
+					name = self.L["Quest Map Frame"],
+					desc = self.L["Toggle the skin of the Quest Map Frame"],
 				},
 				RaidUI = {
 					type = "toggle",
@@ -1106,11 +1130,6 @@ function aObj:Options()
 					name = self.L["SpellBook Frame"],
 					desc = self.L["Toggle the skin of the SpellBook Frame"],
 				},
-				SpellFlyout = {
-					type = "toggle",
-					name = self.L["SpellFlyouts"],
-					desc = self.L["Toggle the skin of the SpellFlyouts"],
-				},
 				StackSplit = {
 					type = "toggle",
 					name = self.L["Stack Split Frame"],
@@ -1130,26 +1149,6 @@ function aObj:Options()
 					type = "toggle",
 					name = self.L["Trade Skill Frame"],
 					desc = self.L["Toggle the skin of the Trade Skill Frame"],
-				},
-				WatchFrame = {
-					type = "group",
-					order = -1,
-					inline = true,
-					name = self.L["Tracker Frame"],
-					get = function(info) return db.WatchFrame[info[#info]] end,
-					set = function(info, value) db.WatchFrame[info[#info]] = value end,
-					args = {
-						skin = {
-							type = "toggle",
-							name = self.L["Tracker Frame Skin"],
-							desc = self.L["Toggle the skin of the Tracker Frame"],
-						},
-						popups = {
-							type = "toggle",
-							name = self.L["AutoPopUps Skin"],
-							desc = self.L["Toggle the skin of the AutoPopUps"],
-						},
-					},
 				},
 			},
 		},
@@ -1191,6 +1190,11 @@ function aObj:Options()
 					type = "header",
 					name = self.L["or choose which frames to skin"],
 				},
+				AddonList = {
+					type = "toggle",
+					name = self.L["AddonList Frame"],
+					desc = self.L["Toggle the skin of the AddonList Frame"],
+				},
 				AlertFrames = {
 					type = "toggle",
 					name = self.L["Alert Frames"],
@@ -1200,6 +1204,7 @@ function aObj:Options()
 					type = "toggle",
 					name = self.L["AuthChallenge Frame"],
 					desc = self.L["Toggle the skin of the AuthChallenge Frame"],
+					disabled = true,
 				},
 				AutoComplete = {
 					type = "toggle",
@@ -1305,6 +1310,12 @@ function aObj:Options()
 							name = self.L["CombatLog Quick Button Frame"],
 							desc = self.L["Toggle the skin of the CombatLog Quick Button Frame"],
 						},
+						ChatBubbles = {
+							type = "toggle",
+							order = 8,
+							name = self.L["Chat Bubbles"],
+							desc = self.L["Toggle the skin of the Chat Bubbles"],
+						},
 					},
 				},
 				ChatEditBox = {
@@ -1357,6 +1368,16 @@ function aObj:Options()
 					type = "toggle",
 					name = self.L["Destiny Frame"],
 					desc = self.L["Toggle the skin of the Destiny Frame"],
+				},
+				DraenorZoneAbility = {
+					type = "toggle",
+					name = self.L["Draenor Frame"],
+					desc = self.L["Toggle the skin of the Draenor Frame"],
+				},
+				GarrisonUI = {
+					type = "toggle",
+					name = self.L["GarrisonUI Frame"],
+					desc = self.L["Toggle the skin of the GarrisonUI Frame"],
 				},
 				GMChatUI = {
 					type = "toggle",
@@ -1560,6 +1581,11 @@ function aObj:Options()
 					name = self.L["Script Errors Frame"],
 					desc = self.L["Toggle the skin of the Script Errors Frame"],
 				},
+				SplashFrame = {
+					type = "toggle",
+					name = self.L["What's New Frame"],
+					desc = self.L["Toggle the skin of the What's New Frame"],
+				},
 				StaticPopups = {
 					type = "toggle",
 					name = self.L["Static Popups"],
@@ -1569,6 +1595,7 @@ function aObj:Options()
 					type = "toggle",
 					name = self.L["Store Frame"],
 					desc = self.L["Toggle the skin of the Store Frame"],
+					disabled = true,
 				},
 				TimeManager = {
 					type = "toggle",
@@ -1766,10 +1793,10 @@ function aObj:Options()
 		if not input or input:trim() == "" then
 			-- Open general panel if there are no parameters, do twice to overcome Blizzard bug
 			InterfaceOptionsFrame_OpenToCategory(aObj.optionsFrame)
-			InterfaceOptionsFrame_OpenToCategory(aObj.optionsFrame)
+			-- InterfaceOptionsFrame_OpenToCategory(aObj.optionsFrame)
 		elseif optCheck[input:lower()] then
 			InterfaceOptionsFrame_OpenToCategory(aObj.optionsFrame[optCheck[input:lower()]])
-			InterfaceOptionsFrame_OpenToCategory(aObj.optionsFrame[optCheck[input:lower()]])
+			-- InterfaceOptionsFrame_OpenToCategory(aObj.optionsFrame[optCheck[input:lower()]])
 		else
 			LibStub("AceConfigCmd-3.0"):HandleCommand(aName, aName, input)
 		end

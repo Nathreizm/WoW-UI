@@ -1,8 +1,3 @@
---[[
-TODO:
-	torrent of ice needs to be switched to CLEU events when they actually get added
-	maybe try and figure out if there is a system to how the fogged heads cast stuff
-]]--
 
 --------------------------------------------------------------------------------
 -- Module Declaration
@@ -40,7 +35,7 @@ L = mod:GetLocale()
 function mod:GetOptions()
 	return {
 		140138, 140179, {139993, "HEALER"},
-		{139822, "FLASH", "ICON", "DISPEL", "SAY"}, {137731, "HEALER"},
+		{139822, "FLASH", "ICON", "SAY"}, {137731, "HEALER"},
 		{139866, "FLASH", "ICON", "SAY"}, {139909, "FLASH"}, {139843, "TANK"},
 		{139840, "HEALER"},
 		139458, {"breaths", "FLASH"}, "proximity", "berserk", "bosskill",
@@ -63,11 +58,13 @@ function mod:OnBossEnable()
 	self:Log("SPELL_PERIODIC_DAMAGE", "IcyGround", 139909)
 	self:Log("SPELL_AURA_APPLIED_DOSE", "ArcticFreeze", 139843)
 	-- Fire
-	self:Log("SPELL_DAMAGE", "Cinders", 139836)
+	self:Log("SPELL_DAMAGE", "CindersDamage", 139836)
+	self:Log("SPELL_MISSED", "CindersDamage", 139836)
 	self:Log("SPELL_AURA_APPLIED", "CindersApplied", 139822)
 	self:Log("SPELL_AURA_REMOVED", "CindersRemoved", 139822)
 	-- General
 	self:Log("SPELL_DAMAGE", "BreathDamage", 137730, 139842, 139839, 139992)
+	self:Log("SPELL_MISSED", "BreathDamage", 137730, 139842, 139839, 139992)
 	self:Log("SPELL_CAST_START", "Breaths", 137729, 139841, 139838, 139991)
 	self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "Rampage", "boss1")
 	self:Log("SPELL_AURA_APPLIED", "TankDebuffApplied", 137731, 139840, 139993) -- Ignite Flesh, Rot Armor, Diffusion
@@ -236,7 +233,7 @@ end
 
 do
 	local prev = 0
-	function mod:Cinders(args)
+	function mod:CindersDamage(args)
 		if not self:Me(args.destGUID) then return end
 		local t = GetTime()
 		if t-prev > 2 then
@@ -249,14 +246,11 @@ end
 
 function mod:CindersApplied(args)
 	self:SecondaryIcon(args.spellId, args.destName)
+	self:TargetMessage(args.spellId, args.destName, "Important", "Alert", nil, nil, true)
+	self:TargetBar(args.spellId, 30, args.destName)
 	if self:Me(args.destGUID) then
-		self:Message(args.spellId, "Personal", "Info", CL["you"]:format(args.spellName))
-		self:TargetBar(args.spellId, 30, args.destName)
 		self:Flash(args.spellId)
 		self:Say(args.spellId)
-	elseif self:Dispeller("magic", nil, args.spellId) then
-		self:TargetMessage(args.spellId, args.destName, "Important", "Alarm", nil, nil, true)
-		self:TargetBar(args.spellId, 30, args.destName)
 	end
 end
 

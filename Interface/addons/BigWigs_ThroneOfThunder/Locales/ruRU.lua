@@ -12,6 +12,7 @@ L = BigWigs:NewBossLocale("Horridon", "ruRU")
 if L then
 	L.charge_trigger = "останавливает свой взгляд"
 	L.door_trigger = "прибывают"
+	L.orb_trigger = "направляет"
 
 	L.chain_lightning_message = "Ваш фокус читает Цепную молнию!"
 	L.chain_lightning_bar = "Фокус: Цепная молния"
@@ -42,6 +43,7 @@ if L then
 	L.custom_on_markpossessed = "Помечать одержимого босса"
 	L.custom_on_markpossessed_desc = "На одержимого босса ставится череп, требуется быть помощником или лидером."
 
+	L.priestess_heal = "%s мсцелён!"
 	L.assault_stun = "Танк оглушен!"
 	L.assault_message = "Натиск"
 	L.full_power = "Полная энергия"
@@ -170,7 +172,6 @@ if L then
 
 	L.last_inermission_ability = "Последний перерыв!"
 	L.safe_from_stun = "Возможно, вы защищены от оглушения Перегрузкой"
-	L.intermission = "Перерыв"
 	L.diffusion_add = "Рассеянная молния"
 	L.shock = "Электрошок"
 	L.static_shock_bar = "<Статический шок>"
@@ -198,8 +199,6 @@ end
 
 L = BigWigs:NewBossLocale("Throne of Thunder Trash", "ruRU")
 if L then
-	L.displayname = "Трэш"
-
 	L.stormcaller = "Зандаларский призыватель бурь"
 	L.stormbringer = "Вестник шторма Драз'кил"
 	L.monara = "Монара"

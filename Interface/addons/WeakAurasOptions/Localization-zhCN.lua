@@ -1,4 +1,4 @@
-﻿if not(GetLocale() == "zhCN") then
+if not(GetLocale() == "zhCN") then
     return;
 end
 
@@ -48,7 +48,7 @@ L["Background Texture"] = "背景材质"
 L["Bar Alpha"] = "条透明度"
 L["Bar Color"] = "条颜色"
 L["Bar Color Settings"] = "图标条颜色设置"
--- L["Bar in Front"] = ""
+L["Bar in Front"] = "条材质前置"
 L["Bar Texture"] = "条材质"
 L["Battle"] = "战斗姿态"
 L["Bear"] = "熊形态"
@@ -61,7 +61,7 @@ L["Border Inset"] = "插入边框"
 L["Border Offset"] = "边框偏移"
 L["Border Settings"] = "边框设置"
 L["Border Size"] = "边框大小 "
-L["Border Style"] = "边框风格" -- Needs review
+L["Border Style"] = "边框风格"
 L["Bottom Text"] = "底部文字"
 L["Button Glow"] = "按钮发光"
 L["Can be a name or a UID (e.g., party1). Only works on friendly players in your group."] = "可以是名字或是单位ID(例如，party1)。只作用于你当前队伍/团队中的玩家."
@@ -168,7 +168,7 @@ L["Finish"] = "结束"
 L["Fire Resistance"] = "火抗"
 L["Flight(Non-Feral)"] = "迅捷飞行形态"
 L["Font"] = "字体"
--- L["Font Flags"] = ""
+L["Font Flags"] = "字体效果"
 L["Font Size"] = "字体大小"
 L["Font Type"] = "字体类型"
 L["Foreground Color"] = "前景色"
@@ -184,8 +184,7 @@ L["Frost Resistance"] = "冰抗"
 L["Full Scan"] = "完整扫描"
 L["Ghost Wolf"] = "幽灵狼形态"
 L["Glow Action"] = "发光动作"
-L["Group aura count description"] = [=[
-所输入的队伍或团队成员的数量必须给定一个或多个光环作为显示触发的条件。
+L["Group aura count description"] = [=[所输入的队伍或团队成员的数量必须给定一个或多个光环作为显示触发的条件。
 如果输入的数字是一个整数(如5)，受影响的团队成员数量将与输入的数字相同。
 如果输入的数字是一个小数(如0.5)，分数(例如1/ 2)，或百分比(例如50%%)，那么多比例的队伍或团队成员的必须受到影响。
 |cFF4444FF举例：|r
@@ -194,7 +193,7 @@ L["Group aura count description"] = [=[
 |cFF00CC00不等于 2|r 会在2人受影响之外时触发
 |cFF00CC00小于等于 0.8|r 会在小于80%%的人受影响时触发
 |cFF00CC00大于 1/2|r 会在超过一半以上的人受影响时触发
-|cFF00CC00大于等于 0|r 总是触发.]=]
+|cFF00CC00大于等于 0|r 总是触发.]=] -- Needs review
 L["Group Member Count"] = "队伍或团队成员数"
 L["Group (verb)"] = "组织"
 L["Height"] = "高度"
@@ -202,6 +201,7 @@ L["Hide this group's children"] = "隐藏这个子元素"
 L["Hide When Not In Group"] = "不在队伍时隐藏"
 L["Horizontal Align"] = "水平对齐"
 L["Icon Info"] = "图标信息"
+L["Icon Inset"] = "项目插入" -- Needs review
 L["Ignored"] = "被忽略"
 L["Ignore GCD"] = "忽略公共CD(GCD)"
 L["%i Matches"] = "%i 符合"
@@ -215,8 +215,8 @@ L["Main"] = "主要的"
 L["Main Trigger"] = "主触发"
 L["Mana (%)"] = "法力值百分比(%%)"
 L["Manage displays defined by Addons"] = "由插件管理已定义的图示"
-L["Message Prefix"] = "聊天讯息前缀"
-L["Message Suffix"] = "聊天讯息后缀"
+L["Message Prefix"] = "讯息前缀"
+L["Message Suffix"] = "讯息后缀"
 L["Metamorphosis"] = "变形"
 L["Mirror"] = "镜像"
 L["Model"] = "模型"
@@ -283,11 +283,12 @@ L["Rotation"] = "旋转"
 L["Same"] = "相同"
 L["Search"] = "搜索"
 L["Secondary"] = "副天赋"
+L["Select the auras you always want to be listed first"] = "选择优先列出的光环" -- Needs review
 L["Send To"] = "发送给"
 L["Set tooltip description"] = "设置提示描述"
-L["Shadow Dance"] = "灵魂行者的恩赐"
+L["Shadow Dance"] = "暗影之舞"
 L["Shadowform"] = "暗影形态"
-L["Shadow Resistance"] = "暗抗"
+L["Shadow Resistance"] = "暗影抗性"
 L["Shift-click to create chat link"] = "Shift+左键 创建 一个 |cFF8800FF[聊天链接]"
 L["Show all matches (Auto-clone)"] = "列出所有符合的(自动复制)"
 L["Show players that are |cFFFF0000not affected"] = "显示|cFFFF0000未被影响|r的玩家"
@@ -317,10 +318,10 @@ L["Spell ID dialog"] = [=[你已经指定一个|cFFFF0000法术ID|r。
 当然，如果你启用完整扫描，|cFF8800FFWeakAuras|r可以搜寻指定的|cFFFF0000法术编号|r的法术。
 
 你想要启用完整扫描来匹配这个|cFFFF0000法术编号|r吗？]=]
-L["Stack Count"] = "堆叠数"
-L["Stack Count Position"] = "堆叠数位置"
-L["Stack Info"] = "堆叠信息"
--- L["Stacks Settings"] = ""
+L["Stack Count"] = "层数" -- Needs review
+L["Stack Count Position"] = "层数位置" -- Needs review
+L["Stack Info"] = "层数信息" -- Needs review
+L["Stacks Settings"] = "层数设置" -- Needs review
 L["Stagger"] = "交错"
 L["Stance (Warrior)"] = "姿态"
 L["Start"] = "开始"
@@ -333,6 +334,7 @@ L["Text Color"] = "文字颜色"
 L["Text Position"] = "文字位置"
 L["Text Settings"] = "文字设置"
 L["Texture"] = "材质"
+L["Texture Info"] = "材质信息" -- Needs review
 L["The children of this group have different display types, so their display options cannot be set as a group."] = "群组中的子元素含有类型不同图示，所以它们的显示选项无法统一成一个群组."
 L["The duration of the animation in seconds."] = "动画持续秒数"
 L["The type of trigger"] = "触发器类型"
@@ -367,7 +369,7 @@ L["Unlike the start or finish animations, the main animation will loop over and 
 L["Unstealthed"] = "非潜行"
 L["Update Custom Text On..."] = "更新自定义文字于"
 L["Use Full Scan (High CPU)"] = "使用完整扫描(高CPU)"
-L["Use tooltip \"size\" instead of stacks"] = "使用\\\"大小\\\"提示,而不是\\\"堆叠\\\""
+L["Use tooltip \"size\" instead of stacks"] = "使用\\\"大小\\\"提示,而不是\\\"层数\\\"" -- Needs review
 L["Vertical Align"] = "垂直对齐"
 L["View"] = "查看"
 L["Width"] = "宽度"

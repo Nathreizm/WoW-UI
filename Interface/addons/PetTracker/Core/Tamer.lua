@@ -1,5 +1,4 @@
 local _, Addon = ...
-local Breeds = LibStub('LibPetBreedInfo-1.0')
 local Pet = setmetatable(Addon:NewModule('TamerPet'), Addon.Specie)
 local Tamer = Addon:NewModule('Tamer')
 
@@ -7,21 +6,23 @@ Tamer.__index = Tamer
 Pet.__index = Pet
 
 
---[[ Tamer ]]--
+--[[ Constructors ]]--
 
-function Tamer:At(location)
-	return self:Get(PetTracker_TamerLocations[location])
+function Tamer:At(landmark)
+	return self:Get(Addon.TamerLandmarks[landmark])
 end
 
 function Tamer:Get(id)
-	local data = PetTracker_Tamers[id]
+	local data = Addon.Tamers[id]
 	if data then
-		local name, model, quest, money, items, currencies, pets = data:match('^([^:]+):(%w%w%w%w)(%w%w%w)(%w%w%w)([^:]*):([^:]*):(.*)$')
+		local name, model, zone, quest, gold, items, currencies, pets = data:match('^([^:]+):(%w%w%w%w)(%w%w)(%w%w%w)(%w)([^:]*):([^:]*):(.*)$')
 		local tamer = setmetatable({
 			name = name, items = items, currencies = currencies,
-			money = tonumber(money, 36) * 100,
+			gold = tonumber(gold, 36),
 			quest = tonumber(quest, 36),
-			model = tonumber(model, 36)
+			model = tonumber(model, 36),
+			zone = tonumber(zone, 36),
+			id = id
 		}, self)
 
 		for name, model, specie, level, quality in pets:gmatch('([^:]+):(%w%w%w%w)(%w%w%w)(%w)(%w)') do
@@ -35,6 +36,48 @@ function Tamer:Get(id)
 		end
 
 		return tamer
+	end
+end
+
+
+--[[ API ]]--
+
+function Tamer:Display()
+	if GetAddOnEnableState(UnitName('player'), 'PetTracker_Journal') >= 2 then
+		PetJournal_LoadUI()
+		ShowUIPanel(PetJournalParent)
+		PetJournalParent_SetTab(PetJournalParent, 4)
+		PetTrackerTamerJournal:SetTamer(self)
+	end
+end
+
+function Tamer:GetZoneTitle()
+	local name = GetMapNameByID(self.zone)
+	local continent = Addon.ContinentByZone[name]
+	if continent == 'Draenor' and self:GetLevel() < 25 then
+		continent = 'Outland'
+	end
+
+	return name .. (continent and (', ' .. continent) or '')
+end
+
+function Tamer:GetCompleteState()
+	return self.quest ~= 0 and (self:IsCompleted() and COMPLETE or AVAILABLE) or ''
+end
+
+function Tamer:IsCompleted()
+	return IsQuestFlaggedCompleted(self.quest)
+end
+
+function Tamer:GetType()
+	local list = {}
+	for i, pet in ipairs(self) do
+		local family = pet:GetType()
+		if list[family] then
+			return family
+		elseif family then
+			list[family] = true
+		end
 	end
 end
 
@@ -64,22 +107,25 @@ function Tamer:GetRewards()
 	return rewards
 end
 
-function Tamer:GetType()
-	local list = {}
+function Tamer:GetAbstract()
+	local text = self.name .. ' ' .. self:GetZoneTitle() .. ' ' .. self:GetCompleteState()
+
 	for i, pet in ipairs(self) do
-		local family = pet:GetType()
-		if list[family] then
-			return family
-		elseif family then
-			list[family] = true
+		text = text .. ' ' .. pet:GetName() .. ' ' .. pet:GetTypeName()
+	end
+
+	for id in self.items:gmatch('(%w%w%w%w)%w') do
+		local name = GetItemInfo(tonumber(id, 36))
+		if name then
+			text = text .. ' ' .. name
 		end
 	end
-end
 
-function Tamer:GetAbstract()
-	local text = self.name
-	for i, pet in ipairs(self) do
-		text = strjoin(' ', text, pet:GetName(), pet:GetTypeName())
+	for id in self.currencies:gmatch('(%w%w)%w') do
+		local name = GetCurrencyInfo(tonumber(id, 36))
+		if name then
+			text = text .. ' ' .. name
+		end
 	end
 
 	return text
@@ -99,18 +145,12 @@ end
 
 --[[ Pets ]]--
 
-for _, key in pairs {'Name', 'Specie', 'Model', 'Level', 'Quality'} do
-	Pet['Get' .. key] = function(self)
-		return self[key]
-	end
-end
-
 function Pet:GetStats()
-	return Breeds:GetPetPredictedStats(self.Specie, self:GetBreed(), self.Quality, self.Level)
+	return Addon.Predict:Stats(self.Specie, self.Level, self.Quality, self:GetBreed())
 end
 
 function Pet:GetBreed()
-	return Breeds:GetAvailableBreeds(self.Specie)[1]
+	return Addon.Breeds[self.Specie][1]
 end
 
 function Pet:GetAbility(i)
@@ -120,5 +160,11 @@ function Pet:GetAbility(i)
 		if i == 0 then
 			return id, nil, nil, true
 		end
+	end
+end
+
+for _, key in pairs {'Name', 'Specie', 'Model', 'Level', 'Quality'} do
+	Pet['Get' .. key] = function(self)
+		return self[key]
 	end
 end

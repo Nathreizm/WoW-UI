@@ -7,10 +7,17 @@ local function LoadSkin()
 	PetJournalParent:StripTextures()
 	PetJournalParent:SetTemplate('Transparent')
 	PetJournalParentPortrait:Hide()
-	S:HandleTab(PetJournalParentTab1)
-	S:HandleTab(PetJournalParentTab2)
-	S:HandleCloseButton(PetJournalParentCloseButton)
 
+	for i=1, 3 do
+		S:HandleTab(_G['PetJournalParentTab'..i])
+	end
+	
+	S:HandleCloseButton(PetJournalParentCloseButton)
+	S:HandleItemButton(MountJournalSummonRandomFavoriteButton)
+	S:HandleButton(MountJournalFilterButton)
+
+	MountJournalFilterButton:ClearAllPoints()
+	MountJournalFilterButton:SetPoint("LEFT", MountJournalSearchBox, "RIGHT", 5, 0)
 	-------------------------------
 	--[[ mount journal (tab 1) ]]--
 	-------------------------------
@@ -21,6 +28,9 @@ local function LoadSkin()
 	MountJournal.MountDisplay:StripTextures()
 	MountJournal.MountDisplay.ShadowOverlay:StripTextures()
 	MountJournal.MountCount:StripTextures()
+
+	S:HandleIcon(MountJournal.MountDisplay.InfoButton.Icon)
+
 	S:HandleButton(MountJournalMountButton, true)
 	S:HandleEditBox(MountJournalSearchBox)
 	S:HandleScrollBar(MountJournalListScrollFrameScrollBar)
@@ -28,7 +38,11 @@ local function LoadSkin()
 	S:HandleRotateButton(MountJournal.MountDisplay.ModelFrame.RotateRightButton)
 
 	for i = 1, #MountJournal.ListScrollFrame.buttons do
-		S:HandleItemButton(_G["MountJournalListScrollFrameButton"..i])
+		local b = _G["MountJournalListScrollFrameButton"..i];
+		S:HandleItemButton(b)
+		b.favorite:SetTexture("Interface\\COMMON\\FavoritesIcon")
+		b.favorite:SetPoint("TOPLEFT",b.DragButton,"TOPLEFT",-8,8)
+		b.favorite:SetSize(32,32)
 	end
 
 	-- Color in green icon border on selected mount
@@ -70,8 +84,13 @@ local function LoadSkin()
 	PetJournalTutorialButton:Kill()
 	PetJournal.PetCount:StripTextures()
 	S:HandleEditBox(PetJournalSearchBox)
+	PetJournalSearchBox:ClearAllPoints()
+	PetJournalSearchBox:SetPoint("TOPLEFT", PetJournalLeftInset, "TOPLEFT", (E.PixelMode and 13 or 10), -9)
 	PetJournalFilterButton:StripTextures(true)
 	S:HandleButton(PetJournalFilterButton)
+	PetJournalFilterButton:Height(E.PixelMode and 22 or 24)
+	PetJournalFilterButton:ClearAllPoints()
+	PetJournalFilterButton:SetPoint("TOPRIGHT", PetJournalLeftInset, "TOPRIGHT", -5, -(E.PixelMode and 8 or 7))
 	PetJournalListScrollFrame:StripTextures()
 	S:HandleScrollBar(PetJournalListScrollFrameScrollBar)
 	
@@ -81,6 +100,7 @@ local function LoadSkin()
 		b.dragButton.favorite:SetParent(b.backdrop)
 		b.dragButton.levelBG:SetAlpha(0)
 		b.dragButton.level:SetParent(b.backdrop)
+		b.dragButton.ActiveTexture:Kill()
 	end
 
 
@@ -96,19 +116,21 @@ local function LoadSkin()
 			local t = _G["PetJournalListScrollFrameButton"..i.."Name"]
 			local petID, speciesID, isOwned, customName, level, favorite, isRevoked, name, icon, petType, creatureID, sourceText, description, isWildPet, canBattle = C_PetJournal.GetPetInfoByIndex(index, isWild);
 
+			if b.selectedTexture:IsShown() then
+				t:SetTextColor(1,1,0)
+			else
+				t:SetTextColor(1,1,1)
+			end
 			if petID ~= nil then
 				local health, maxHealth, attack, speed, rarity = C_PetJournal.GetPetStats(petID);
-				if b.selectedTexture:IsShown() then
-					t:SetTextColor(1,1,0)
-				else
-					t:SetTextColor(1, 1, 1)
-				end
 				if rarity then
 					local color = ITEM_QUALITY_COLORS[rarity-1]
 					b.backdrop:SetBackdropBorderColor(color.r, color.g, color.b);
 				else
-					b.backdrop:SetBackdropBorderColor(1, 1, 0)
+					b.backdrop:SetBackdropBorderColor(0,0,0)
 				end
+			else
+				b.backdrop:SetBackdropBorderColor(0,0,0)
 			end
 		end
 	end	
@@ -209,6 +231,37 @@ local function LoadSkin()
 	PetJournalPetCardXPBar:StripTextures()
 	PetJournalPetCardXPBar:CreateBackdrop('Default')	
 	PetJournalPetCardXPBar:SetStatusBarTexture(E.media.normTex)
+
+
+	--Toy Box
+	S:HandleButton(ToyBoxFilterButton)
+	S:HandleEditBox(ToyBoxSearchBox)
+
+	ToyBoxFilterButton:SetPoint("TOPRIGHT", ToyBox, "TOPRIGHT", -15, -34)
+
+	S:HandleNextPrevButton(ToyBoxNextPageButton)
+	S:HandleNextPrevButton(ToyBoxPrevPageButton)
+
+	ToyBoxIconsFrame:StripTextures()
+
+	for i=1, 18 do
+		S:HandleItemButton(_G["ToySpellButton"..i])
+		_G["ToySpellButton"..i].hover:SetAllPoints(_G["ToySpellButton"..i.."IconTexture"])
+		_G["ToySpellButton"..i].checked:SetAllPoints(_G["ToySpellButton"..i.."IconTexture"])
+		_G["ToySpellButton"..i].pushed:SetAllPoints(_G["ToySpellButton"..i.."IconTexture"])
+		_G["ToySpellButton"..i.."Cooldown"]:SetAllPoints(_G["ToySpellButton"..i.."IconTexture"])
+		E:RegisterCooldown(_G["ToySpellButton"..i.."Cooldown"])
+	end
+
+	hooksecurefunc("ToySpellButton_UpdateButton", function(self)
+		if (PlayerHasToy(self.itemID)) then
+			_G[self:GetName().."ToyName"]:SetTextColor(1, 1, 1)
+		else
+			_G[self:GetName().."ToyName"]:SetTextColor(0.6, 0.6, 0.6)
+		end
+	end)
+
+	ToyBoxProgressBar:StripTextures()
 end
 
 S:RegisterSkin("Blizzard_PetJournal", LoadSkin)

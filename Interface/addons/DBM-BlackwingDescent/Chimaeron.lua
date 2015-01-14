@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(172, "DBM-BlackwingDescent", nil, 73)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 103 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 114 $"):sub(12, -3))
 mod:SetCreatureID(43296)
 mod:SetEncounterID(1023)
 mod:SetZone()
@@ -49,7 +49,7 @@ local timerFailureNext		= mod:NewNextTimer(25, 88853)
 local berserkTimer			= mod:NewBerserkTimer(450)--Heroic
 
 mod:AddBoolOption("RangeFrame")
-mod:AddBoolOption("SetIconOnSlime")
+mod:AddBoolOption("SetIconOnSlime", false)
 mod:AddBoolOption("InfoFrame", mod:IsHealer())
 
 local prewarnedPhase2 = false

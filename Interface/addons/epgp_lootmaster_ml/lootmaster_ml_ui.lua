@@ -32,11 +32,13 @@ local sstScrollCols = {
 
        { ["name"] = " ",					["width"] = 5,   ["align"] = "LEFT",    	["defaultsort"] = "asc", ["sort"] = "asc", ["sortnext"]=9},   -- Spacer, actually contains a check if someone matches MinEP, used for sorting purposes.
 
-       { ["name"] = L["iLvl"],				["width"] = 70,  ["align"] = "CENTER", 	 	["bgcolor"] = gearBgColor },
-       { ["name"] = "GP",					["width"] = 60,  ["align"] = "CENTER",  	["bgcolor"] = gearBgColor },
-       { ["name"] = "s1",		          	["width"] = 20,  ["align"] = "CENTER", 		["bgcolor"] = gearBgColor },
-       { ["name"] = "s2",		          	["width"] = 20,  ["align"] = "CENTER",  	["bgcolor"] = gearBgColor },
-       { ["name"] = " ",		          	["width"] = 5,   ["align"] = "LEFT",    	["bgcolor"] = gearBgColor }
+       { ["name"] = "s1",		          	["width"] = 34,  ["align"] = "CENTER", 		["bgcolor"] = gearBgColor },
+       { ["name"] = "s2",		          	["width"] = 34,  ["align"] = "CENTER", 		["bgcolor"] = gearBgColor },
+       { ["name"] = "s3",		          	["width"] = 34,  ["align"] = "CENTER", 		["bgcolor"] = gearBgColor },
+       { ["name"] = "s4",		          	["width"] = 34,  ["align"] = "CENTER",  	["bgcolor"] = gearBgColor },
+	   { ["name"] = "s5",		          	["width"] = 34,  ["align"] = "CENTER", 		["bgcolor"] = gearBgColor },
+       { ["name"] = "avg lvl",              ["width"] = 50,  ["align"] = "RIGHT",       ["bgcolor"] = gearBgColor },
+       { ["name"] = " ",                    ["width"] = 5,   ["align"] = "LEFT",        ["bgcolor"] = gearBgColor },
 }
 
 function LootMasterML:ShowInfoPopup( ... )
@@ -137,9 +139,9 @@ function LootMasterML:GetFrame()
 
     titleFrame:SetScript("OnMouseDown", function() mainframe:StartMoving() end)
     titleFrame:SetScript("OnMouseWheel", function(s, delta)
-		self:SetUIScale( max(min(mainframe:GetScale(0.8) + delta/15,2.0),0.5) );
+		self:SetUIScale(max(min(mainframe:GetScale(0.8) + delta/15,5.0),0.5))
 	end)
-    titleFrame:SetScript("OnEnter", function() self:ShowInfoPopup("EPGPLootmaster", L["Click and drag to move this window."], L["Doubleclick to fold/unfold this window."]) end)
+    titleFrame:SetScript("OnEnter", function() self:ShowInfoPopup("EPGPLootmaster", L["Click and drag to move this window."], L["Doubleclick to fold/unfold this window."], L["Use your mousewheel on this bar to zoom window"]) end)
     titleFrame:SetScript("OnLeave", self.HideInfoPopup)
 	titleFrame:SetScript("OnMouseUp", function()
         mainframe:StopMovingOrSizing()
@@ -217,7 +219,7 @@ function LootMasterML:GetFrame()
 		insets = { left = 2, right = 1, top = 2, bottom = 2 }
 	})
     equipHeaderFrame:SetBackdropColor(0.2,0.2,0.2,0.6)
-    equipHeaderFrame:SetWidth(180)
+    equipHeaderFrame:SetWidth(230)
     equipHeaderFrame:SetHeight(38)
 
     local titletext = equipHeaderFrame:CreateFontString(nil,"OVERLAY","GameFontNormalSmall")
@@ -254,7 +256,7 @@ function LootMasterML:GetFrame()
 
     local tbGPValueFrame = CreateFrame("Frame", nil, frame)
 	tbGPValueFrame:SetHeight(20)
-    tbGPValueFrame:SetWidth(50);
+    tbGPValueFrame:SetWidth(100);
     tbGPValueFrame:SetBackdrop({
 		bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
 		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
@@ -342,6 +344,7 @@ function LootMasterML:GetFrame()
 	btnDiscard:SetScript("OnClick", function()
             if frame.currentLoot then
                 self:RemoveLoot( frame.currentLoot.id );
+                self.frame.currentLoot = nil
             end
             self:UpdateUI();
     end)
@@ -531,11 +534,11 @@ function LootMasterML:CreateLootButton()
 	    GameTooltip:Hide()
     end);
     icon:SetScript("OnClick", function()
-        if not icon.data then return end
+        if not icon.itemIdentifier then return end
 	    if ( IsModifiedClick() ) then
-		    HandleModifiedItemClick(icon.data.link);
+		    HandleModifiedItemClick(LootMasterML:GetLoot(icon.itemIdentifier).link);
         else
-            self:DisplayLoot(icon.data.link);
+            self:DisplayLoot(icon.itemIdentifier);
             self:UpdateUI();
         end
     end);
@@ -547,7 +550,6 @@ function LootMasterML:CreateLootButton()
 end
 
 function LootMasterML:DisplayLoot( item )
-
     local data = self:GetLoot(item);
 
     if not data then
@@ -687,13 +689,11 @@ function LootMasterML:UpdateUI( updateItemLink )
             if self.frame.currentLoot and data.link==self.frame.currentLoot.link then
                 -- If already displaying, do nothing.
                 self:DisplayLoot(item)
-                breakMe = true
-                break
+                --breakMe = true
             elseif not self.frame.currentLoot then
                 -- Nothing is onscreen, display the first item
                 self:DisplayLoot(item)
-                breakMe = true
-                break
+                --breakMe = true
             end
 
             if visibleLootButtons>=LOOTBUTTON_MAXNUM then breakMe = true; break end
@@ -707,7 +707,8 @@ function LootMasterML:UpdateUI( updateItemLink )
                 self.lootButtons[visibleLootButtons] = lootButton
             end
 
-            lootButton.data = data
+            lootButton.data = self.lootTable[item]
+            lootButton.itemIdentifier = item
             lootButton:SetNormalTexture(data.texture);
             --lootButton:GetNormalTexture():SetVertexColor(1,0,0,0.5)
 
@@ -790,7 +791,7 @@ function LootMasterML:CandidateDropDownInitialize( frame, level, menuList )
             info.notCheckable = 1;
         end
 
-		if loot.voteAllowed and not (LootMaster.db.profile.votingDisallowSelf and UnitIsUnit(LootMasterML.CandidateDropDown.selectedCandidate, 'player')) then
+		if loot.voteAllowed and not (LootMaster.db.profile.votingDisallowSelf and LootMaster.UnitIsUnit(LootMasterML.CandidateDropDown.selectedCandidate, 'player')) then
 			info.notCheckable = 1;
 			info.disabled = false;
 			info.text = L["Vote"]
@@ -1036,18 +1037,68 @@ function LootMasterML:SetNoteCellOwnerDraw(cell, itemData)
 
 end
 
-function LootMasterML:SetGearCellOwnerDraw(cell, itemData)
-
-    if not itemData or itemData=='' then
+function LootMasterML:SetCandidateNameCellOwnerDraw(cell, itemData)
+	if not itemData or itemData=='' then
         cell.text:SetText('');
         cell:SetNormalTexture(nil)
         return;
     end
 
-    local link, gpvalue, ilevel, gpvalue2, itemTexture = strsplit("^", itemData)
+	cell.text:SetText(LootMaster.Ambiguate(itemData,"none"))
+end
 
-    cell.text:SetText('');
+
+function LootMasterML:SetGearCellOwnerDraw(cell, self, candidate, item, dataName, lootILevel )
+
+	local itemData = self:GetCandidateData(item, candidate, dataName)
+
+    if not itemData or itemData=='' then
+        cell.text:SetText('')
+        cell:SetNormalTexture(nil)
+
+		if cell.overlayText then
+			cell.overlayText:SetText("")
+		end
+        return
+    end
+
+	if not cell.overlayText then
+		local textFrame = CreateFrame("Frame", nil, cell:GetParent())
+		textFrame:SetPoint("TOPLEFT",cell,"TOPLEFT",0,0)
+		textFrame:SetPoint("BOTTOMRIGHT",cell,"BOTTOMRIGHT",0,0)
+
+		local titletext = textFrame:CreateFontString(nil,"OVERLAY","GameFontNormalSmall")
+		titletext:SetPoint("CENTER",textFrame,"CENTER",0,1)
+		titletext:SetText("")
+		cell.overlayText = titletext
+	end
+
+    local link, gpvalue, ilevel, gpvalue2, itemTexture = strsplit("^", itemData)
+	local iLevelDiff = lootILevel - ilevel
+
+	if iLevelDiff == 0 then
+		cell.overlayText:SetVertexColor(50, 50, 50)
+		cell.overlayText:SetAlpha(0.7)
+	elseif iLevelDiff < 0 then
+		cell.overlayText:SetVertexColor(255, 0, 0)
+		cell.overlayText:SetAlpha(1.0)
+	else
+		cell.overlayText:SetVertexColor(0, 255, 0)
+		cell.overlayText:SetAlpha(1.0)
+	end
+
+	cell.overlayText:SetText(tostring(iLevelDiff))
     cell:SetNormalTexture(itemTexture)
+
+	local t = cell:GetNormalTexture()
+	if t ~= nil then
+		t:ClearAllPoints()
+		t:SetHeight(21)
+		t:SetWidth(21)
+		cell:SetAlpha(0.4)
+		t:SetPoint("CENTER",t:GetParent(),"CENTER")
+		cell:SetNormalTexture(itemTexture)
+	end
 end
 
 function LootMasterML:SetClassIconCellOwnerDraw(cell, itemData)
@@ -1078,6 +1129,13 @@ function LootMasterML:ShowNoteCellPopup( candidate, item )
     self:ShowInfoPopup(L['Note added by '] .. candidate .. ':', itemData or '');
 end
 
+function LootMasterML:ShowAverageItemlevelCellPopup( candidate, item )
+    local itemlevel = self:GetCandidateData(item, candidate, 'averageitemlevel');
+    self:ShowInfoPopup(candidate, 'Average total itemlevel of entire gearset: ' .. tostring(itemlevel));
+end
+
+
+
 function LootMasterML:ShowGearCellPopup( candidate, item, dataName )
 
     local itemData = self:GetCandidateData(item, candidate, dataName);
@@ -1095,7 +1153,7 @@ end
 function LootMasterML:ShowCandidateCellPopup( candidate, item )
     if not candidate then return nil end
     GameTooltip:SetOwner(self.frame, "ANCHOR_NONE")
-    GameTooltip:SetUnit(candidate)
+    GameTooltip:SetUnit(LootMaster.Ambiguate(candidate,"none"))
 	GameTooltip:Show()
     GameTooltip:SetPoint("TOPLEFT", self.frame , "TOPRIGHT", 0, -5);
 end
@@ -1196,9 +1254,9 @@ end
 
 function LootMasterML:SetCandidateEPGPCellUserDraw( cell, self, candidate, item )
     if not EPGP or not EPGP.GetEPGP then
-        return cell.text:SetText( '?' );
+        return cell.text:SetText( '!' );
     end
-    local ok, ep, gp, main = pcall(EPGP.GetEPGP, EPGP, candidate)
+    local ok, ep, gp, main = pcall(EPGP.GetEPGP, EPGP, LootMaster.Ambiguate(candidate,"guild"))
     if not ok then
         return cell.text:SetText( '?' );
     end
@@ -1317,7 +1375,7 @@ function LootMasterML:SetCandidateVotesCellUserDraw( cell, self, candidate, item
 
 	local v = tonumber(self:GetCandidateData(loot.id, candidate, "votes")) or 0
 
-	if loot.voteRequired and loot.voteAllowed and not (LootMaster.db.profile.votingDisallowSelf and UnitIsUnit(candidate, 'player')) then
+	if loot.voteRequired and loot.voteAllowed and not (LootMaster.db.profile.votingDisallowSelf and LootMaster.UnitIsUnit(candidate, 'player')) then
 		-- show button
 		cell.text:SetText('')
 
@@ -1780,7 +1838,7 @@ function LootMasterML:ShowRaidInfoLookup()
 			if not rows then return end
 			for i,row in pairs(rows) do
 				local player = row.cols[2].value
-				if row.cols[1].value == 1 and not UnitIsUnit("player", player) then
+				if row.cols[1].value == 1 and not LootMaster.UnitIsUnit("player", player) then
 					InviteUnit(player)
 				end
 			end
@@ -1800,7 +1858,7 @@ function LootMasterML:ShowRaidInfoLookup()
 			end
 			for i,row in pairs(rows) do
 				local player = row.cols[2].value
-				if row.cols[1].value == 1 and not UnitIsUnit("player", player) then
+				if row.cols[1].value == 1 and not LootMaster.UnitIsUnit("player", player) then
 					SendChatMessage(strtrim(frame.tbWhisperBox:GetText()), "WHISPER", nil, row.cols[2].value);
 				end
 			end
@@ -1938,14 +1996,14 @@ function LootMasterML:ShowRaidInfoLookup()
             else
                 num = GetNumSubgroupMembers()
                 for i=1, num do
-                    self:AddRaidInfoLookupMember(UnitName('party'..i))
+                    self:AddRaidInfoLookupMember(LootMaster.UnitName('party'..i))
                 end
-                self:AddRaidInfoLookupMember(UnitName('player'))
+                self:AddRaidInfoLookupMember(LootMaster.UnitName('player'))
                 sstScroll:SetData( frame.rows )
                 if num > 0 then
                   self:SendCommand('GETRAIDINFO', frame.lookup, 'PARTY')
                 else
-                  self:SendCommand('GETRAIDINFO', frame.lookup, UnitName('player'))
+                  self:SendCommand('GETRAIDINFO', frame.lookup, LootMaster.UnitName('player'))
                 end
             end
 

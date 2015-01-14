@@ -10,8 +10,9 @@ end
 
 L = BigWigs:NewBossLocale("Horridon", "zhTW")
 if L then
-	L.charge_trigger = "用力拍動尾巴!" --哈里登雙眼盯著%s，用力拍動尾巴!
-	L.door_trigger = "的門蜂擁而出!" --...部隊從...部族的門蜂擁而出!
+	L.charge_trigger = "用力拍動尾巴!"
+	L.door_trigger = "的門蜂擁而出!"
+	--L.orb_trigger = "charge" -- PLAYERNAME forces Horridon to charge the Farraki door!
 
 	L.chain_lightning_message = "你的專注目標正在施展閃電鏈！"
 	L.chain_lightning_bar = "專注目標：閃電鏈"
@@ -42,6 +43,7 @@ if L then
 	L.custom_on_markpossessed = "標記遭佔據的首領"
 	L.custom_on_markpossessed_desc = "用骷髏標記遭佔據的首領，需要權限。"
 
+	L.priestess_heal = ">%s< 被治療！"
 	L.assault_stun = "坦克暈眩"
 	L.assault_message = "嚴寒之擊！"
 	L.full_power = "全能量"
@@ -178,7 +180,6 @@ if L then
 
 	L.last_inermission_ability = "最終階段轉換技能已使用！"
 	L.safe_from_stun = "可容許的超載昏迷"
-	L.intermission = "階段轉換"
 	L.diffusion_add = "散射電靈"
 	L.shock = "靜電震擊"
 	L.static_shock_bar = "<靜電震擊分擔>"
@@ -206,8 +207,6 @@ end
 
 L = BigWigs:NewBossLocale("Throne of Thunder Trash", "zhTW")
 if L then
-	L.displayname = "小怪"
-
 	L.stormcaller = "贊達拉召雷師"
 	L.stormbringer = "風暴召喚者德拉茲齊"
 	L.monara = "魔娜菈" --(任務)皇后的輓歌

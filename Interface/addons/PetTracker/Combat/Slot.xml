@@ -1,5 +1,8 @@
-<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
-..\..\FrameXML\UI.xsd">
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Texture name="PetTrackerStatIcon" file="Interface\PetBattles\PetBattle-StatIcons" virtual="true">
+		<Size x="16" y="16"/>
+	</Texture>
+
 	<Frame name="PetTrackerHoverFrame" virtual="true">
 		<Scripts>
 			<OnLoad>
@@ -149,13 +152,6 @@
 				</Anchors>
 			</Frame>
 			
-			<Frame parentKey="Highlight" inherits="PetTrackerSlotHighlight">
-				<Anchors>
-					<Anchor point="TOPLEFT" x="-7" y="5"/>
-					<Anchor point="BOTTOMRIGHT" x="7" y="-7"/>
-				</Anchors>
-			</Frame>
-			
 			<Frame parentKey="IsEmpty" inherits="PetTrackerHoverFrame">
 				<Size x="404" y="106"/>
 				<Anchors>
@@ -191,17 +187,6 @@
 				</Layers>
 			</Frame>
 		</Frames>
-		<Scripts>
-			<OnLoad>
-				self:RegisterForClicks("LeftButtonDown", "LeftButtonUp")
-			</OnLoad>
-			<OnEnter>
-				self.Highlight:Show()
-			</OnEnter>
-			<OnLeave>
-				self.Highlight:Hide()
-			</OnLeave>
-		</Scripts>
 	</Button>
 
 	<Button name="PetTrackerJournalSlot" inherits="PetTrackerSlot" virtual="true">
@@ -237,6 +222,23 @@
 					<Anchor point="LEFT" relativeKey="$parent.Health" relativePoint="RIGHT" x="7"/>
 				</Anchors>
 			</StatusBar>
+			<Frame parentKey="Highlight" inherits="PetTrackerSlotHighlight">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="-7" y="5"/>
+					<Anchor point="BOTTOMRIGHT" x="7" y="-7"/>
+				</Anchors>
+			</Frame>
 		</Frames>
+		<Scripts>
+			<OnLoad>
+				self:RegisterForClicks("LeftButtonDown", "LeftButtonUp")
+			</OnLoad>
+			<OnEnter>
+				self.Highlight:Show()
+			</OnEnter>
+			<OnLeave>
+				self.Highlight:Hide()
+			</OnLeave>
+		</Scripts>
 	</Button>
 </Ui>

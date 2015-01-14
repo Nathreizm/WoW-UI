@@ -1,0 +1,6 @@
+PetJournalEnhanced: disabled
+PetTracker: disabled
+NugComboBar: disabled
+MoveAnything: disabled
+MasterPlan: enabled
+GarrisonMissionManager: disabled

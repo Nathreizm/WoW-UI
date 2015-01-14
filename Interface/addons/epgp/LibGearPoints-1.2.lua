@@ -48,7 +48,10 @@ local EQUIPSLOT_MULTIPLIER_2 = {
   INVTYPE_RANGEDRIGHT = 1.5
 }
 
---Used to display GP values directly on tier tokens
+--Used to display GP values directly on tier tokens; keys are itemIDs,
+--values are rarity, ilvl, inventory slot, and an optional boolean
+--value indicating heroic/mythic ilvl should be derived from the bonus
+--list rather than the raw ilvl (mainly for T17+ tier gear)
 local CUSTOM_ITEM_DATA = {
   -- Tier 4
   [29753] = { 4, 120, "INVTYPE_CHEST" },
@@ -409,7 +412,33 @@ local CUSTOM_ITEM_DATA = {
   [96568] = { 4, 535, "INVTYPE_CHEST" },
   [96566] = { 4, 535, "INVTYPE_CHEST" },
 
-  -- T16 Normal
+  -- T16 Normal (post-6.0)
+  [99754] = { 4, 540, "INVTYPE_SHOULDER" },
+  [99755] = { 4, 540, "INVTYPE_SHOULDER" },
+  [99756] = { 4, 540, "INVTYPE_SHOULDER" },
+
+  [99751] = { 4, 540, "INVTYPE_LEGS" },
+  [99752] = { 4, 540, "INVTYPE_LEGS" },
+  [99753] = { 4, 540, "INVTYPE_LEGS" },
+
+  [99748] = { 4, 540, "INVTYPE_HEAD" },
+  [99749] = { 4, 540, "INVTYPE_HEAD" },
+  [99750] = { 4, 540, "INVTYPE_HEAD" },
+
+  [99745] = { 4, 540, "INVTYPE_HAND" },
+  [99746] = { 4, 540, "INVTYPE_HAND" },
+  [99747] = { 4, 540, "INVTYPE_HAND" },
+
+  [99742] = { 4, 540, "INVTYPE_CHEST" },
+  [99743] = { 4, 540, "INVTYPE_CHEST" },
+  [99744] = { 4, 540, "INVTYPE_CHEST" },
+
+  -- T16 Normal Essences (post-6.0)
+  [105863] = { 4, 540, "INVTYPE_HEAD" },
+  [105865] = { 4, 540, "INVTYPE_HEAD" },
+  [105864] = { 4, 540, "INVTYPE_HEAD" },
+
+  -- T16 Heroic (Normal pre-6.0)
   [99685] = { 4, 553, "INVTYPE_SHOULDER" },
   [99695] = { 4, 553, "INVTYPE_SHOULDER" },
   [99690] = { 4, 553, "INVTYPE_SHOULDER" },
@@ -430,12 +459,12 @@ local CUSTOM_ITEM_DATA = {
   [99691] = { 4, 553, "INVTYPE_CHEST" },
   [99686] = { 4, 553, "INVTYPE_CHEST" },
 
-  -- T16 Normal Essences
+  -- T16 Heroic Essences (Normal pre-6.0)
   [105857] = { 4, 553, "INVTYPE_HEAD" },
   [105859] = { 4, 553, "INVTYPE_HEAD" },
   [105858] = { 4, 553, "INVTYPE_HEAD" },
 
-  -- T16 Heroic
+  -- T16 Mythic (Heroic pre-6.0)
   [99717] = { 4, 566, "INVTYPE_SHOULDER" },
   [99719] = { 4, 566, "INVTYPE_SHOULDER" },
   [99718] = { 4, 566, "INVTYPE_SHOULDER" },
@@ -456,11 +485,56 @@ local CUSTOM_ITEM_DATA = {
   [99716] = { 4, 566, "INVTYPE_CHEST" },
   [99715] = { 4, 566, "INVTYPE_CHEST" },
 
-  -- T16 Heroic Essences
+  -- T16 Mythic Essences (Heroic pre-6.0)
   [105868] = { 4, 566, "INVTYPE_HEAD" },
   [105867] = { 4, 566, "INVTYPE_HEAD" },
   [105866] = { 4, 566, "INVTYPE_HEAD" },
 
+  -- T17
+  -- Item IDs are identical across difficulties, so specify nil for item level
+  -- and specify the tier number instead: the raid difficulty and tier number
+  -- will be used to get the item level.
+  [119309] = { 4, 665, "INVTYPE_SHOULDER", true },
+  [119322] = { 4, 665, "INVTYPE_SHOULDER", true },
+  [119314] = { 4, 665, "INVTYPE_SHOULDER", true },
+
+  [119307] = { 4, 665, "INVTYPE_LEGS", true },
+  [119320] = { 4, 665, "INVTYPE_LEGS", true },
+  [119313] = { 4, 665, "INVTYPE_LEGS", true },
+
+  [119308] = { 4, 665, "INVTYPE_HEAD", true },
+  [119321] = { 4, 665, "INVTYPE_HEAD", true },
+  [119312] = { 4, 665, "INVTYPE_HEAD", true },
+
+  [119306] = { 4, 665, "INVTYPE_HAND", true },
+  [119319] = { 4, 665, "INVTYPE_HAND", true },
+  [119311] = { 4, 665, "INVTYPE_HAND", true },
+
+  [119305] = { 4, 665, "INVTYPE_CHEST", true },
+  [119318] = { 4, 665, "INVTYPE_CHEST", true },
+  [119315] = { 4, 665, "INVTYPE_CHEST", true },
+
+  -- T17 essences
+  [119310] = { 4, 665, "INVTYPE_HEAD", true },
+  [120277] = { 4, 665, "INVTYPE_HEAD", true },
+  [119323] = { 4, 665, "INVTYPE_HEAD", true },
+  [120279] = { 4, 665, "INVTYPE_HEAD", true },
+  [119316] = { 4, 665, "INVTYPE_HEAD", true },
+  [120278] = { 4, 665, "INVTYPE_HEAD", true },
+}
+
+-- Used to add extra GP if the item contains bonus stats
+-- generally considered chargeable.
+local ITEM_BONUS_GP = {
+  [40]  = 0,  -- avoidance, no material value
+  [41]  = 0,  -- leech, no material value
+  [42]  = 25,  -- speed, arguably useful, so 25 gp
+  [43]  = 0,  -- indestructible, no material value
+  [523] = 200, -- extra socket
+  [563] = 200, -- extra socket
+  [564] = 200, -- extra socket
+  [565] = 200, -- extra socket
+  [572] = 200, -- extra socket
 }
 
 -- The default quality threshold:
@@ -475,6 +549,17 @@ local quality_threshold = 4
 
 local recent_items_queue = {}
 local recent_items_map = {}
+
+-- Given a list of item bonuses, return the ilvl delta it represents
+-- (15 for Heroic, 30 for Mythic)
+local function GetItemBonusLevelDelta(itemBonuses)
+  for _, value in pairs(itemBonuses) do
+    -- Item modifiers for heroic are 566 and 570; mythic are 567 and 569
+    if value == 566 or value == 570 then return 15 end
+    if value == 567 or value == 569 then return 30 end
+  end
+  return 0
+end
 
 local function UpdateRecentLoot(itemLink)
   if recent_items_map[itemLink] then return end
@@ -527,19 +612,39 @@ function lib:GetValue(item)
   -- For now, just use the actual ilvl, not the upgraded cost
   -- level = ItemUtils:GetItemIlevel(item, level)
 
-  -- Check if item is relevant
-  if level < 463 then
+  -- Check if item is relevant.  Item is automatically relevant if it
+  -- is in CUSTOM_ITEM_DATA (as of 6.0, can no longer rely on ilvl alone
+  -- for these).
+  if level < 463 and not CUSTOM_ITEM_DATA[itemID] then
     return nil, nil, level, rarity, equipLoc
   end
 
+  -- Get the bonuses for the item to check against known bonuses
+  local itemBonuses = ItemUtils:BonusIDs(itemLink)
+
   -- Check to see if there is custom data for this item ID
   if CUSTOM_ITEM_DATA[itemID] then
-    rarity, level, equipLoc = unpack(CUSTOM_ITEM_DATA[itemID])
+    rarity, level, equipLoc, useItemBonuses = unpack(CUSTOM_ITEM_DATA[itemID])
+    if useItemBonuses then
+      level = level + GetItemBonusLevelDelta(itemBonuses)
+    end
+
+    if not level then
+      return error("GetValue(item): could not determine item level from CUSTOM_ITEM_DATA.", 3)
+    end
   end
 
   -- Is the item above our minimum threshold?
   if not rarity or rarity < quality_threshold then
     return nil, nil, level, rarity, equipLoc
+  end
+
+  -- Does the item have bonus sockets or tertiary stats?  If so,
+  -- set extra GP to apply later.  We don't care about warforged
+  -- here as that uses the increased item level instead.
+  local extra_gp = 0
+  for _, value in pairs(itemBonuses) do
+    extra_gp = extra_gp + (ITEM_BONUS_GP[value] or 0)
   end
 
   UpdateRecentLoot(itemLink)
@@ -554,22 +659,26 @@ function lib:GetValue(item)
   -- 1000gp.  In 4.2 and higher, we renormalize to make ilvl 378
   -- chests cost 1000.  Repeat ad infinitum!
   local standard_ilvl
-  if (select(4, GetBuildInfo()) < 40200) then
+  local ilvl_denominator = 26
+  local version = select(4, GetBuildInfo())
+  local level_cap = MAX_PLAYER_LEVEL_TABLE[GetExpansionLevel()]
+  if version < 40200 then
     standard_ilvl = 359
-  elseif (select(4, GetBuildInfo()) < 40300) then
+  elseif version < 40300 then
     standard_ilvl = 378
-  elseif MAX_PLAYER_LEVEL_TABLE[GetExpansionLevel()] < 90 then
-    standard_ilvl = 397
-  elseif (select(4, GetBuildInfo()) < 50200) then
+  elseif version < 50200 then
     standard_ilvl = 496
-  elseif (select(4, GetBuildInfo()) < 50400) then
+  elseif version < 50400 then
     standard_ilvl = 522
-  else
+  elseif version < 60000 or level_cap == 90 then
     standard_ilvl = 553
+  else
+    standard_ilvl = 670
+    ilvl_denominator = 30
   end
-  local multiplier = 1000 * 2 ^ (-standard_ilvl / 26)
-  local gp_base = multiplier * 2 ^ (level/26)
-  local high = math.floor(0.5 + gp_base * slot_multiplier1)
-  local low = slot_multiplier2 and math.floor(0.5 + gp_base * slot_multiplier2) or nil
+  local multiplier = 1000 * 2 ^ (-standard_ilvl / ilvl_denominator)
+  local gp_base = multiplier * 2 ^ (level/ilvl_denominator)
+  local high = math.floor(0.5 + gp_base * slot_multiplier1) + extra_gp
+  local low = slot_multiplier2 and math.floor(0.5 + gp_base * slot_multiplier2) + extra_gp or nil
   return high, low, level, rarity, equipLoc
 end

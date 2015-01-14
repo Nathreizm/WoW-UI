@@ -1,5 +1,5 @@
 
-local BIGWIGS_AUTHORS = "rabbit, ammo, 7destiny, pettigrow, ananhaid, mojosdojo, Wetxius, jongt23, tekkub, fenlis, StingerSoft, shyva, _yusaku_, dynaletik, cwdg, gamefaq, yoshimo, sayclub, saroz, nevcairiel, s8095324, handdol, durcyn, chuanhsing, scorpio0920, kebinusan, flyflame, onyxmaster, zhTW, grimwald, Dynaletik, lcf_hell, starinnia, chinkuwaila, arrowmaster, mysticalos, next96, tnt2ray, Leialyn, ackis, moonsorrow, fryguy, xinsonic, jerry, beerke, stanzilla, tsigo, hk2717, cremor, pigmonkey, ulic, Carlos, mecdemort, a9012456, cronan, Cybersea, gnarfoz, nirek, hyperactiveChipmunk, darchon, neriak, mikk, darkwings, hshh, otravi, yhpdoit, kergoth, kjheng, AnarkiQ3, dessa, ethancentaurai, Swix, Sayclub, Gothwin, erwanoops, nymbia, oojoo, kyahx, valdriethien, profalbert, illiaster, oxman, phyber, Traeumer, Anadale, zealotonastick, tazmanyak, tain, archarodim, thiana, ckknight, Adam77, kemayo, coalado, silverwind, Zidomo, lucen."
+local BIGWIGS_AUTHORS = "rabbit, ammo, 7destiny, pettigrow, ananhaid, mojosdojo, Wetxius, jongt23, tekkub, fenlis, _yusaku_, shyva, StingerSoft, dynaletik, cwdg, gamefaq, yoshimo, sayclub, saroz, nevcairiel, s8095324, handdol, durcyn, chuanhsing, scorpio0920, kebinusan, Dynaletik, flyflame, zhTW, stanzilla, onyxmaster, MysticalOS, grimwald, lcf_hell, starinnia, chinkuwaila, arrowmaster, next96, tnt2ray, ackis, Leialyn, cremor, moonsorrow, jerry, fryguy, xinsonic, beerke, shari83, tsigo, hk2717, pigmonkey, ulic, mecdemort, Carlos, gnarfoz, a9012456, Cybersea, cronan, hyperactiveChipmunk, darchon, neriak, nirek, mikk, darkwings, hshh, otravi, yhpdoit, kjheng, AnarkiQ3, kergoth, dessa, ethancentaurai, Sayclub, erwanoops, Swix, Gothwin, illiaster, oojoo, nymbia, kyahx, valdriethien, phyber, oxman, profalbert, Traeumer, Zidomo, Anadale, tazmanyak, tain, thiana, ckknight, kemayo, zealotonastick, archarodim, coalado, silverwind, lucen, Adam77."
 
 local BigWigs = BigWigs
 local options = BigWigs:NewModule("Options")
@@ -16,7 +16,7 @@ do
 	colorize = setmetatable({}, { __index =
 		function(self, key)
 			if not r then r, g, b = GameFontNormal:GetTextColor() end
-			self[key] = "|cff" .. string.format("%02x%02x%02x", r * 255, g * 255, b * 255) .. key .. "|r"
+			self[key] = string.format("|cff%02x%02x%02x%s|r", r * 255, g * 255, b * 255, key)
 			return self[key]
 		end
 	})
@@ -33,17 +33,12 @@ local AceGUI = LibStub("AceGUI-3.0")
 
 local colorModule
 local soundModule
+local translateZoneID
 
 local showToggleOptions, getAdvancedToggleOption = nil, nil
 local zoneModules = {}
 
-local pluginOptions = {
-	name = L.customizeBtn,
-	type = "group",
-	childGroups = "tab",
-	args = {},
-}
-
+local getOptions
 local acOptions = {
 	type = "group",
 	name = "Big Wigs",
@@ -56,220 +51,243 @@ local acOptions = {
 		options:SendMessage("BigWigs_CoreOptionToggled", key, value)
 	end,
 	args = {
-		heading = {
+		introduction = {
 			type = "description",
 			name = L.introduction,
 			fontSize = "medium",
-			order = 10,
+			order = 1,
 			width = "full",
 		},
-		configure = {
+		anchors = {
 			type = "execute",
-			name = L.configureBtnName,
-			desc = L.configureBtnDesc,
+			name = L.toggleAnchorsBtn,
+			desc = L.toggleAnchorsBtn_desc,
 			func = function()
-				InterfaceOptionsFrameOkay:Click()
 				if not BigWigs:IsEnabled() then BigWigs:Enable() end
-				options:SendMessage("BigWigs_StartConfigureMode")
-				options:SendMessage("BigWigs_SetConfigureTarget", BigWigs:GetPlugin("Bars"))
-			end,
-			order = 11,
-			width = "double",
-		},
-		customize = {
-			type = "execute",
-			name = L.customizeBtn,
-			func = function()
-				InterfaceOptionsFrame_OpenToCategory(L.customizeBtn)
-				InterfaceOptionsFrame_OpenToCategory(L.customizeBtn)
-			end,
-			order = 11.5,
-		},
-		separator = {
-			type = "description",
-			name = " ",
-			order = 12,
-			width = "full",
-		},
-		minimap = {
-			type = "toggle",
-			name = L.minimapIcon,
-			desc = L.minimapToggle,
-			order = 13,
-			get = function() return not BigWigs3IconDB.hide end,
-			set = function(info, v)
-				if v then
-					BigWigs3IconDB.hide = nil
-					icon:Show("BigWigs")
+				if options:InConfigureMode() then
+					options:SendMessage("BigWigs_StopConfigureMode")
 				else
-					BigWigs3IconDB.hide = true
-					icon:Hide("BigWigs")
+					options:SendMessage("BigWigs_StartConfigureMode")
+					options:SendMessage("BigWigs_SetConfigureTarget", BigWigs:GetPlugin("Bars"))
 				end
 			end,
-			hidden = function() return not icon end,
-			width = "full",
+			order = 2,
+			width = "double",
 		},
-		separator2 = {
-			type = "description",
-			name = " ",
-			order = 14,
-			width = "full",
+		testing = {
+			type = "execute",
+			name = L.testBarsBtn,
+			desc = L.testBarsBtn_desc,
+			func = function()
+				BigWigs:Test()
+			end,
+			order = 3,
+			width = "double",
 		},
-		sound = {
-			type = "toggle",
-			name = L.sound,
-			desc = L.soundDesc,
-			order = 21,
+		bosses = {
+			type = "execute",
+			name = BOSSES:gsub(":", ""),
+			--desc = "Bosses",
+			descStyle = "", -- kill tooltip
+			func = function()
+				acd:Close("BigWigs")
+				for name, module in BigWigs:IterateBossModules() do
+					if module:IsEnabled() then
+						local menu = translateZoneID(module.otherMenu) or translateZoneID(module.zoneId)
+						if not menu then return end
+						InterfaceOptionsFrame_OpenToCategory(options:GetZonePanel(module.otherMenu or module.zoneId))
+						InterfaceOptionsFrame_OpenToCategory(options:GetZonePanel(module.otherMenu or module.zoneId))
+					end
+				end
+				if not InterfaceOptionsFrame:IsShown() then
+					InterfaceOptionsFrame_OpenToCategory("Big Wigs |cFF62B1F6".. EJ_GetTierInfo(6) .."|r")
+					InterfaceOptionsFrame_OpenToCategory("Big Wigs |cFF62B1F6".. EJ_GetTierInfo(6) .."|r")
+				end
+			end,
+			order = 4,
 			width = "half",
 		},
-		flash = {
-			type = "toggle",
-			name = L.flashScreen,
-			desc = L.flashScreenDesc,
-			order = 22,
-		},
-		raidicon = {
-			type = "toggle",
-			name = L.raidIcons,
-			desc = L.raidIconsDesc,
-			set = function(info, value)
-				local key = info[#info]
-				local plugin = BigWigs:GetPlugin("Raid Icons")
-				plugin:Disable()
-				BigWigs.db.profile[key] = value
-				options:SendMessage("BigWigs_CoreOptionToggled", key, value)
-				plugin:Enable()
-			end,
-			order = 24,
-		},
-		chat = {
-			type = "toggle",
-			name = L.chatMessages,
-			desc = L.chatMessagesDesc,
-			order = 25,
-			width = "full",
-			get = function() return BigWigs:GetPlugin("Messages").db.profile.chat end,
-			set = function(_, v) BigWigs:GetPlugin("Messages").db.profile.chat = v end,
-		},
-		separator3 = {
-			type = "description",
-			name = " ",
-			order = 30,
-			width = "full",
-		},
-		showBlizzardWarnings = {
-			type = "toggle",
-			name = L.showBlizzWarnings,
-			desc = L.showBlizzWarningsDesc,
-			set = function(info, value)
-				local key = info[#info]
-				local plugin = BigWigs:GetPlugin("BossBlock")
-				plugin:Disable()
-				BigWigs.db.profile[key] = value
-				options:SendMessage("BigWigs_CoreOptionToggled", key, value)
-				plugin:Enable()
-			end,
-			order = 31,
-			width = "full",
-		},
-		showZoneMessages = {
-			type = "toggle",
-			name = L.zoneMessages,
-			desc = L.zoneMessagesDesc,
-			order = 32,
-			width = "full",
-		},
-		blockmovies = {
-			type = "toggle",
-			name = L.blockMovies,
-			desc = L.blockMoviesDesc,
-			order = 33,
-			width = "full",
-		},
-		separator4 = {
-			type = "description",
-			name = " ",
-			order = 40,
-			width = "full",
-		},
-		fakeDBMVersion = {
-			type = "toggle",
-			name = L.dbmFaker,
-			desc = L.dbmFakerDesc,
-			order = 41,
-			width = "full",
-		},
-		slashDescTitle = {
-			type = "description",
-			name = "\n".. L.slashDescTitle,
-			fontSize = "large",
-			order = 43,
-			width = "full",
-		},
-		slashDescPull = {
-			type = "description",
-			name = "  ".. L.slashDescPull,
-			fontSize = "medium",
-			order = 44,
-			width = "full",
-		},
-		slashDescBar = {
-			type = "description",
-			name = "  ".. L.slashDescRaidBar,
-			fontSize = "medium",
-			order = 45,
-			width = "full",
-		},
-		slashDescLocalBar = {
-			type = "description",
-			name = "  ".. L.slashDescLocalBar,
-			fontSize = "medium",
-			order = 46,
-			width = "full",
-		},
-		slashDescRange = {
-			type = "description",
-			name = "  ".. L.slashDescRange,
-			fontSize = "medium",
-			order = 47,
-			width = "full",
-		},
-		slashDescVersion = {
-			type = "description",
-			name = "  ".. L.slashDescVersion,
-			fontSize = "medium",
-			order = 48,
-			width = "full",
-		},
-		slashDescConfig = {
-			type = "description",
-			name = "  ".. L.slashDescConfig,
-			fontSize = "medium",
-			order = 49,
-			width = "full",
+		general = {
+			order = 20,
+			type = "group",
+			name = "Big Wigs",
+			args = {
+				minimap = {
+					type = "toggle",
+					name = L.minimapIcon,
+					desc = L.minimapToggle,
+					order = 13,
+					get = function() return not BigWigs3IconDB.hide end,
+					set = function(info, v)
+						if v then
+							BigWigs3IconDB.hide = nil
+							icon:Show("BigWigs")
+						else
+							BigWigs3IconDB.hide = true
+							icon:Hide("BigWigs")
+						end
+					end,
+					hidden = function() return not icon end,
+					width = "full",
+				},
+				separator2 = {
+					type = "description",
+					name = " ",
+					order = 14,
+					width = "full",
+				},
+				sound = {
+					type = "toggle",
+					name = L.sound,
+					desc = L.soundDesc,
+					order = 21,
+					width = "half",
+				},
+				flash = {
+					type = "toggle",
+					name = L.flashScreen,
+					desc = L.flashScreenDesc,
+					order = 22,
+				},
+				raidicon = {
+					type = "toggle",
+					name = L.raidIcons,
+					desc = L.raidIconsDesc,
+					set = function(info, value)
+						local key = info[#info]
+						local plugin = BigWigs:GetPlugin("Raid Icons")
+						plugin:Disable()
+						BigWigs.db.profile[key] = value
+						options:SendMessage("BigWigs_CoreOptionToggled", key, value)
+						plugin:Enable()
+					end,
+					order = 24,
+				},
+				chat = {
+					type = "toggle",
+					name = L.chatMessages,
+					desc = L.chatMessagesDesc,
+					order = 25,
+					width = "full",
+					get = function() return BigWigs:GetPlugin("Messages").db.profile.chat end,
+					set = function(_, v) BigWigs:GetPlugin("Messages").db.profile.chat = v end,
+				},
+				separator3 = {
+					type = "description",
+					name = " ",
+					order = 30,
+					width = "full",
+				},
+				showBlizzardWarnings = {
+					type = "toggle",
+					name = L.showBlizzWarnings,
+					desc = L.showBlizzWarningsDesc,
+					set = function(info, value)
+						local key = info[#info]
+						local plugin = BigWigs:GetPlugin("BossBlock")
+						plugin:Disable()
+						BigWigs.db.profile[key] = value
+						options:SendMessage("BigWigs_CoreOptionToggled", key, value)
+						plugin:Enable()
+					end,
+					order = 31,
+					width = "full",
+				},
+				showZoneMessages = {
+					type = "toggle",
+					name = L.zoneMessages,
+					desc = L.zoneMessagesDesc,
+					order = 32,
+					width = "full",
+				},
+				blockmovies = {
+					type = "toggle",
+					name = L.blockMovies,
+					desc = L.blockMoviesDesc,
+					order = 33,
+					width = "full",
+				},
+				separator4 = {
+					type = "description",
+					name = " ",
+					order = 40,
+					width = "full",
+				},
+				fakeDBMVersion = {
+					type = "toggle",
+					name = L.dbmFaker,
+					desc = L.dbmFakerDesc,
+					order = 41,
+					width = "full",
+				},
+				slashDescTitle = {
+					type = "description",
+					name = "\n".. L.slashDescTitle,
+					fontSize = "large",
+					order = 43,
+					width = "full",
+				},
+				slashDescPull = {
+					type = "description",
+					name = "  ".. L.slashDescPull,
+					fontSize = "medium",
+					order = 44,
+					width = "full",
+				},
+				slashDescBreak = {
+					type = "description",
+					name = "  ".. L.slashDescBreak,
+					fontSize = "medium",
+					order = 45,
+					width = "full",
+				},
+				slashDescBar = {
+					type = "description",
+					name = "  ".. L.slashDescRaidBar,
+					fontSize = "medium",
+					order = 46,
+					width = "full",
+				},
+				slashDescLocalBar = {
+					type = "description",
+					name = "  ".. L.slashDescLocalBar,
+					fontSize = "medium",
+					order = 47,
+					width = "full",
+				},
+				slashDescRange = {
+					type = "description",
+					name = "  ".. L.slashDescRange,
+					fontSize = "medium",
+					order = 48,
+					width = "full",
+				},
+				slashDescVersion = {
+					type = "description",
+					name = "  ".. L.slashDescVersion,
+					fontSize = "medium",
+					order = 49,
+					width = "full",
+				},
+				slashDescConfig = {
+					type = "description",
+					name = "  ".. L.slashDescConfig,
+					fontSize = "medium",
+					order = 50,
+					width = "full",
+				},
+			},
 		},
 	},
 }
 
-local profileOptions
-local function getProfileOptions()
-	if not profileOptions then
-		profileOptions = LibStub("AceDBOptions-3.0"):GetOptionsTable(BigWigs.db)
-		LibStub("LibDualSpec-1.0"):EnhanceOptions(profileOptions, BigWigs.db)
-	end
-	return profileOptions
-end
-
-local function translateZoneID(id)
+function translateZoneID(id)
 	if not id or type(id) ~= "number" then return end
 	local name
 	if id < 10 then
-		name = select(id, GetMapContinents())
+		name = select(id * 2, GetMapContinents())
 	else
 		name = GetMapNameByID(id)
-	end
-	if not name then
-		print(("Big Wigs: Tried to translate %q as a zone ID, but it could not be resolved into a name."):format(tostring(id)))
 	end
 	return name
 end
@@ -285,90 +303,85 @@ local function findPanel(name, parent)
 end
 
 function options:OnInitialize()
-	if BigWigsLoader.RemoveInterfaceOptions then
-		BigWigsLoader:RemoveInterfaceOptions()
-	end
+	acOptions.args.general.args.profileOptions = LibStub("AceDBOptions-3.0"):GetOptionsTable(BigWigs.db)
+	acOptions.args.general.args.profileOptions.order = 1
+	LibStub("LibDualSpec-1.0"):EnhanceOptions(acOptions.args.general.args.profileOptions, BigWigs.db)
 
-	acr:RegisterOptionsTable("BigWigs", acOptions, true)
-	local mainOpts = acd:AddToBlizOptions("BigWigs", "Big Wigs")
-	mainOpts:HookScript("OnShow", function()
-		BigWigs:Enable()
-		local p = findPanel("Big Wigs")
-		if p and p.element.collapsed then OptionsListButtonToggle_OnClick(p.toggle) end
-	end)
-
-	local about = self:GetPanel(L.about, "Big Wigs")
-	about:SetScript("OnShow", function(frame)
-		local fields = {
-			L.developers,
-			L.license,
-			L.website,
-			L.contact,
-		}
-		local fieldData = {
-			"Funkydude, Maat, Nebula169",
-			L.allRightsReserved,
-			"http://www.wowace.com/addons/big-wigs/",
-			L.ircChannel,
-		}
-		local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-		title:SetPoint("TOPLEFT", 16, -16)
-		title:SetText(L.about)
-
-		local subtitle = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-		subtitle:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
-		subtitle:SetWidth(frame:GetWidth() - 24)
-		subtitle:SetJustifyH("LEFT")
-		subtitle:SetJustifyV("TOP")
-		local noteKey = "Notes"
-		if GetAddOnMetadata("BigWigs", "Notes-" .. GetLocale()) then noteKey = "Notes-" .. GetLocale() end
-		local notes = GetAddOnMetadata("BigWigs", noteKey)
-		subtitle:SetText(notes .. " |cff44ff44" .. BigWigsLoader.BIGWIGS_RELEASE_STRING .. "|r")
-
-		local anchor = nil
-		for i, field in next, fields do
-			local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-			title:SetWidth(120)
-			if not anchor then
-				title:SetPoint("TOPLEFT", subtitle, "BOTTOMLEFT", 0, -16)
-			else
-				title:SetPoint("TOP", anchor, "BOTTOM", 0, -6)
-				title:SetPoint("LEFT", subtitle)
-			end
-			title:SetNonSpaceWrap(true)
-			title:SetJustifyH("LEFT")
-			title:SetText(field)
-			local detail = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-			detail:SetPoint("TOPLEFT", title, "TOPRIGHT")
-			detail:SetWidth(frame:GetWidth() - 144)
-			detail:SetJustifyH("LEFT")
-			detail:SetJustifyV("TOP")
-			detail:SetText(fieldData[i])
-
-			anchor = detail
-		end
-		local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-		title:SetPoint("TOP", anchor, "BOTTOM", 0, -16)
-		title:SetPoint("LEFT", subtitle)
-		title:SetWidth(frame:GetWidth() - 24)
-		title:SetJustifyH("LEFT")
-		title:SetJustifyV("TOP")
-		title:SetText(L.thanks)
-		local detail = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-		detail:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -4)
-		detail:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -24, -24)
-		detail:SetJustifyH("LEFT")
-		detail:SetJustifyV("TOP")
-		detail:SetText(BIGWIGS_AUTHORS)
-
-		frame:SetScript("OnShow", nil)
-	end)
-
-	acr:RegisterOptionsTable("Big Wigs: Plugins", pluginOptions, true)
-	acd:AddToBlizOptions("Big Wigs: Plugins", L.customizeBtn, "Big Wigs")
-
-	acr:RegisterOptionsTable("Big Wigs: Profiles", getProfileOptions, true)
-	acd:AddToBlizOptions("Big Wigs: Profiles", L.profiles, "Big Wigs")
+	acr:RegisterOptionsTable("BigWigs", getOptions, true)
+	acd:SetDefaultSize("BigWigs", 858,660)
+	--local mainOpts = acd:AddToBlizOptions("BigWigs", "Big Wigs")
+	--mainOpts:HookScript("OnShow", function()
+	--	BigWigs:Enable()
+	--	local p = findPanel("Big Wigs")
+	--	if p and p.element.collapsed then OptionsListButtonToggle_OnClick(p.toggle) end
+	--end)
+    --
+	--local about = self:GetPanel(L.about, "Big Wigs")
+	--about:SetScript("OnShow", function(frame)
+	--	local fields = {
+	--		L.developers,
+	--		L.license,
+	--		L.website,
+	--		L.contact,
+	--	}
+	--	local fieldData = {
+	--		"Funkydude, Maat, Nebula169",
+	--		L.allRightsReserved,
+	--		"http://www.wowace.com/addons/big-wigs/",
+	--		L.ircChannel,
+	--	}
+	--	local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+	--	title:SetPoint("TOPLEFT", 16, -16)
+	--	title:SetText(L.about)
+    --
+	--	local subtitle = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+	--	subtitle:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
+	--	subtitle:SetWidth(frame:GetWidth() - 24)
+	--	subtitle:SetJustifyH("LEFT")
+	--	subtitle:SetJustifyV("TOP")
+	--	local noteKey = "Notes"
+	--	if GetAddOnMetadata("BigWigs", "Notes-" .. GetLocale()) then noteKey = "Notes-" .. GetLocale() end
+	--	local notes = GetAddOnMetadata("BigWigs", noteKey)
+	--	subtitle:SetText(notes .. " |cff44ff44" .. BigWigsLoader:GetReleaseString() .. "|r")
+    --
+	--	local anchor = nil
+	--	for i, field in next, fields do
+	--		local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	--		title:SetWidth(120)
+	--		if not anchor then
+	--			title:SetPoint("TOPLEFT", subtitle, "BOTTOMLEFT", 0, -16)
+	--		else
+	--			title:SetPoint("TOP", anchor, "BOTTOM", 0, -6)
+	--			title:SetPoint("LEFT", subtitle)
+	--		end
+	--		title:SetNonSpaceWrap(true)
+	--		title:SetJustifyH("LEFT")
+	--		title:SetText(field)
+	--		local detail = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+	--		detail:SetPoint("TOPLEFT", title, "TOPRIGHT")
+	--		detail:SetWidth(frame:GetWidth() - 144)
+	--		detail:SetJustifyH("LEFT")
+	--		detail:SetJustifyV("TOP")
+	--		detail:SetText(fieldData[i])
+    --
+	--		anchor = detail
+	--	end
+	--	local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+	--	title:SetPoint("TOP", anchor, "BOTTOM", 0, -16)
+	--	title:SetPoint("LEFT", subtitle)
+	--	title:SetWidth(frame:GetWidth() - 24)
+	--	title:SetJustifyH("LEFT")
+	--	title:SetJustifyV("TOP")
+	--	title:SetText(L.thanks)
+	--	local detail = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+	--	detail:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -4)
+	--	detail:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -24, -24)
+	--	detail:SetJustifyH("LEFT")
+	--	detail:SetJustifyV("TOP")
+	--	detail:SetText(BIGWIGS_AUTHORS)
+    --
+	--	frame:SetScript("OnShow", nil)
+	--end)
 
 	colorModule = BigWigs:GetPlugin("Colors")
 	soundModule = BigWigs:GetPlugin("Sounds")
@@ -377,24 +390,26 @@ function options:OnInitialize()
 end
 
 function options:OnEnable()
+	self:RegisterMessage("BigWigs_BossModuleRegistered", "Register")
+	self:RegisterMessage("BigWigs_PluginRegistered", "Register")
+
 	for name, module in BigWigs:IterateBossModules() do
 		self:Register("BigWigs_BossModuleRegistered", name, module)
 	end
 	for name, module in BigWigs:IteratePlugins() do
 		self:Register("BigWigs_PluginRegistered", name, module)
 	end
-	self:RegisterMessage("BigWigs_BossModuleRegistered", "Register")
-	self:RegisterMessage("BigWigs_PluginRegistered", "Register")
 
-	self:RegisterMessage("BigWigs_SetConfigureTarget")
 	self:RegisterMessage("BigWigs_StartConfigureMode")
 	self:RegisterMessage("BigWigs_StopConfigureMode")
 
 	local tmp, tmpZone = {}, {}
 	for k in next, BigWigsLoader:GetZoneMenus() do
 		local zone = translateZoneID(k)
-		tmp[zone] = k
-		tmpZone[#tmpZone+1] = zone
+		if zone then
+			tmp[zone] = k
+			tmpZone[#tmpZone+1] = zone
+		end
 	end
 	sort(tmpZone)
 	for i=1, #tmpZone do
@@ -404,18 +419,7 @@ function options:OnEnable()
 end
 
 function options:Open()
-	for name, module in BigWigs:IterateBossModules() do
-		if module:IsEnabled() then
-			local menu = translateZoneID(module.otherMenu) or translateZoneID(module.zoneId)
-			if not menu then return end
-			InterfaceOptionsFrame_OpenToCategory(self:GetZonePanel(module.otherMenu or module.zoneId))
-			InterfaceOptionsFrame_OpenToCategory(self:GetZonePanel(module.otherMenu or module.zoneId))
-		end
-	end
-	if not InterfaceOptionsFrame:IsShown() then
-		InterfaceOptionsFrame_OpenToCategory("Big Wigs")
-		InterfaceOptionsFrame_OpenToCategory("Big Wigs")
-	end
+	acd:Open("BigWigs")
 end
 
 -------------------------------------------------------------------------------
@@ -423,101 +427,13 @@ end
 --
 
 do
-	local frame = nil
-	local plugins = {}
-	local tabs = nil
-	local tabSection = nil
 	local configMode = nil
-	local acId = "Big Wigs Configure Mode Plugin %s"
-
-	local function widgetSelect(widget, callback, tab)
-		if widget:GetUserData("tab") == tab then return end
-		local plugin = BigWigs:GetPlugin(tab)
-		if not plugin then return end
-		widget:SetUserData("tab", tab)
-		acd:Open(acId:format(tab), tabSection)
-		local scroll = widget:GetUserData("scroll")
-		scroll:PerformLayout()
-		options:SendMessage("BigWigs_SetConfigureTarget", plugin)
-	end
-	local function onTestClick() BigWigs:Test() end
-	local function onResetClick() options:SendMessage("BigWigs_ResetPositions") end
-	local function createPluginFrame()
-		if frame then return end
-		frame = AceGUI:Create("Window")
-		frame:EnableResize(nil)
-		frame:SetWidth(450)
-		frame:SetHeight(515)
-		frame:SetPoint("TOPLEFT", UIParent, "TOPLEFT", 12, -12)
-		frame:SetTitle(L.configure)
-		frame:SetCallback("OnClose", function(widget, callback)
-			options:SendMessage("BigWigs_StopConfigureMode")
-		end)
-		frame:SetLayout("Fill")
-
-		local scroll = AceGUI:Create("ScrollFrame")
-		scroll:SetLayout("Flow")
-		scroll:SetFullWidth(true)
-
-		local test = AceGUI:Create("Button")
-		test:SetText(L.test)
-		test:SetCallback("OnClick", onTestClick)
-		test:SetFullWidth(true)
-
-		local reset = AceGUI:Create("Button")
-		reset:SetText(L.resetPositions)
-		reset:SetCallback("OnClick", onResetClick)
-		reset:SetFullWidth(true)
-
-		scroll:AddChildren(test, reset)
-		for name, module in BigWigs:IteratePlugins() do
-			if module.GetPluginConfig then
-				plugins[#plugins + 1] = {
-					value = name,
-					text = module.displayName or name,
-				}
-				acr:RegisterOptionsTable(acId:format(name), module:GetPluginConfig(), true)
-			end
-		end
-		tabs = AceGUI:Create("TabGroup")
-		tabs:SetTabs(plugins)
-		tabs:SetCallback("OnGroupSelected", widgetSelect)
-		tabs:SetUserData("tab", "")
-		tabs:SetUserData("scroll", scroll)
-		tabs:SetFullWidth(true)
-
-		tabSection = AceGUI:Create("SimpleGroup")
-		tabSection:SetFullWidth(true)
-		tabs:AddChild(tabSection)
-
-		scroll:AddChild(tabs)
-		frame:AddChild(scroll)
-	end
-	function options:BigWigs_SetConfigureTarget(event, module)
-		if frame then
-			tabs:SelectTab(module:GetName())
-		end
-	end
-
 	function options:InConfigureMode() return configMode end
 	function options:BigWigs_StartConfigureMode(event, hideFrame)
 		configMode = true
-		if not hideFrame then
-			createPluginFrame()
-			frame:Show()
-			frame:PerformLayout()
-		end
 	end
-
 	function options:BigWigs_StopConfigureMode()
 		configMode = nil
-		if frame then
-			frame:ReleaseChildren()
-			frame:Hide()
-			frame:Release()
-		end
-		frame = nil
-		wipe(plugins)
 	end
 end
 
@@ -805,9 +721,7 @@ do
 
 	function listAbilitiesInChat(widget)
 		local module = widget:GetUserData("module")
-		local channel = nil
-		if UnitInRaid("player") then channel = "RAID"
-		elseif GetNumSubgroupMembers() > 0 then channel = "PARTY" end
+		local channel = IsInGroup(2) and "INSTANCE_CHAT" or IsInRaid() and "RAID" or IsInGroup() and "PARTY"
 		local abilities = {}
 		local header = nil
 		output(channel, "Big Wigs: ", module.displayName or module.moduleName or module.name)
@@ -824,23 +738,23 @@ do
 			end
 			if type(o) == "number" then
 				if o > 0 then
-					local l = GetSpellLink(o)
-					if currentSize + #l + 1 > 255 then
+					local link = GetSpellLink(o)
+					if currentSize + #link + 1 > 255 then
 						printList(channel, header, abilities)
 						wipe(abilities)
 						currentSize = 0
 					end
-					abilities[#abilities + 1] = l
-					currentSize = currentSize + #l + 1
+					abilities[#abilities + 1] = link
+					currentSize = currentSize + #link + 1
 				else
-					local l = select(9, EJ_GetSectionInfo(-o))
-					if currentSize + #l + 1 > 255 then
+					local _, _, _, _, _, _, _, _, link = EJ_GetSectionInfo(-o)
+					if currentSize + #link + 1 > 255 then
 						printList(channel, header, abilities)
 						wipe(abilities)
 						currentSize = 0
 					end
-					abilities[#abilities + 1] = l
-					currentSize = currentSize + #l + 1
+					abilities[#abilities + 1] = link
+					currentSize = currentSize + #link + 1
 				end
 			end
 		end
@@ -859,171 +773,298 @@ local function populateToggleOptions(widget, module)
 	scrollFrame:ReleaseChildren()
 
 	local sDB = BigWigsStatisticsDB
-	if module.encounterId and module.zoneId and BigWigs:GetPlugin("Statistics").db.profile.enabled and sDB and sDB[module.zoneId] and sDB[module.zoneId][module.encounterId] then
-		sDB = sDB[module.zoneId][module.encounterId]
+	if module.journalId and module.zoneId and BigWigs:GetPlugin("Statistics").db.profile.enabled and sDB and sDB[module.zoneId] and sDB[module.zoneId][module.journalId] then
+		sDB = sDB[module.zoneId][module.journalId]
 
-		-- Create statistics table
-		local statGroup = AceGUI:Create("InlineGroup")
-		statGroup:SetTitle(L.statistics)
-		statGroup:SetLayout("Flow")
-		statGroup:SetFullWidth(true)
-		scrollFrame:AddChild(statGroup)
+		if sDB.LFR or sDB.normal or sDB.heroic or sDB.mythic then -- Create NEW statistics table
+			local statGroup = AceGUI:Create("InlineGroup")
+			statGroup:SetTitle(L.statistics)
+			statGroup:SetLayout("Flow")
+			statGroup:SetFullWidth(true)
+			scrollFrame:AddChild(statGroup)
 
-		local statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText("")
-		statGroup:AddChild(statistics)
+			local statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText("")
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(L.norm25)
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(L.lfr)
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(L.heroic25)
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(L.normal)
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(L.norm10)
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(L.heroic)
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(L.heroic10)
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(L.mythic)
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(L.lfr)
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetFullWidth(true)
+			statistics:SetText("")
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(L.flex)
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(L.wipes)
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetFullWidth(true)
-		statistics:SetText("")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(sDB.LFR and sDB.LFR.wipes or "-")
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(L.wipes)
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(sDB.normal and sDB.normal.wipes or "-")
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB["25"] and sDB["25"].wipes or "-")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(sDB.heroic and sDB.heroic.wipes or "-")
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB["25h"] and sDB["25h"].wipes or "-")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(sDB.mythic and sDB.mythic.wipes or "-")
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB["10"] and sDB["10"].wipes or "-")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetFullWidth(true)
+			statistics:SetText("")
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB["10h"] and sDB["10h"].wipes or "-")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(L.kills)
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB.lfr and sDB.lfr.wipes or "-")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(sDB.LFR and sDB.LFR.kills or "-")
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB.flex and sDB.flex.wipes or "-")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(sDB.normal and sDB.normal.kills or "-")
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetFullWidth(true)
-		statistics:SetText("")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(sDB.heroic and sDB.heroic.kills or "-")
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(L.kills)
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(sDB.mythic and sDB.mythic.kills or "-")
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB["25"] and sDB["25"].kills or "-")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetFullWidth(true)
+			statistics:SetText("")
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB["25h"] and sDB["25h"].kills or "-")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(L.best)
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB["10"] and sDB["10"].kills or "-")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(sDB.LFR and sDB.LFR.best and SecondsToTime(sDB.LFR.best) or "-")
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB["10h"] and sDB["10h"].kills or "-")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(sDB.normal and sDB.normal.best and SecondsToTime(sDB.normal.best) or "-")
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB.lfr and sDB.lfr.kills or "-")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(sDB.heroic and sDB.heroic.best and SecondsToTime(sDB.heroic.best) or "-")
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB.flex and sDB.flex.kills or "-")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(100)
+			statistics:SetText(sDB.mythic and sDB.mythic.best and SecondsToTime(sDB.mythic.best) or "-")
+			statGroup:AddChild(statistics)
+		end -- End NEW statistics table
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetFullWidth(true)
-		statistics:SetText("")
-		statGroup:AddChild(statistics)
+		---------------------------------------------------------------------------
+		---------------------------------------------------------------------------
+		---------------------------------------------------------------------------
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(L.best)
-		statGroup:AddChild(statistics)
+		if sDB["25"] or sDB["25h"] or sDB["10"] or sDB["10h"] or sDB.lfr or sDB.flex then -- Create OLD statistics table
+			local statGroup = AceGUI:Create("InlineGroup")
+			statGroup:SetTitle(L.statistics)
+			statGroup:SetLayout("Flow")
+			statGroup:SetFullWidth(true)
+			scrollFrame:AddChild(statGroup)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB["25"] and sDB["25"].best and SecondsToTime(sDB["25"].best) or "-")
-		statGroup:AddChild(statistics)
+			local statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText("")
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB["25h"] and sDB["25h"].best and SecondsToTime(sDB["25h"].best) or "-")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(L.norm25)
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB["10"] and sDB["10"].best and SecondsToTime(sDB["10"].best) or "-")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(L.heroic25)
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB["10h"] and sDB["10h"].best and SecondsToTime(sDB["10h"].best) or "-")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(L.norm10)
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB.lfr and sDB.lfr.best and SecondsToTime(sDB.lfr.best) or "-")
-		statGroup:AddChild(statistics)
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(L.heroic10)
+			statGroup:AddChild(statistics)
 
-		statistics = AceGUI:Create("Label")
-		statistics:SetWidth(77)
-		statistics:SetText(sDB.flex and sDB.flex.best and SecondsToTime(sDB.flex.best) or "-")
-		statGroup:AddChild(statistics)
-		-- End statistics table
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(L.lfr)
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(L.flex)
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetFullWidth(true)
+			statistics:SetText("")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(L.wipes)
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB["25"] and sDB["25"].wipes or "-")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB["25h"] and sDB["25h"].wipes or "-")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB["10"] and sDB["10"].wipes or "-")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB["10h"] and sDB["10h"].wipes or "-")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB.lfr and sDB.lfr.wipes or "-")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB.flex and sDB.flex.wipes or "-")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetFullWidth(true)
+			statistics:SetText("")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(L.kills)
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB["25"] and sDB["25"].kills or "-")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB["25h"] and sDB["25h"].kills or "-")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB["10"] and sDB["10"].kills or "-")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB["10h"] and sDB["10h"].kills or "-")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB.lfr and sDB.lfr.kills or "-")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB.flex and sDB.flex.kills or "-")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetFullWidth(true)
+			statistics:SetText("")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(L.best)
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB["25"] and sDB["25"].best and SecondsToTime(sDB["25"].best) or "-")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB["25h"] and sDB["25h"].best and SecondsToTime(sDB["25h"].best) or "-")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB["10"] and sDB["10"].best and SecondsToTime(sDB["10"].best) or "-")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB["10h"] and sDB["10h"].best and SecondsToTime(sDB["10h"].best) or "-")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB.lfr and sDB.lfr.best and SecondsToTime(sDB.lfr.best) or "-")
+			statGroup:AddChild(statistics)
+
+			statistics = AceGUI:Create("Label")
+			statistics:SetWidth(77)
+			statistics:SetText(sDB.flex and sDB.flex.best and SecondsToTime(sDB.flex.best) or "-")
+			statGroup:AddChild(statistics)
+		end -- End OLD statistics table
 	end
 
 	if module.SetupOptions then module:SetupOptions() end
@@ -1049,9 +1090,13 @@ end
 
 function showToggleOptions(widget, event, group)
 	if widget:GetUserData("zone") then
-		local module = BigWigs:GetBossModule(group)
-		widget:SetUserData("bossIndex", group)
-		populateToggleOptions(widget, module)
+		-- If we don't have any modules registered to the zone then "group" will be nil.
+		-- In this case we skip this step and draw an empty panel.
+		if group then
+			local module = BigWigs:GetBossModule(group)
+			widget:SetUserData("bossIndex", group)
+			populateToggleOptions(widget, module)
+		end
 	else
 		populateToggleOptions(widget, widget:GetUserData("module"))
 	end
@@ -1073,7 +1118,7 @@ local function onZoneShow(frame)
 	end
 
 	local zoneList, zoneSort = {}, {}
-	if moduleList then
+	if type(moduleList) == "table" then
 		for i = 1, #moduleList do
 			local module = moduleList[i]
 			zoneList[module.moduleName] = module.displayName
@@ -1159,7 +1204,8 @@ do
 		BigWigs_BurningCrusade = "Big Wigs ".. EJ_GetTierInfo(2),
 		BigWigs_WrathOfTheLichKing = "Big Wigs ".. EJ_GetTierInfo(3),
 		BigWigs_Cataclysm = "Big Wigs ".. EJ_GetTierInfo(4),
-		BigWigs_MistsOfPandaria = "Big Wigs |cFF62B1F6".. EJ_GetTierInfo(5) .."|r",
+		BigWigs_MistsOfPandaria = "Big Wigs ".. EJ_GetTierInfo(5),
+		BigWigs_WarlordsOfDraenor = "Big Wigs |cFF62B1F6".. EJ_GetTierInfo(6) .."|r",
 		LittleWigs = "Little Wigs",
 	}
 
@@ -1206,9 +1252,9 @@ do
 
 	function options:GetZonePanel(zoneId)
 		local zoneName = translateZoneID(zoneId)
-		local parent = BigWigsLoader.zoneTbl[zoneId] and addonNameToHeader[BigWigsLoader.zoneTbl[zoneId]] or addonNameToHeader.BigWigs_MistsOfPandaria
-		local panel, created = self:GetPanel(zoneName, parent, zoneId)
-		if created then
+		local parent = BigWigsLoader.zoneTbl[zoneId] and addonNameToHeader[BigWigsLoader.zoneTbl[zoneId]] or addonNameToHeader.BigWigs_WarlordsOfDraenor
+		local panel, justCreated = self:GetPanel(zoneName, parent, zoneId)
+		if justCreated then
 			panel:SetScript("OnShow", onZoneShow)
 			panel:SetScript("OnHide", onZoneHide)
 		end
@@ -1217,12 +1263,12 @@ do
 end
 
 do
-	local registered = {}
+	local registered, subPanelRegistry, pluginRegistry = {}, {}, {}
 	function options:Register(message, moduleName, module)
 		if registered[module.name] then return end
 		registered[module.name] = true
 		if (module.toggleOptions or module.GetOptions) and not module:IsBossModule() then
-			local panel, created = self:GetPanel(moduleName, "Big Wigs")
+			local panel, created = self:GetPanel("BigWigs_".. moduleName) -- XXX temp
 			if created then
 				panel:SetScript("OnShow", onZoneShow)
 				panel:SetScript("OnHide", onZoneHide)
@@ -1230,15 +1276,35 @@ do
 			end
 		end
 		if module.pluginOptions then
-			pluginOptions.args[module.name] = module.pluginOptions
+			if type(module.pluginOptions) == "function" then
+				pluginRegistry[module.name] = module.pluginOptions
+			else
+				acOptions.args.general.args[module.name] = module.pluginOptions
+			end
 		end
 		if module.subPanelOptions then
 			local key = module.subPanelOptions.key
-			local name = module.subPanelOptions.name
+			local name = "BigWigs_".. module.subPanelOptions.name -- XXX temp
 			local options = module.subPanelOptions.options
-			acr:RegisterOptionsTable(key, options, true)
-			acd:AddToBlizOptions(key, name, "Big Wigs")
+			--acr:RegisterOptionsTable(key, options, true)
+			--module.subPanelOptionsPanel = acd:AddToBlizOptions(key, name)
+
+			if type(options) == "function" then
+				subPanelRegistry[key] = options
+			else
+				acOptions.args[key] = options
+			end
 		end
+	end
+
+	function getOptions()
+		for key, options in next, pluginRegistry do
+			acOptions.args.general.args[key] = options()
+		end
+		for key, options in next, subPanelRegistry do
+			acOptions.args[key] = options()
+		end
+		return acOptions
 	end
 end
 

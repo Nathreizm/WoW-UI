@@ -1,0 +1,12 @@
+tag v5.11.4
+90649d269deb787df7bc7db11ee0e6012504e41a
+Chip Turner <cturner@pattern.net>
+2014-12-05 08:12:47 -0800
+
+trivial fix for version numbering
+
+
+--------------------
+
+Chip Turner:
+	- make version in toc automatic

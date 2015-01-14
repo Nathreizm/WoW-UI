@@ -53,6 +53,7 @@ L['Usage: /lm %s [lootlink]'] = true
 L['Usage: /lm emulate player [itemlink]'] = true
 L['Verbose debugging disabled'] = true
 L['Verbose debugging enabled'] = true
+L['Use your mousewheel on this bar to zoom window'] = true
 
 L[' (Invalid link)'] = true
 L[' (Loot not registered in CT_RaidTracker; please set it manually)'] = true
@@ -298,6 +299,8 @@ L['Noone has voted for %s'] = true
 L["Disallow voting for self"] = true
 L["This will disallow players from voting on themselves"] = true
 L["Enable the voting system"] = true
+L["Auto request votes for each item"] = true
+L["This will automatically ask for votes for each registered item (Auto announcing must also be enabled!)"] = true
 L["Enable the bidding system"] = true
 L["Bidding system"] = true
 L["The bidding system is a variation of the EPGP system where loot candidates are allowed to bid a custom GP value per item. The highest GP bid wins the loot."] = true

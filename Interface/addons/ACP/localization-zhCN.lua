@@ -62,6 +62,7 @@ if (GetLocale() == "zhCN") then
 	["Reload your User Interface?"] = "重载插件？",
 	["Remove from current selection"] = "移除当前选择",
 	Rename = "重命名",
+	["Resurse-ToolTip"] = "当启用一个插件时，尝试启用此插件所依赖的插件。",
 	Save = "保存",
 	["Save the current addon list to [%s]?"] = "保存当前插件设置为[%s]？",
 	["Set "] = "配置：",

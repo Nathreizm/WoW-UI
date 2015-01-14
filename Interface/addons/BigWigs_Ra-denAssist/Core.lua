@@ -9,7 +9,7 @@ local mod, CL = BigWigs:NewBoss("Ra-den Assist", 930)
 if not mod then return end
 mod:RegisterEnableMob(69473)
 mod.toggleOptions = {"assist", "balls"}
-local mainMod = BigWigs.bossCore:GetModule("Ra-den")
+local mainMod = BigWigs:GetBossModule("Ra-den")
 
 local candy = LibStub("LibCandyBar-3.0")
 local media = LibStub("LibSharedMedia-3.0")
@@ -489,7 +489,7 @@ function mod:OnBossEnable()
 	InterfaceOptions_AddCategory(ra)
 	local raTitle = ra:CreateFontString(nil, "ARTWORK", "GameFontNormalHuge")
 	raTitle:SetPoint("CENTER", ra, "TOP", 0, -20)
-	raTitle:SetText(ra.name.." 1.51") --wowace magic, replaced with tag version
+	raTitle:SetText(ra.name.." r38-release") --wowace magic, replaced with tag version
 
 	local raOptions = CreateFrame("Frame", "RadenAssistOptions", InterfaceOptionsFramePanelContainer)
 	raOptions.parent = "Big Wigs ".. L.modname
@@ -1127,13 +1127,4 @@ function mod:Balls(args)
 		self:Bar("balls", 33, L.killred, args.spellId)
 	end
 end
-
-
--- XXX POOP
-
---local function a()
---	BigWigs.bossCore:EnableModule("Ra-den Assist")
---end
---
---BigWigs:ScheduleTimer(a, 2)
 

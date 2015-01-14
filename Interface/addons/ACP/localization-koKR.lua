@@ -62,6 +62,7 @@ if (GetLocale() == "koKR") then
 	["Reload your User Interface?"] = "당신의 사용자 인터페이스를 재시작 하시겠습니까?",
 	["Remove from current selection"] = "현재 선택된 것에서 삭제",
 	Rename = "이름바꾸기",
+	-- ["Resurse-ToolTip"] = "",
 	Save = "저장하기",
 	["Save the current addon list to [%s]?"] = "현재 애드온 목록을 [%s]|1으로;로; 저장 하시겠습니까?",
 	["Set "] = "세트 ",

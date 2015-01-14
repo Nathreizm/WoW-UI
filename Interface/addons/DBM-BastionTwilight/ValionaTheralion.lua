@@ -1,7 +1,7 @@
 local mod	= DBM:NewMod(157, "DBM-BastionTwilight", nil, 72)
 local L		= mod:GetLocalizedStrings()
 
-mod:SetRevision(("$Revision: 102 $"):sub(12, -3))
+mod:SetRevision(("$Revision: 142 $"):sub(12, -3))
 mod:SetCreatureID(45992, 45993)
 mod:SetEncounterID(1032)
 mod:DisableEEKillDetection()
@@ -40,21 +40,21 @@ local warnDeepBreath				= mod:NewCountAnnounce(86059, 4)--Used by Valiona just b
 local warnTwilightShift				= mod:NewStackAnnounce(93051, 2)
 
 --Valiona Ground Phase
-local specWarnDevouringFlames		= mod:NewSpecialWarningSpell(86840, nil, nil, nil, true)
-local specWarnDazzlingDestruction	= mod:NewSpecialWarningSpell(86408, nil, nil, nil, true)
+local specWarnDevouringFlames		= mod:NewSpecialWarningSpell(86840, nil, nil, nil, 2)
+local specWarnDazzlingDestruction	= mod:NewSpecialWarningSpell(86408, nil, nil, nil, 2)
 local specWarnBlackout				= mod:NewSpecialWarningYou(86788)
 mod:AddBoolOption("TBwarnWhileBlackout", false, "announce")
 local specWarnTwilightBlast			= mod:NewSpecialWarningMove(86369, false)
 local specWarnTwilightBlastNear		= mod:NewSpecialWarningClose(86369, false)
 local yellTwilightBlast				= mod:NewYell(86369, nil, false)
 --Theralion Ground Phase
-local specWarnDeepBreath			= mod:NewSpecialWarningSpell(86059, nil, nil, nil, true)
+local specWarnDeepBreath			= mod:NewSpecialWarningSpell(86059, nil, nil, nil, 2)
 local specWarnFabulousFlames		= mod:NewSpecialWarningMove(86505)
 local specWarnFabulousFlamesNear	= mod:NewSpecialWarningClose(86505)
 local yellFabFlames					= mod:NewYell(86505)
 local specWarnTwilightMeteorite		= mod:NewSpecialWarningYou(88518)
 local yellTwilightMeteorite			= mod:NewYell(88518, nil, false)
-local specWarnEngulfingMagic		= mod:NewSpecialWarningYou(86622)
+local specWarnEngulfingMagic		= mod:NewSpecialWarningMoveAway(86622, nil, nil, nil, 3)
 local yellEngulfingMagic			= mod:NewYell(86622)
 
 local specWarnTwilightZone			= mod:NewSpecialWarningStack(86214, nil, 20)
@@ -75,8 +75,6 @@ local timerTwilightShift			= mod:NewTargetTimer(100, 93051)
 local timerTwilightShiftCD			= mod:NewCDTimer(20, 93051)
 
 local berserkTimer					= mod:NewBerserkTimer(600)
-
-local soundEngulfingMagic			= mod:NewSound(86622)
 
 mod:AddBoolOption("TwilightBlastArrow", false)
 mod:AddBoolOption("BlackoutIcon")
@@ -148,12 +146,7 @@ function mod:FabFlamesTarget()
 		lastFab = GetTime()--Trigger the anti spam here so when we pre warn it thrown at them we don't double warn them again for taking 1 tick of it when it lands.
 	else
 		if uId then
-			local x, y = GetPlayerMapPosition(uId)
-			if x == 0 and y == 0 then
-				SetMapToCurrentZone()
-				x, y = GetPlayerMapPosition(uId)
-			end
-			local inRange = DBM.RangeCheck:GetDistance("player", x, y)
+			local inRange = DBM.RangeCheck:GetDistance("player", uId)
 			if inRange and inRange < 11 then--What's exact radius of this circle?
 				specWarnFabulousFlamesNear:Show(targetname)
 			end
@@ -171,15 +164,11 @@ function mod:TwilightBlastTarget()
 		else
 			local uId = DBM:GetRaidUnitId(targetname)
 			if uId then
-				local x, y = GetPlayerMapPosition(uId)
-				if x == 0 and y == 0 then
-					SetMapToCurrentZone()
-					x, y = GetPlayerMapPosition(uId)
-				end
-				local inRange = DBM.RangeCheck:GetDistance("player", x, y)
+				local inRange = DBM.RangeCheck:GetDistance("player", uId)
 				if inRange and inRange < 9 then
 					specWarnTwilightBlastNear:Show(targetname)
 					if self.Options.TwilightBlastArrow then
+						local x, y = UnitPosition(uId)
 						DBM.Arrow:ShowRunAway(x, y, 8, 5)
 					end
 				end
@@ -235,7 +224,6 @@ function mod:SPELL_AURA_APPLIED(args)
 		timerEngulfingMagicNext:Start()
 		if args:IsPlayer() then
 			specWarnEngulfingMagic:Show()
-			soundEngulfingMagic:Play()
 			yellEngulfingMagic:Yell()
 		end
 		if self.Options.EngulfingIcon then

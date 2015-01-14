@@ -43,6 +43,9 @@ function UF:Construct_PartyFrames(unitGroup)
 		self.ReadyCheck = UF:Construct_ReadyCheckIcon(self)
 		self.HealPrediction = UF:Construct_HealComm(self)
 		self.GPS = UF:Construct_GPS(self)
+		
+		self.Sparkle = CreateFrame("Frame", nil, self)
+		self.Sparkle:SetAllPoints(self.Health)
 	end
 	
 	self.Range = UF:Construct_Range(self)
@@ -80,7 +83,7 @@ function UF:PartySmartVisibility(event)
 	if event == "PLAYER_REGEN_ENABLED" then self:UnregisterEvent("PLAYER_REGEN_ENABLED") end
 
 	if not InCombatLockdown() then		
-		if inInstance and instanceType == "raid" then
+		if inInstance and (instanceType == "raid" or instanceType == "pvp") then
 			UnregisterStateDriver(self, "visibility")
 			self:Hide()
 		elseif self.db.visibility then
@@ -122,8 +125,10 @@ function UF:Update_PartyFrames(frame, db)
 
 	if frame.isChild then
 		local childDB = db.petsGroup
+		local childType = "pet"
 		if frame == _G[frame.originalParent:GetName()..'Target'] then
 			childDB = db.targetsGroup
+			childType = "target"
 		end
 		
 		if not frame.originalParent.childList then
@@ -183,12 +188,7 @@ function UF:Update_PartyFrames(frame, db)
 		end
 		
 		--Name
-		do
-			local name = frame.Name
-			name:ClearAllPoints()
-			name:SetPoint('CENTER', frame.Health, 'CENTER')
-			frame:Tag(name, '[namecolor][name:short]')
-		end			
+		UF:UpdateNameSettings(frame, childType)		
 	else
 		if not InCombatLockdown() then
 			frame:Size(UNIT_WIDTH, UNIT_HEIGHT)
@@ -494,6 +494,7 @@ function UF:Update_PartyFrames(frame, db)
 				local x, y = self:GetPositionOffset(db.roleIcon.position, 1)
 				role:ClearAllPoints()
 				role:Point(db.roleIcon.position, frame.Health, db.roleIcon.position, x, y)
+				role:Size(db.roleIcon.size)
 			else
 				frame:DisableElement('LFDRole')	
 				role:Hide()
@@ -566,9 +567,29 @@ function UF:Update_PartyFrames(frame, db)
 		end
 		
 		UF:UpdateAuraWatch(frame)
+		frame:EnableElement('ReadyCheck')
+
+		if db.customTexts then
+			local customFont = UF.LSM:Fetch("font", UF.db.font)
+			for objectName, _ in pairs(db.customTexts) do
+				if not frame[objectName] then
+					frame[objectName] = frame.RaisedElementParent:CreateFontString(nil, 'OVERLAY')
+				end
+				
+				local objectDB = db.customTexts[objectName]
+
+				if objectDB.font then
+					customFont = UF.LSM:Fetch("font", objectDB.font)
+				end
+							
+				frame[objectName]:FontTemplate(customFont, objectDB.size or UF.db.fontSize, objectDB.fontOutline or UF.db.fontOutline)
+				frame:Tag(frame[objectName], objectDB.text_format or '')
+				frame[objectName]:SetJustifyH(objectDB.justifyH or 'CENTER')
+				frame[objectName]:ClearAllPoints()
+				frame[objectName]:SetPoint(objectDB.justifyH or 'CENTER', frame, objectDB.justifyH or 'CENTER', objectDB.xOffset, objectDB.yOffset)
+			end
+		end	
 	end
-	
-	frame:EnableElement('ReadyCheck')
 
 	--Range
 	do
@@ -585,27 +606,6 @@ function UF:Update_PartyFrames(frame, db)
 			end				
 		end
 	end
-	
-	if db.customTexts then
-		local customFont = UF.LSM:Fetch("font", UF.db.font)
-		for objectName, _ in pairs(db.customTexts) do
-			if not frame[objectName] then
-				frame[objectName] = frame.RaisedElementParent:CreateFontString(nil, 'OVERLAY')
-			end
-			
-			local objectDB = db.customTexts[objectName]
-
-			if objectDB.font then
-				customFont = UF.LSM:Fetch("font", objectDB.font)
-			end
-						
-			frame[objectName]:FontTemplate(customFont, objectDB.size or UF.db.fontSize, objectDB.fontOutline or UF.db.fontOutline)
-			frame:Tag(frame[objectName], objectDB.text_format or '')
-			frame[objectName]:SetJustifyH(objectDB.justifyH or 'CENTER')
-			frame[objectName]:ClearAllPoints()
-			frame[objectName]:SetPoint(objectDB.justifyH or 'CENTER', frame, 'CENTER', objectDB.xOffset, objectDB.yOffset)
-		end
-	end	
 
 	UF:ToggleTransparentStatusBar(UF.db.colors.transparentHealth, frame.Health, frame.Health.bg, true)
 	if frame.Power then

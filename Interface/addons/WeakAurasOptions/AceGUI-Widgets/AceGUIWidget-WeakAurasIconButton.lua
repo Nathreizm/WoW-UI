@@ -1,4 +1,4 @@
-﻿local Type, Version = "WeakAurasIconButton", 20
+local Type, Version = "WeakAurasIconButton", 20
 local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 
@@ -63,7 +63,7 @@ local function Constructor()
 	local button = CreateFrame("BUTTON", nil, UIParent);
   button:SetHeight(52);
   button:SetWidth(52);
-  
+
   local highlighttexture = button:CreateTexture(nil, "OVERLAY");
   --highlighttexture:SetTexture("Interface\\BUTTONS\\ButtonHilight-SquareQuickslot.blp");
   --highlighttexture:SetTexCoord(0.175, 0.875, 0.125, 0.825);
@@ -72,14 +72,14 @@ local function Constructor()
   highlighttexture:SetPoint("BOTTOMLEFT", button, 4, 4);
   highlighttexture:SetPoint("TOPRIGHT", button, -4, -4);
   button:SetHighlightTexture(highlighttexture);
-  
+
   local texture = button:CreateTexture(nil, "OVERLAY");
   texture:SetAllPoints(button);
   texture.name = "Undefined";
-  
+
   button:SetScript("OnEnter", function() Show_Tooltip(button, texture.name, texture.path:sub(17)) end);
 	button:SetScript("OnLeave", Hide_Tooltip);
-  
+
 	local widget = {
 		frame = button,
     texture = texture,

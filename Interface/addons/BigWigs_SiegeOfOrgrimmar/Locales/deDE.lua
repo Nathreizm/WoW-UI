@@ -31,10 +31,10 @@ L["titan_pride"] = "Titanen+Stolz: %s"
 
 
 	L.custom_off_titan_mark = "Gabe der Titanen markieren"
-	L.custom_off_titan_mark_desc = "Markiert Spieler, die von Gabe der Titanen betroffen sind, mit {rt1}{rt2}{rt3}{rt4}{rt5}{rt6}{rt7}{rt8}, benötigt Leiter oder Assistent.\n|cFFFF0000Um Konflikte beim Markieren zu vermeiden, sollte lediglich 1 Person im Raid diese Option aktivieren.|r"
+	L.custom_off_titan_mark_desc = "Markiert Spieler, die von Gabe der Titanen betroffen sind, mit {rt1}{rt2}{rt3}{rt4}{rt5}{rt6}, benötigt Leiter oder Assistent.\n|cFFFF0000Um Konflikte beim Markieren zu vermeiden, sollte lediglich 1 Person im Raid diese Option aktivieren.|r"
 
 	L.custom_off_fragment_mark = "Verderbtes Fragment markieren"
-	L.custom_off_fragment_mark_desc = "Markiert die Verderbten Fragmente mit {rt8}{rt7}{rt6}, benötigt Leiter oder Assistent.\n|cFFFF0000Um Konflikte beim Markieren zu vermeiden, sollte lediglich 1 Person im Raid diese Option aktivieren.\nIm 25-Spieler-Modus wird es Konflikte mit den Gabe der Titanen Markierungen geben.|r"
+	L.custom_off_fragment_mark_desc = "Markiert die Verderbten Fragmente mit {rt8}{rt7}, benötigt Leiter oder Assistent.\n|cFFFF0000Um Konflikte beim Markieren zu vermeiden, sollte lediglich 1 Person im Raid diese Option aktivieren.|r"
 end
 
 L = BigWigs:NewBossLocale("Galakras", "deDE")
@@ -46,6 +46,8 @@ L["north_tower"] = "Nördlicher Turm"
 L["north_tower_trigger"] = "Das Tor zum Nordturm ist durchbrochen!"
 L["south_tower"] = "Südlicher Turm"
 L["south_tower_trigger"] = "Das Tor zum Südturm ist durchbrochen!"
+L["start_trigger_alliance"] = "Gut gemacht! Landungstrupps, angetreten! Infanterie nach vorn!"
+L["start_trigger_horde"] = "Gute Arbeit. Die erste Kompanie ist an Land."
 L["tower_defender"] = "Turmverteidiger"
 L["towers"] = "Türme"
 L["towers_desc"] = "Warnungen für das Durchbrechen der Tore zu den Türmen."
@@ -82,13 +84,14 @@ if L then
 	L.defensive = "Verteidigung"
 
 	L.adds_trigger1 = "Verteidigt das Tor!"
-	L.adds_trigger2 = "Truppen, sammelt euch!"
+	L.adds_trigger2 = "Truppen, sammelt Euch!"
 	L.adds_trigger3 = "Nächste Staffel, nach vorn!"
 	L.adds_trigger4 = "Krieger, im Laufschritt!"
 	L.adds_trigger5 = "Kor'kron, zu mir!"
 	L.adds_trigger_extra_wave = "Alle Kor'kron unter meinem Befehl, tötet sie! Jetzt!"
 	L.extra_adds = "Zusätzliche Adds"
 	L.final_wave = "Letzte Welle"
+	L.add_wave = "%s (%s): %s"
 
 	L.chain_heal_message = "Dein Fokusziel wirkt Kettenheilung!"
 
@@ -107,6 +110,11 @@ L["enable_zone"] = "Artefaktlagerraum"
 L["start_trigger"] = "Hallo? Mikrofontest"
 L["win_trigger"] = "System wird neu gestartet. Die Energieversorgung muss stabil bleiben, sonst fliegt die ganze Chose in die Luft."
 
+
+	L.crates = "Kisten"
+	L.crates_desc = "Nachrichten, für wie viel Energie du noch brauchst und wie viele große/mittlere/kleine Kisten das sind."
+	L.full_power = "Volle Energie!"
+	L.power_left = "%d übrig! (%d/%d/%d)"
 end
 
 L = BigWigs:NewBossLocale("Thok the Bloodthirsty", "deDE")
@@ -130,7 +138,6 @@ L["item_magnet"] = "Magnet"
 L["item_mines"] = "Minen"
 L["item_missile"] = "Rakete"
 L["laser_on_you"] = "Laser auf Dir PEW PEW!"
-L["laser_say"] = "Laser PEW PEW"
 L["overcharged_crawler_mine"] = "Überladene Kriechermine"
 L["saw_blade_near_you"] = "Sägeblatt in der Nähe (nicht auf Dir)"
 L["saw_blade_near_you_desc"] = "Du kannst diese Option deaktivieren um Spam und Verwirrung zu vermeiden."
@@ -148,7 +155,7 @@ if L then
 	L.you_ate = "Du hast einen Parasiten gegessen (noch %d)"
 	L.other_ate = "%s hat einen %sParasiten gegessen (noch %d)"
 	L.parasites_up = "%d |4Parasit:Parasiten; vorhanden"
-	L.dance = "Tanzen"
+	L.dance = "%s, Tanzen!"
 	L.prey_message = "Wirke Beute auf Parasiten"
 	L.injection_over_soon = "Injektion bald vorbei (%s)!"
 
@@ -174,13 +181,12 @@ if L then
 L["bombardment"] = "Bombardement"
 L["bombardment_desc"] = "Bombardiert Sturmwind und hinterlässt Feuer auf dem Boden. Eiserne Sterne der Kor'kron können nur während des Bombardements entstehen."
 L["chain_heal_bar"] = "Fokusziel: Kettenheilung"
-L["chain_heal_desc"] = "Heilt ein verbündetes Ziel um 40% ihrer maximalen Gesundheit. Springt auf nahe verbündete Ziele über."
+L["chain_heal_desc"] = "{focus}Heilt ein verbündetes Ziel um 40% ihrer maximalen Gesundheit. Springt auf nahe verbündete Ziele über."
 L["chain_heal_message"] = "Dein Fokusziel wirkt Kettenheilung!"
 L["clump_check_desc"] = "Prüft alle 3 Sekunden während des Bombardements, ob Spieler eng zusammenstehen, da hierdurch Eiserne Sterne der Kor'kron entstehen."
 L["clump_check_warning"] = "Gruppierung gefunden, Stern kommt"
 L["empowered_message"] = "%s ist jetzt mächtig!"
 L["farseer_trigger"] = "Scharfseher, heilt unsere Wunden!"
-L["intermission"] = "Unterbrechung"
 L["ironstar_impact_desc"] = "Zeigt einen Timer für die Explosion der Eisernen Sterne an der jeweils gegenüberliegenden Wand."
 L["ironstar_rolling"] = "Eiserner Stern rollt!"
 L["manifest_rage"] = "Wut manifestieren"
